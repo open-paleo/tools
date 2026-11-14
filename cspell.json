@@ -201,7 +201,8 @@
         "Manitkoon",
         "Pueyo",
         "Fonseca",
-        "Marginocephalia"
+        "Marginocephalia",
+        "Poropat"
     ],
     "ignorePaths": [
         "node_modules/**",

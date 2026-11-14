@@ -42,6 +42,7 @@ import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
+import { recoverElbowTips } from "./elbows.ts";
 import { normalizeName, scoreName } from "./matching.ts";
 import { clampBox, cropImage, rotateBox, translateDocument } from "./geometry.ts";
 import { deleteTip } from "./edit.ts";
@@ -1236,15 +1237,64 @@ function describeOrientation(find: OrientationFind | null, quarterTurns: number)
 }
 
 /**
+ * Whether a figure is drawn light on dark: most of its pixels are dark.
+ *
+ * @param image - Image.
+ * @returns True when dark pixels outnumber the rest by three to two or more.
+ */
+function isDrawnOnDark(image: RgbaImage): boolean
+{
+    const pixels = image.width * image.height;
+    let dark = 0;
+
+    for (let index = 0; index < pixels; index++)
+    {
+        const offset = index * 4;
+
+        if (0.299 * image.data[offset] + 0.587 * image.data[offset + 1] + 0.114 * image.data[offset + 2] < 96)
+        {
+            dark++;
+        }
+    }
+
+    return dark >= 0.6 * pixels;
+}
+
+/**
+ * Makes the negative of an image.
+ *
+ * @param image - Image.
+ * @returns A copy with every color channel reversed.
+ */
+function invertImage(image: RgbaImage): RgbaImage
+{
+    const data = new Uint8ClampedArray(image.data.length);
+
+    for (let offset = 0; offset < data.length; offset += 4)
+    {
+        data[offset] = 255 - image.data[offset];
+        data[offset + 1] = 255 - image.data[offset + 1];
+        data[offset + 2] = 255 - image.data[offset + 2];
+        data[offset + 3] = image.data[offset + 3];
+    }
+
+    return { width: image.width, height: image.height, data };
+}
+
+/**
  * Runs the full pipeline on one image.
  *
- * @param sourceImage - Decoded RGBA image, as drawn.
+ * @param givenImage - Decoded RGBA image, as drawn.
  * @param options - OCR engine, name list, region and threshold overrides.
  * @returns The extraction document.
  */
-export async function extractTree(sourceImage: RgbaImage, options: Partial<ExtractOptions> = {}): Promise<ExtractionDocument>
+export async function extractTree(givenImage: RgbaImage, options: Partial<ExtractOptions> = {}): Promise<ExtractionDocument>
 {
     const parameters = { ...defaultParameters, ...options.parameters };
+    // A figure drawn light on dark, a scan printed in negative or a screenshot in a dark
+    // theme, is turned into dark on light; everything after works on that.
+    const inverted = isDrawnOnDark(givenImage);
+    const sourceImage = inverted ? invertImage(givenImage) : givenImage;
     const sourceRegion = options.region === undefined || options.region === null ? null : clampBox(options.region, sourceImage.width, sourceImage.height);
 
     if (sourceRegion !== null && (sourceRegion.x1 - sourceRegion.x0 < 1 || sourceRegion.y1 - sourceRegion.y0 < 1))
@@ -1264,6 +1314,11 @@ export async function extractTree(sourceImage: RgbaImage, options: Partial<Extra
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
     const image = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (inverted)
+    {
+        orientationIssues.unshift({ severity: "info", code: "figure-inverted", message: "the figure is drawn light on dark and was read in negative", subject: null });
+    }
 
     if (inkAdaptation !== null)
     {
@@ -1529,6 +1584,12 @@ export async function extractTree(sourceImage: RgbaImage, options: Partial<Extra
     }
 
     assignLabels(document);
+
+    // A label left without a tip beside the end of an elbow gives away a second tip there.
+    if (slantedTrace === null)
+    {
+        document.qc.push(...recoverElbowTips(document));
+    }
 
     // A clade's name printed on the box or band that shades it. A slanted figure's rows are
     // measured in turned frames, which the region search does not follow.

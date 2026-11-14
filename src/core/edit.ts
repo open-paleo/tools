@@ -119,7 +119,7 @@ function getChildX(document: ExtractionDocument, id: string): number
  * @param document - Document.
  * @param node - Node whose children are sorted in place.
  */
-function sortChildren(document: ExtractionDocument, node: TreeNode): void
+export function sortChildren(document: ExtractionDocument, node: TreeNode): void
 {
     function compareHeights(left: string, right: string): number
     {
@@ -136,7 +136,7 @@ function sortChildren(document: ExtractionDocument, node: TreeNode): void
  * @param prefix - "t" for tips, "n" for nodes.
  * @returns A fresh identifier.
  */
-function createId(document: ExtractionDocument, prefix: string): string
+export function createId(document: ExtractionDocument, prefix: string): string
 {
     let highest = 0;
 

@@ -16,6 +16,12 @@
   place (Fonseca 2024: 92 of 170 tips found, now all 170).
 - A branch is no longer cut where a name is printed just above it: only ink joined to the
   branch counts when judging it too thick to be a line.
+- A figure drawn light on dark is read in negative: a scan printed that way, or a screenshot
+  taken in a dark theme.
+- A second tip hidden in an elbow is recovered. With thick lines and short last branches, a
+  pair of sister tips is a vertical with a stub at each end too short to register; the label
+  left without a tip beside the vertical's end gives the second tip away (Poropat 2014: 25 of
+  36 tips named, now 33).
 - `npm run bench:causes` tallies lost tip names by the step that lost them, and a second
   random sample of census figures with gold trees joins the holdout.
 
