@@ -200,7 +200,8 @@
         "Prieto",
         "Manitkoon",
         "Pueyo",
-        "Fonseca"
+        "Fonseca",
+        "Marginocephalia"
     ],
     "ignorePaths": [
         "node_modules/**",

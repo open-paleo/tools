@@ -42,6 +42,59 @@ type MergeResult = {
 };
 
 /**
+ * Measures, column by column, the ink that is one with a horizontal run: its own rows and
+ * whatever joins them without a break, within a window. Letters printed just above a branch,
+ * clear of it, are not part of its thickness; counted, they cut the branch for the width of
+ * the name (Fonseca 2024's "Marginocephalia", set on its own stem).
+ *
+ * @param ink - All ink.
+ * @param box - Box of the run.
+ * @param window - How far above and below the run to follow joined ink.
+ * @returns Joined ink height in each column of the box.
+ */
+function measureJoinedHeights(ink: Mask, box: Box, window: number): Array<number>
+{
+    const heights = new Array<number>();
+    const top = Math.max(0, box.y0 - window);
+    const bottom = Math.min(ink.height, box.y1 + window);
+
+    for (let x = box.x0; x < box.x1; x++)
+    {
+        let first = -1;
+        let last = -1;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            if (ink.data[y * ink.width + x] === 1)
+            {
+                first = first < 0 ? y : first;
+                last = y;
+            }
+        }
+
+        if (first < 0)
+        {
+            heights.push(0);
+            continue;
+        }
+
+        while (first > top && ink.data[(first - 1) * ink.width + x] === 1)
+        {
+            first--;
+        }
+
+        while (last + 1 < bottom && ink.data[(last + 1) * ink.width + x] === 1)
+        {
+            last++;
+        }
+
+        heights.push(last - first + 1);
+    }
+
+    return heights;
+}
+
+/**
  * Measures, for each column of a component, how tall the dark ink is through that column.
  *
  * @param ink - All dark pixels of the image.
@@ -574,7 +627,9 @@ export function extractSegments(
 
         for (let index = 0; index < components.length; index++)
         {
-            pieces.push(...findLinePieces(heightsByComponent[index], components[index].box, limit, minHorizontalRun));
+            // The figure's line width is taken from all the ink around each run, as it always
+            // was; where a run is cut for being too thick, only ink joined to it counts.
+            pieces.push(...findLinePieces(measureJoinedHeights(ink, components[index].box, window), components[index].box, limit, minHorizontalRun));
         }
     }
 

@@ -14,6 +14,8 @@
 - A tree drawn in two columns is joined: the connector line is followed from beside the tip
   that names the continuing clade into the root of the second column, which takes that tip's
   place (Fonseca 2024: 92 of 170 tips found, now all 170).
+- A branch is no longer cut where a name is printed just above it: only ink joined to the
+  branch counts when judging it too thick to be a line.
 - `npm run bench:causes` tallies lost tip names by the step that lost them, and a second
   random sample of census figures with gold trees joins the holdout.
 
