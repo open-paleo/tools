@@ -11,6 +11,9 @@
 - A traced segment whose box is far broader than its line no longer erases the labels under
   it: a vertical that had taken in a whole column of a time chart was wiping out every label
   between two stage boundaries (Perez-Pueyo 2019: 8 of 25 tips named, now 19).
+- A tree drawn in two columns is joined: the connector line is followed from beside the tip
+  that names the continuing clade into the root of the second column, which takes that tip's
+  place (Fonseca 2024: 92 of 170 tips found, now all 170).
 - `npm run bench:causes` tallies lost tip names by the step that lost them, and a second
   random sample of census figures with gold trees joins the holdout.
 

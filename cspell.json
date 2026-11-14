@@ -199,7 +199,8 @@
         "AVIALAE",
         "Prieto",
         "Manitkoon",
-        "Pueyo"
+        "Pueyo",
+        "Fonseca"
     ],
     "ignorePaths": [
         "node_modules/**",

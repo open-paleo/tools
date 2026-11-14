@@ -6,7 +6,7 @@
  * to the tree is left alone: it sits inside the tree's extent, with its tips at the tip line.
  */
 
-import type { Box, ExtractionDocument, QcIssue, Tip, TreeNode } from "./types.ts";
+import type { Box, ExtractionDocument, QcIssue, Segment, Tip, TreeNode } from "./types.ts";
 import { collectConnected } from "./tree.ts";
 
 /**
@@ -166,6 +166,214 @@ function explainDecoration(piece: Piece, main: Box, glyphHeight: number): string
 }
 
 /**
+ * Fewest labelled tips for a piece right of the tips to be taken for a second column.
+ */
+const fewestColumnTips = 5;
+
+/**
+ * Counts the labelled tips under a node.
+ *
+ * @param nodeById - Nodes by identifier.
+ * @param tipById - Tips by identifier.
+ * @param id - Node or tip identifier.
+ * @returns How many tips under it have a label row.
+ */
+function countLabelledTips(nodeById: Map<string, TreeNode>, tipById: Map<string, Tip>, id: string): number
+{
+    const node = nodeById.get(id);
+
+    if (node === undefined)
+    {
+        const tip = tipById.get(id);
+
+        return tip !== undefined && tip.textLine !== null ? 1 : 0;
+    }
+
+    let count = 0;
+
+    for (const child of node.children)
+    {
+        count += countLabelledTips(nodeById, tipById, child);
+    }
+
+    return count;
+}
+
+/**
+ * Joins the tree's second column to its first. A tree too tall for the page is drawn in two
+ * columns: one tip of the first names the clade that continues, and a connector line runs
+ * from beside that name to the right, up or down, and right again into the root of the
+ * second column (Fonseca 2024, 170 tips). The second column, lying right of the tips, would
+ * otherwise go as a decoration. The connector is followed through its three segments; the
+ * node it ends on, with enough labelled tips under it and no place in the tree yet, takes the
+ * tip's place, and the tip's label becomes that node's.
+ *
+ * @param document - Extraction document, changed when a column is joined.
+ * @param connected - Identifiers of the nodes and tips in the main tree.
+ * @returns A note for each column joined.
+ */
+function joinColumns(document: ExtractionDocument, connected: Set<string>): Array<QcIssue>
+{
+    const issues = new Array<QcIssue>();
+    const glyph = document.glyphHeight;
+    const nodeById = new Map<string, TreeNode>();
+    const tipById = new Map<string, Tip>();
+
+    for (const node of document.nodes)
+    {
+        nodeById.set(node.id, node);
+    }
+
+    for (const tip of document.tips)
+    {
+        tipById.set(tip.id, tip);
+    }
+
+    for (const tip of [...document.tips])
+    {
+        if (!connected.has(tip.id) || tip.parent === null)
+        {
+            continue;
+        }
+
+        // The run from beside the tip's label to the right, the longest on its row. It starts
+        // where the label ends: the edge of a shaded box behind the labels runs to the right
+        // as well, but from under them, and a branch of the second column on the same row
+        // starts far off.
+        let labelEnd: number | null = null;
+
+        for (const line of document.textLines)
+        {
+            if (line.id === tip.textLine)
+            {
+                labelEnd = line.box.x1;
+            }
+        }
+
+        if (labelEnd === null)
+        {
+            continue;
+        }
+
+        let run: Segment | null = null;
+
+        for (const segment of document.horizontals)
+        {
+            const { box } = segment;
+
+            if (box.x0 >= labelEnd - glyph / 2 && box.x0 <= labelEnd + 4 * glyph && tip.y >= box.y0 - glyph / 2 && tip.y <= box.y1 + glyph / 2 && box.x1 - box.x0 >= 6 * glyph && (run === null || box.x1 > run.box.x1))
+            {
+                run = segment;
+            }
+        }
+
+        if (run === null)
+        {
+            continue;
+        }
+
+        // The vertical the run ends on, and the end of it away from the run.
+        let turnX = 0;
+        let turnY: number | null = null;
+
+        for (const segment of document.verticals)
+        {
+            const { box } = segment;
+
+            if (Math.abs((box.x0 + box.x1) / 2 - run.box.x1) <= glyph && tip.y >= box.y0 - glyph && tip.y <= box.y1 + glyph && box.y1 - box.y0 >= 3 * glyph)
+            {
+                turnX = (box.x0 + box.x1) / 2;
+                turnY = Math.abs(box.y0 - tip.y) > Math.abs(box.y1 - tip.y) ? box.y0 : box.y1;
+            }
+        }
+
+        if (turnY === null)
+        {
+            continue;
+        }
+
+        // A connector's vertical carries nothing else: the right edge of a shaded box is met
+        // by the top and bottom edges of every box in the column.
+        let others = 0;
+
+        for (const segment of document.horizontals)
+        {
+            const { box } = segment;
+            const y = (box.y0 + box.y1) / 2;
+
+            if (segment !== run && Math.abs(box.x1 - turnX) <= glyph && box.x1 - box.x0 >= 3 * glyph && y >= Math.min(tip.y, turnY) - glyph && y <= Math.max(tip.y, turnY) + glyph)
+            {
+                others++;
+            }
+        }
+
+        if (others > 0)
+        {
+            continue;
+        }
+
+        // The node that end leads into: just right of it, with the end inside its span.
+        let target: TreeNode | null = null;
+
+        for (const node of document.nodes)
+        {
+            const gap = node.x - turnX;
+
+            if (!connected.has(node.id) && gap > 0 && gap <= 8 * glyph && turnY >= node.y0 - glyph && turnY <= node.y1 + glyph && (target === null || node.x < target.x))
+            {
+                target = node;
+            }
+        }
+
+        if (target === null || countLabelledTips(nodeById, tipById, target.id) < fewestColumnTips)
+        {
+            continue;
+        }
+
+        const formerParent = target.parent === null ? undefined : nodeById.get(target.parent);
+
+        if (formerParent !== undefined)
+        {
+            formerParent.children.splice(formerParent.children.indexOf(target.id), 1);
+        }
+
+        const parent = nodeById.get(tip.parent);
+
+        if (parent === undefined)
+        {
+            continue;
+        }
+
+        parent.children[parent.children.indexOf(tip.id)] = target.id;
+        target.parent = parent.id;
+        target.attachY = turnY;
+
+        if (target.textLine === null && tip.textLine !== null)
+        {
+            target.textLine = tip.textLine;
+
+            for (const line of document.textLines)
+            {
+                if (line.id === tip.textLine)
+                {
+                    line.role = "node";
+                }
+            }
+        }
+
+        document.tips.splice(document.tips.indexOf(tip), 1);
+        issues.push({
+            severity: "info",
+            code: "column-joined",
+            message: `node ${target.id} right of the tips continues the tree from tip ${tip.id} by a connector line, and was joined in its place`,
+            subject: target.id,
+        });
+    }
+
+    return issues;
+}
+
+/**
  * Removes disconnected subtrees that lie where decorations go: entirely right of the tips, or
  * above or below the tree with no labels. Their text rows become unassigned again.
  *
@@ -174,7 +382,7 @@ function explainDecoration(piece: Piece, main: Box, glyphHeight: number): string
  */
 export function pruneDecorations(document: ExtractionDocument): Array<QcIssue>
 {
-    const issues = new Array<QcIssue>();
+    const issues = joinColumns(document, collectConnected(document));
     const connected = collectConnected(document);
     const main = measureMainExtent(document, connected);
 
