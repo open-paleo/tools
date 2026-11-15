@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.3 (unreleased)
+## 0.5.3 (2026-11-14)
 
 - A vertical cut by a clade's name printed across it is joined again, where the two ends at
   the gap are loose and the column is cut only once. One such cut had left half of a tree
