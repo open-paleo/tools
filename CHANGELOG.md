@@ -7,6 +7,10 @@
   (Fonseca 2024: 125 of 170 tips named, now 149).
 - A second column is joined to the first whichever of the two the trace took for the main
   tree.
+- A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
+  tinted background comes out of compression as a dark shade of the background, and was
+  rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77
+  tips named, now 63).
 
 ## 0.5.3 (2026-11-14)
 

@@ -41,6 +41,11 @@ export function convertToGray(image: RgbaImage): GrayImage
 }
 
 /**
+ * Brightest channel a pixel may have and still be black ink whatever its chroma.
+ */
+const darkestColor = 110;
+
+/**
  * Marks dark pixels. With neutralOnly set, strongly colored pixels are left out, which
  * separates black line art from colored text and colored box borders.
  *
@@ -65,9 +70,14 @@ export function createDarkMask(image: RgbaImage, threshold: number, neutralOnly:
 
         if (luminance < threshold)
         {
-            const chroma = Math.max(red, green, blue) - Math.min(red, green, blue);
+            // A hairline in black over a tinted background comes out of compression as a dark
+            // shade of the background, far from neutral by its chroma (65, 84, 7 over a pale
+            // green) yet darker in every channel than any color a figure draws with. Such a
+            // pixel is black ink.
+            const strongest = Math.max(red, green, blue);
+            const chroma = strongest - Math.min(red, green, blue);
 
-            if (!neutralOnly || chroma <= maxChroma)
+            if (!neutralOnly || chroma <= maxChroma || strongest <= darkestColor)
             {
                 mask[index] = 1;
             }
