@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.4 (unreleased)
+
+- A branch that runs along the edge of a text row, unbroken and past it on both sides, is no
+  longer clipped at the row: a clade's name printed just above its own stem had cut the stem
+  (Fonseca 2024: 125 of 170 tips named, now 149).
+- A second column is joined to the first whichever of the two the trace took for the main
+  tree.
+
 ## 0.5.3 (2026-11-14)
 
 - A vertical cut by a clade's name printed across it is joined again, where the two ends at

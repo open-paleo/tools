@@ -212,15 +212,50 @@ function keepIfLine(heights: Array<number>, box: Box, start: number, end: number
 }
 
 /**
+ * Whether a line runs unbroken on a horizontal piece's rows across a text row and a little
+ * past it on both sides: line ink in nearly every column.
+ *
+ * @param lineArt - Line ink, without glyphs.
+ * @param box - Horizontal piece, which gives the rows.
+ * @param row - Text row.
+ * @param beyond - How far past the row on each side the line must run.
+ * @returns True when the line passes under the row.
+ */
+function hasLineAcross(lineArt: Mask, box: Box, row: Box, beyond: number): boolean
+{
+    const x0 = Math.max(0, row.x0 - beyond);
+    const x1 = Math.min(lineArt.width, row.x1 + beyond);
+    let filled = 0;
+
+    for (let x = x0; x < x1; x++)
+    {
+        let inked = 0;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            inked += lineArt.data[y * lineArt.width + x];
+        }
+
+        if (inked >= 1)
+        {
+            filled++;
+        }
+    }
+
+    return x1 > x0 && filled >= 0.95 * (x1 - x0);
+}
+
+/**
  * Removes from a horizontal piece every stretch that lies under a text row, keeping the parts
  * outside. A label that touches its branch continues the branch's ink; this is where it stops.
  *
  * @param box - Horizontal piece.
  * @param textRows - Boxes of text rows.
  * @param minRun - Shortest part worth keeping.
+ * @param lineArt - Line ink, without glyphs.
  * @returns Parts of the piece outside every text row.
  */
-function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number): Array<Box>
+function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt: Mask): Array<Box>
 {
     const height = box.y1 - box.y0;
     const blocked = new Array<Box>();
@@ -229,7 +264,17 @@ function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number): Array<B
     {
         const overlap = Math.min(row.y1, box.y1) - Math.max(row.y0, box.y0);
 
-        if (overlap >= 0.5 * height && row.x1 > box.x0 && row.x0 < box.x1)
+        // A line that runs on unbroken along the edge of the row, and past it on both sides,
+        // is a branch with a name printed just above or below it, not a label continuing its
+        // branch's ink, and is left whole (Fonseca 2024's "Marginocephalia" sits on its own
+        // stem). A name set in the line, level with it, is where the branch stops (the same
+        // figure's "Cerapoda", before its connector).
+        // The rows come widened by two pixels above and below; a line whose middle lies in
+        // that margin runs along the edge of the text, under or over it, not through it.
+        const middle = (box.y0 + box.y1) / 2;
+        const alongEdge = middle > row.y1 - 2 || middle < row.y0 + 2;
+
+        if (overlap >= 0.5 * height && row.x1 > box.x0 && row.x0 < box.x1 && !(alongEdge && hasLineAcross(lineArt, box, row, minRun)))
         {
             blocked.push(row);
         }
@@ -639,7 +684,7 @@ export function extractSegments(
     // least as long as it is thick; text has already been cut away.
     for (const piece of pieces)
     {
-        for (const part of clipToTextRows(piece, textRows, minHorizontalRun))
+        for (const part of clipToTextRows(piece, textRows, minHorizontalRun, lineArt))
         {
             if (part.x1 - part.x0 >= part.y1 - part.y0)
             {

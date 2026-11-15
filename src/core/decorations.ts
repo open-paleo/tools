@@ -200,6 +200,32 @@ function countLabelledTips(nodeById: Map<string, TreeNode>, tipById: Map<string,
 }
 
 /**
+ * Finds the root of the piece a node belongs to.
+ *
+ * @param nodeById - Nodes by identifier.
+ * @param id - Node identifier.
+ * @returns Identifier of the topmost ancestor.
+ */
+function findPieceRoot(nodeById: Map<string, TreeNode>, id: string): string
+{
+    let current = id;
+
+    for (let step = 0; step < nodeById.size; step++)
+    {
+        const node = nodeById.get(current);
+
+        if (node === undefined || node.parent === null)
+        {
+            break;
+        }
+
+        current = node.parent;
+    }
+
+    return current;
+}
+
+/**
  * Joins the tree's second column to its first. A tree too tall for the page is drawn in two
  * columns: one tip of the first names the clade that continues, and a connector line runs
  * from beside that name to the right, up or down, and right again into the root of the
@@ -209,10 +235,9 @@ function countLabelledTips(nodeById: Map<string, TreeNode>, tipById: Map<string,
  * tip's place, and the tip's label becomes that node's.
  *
  * @param document - Extraction document, changed when a column is joined.
- * @param connected - Identifiers of the nodes and tips in the main tree.
  * @returns A note for each column joined.
  */
-function joinColumns(document: ExtractionDocument, connected: Set<string>): Array<QcIssue>
+function joinColumns(document: ExtractionDocument): Array<QcIssue>
 {
     const issues = new Array<QcIssue>();
     const glyph = document.glyphHeight;
@@ -231,10 +256,12 @@ function joinColumns(document: ExtractionDocument, connected: Set<string>): Arra
 
     for (const tip of [...document.tips])
     {
-        if (!connected.has(tip.id) || tip.parent === null)
+        if (tip.parent === null)
         {
             continue;
         }
+
+        const tipRoot = findPieceRoot(nodeById, tip.parent);
 
         // The run from beside the tip's label to the right, the longest on its row. It starts
         // where the label ends: the edge of a shaded box behind the labels runs to the right
@@ -319,7 +346,7 @@ function joinColumns(document: ExtractionDocument, connected: Set<string>): Arra
         {
             const gap = node.x - turnX;
 
-            if (!connected.has(node.id) && gap > 0 && gap <= 8 * glyph && turnY >= node.y0 - glyph && turnY <= node.y1 + glyph && (target === null || node.x < target.x))
+            if (findPieceRoot(nodeById, node.id) !== tipRoot && gap > 0 && gap <= 8 * glyph && turnY >= node.y0 - glyph && turnY <= node.y1 + glyph && (target === null || node.x < target.x))
             {
                 target = node;
             }
@@ -342,6 +369,13 @@ function joinColumns(document: ExtractionDocument, connected: Set<string>): Arra
         if (parent === undefined)
         {
             continue;
+        }
+
+        // Whichever column the trace took for the main tree, the joined tree starts where the
+        // first column does.
+        if (document.root === findPieceRoot(nodeById, target.id))
+        {
+            document.root = tipRoot;
         }
 
         parent.children[parent.children.indexOf(tip.id)] = target.id;
@@ -382,7 +416,7 @@ function joinColumns(document: ExtractionDocument, connected: Set<string>): Arra
  */
 export function pruneDecorations(document: ExtractionDocument): Array<QcIssue>
 {
-    const issues = joinColumns(document, collectConnected(document));
+    const issues = joinColumns(document);
     const connected = collectConnected(document);
     const main = measureMainExtent(document, connected);
 
