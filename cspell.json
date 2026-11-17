@@ -203,7 +203,12 @@
         "Fonseca",
         "Marginocephalia",
         "Poropat",
-        "Cerapoda"
+        "Cerapoda",
+        "Gilmoreosaurus",
+        "Eotrachodon",
+        "Gonkoken",
+        "Telmatosaurus",
+        "Tethyshadros"
     ],
     "ignorePaths": [
         "node_modules/**",

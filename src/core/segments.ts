@@ -739,6 +739,205 @@ function compareNumbers(left: number, right: number): number
 }
 
 /**
+ * Starts a branch at the corner it turns, where it had been run on to a vertical standing
+ * just behind. In a tightly drawn pectinate tree a node's vertical can stand a few pixels
+ * left of its child node's vertical, the two side by side. The child's top branch begins at
+ * the child's corner, but closing the line ink bridges the few pixels between that corner and
+ * the vertical behind it, and the branch then reads as the parent's own: a polytomy where the
+ * figure has two nodes (Alarcon-Munoz 2023, Gonkoken beside Eotrachodon). A horizontal that
+ * begins at one vertical and passes the end of another within three line widths begins at
+ * the second.
+ *
+ * @param horizontals - Horizontal segments, trimmed in place.
+ * @param verticals - Vertical segments.
+ * @param thickness - Line thickness.
+ * @param shortest - Shortest run past the corner for the horizontal to be a branch.
+ * @returns How many horizontals were trimmed.
+ */
+export function trimBranchesAtCorners(horizontals: Array<Segment>, verticals: Array<Segment>, thickness: number, shortest: number): number
+{
+    const near = Math.round(thickness) + 1;
+    const farthest = Math.max(6, 3 * thickness);
+    let trimmed = 0;
+
+    for (const horizontal of horizontals)
+    {
+        const { box } = horizontal;
+        const y = (box.y0 + box.y1) / 2;
+        let behind = false;
+        let corner: Segment | null = null;
+
+        for (const vertical of verticals)
+        {
+            const spans = y >= vertical.box.y0 - near && y <= vertical.box.y1 + near;
+
+            if (spans && Math.abs(vertical.box.x1 - box.x0) <= near + 1)
+            {
+                behind = true;
+            }
+
+            const gap = vertical.box.x0 - box.x0;
+            const atEnd = Math.abs(y - vertical.box.y0) <= near || Math.abs(y - vertical.box.y1) <= near;
+
+            // The corner's vertical begins after the branch does and is not the one behind.
+            if (gap >= 1 && vertical.box.x1 - box.x0 > near + 1 && gap <= farthest && atEnd && box.x1 - vertical.box.x1 >= shortest && (corner === null || vertical.box.x0 < corner.box.x0))
+            {
+                corner = vertical;
+            }
+        }
+
+        if (behind && corner !== null)
+        {
+            box.x0 = corner.box.x0;
+            trimmed++;
+        }
+    }
+
+    return trimmed;
+}
+
+/**
+ * The two verticals a jogged vertical is made of, and the connector between them.
+ */
+export type JogSplit = {
+    /**
+     * The verticals, with each jogged one replaced by its two parts.
+     */
+    verticals: Array<Segment>;
+
+    /**
+     * A connector at each jog, spanning both parts, as a short connector does.
+     */
+    connectors: Array<Segment>;
+};
+
+/**
+ * Finds the column a vertical's line stands in on one row: the middle of its ink, or null on
+ * a row where a branch crosses and the ink is wider than a line.
+ *
+ * @param lineArt - Line ink.
+ * @param box - Box of the vertical.
+ * @param y - Row.
+ * @param widest - Widest ink that is still the line alone.
+ * @returns The line's middle on that row, or null.
+ */
+function findLineMiddle(lineArt: Mask, box: Box, y: number, widest: number): number | null
+{
+    let first = -1;
+    let last = -1;
+
+    for (let x = box.x0; x < box.x1; x++)
+    {
+        if (lineArt.data[y * lineArt.width + x] === 1)
+        {
+            first = first < 0 ? x : first;
+            last = x;
+        }
+    }
+
+    return first < 0 || last - first + 1 > widest ? null : (first + last) / 2;
+}
+
+/**
+ * Splits a vertical that is two verticals standing end to end, a line width apart. In a
+ * pectinate tree drawn tightly, the step from one node to the next can be as short as the
+ * line is thick: the two nodes' verticals then make one line with a jog in it, and the trace
+ * reads one node with the children of both (Alarcon-Munoz 2023, where Gilmoreosaurus joined
+ * the node above its own). A jog is told from a scan's slant by being a step: the line stands
+ * in one column above a row and in another below it, steadily on each side, and a branch
+ * leaves to the right at that row.
+ *
+ * @param verticals - Vertical segments.
+ * @param horizontals - Horizontal segments.
+ * @param lineArt - Line ink.
+ * @param thickness - Line thickness.
+ * @param shortest - Shortest part worth splitting off.
+ * @returns The verticals with jogged ones split, and a connector for each jog.
+ */
+export function splitJoggedVerticals(verticals: Array<Segment>, horizontals: Array<Segment>, lineArt: Mask, thickness: number, shortest: number): JogSplit
+{
+    const result: JogSplit = { verticals: [], connectors: [] };
+    const widest = Math.max(2, Math.round(thickness) + 1);
+    const step = Math.max(1.5, 0.75 * thickness);
+
+    for (const vertical of verticals)
+    {
+        const { box } = vertical;
+        const width = box.x1 - box.x0;
+        let jogY = -1;
+        let upper = 0;
+        let lower = 0;
+
+        if (width > thickness + 1 && width <= 3 * thickness + 2 && box.y1 - box.y0 >= 2 * shortest)
+        {
+            const middles = new Array<number | null>();
+
+            for (let y = box.y0; y < box.y1; y++)
+            {
+                middles.push(findLineMiddle(lineArt, box, y, widest));
+            }
+
+            // Try each row as the jog: every row above must stand in one column and every row
+            // below in another, a step to the right apart, but for the row or two of the jog.
+            for (let row = shortest; row <= middles.length - shortest && jogY < 0; row++)
+            {
+                const above = new Array<number>();
+                const below = new Array<number>();
+
+                for (let index = 0; index < middles.length; index++)
+                {
+                    const middle = middles[index];
+
+                    if (middle !== null && Math.abs(index - row) > 1)
+                    {
+                        (index < row ? above : below).push(middle);
+                    }
+                }
+
+                if (above.length < shortest / 2 || below.length < shortest / 2)
+                {
+                    continue;
+                }
+
+                above.sort(compareNumbers);
+                below.sort(compareNumbers);
+                const steady = above[above.length - 1] - above[0] <= 1 && below[below.length - 1] - below[0] <= 1;
+
+                if (steady && below[0] - above[above.length - 1] >= step)
+                {
+                    jogY = box.y0 + row;
+                    upper = above[Math.floor(above.length / 2)];
+                    lower = below[Math.floor(below.length / 2)];
+                }
+            }
+        }
+
+        let branchLeaves = false;
+
+        for (const horizontal of horizontals)
+        {
+            const y = (horizontal.box.y0 + horizontal.box.y1) / 2;
+            branchLeaves = branchLeaves || (jogY >= 0 && Math.abs(y - jogY) <= thickness + 2 && horizontal.box.x0 <= box.x1 + thickness && horizontal.box.x1 > box.x1 + shortest);
+        }
+
+        if (jogY < 0 || !branchLeaves)
+        {
+            result.verticals.push(vertical);
+            continue;
+        }
+
+        const half = Math.max(1, Math.round(thickness / 2));
+        const top: Box = { x0: Math.round(upper - thickness / 2), y0: box.y0, x1: Math.round(upper + thickness / 2) + 1, y1: jogY };
+        const bottom: Box = { x0: Math.round(lower - thickness / 2), y0: jogY, x1: Math.round(lower + thickness / 2) + 1, y1: box.y1 };
+        result.verticals.push({ id: vertical.id, orientation: "vertical", box: top });
+        result.verticals.push({ id: `${vertical.id}j`, orientation: "vertical", box: bottom });
+        result.connectors.push({ id: `${vertical.id}c`, orientation: "horizontal", box: { x0: top.x0, y0: jogY - half, x1: bottom.x1, y1: jogY + half + 1 } });
+    }
+
+    return result;
+}
+
+/**
  * Finds the short horizontal pieces that join one vertical to the next in a pectinate tree,
  * where the steps between successive nodes are shorter than the shortest run that counts as a
  * line. For each pair of verticals a few pixels apart whose spans overlap, the rows between them

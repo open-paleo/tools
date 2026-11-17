@@ -15,6 +15,14 @@
   a silhouette, a pie chart or a legend swatch. A loose tip that has a label stays.
 - When a tip chooses among label rows, height counts three times over, so the label on its
   own row beats a scrap of the next row that begins nearer.
+- A vertical with a jog in it is split into the two nodes it is. In a tightly drawn pectinate
+  tree the step from one node to the next can be as short as the line is thick, so the two
+  verticals stand end to end and read as one node with the children of both.
+- A branch that had run on to the vertical just behind the corner it turns now begins at the
+  corner. Where two nodes' verticals stand side by side a few pixels apart, the child's top
+  branch read as the parent's own, and the two nodes as one.
+- A short vertical that joins two long lines is kept as line art. No taller than a letter l,
+  the vertical of a node with two close children went with the glyphs, and the node with it.
 - A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
   tinted background comes out of compression as a dark shade of the background, and was
   rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77
