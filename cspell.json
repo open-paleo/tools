@@ -208,7 +208,10 @@
         "Eotrachodon",
         "Gonkoken",
         "Telmatosaurus",
-        "Tethyshadros"
+        "Tethyshadros",
+        "Gryposaurus",
+        "latidens",
+        "Rhinorex"
     ],
     "ignorePaths": [
         "node_modules/**",

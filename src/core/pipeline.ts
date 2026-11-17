@@ -470,10 +470,10 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const longInk = createLongRunMask(strongInk, protectedLength, protectedLength);
     const stubLength = Math.max(parameters.minHorizontalRun, Math.round(0.75 * glyphHeight));
     const stubInk = keepComponentsTouching(createDirectionalRunMask(strongInk, stubLength, true), longInk);
-    // A short vertical that joins two long lines, one at each end, is a node's vertical with
-    // two close children: no taller than a letter l, it went with the glyphs, and the node
-    // with it (Alarcon-Munoz 2023, Tethyshadros and Telmatosaurus).
-    const rungInk = keepRungs(createDirectionalRunMask(strongInk, stubLength, false), longInk);
+    // A short vertical that joins two lines is a node's vertical with two close children: no
+    // taller than a letter l, it went with the glyphs, and the node with it (Alarcon-Munoz
+    // 2023: Tethyshadros and Telmatosaurus, Rhinorex and Gryposaurus latidens).
+    const rungInk = keepRungs(createDirectionalRunMask(strongInk, stubLength, false), unionMask(longInk, stubInk), Math.max(4, Math.round(stubLength / 2)));
     const protectedInk = unionMask(unionMask(longInk, stubInk), rungInk);
     const glyphZone = subtractMask(dilate(rough.glyphMask, 2), protectedInk);
     const strongLines = subtractMask(strongInk, glyphZone);
@@ -526,41 +526,52 @@ function keepInkInBoxes(boxes: Array<Box>, textInk: Mask, glyphMask: Mask, thick
 }
 
 /**
- * Keeps the short vertical runs that join two long lines: pieces with long ink right at
- * their top end and right at their bottom end. A letter's stroke touches a line at one end
- * at most.
+ * Keeps the short vertical runs that join two lines: pieces that meet protected ink, a long
+ * line or a stub of one, at two places well apart along their length. A node's vertical with
+ * two close children meets its children's branches at its ends, or its own stem partway
+ * down and one branch at an end; a letter's stroke touches a line in one place at most.
  *
  * @param runs - Short vertical runs.
- * @param longInk - Long straight runs of ink.
- * @returns The runs that are rungs between two long lines.
+ * @param anchors - Long straight runs of ink and the stubs joined to them.
+ * @param apart - Least distance between the two places.
+ * @returns The runs that are rungs between two lines.
  */
-function keepRungs(runs: Mask, longInk: Mask): Mask
+function keepRungs(runs: Mask, anchors: Mask, apart: number): Mask
 {
     const { width, height } = runs;
     const { components, labels } = findConnectedComponents(runs);
     const rungs = new Set<number>();
 
-    function touchesLong(x0: number, x1: number, y0: number, y1: number): boolean
+    function isAnchor(x: number, y: number): boolean
     {
-        for (let y = Math.max(0, y0); y <= Math.min(height - 1, y1); y++)
-        {
-            for (let x = Math.max(0, x0); x <= Math.min(width - 1, x1); x++)
-            {
-                if (longInk.data[y * width + x] === 1)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return x >= 0 && x < width && y >= 0 && y < height && anchors.data[y * width + x] === 1 && runs.data[y * width + x] === 0;
     }
 
     for (let index = 0; index < components.length; index++)
     {
         const { box } = components[index];
+        let first = -1;
+        let last = -1;
 
-        if (touchesLong(box.x0 - 1, box.x1, box.y0 - 2, box.y0 + 1) && touchesLong(box.x0 - 1, box.x1, box.y1 - 2, box.y1 + 1))
+        // Beside the run on either side, row by row, and just past each end.
+        for (let y = box.y0 - 2; y < box.y1 + 2; y++)
+        {
+            let met = false;
+            const beyond = y < box.y0 || y >= box.y1;
+
+            for (let x = box.x0 - 2; x < box.x1 + 2 && !met; x++)
+            {
+                met = (beyond || x < box.x0 || x >= box.x1) && isAnchor(x, y);
+            }
+
+            if (met)
+            {
+                first = first < 0 ? y : first;
+                last = y;
+            }
+        }
+
+        if (first >= 0 && last - first >= apart)
         {
             rungs.add(index + 1);
         }
@@ -1449,6 +1460,7 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     // its branch is often missing from the rough pass. Line art is clipped out of them. Short rows
     // are support values, which sit on branches and must not clip them.
     const textRows = new Array<Box>();
+    const letterRows = new Array<Box>();
     const labelRows = new Array<Box>();
     const markerInk = unionMask(markers, paleMarkers);
 
@@ -1465,6 +1477,9 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         {
             labelRows.push(line.box);
             textRows.push({ x0: line.box.x0 - glyphHeight, y0: line.box.y0 - 2, x1: line.box.x1 + glyphHeight, y1: line.box.y1 + 2 });
+            // A vertical is a letter's stroke only among the letters: the glyph's width of
+            // margin before a label is where a small node's vertical stands.
+            letterRows.push({ x0: line.box.x0 - 2, y0: line.box.y0 - 2, x1: line.box.x1 + 2, y1: line.box.y1 + 2 });
         }
     }
 
@@ -1478,6 +1493,7 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         glyphHeight,
         textRows,
         parameters.gapInkShare,
+        letterRows,
     );
     // A sliver a few pixels wide and tall beside a vertical is its rounded end or a stray edge,
     // and would take the attachment of a branch that belongs to the vertical.

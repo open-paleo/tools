@@ -21,8 +21,12 @@
 - A branch that had run on to the vertical just behind the corner it turns now begins at the
   corner. Where two nodes' verticals stand side by side a few pixels apart, the child's top
   branch read as the parent's own, and the two nodes as one.
-- A short vertical that joins two long lines is kept as line art. No taller than a letter l,
-  the vertical of a node with two close children went with the glyphs, and the node with it.
+- A short vertical that joins two lines is kept as line art: one that meets other lines at
+  two places well apart, its children's branches at its ends or its own stem partway down.
+  No taller than a letter l, the vertical of a node with two close children went with the
+  glyphs, and the node with it.
+- A vertical is dropped as a letter's stroke only where it stands among a row's letters, not
+  in the margin kept before each label, where a small node's vertical stands.
 - A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
   tinted background comes out of compression as a dark shade of the background, and was
   rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77

@@ -398,6 +398,8 @@ function hasInkBetween(ink: Mask, first: Box, second: Box, alongX: boolean, wind
  * @param ink - All dark pixels of the image, or null to bridge any gap.
  * @param window - How far across the line to look for the ink that cut it.
  * @param gapInkShare - Share of a gap that must hold ink for the pieces to join.
+ * @param letterRows - Boxes of the rows' letters alone, inside which a vertical is a letter's
+ *   stroke and is dropped; the text rows serve when these are not given.
  * @returns Merged boxes and the number of gaps bridged.
  */
 function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number, ink: Mask | null, window: number, gapInkShare: number): MergeResult
@@ -634,6 +636,7 @@ export function extractSegments(
     window = 0,
     textRows: Array<Box> = [],
     gapInkShare = 0.4,
+    letterRows: Array<Box> | null = null,
 ): SegmentSet
 {
     const horizontalMask = createDirectionalRunMask(lineArt, minHorizontalRun, true);
@@ -700,7 +703,7 @@ export function extractSegments(
     {
         const box = component.box;
 
-        if (box.y1 - box.y0 >= 2 * (box.x1 - box.x0) && !isInsideAny(box, textRows))
+        if (box.y1 - box.y0 >= 2 * (box.x1 - box.x0) && !isInsideAny(box, letterRows ?? textRows))
         {
             verticalBoxes.push(box);
         }
