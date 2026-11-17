@@ -7,6 +7,10 @@
   (Fonseca 2024: 125 of 170 tips named, now 149).
 - A second column is joined to the first whichever of the two the trace took for the main
   tree.
+- A colored arrowhead touching the tree is no longer part of it. Thin colored ink joins the
+  line ink only where it is drawn as a line, and a branch the head was drawn over is carried
+  across beneath it. A head had fused with the vertical beside it, putting the node in the
+  wrong place and cutting it from its parent (Alarcon-Munoz 2023).
 - A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
   tinted background comes out of compression as a dark shade of the background, and was
   rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77

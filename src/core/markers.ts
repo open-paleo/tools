@@ -5,7 +5,7 @@
  */
 
 import type { Box, ExtractionDocument, Mask, QcIssue, RgbaImage, Segment } from "./types.ts";
-import { createMaskFromComponents, dilate, erode, findConnectedComponents, subtractMask, closeMask, invertMask } from "./raster.ts";
+import { createDirectionalRunMask, createMaskFromComponents, dilate, erode, findConnectedComponents, subtractMask, closeMask, invertMask, unionMask } from "./raster.ts";
 import { deleteTip } from "./edit.ts";
 
 /**
@@ -68,6 +68,137 @@ export function splitColoredInk(image: RgbaImage, threshold: number, minChroma: 
     removeOutlines(thin, 8 * radius, 2 * radius + 3);
 
     return { thin, fat: fatShapes };
+}
+
+/**
+ * Narrowest a colored shape can be and still be an arrowhead or a dot, in pixels.
+ */
+const slightestHead = 6;
+
+/**
+ * Keeps the thin colored ink that is drawn as lines: the pieces holding a straight horizontal
+ * or vertical run of some length. Thin colored ink joins the line ink, for trees drawn in
+ * color; but the head of a colored arrow pointing at a node, too small to count as a fat
+ * shape, is thin colored ink as well, and where it touches the tree it becomes part of it: a
+ * vertical merged with the head, in the wrong place and without its parent (Alarcon-Munoz
+ * 2023). A branch has a straight run; a head, a dot or a colored letter has none.
+ *
+ * @param thin - Thin colored ink.
+ * @param minRun - Shortest straight run that makes a piece a line.
+ * @returns The thin colored ink in pieces that hold such a run, or are too slight for a head.
+ */
+export function keepColoredLines(thin: Mask, minRun: number): Mask
+{
+    const straight = unionMask(createDirectionalRunMask(thin, minRun, true), createDirectionalRunMask(thin, minRun, false));
+    const { components, labels } = findConnectedComponents(thin);
+    const lines = new Set<number>();
+
+    for (let index = 0; index < straight.data.length; index++)
+    {
+        if (straight.data[index] === 1)
+        {
+            lines.add(labels[index]);
+        }
+    }
+
+    // A piece too slight to hold such a run, a short stub or the end of a colored bar, is no
+    // arrowhead either: it is thinner than any head.
+    for (let index = 0; index < components.length; index++)
+    {
+        const { box } = components[index];
+
+        if (Math.min(box.x1 - box.x0, box.y1 - box.y0) < slightestHead)
+        {
+            lines.add(index + 1);
+        }
+    }
+
+    return components.length === lines.size ? thin : createMaskFromComponents(labels, lines, thin.width, thin.height);
+}
+
+/**
+ * Draws on the lines that a small colored shape covers. An arrowhead is drawn over the tree,
+ * so where its point lies on a branch the branch has a hole the size of the head once the
+ * head is no longer line ink. On each row and each column of the shape, where dark ink stands
+ * right at both of its edges, the line is carried across.
+ *
+ * @param dark - Neutral dark ink.
+ * @param shapes - The colored shapes that were kept out of the line ink.
+ * @param reach - How near to an edge the dark ink must stand.
+ * @returns Mask of the stretches carried across.
+ */
+export function bridgeUnderShapes(dark: Mask, shapes: Mask, reach: number): Mask
+{
+    const { width, height } = dark;
+    const data = new Uint8Array(width * height);
+    const { components, labels } = findConnectedComponents(shapes);
+
+    function hasDark(x0: number, x1: number, y0: number, y1: number): boolean
+    {
+        for (let y = Math.max(0, y0); y <= Math.min(height - 1, y1); y++)
+        {
+            for (let x = Math.max(0, x0); x <= Math.min(width - 1, x1); x++)
+            {
+                if (dark.data[y * width + x] === 1)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    for (let index = 0; index < components.length; index++)
+    {
+        const { box } = components[index];
+        const label = index + 1;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            let first = -1;
+            let last = -1;
+
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                if (labels[y * width + x] === label)
+                {
+                    first = first < 0 ? x : first;
+                    last = x;
+                }
+            }
+
+            if (first >= 0 && hasDark(first - reach, first - 1, y, y) && hasDark(last + 1, last + reach, y, y))
+            {
+                data.fill(1, y * width + first, y * width + last + 1);
+            }
+        }
+
+        for (let x = box.x0; x < box.x1; x++)
+        {
+            let first = -1;
+            let last = -1;
+
+            for (let y = box.y0; y < box.y1; y++)
+            {
+                if (labels[y * width + x] === label)
+                {
+                    first = first < 0 ? y : first;
+                    last = y;
+                }
+            }
+
+            if (first >= 0 && hasDark(x, x, first - reach, first - 1) && hasDark(x, x, last + 1, last + reach))
+            {
+                for (let y = first; y <= last; y++)
+                {
+                    data[y * width + x] = 1;
+                }
+            }
+        }
+    }
+
+    return { width, height, data };
 }
 
 /**

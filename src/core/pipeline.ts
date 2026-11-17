@@ -15,7 +15,7 @@ import type { SlantedLabels } from "./slant.ts";
 import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
-import { createColoredMask, extendTipsThroughMarkers, findFatShapes, findNodeDiscs, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
+import { bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findNodeDiscs, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import {
     applyHysteresis,
     closeMask,
@@ -410,7 +410,11 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // Row boxes leave out glyphs lying on these, so a range bar beside a label neither starts
     // the row nor clips the branch that runs into it.
     const roughMarkers = unionMask(colored.fat, paleMarkers);
-    const strongInk = unionMask(createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma), colored.thin);
+    // Of the thin colored ink only what is drawn as lines joins the line ink: an arrowhead
+    // touching the tree is thin and colored too.
+    const coloredLines = keepColoredLines(colored.thin, 6 * markerRadius);
+    const darkInk = createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma);
+    const strongInk = unionMask(unionMask(darkInk, coloredLines), bridgeUnderShapes(darkInk, subtractMask(colored.thin, coloredLines), 2));
 
     // A rough text pass learns the glyph size and finds glyph pixels to keep out of the line art.
     // The runs stripped as line art must be longer than a letter stroke, so when the first pass
