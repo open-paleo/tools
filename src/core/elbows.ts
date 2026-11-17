@@ -135,7 +135,9 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
 
         for (const node of document.nodes)
         {
-            occupied = occupied || (Math.abs(node.x - x) <= reach && node.y0 <= vertical.box.y1 && node.y1 >= vertical.box.y0);
+            // On the vertical itself, within a line's width: a node a stem's length to the
+            // left is the parent of this one, not a node standing here.
+            occupied = occupied || (Math.abs(node.x - x) <= document.profile.lineThickness + 2 && node.y0 <= vertical.box.y1 && node.y1 >= vertical.box.y0);
         }
 
         if (elbowTip === null || parent === null || occupied)
