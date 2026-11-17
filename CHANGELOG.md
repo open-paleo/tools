@@ -11,8 +11,9 @@
   line ink only where it is drawn as a line, and a branch the head was drawn over is carried
   across beneath it. A head had fused with the vertical beside it, putting the node in the
   wrong place and cutting it from its parent (Alarcon-Munoz 2023).
-- A branch end joined to nothing and with no label is dropped as a stray mark: the edge of
-  a silhouette, a pie chart or a legend swatch. A loose tip that has a label stays.
+- A branch end joined to nothing and named by nothing is dropped as a stray mark: the edge
+  of a silhouette, a pie chart or a legend swatch, with no label or with a scrap of text
+  that was read and is no name. A loose tip whose label is a name stays.
 - When a tip chooses among label rows, height counts three times over, so the label on its
   own row beats a scrap of the next row that begins nearer.
 - A vertical with a jog in it is split into the two nodes it is. In a tightly drawn pectinate

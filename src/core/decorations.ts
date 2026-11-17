@@ -408,10 +408,33 @@ function joinColumns(document: ExtractionDocument): Array<QcIssue>
 }
 
 /**
- * Drops the tips that are joined to nothing and labelled by nothing: the end of a stroke in a
- * silhouette, a pie chart or a legend swatch. Such a tip carries no name and no place in the
- * tree; in the viewer it is one more mark to delete. A loose tip with a label stays, since
- * the label says a taxon is there and only its branch is missing.
+ * Whether a loose tip's label names nothing: it was read, and what was read is empty or
+ * matches no name in the lists. A label that was never read, or read with no lists to
+ * check it against, may yet be a name.
+ *
+ * @param document - Extraction document.
+ * @param tip - A tip with a label row.
+ * @returns True when the label was read and is no name.
+ */
+function hasEmptyLabel(document: ExtractionDocument, tip: Tip): boolean
+{
+    for (const line of document.textLines)
+    {
+        if (line.id === tip.textLine)
+        {
+            return line.ocr !== null && (tip.label === null || (tip.match !== null && !tip.match.accepted));
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Drops the tips that are joined to nothing and named by nothing: the end of a stroke in a
+ * silhouette, a pie chart or a legend swatch, with no label or with a scrap of text that was
+ * read and is no name ("C E" off a legend). Such a tip has no place in the tree; in the viewer
+ * it is one more mark to delete. A loose tip whose label is a name stays, since the label
+ * says a taxon is there and only its branch is missing.
  *
  * @param document - Extraction document, changed in place.
  * @returns A note saying how many were dropped, or nothing.
@@ -419,12 +442,17 @@ function joinColumns(document: ExtractionDocument): Array<QcIssue>
 export function dropLooseTips(document: ExtractionDocument): Array<QcIssue>
 {
     const kept = new Array<Tip>();
+    const freed = new Set<string>();
 
     for (const tip of document.tips)
     {
-        if (tip.parent !== null || tip.textLine !== null)
+        if (tip.parent !== null || (tip.textLine !== null && !hasEmptyLabel(document, tip)))
         {
             kept.push(tip);
+        }
+        else if (tip.textLine !== null)
+        {
+            freed.add(tip.textLine);
         }
     }
 
@@ -435,9 +463,17 @@ export function dropLooseTips(document: ExtractionDocument): Array<QcIssue>
         return [];
     }
 
+    for (const line of document.textLines)
+    {
+        if (freed.has(line.id))
+        {
+            line.role = "unassigned";
+        }
+    }
+
     document.tips = kept;
 
-    return [{ severity: "info", code: "loose-tips-dropped", message: `${dropped} branch end(s) joined to nothing and with no label were dropped as stray marks`, subject: null }];
+    return [{ severity: "info", code: "loose-tips-dropped", message: `${dropped} branch end(s) joined to nothing and named by nothing were dropped as stray marks`, subject: null }];
 }
 
 /**
