@@ -581,6 +581,46 @@ function keepRungs(runs: Mask, anchors: Mask, apart: number): Mask
 }
 
 /**
+ * Moves the start of a rough text row's box up to its first letter, past whatever line art
+ * the rough pass took for part of the label: the glyph pixels there that proved to be line
+ * ink. Only the start moves, and only by a modest share of the row: bold letters hold long
+ * strokes that pass for line ink too, and a row cut down to what is left of them no longer
+ * covers its label (Poropat 2014).
+ *
+ * @param box - Box of the rough row.
+ * @param glyphMask - Glyph pixels of the rough text pass.
+ * @param lineInk - Line ink, which holds whatever of those pixels proved to be line art.
+ * @returns The box, starting at its first letter.
+ */
+function shrinkToLetters(box: Box, glyphMask: Mask, lineInk: Mask): Box
+{
+    const farthest = box.x0 + Math.round(0.35 * (box.x1 - box.x0));
+
+    for (let x = box.x0; x < farthest; x++)
+    {
+        let letters = 0;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            const index = y * glyphMask.width + x;
+
+            if (glyphMask.data[index] === 1 && lineInk.data[index] === 0)
+            {
+                letters++;
+            }
+        }
+
+        // A pixel or two is the end of a stroke left over from a line, not a letter.
+        if (letters >= 3)
+        {
+            return { x0: x, y0: box.y0, x1: box.x1, y1: box.y1 };
+        }
+    }
+
+    return box;
+}
+
+/**
  * Finds the stretches of line ink that continue a horizontal segment beyond either end without
  * leaving its rows: the tail of a range bar or a branch stub that was clipped at a label.
  *
@@ -1461,6 +1501,7 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     // are support values, which sit on branches and must not clip them.
     const textRows = new Array<Box>();
     const letterRows = new Array<Box>();
+    const reachRows = new Array<Box>();
     const labelRows = new Array<Box>();
     const markerInk = unionMask(markers, paleMarkers);
 
@@ -1477,9 +1518,15 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         {
             labelRows.push(line.box);
             textRows.push({ x0: line.box.x0 - glyphHeight, y0: line.box.y0 - 2, x1: line.box.x1 + glyphHeight, y1: line.box.y1 + 2 });
+            // The rough pass may have taken a small node touching the label for part of it,
+            // its stem and vertical with it. The row still clips line art over its whole
+            // width, but where its letters begin is what tells a letter's stroke from that
+            // node's vertical, and a branch reaching the row from one running inside it.
+            const letters = shrinkToLetters(line.box, glyphMask, lineInk);
             // A vertical is a letter's stroke only among the letters: the glyph's width of
             // margin before a label is where a small node's vertical stands.
-            letterRows.push({ x0: line.box.x0 - 2, y0: line.box.y0 - 2, x1: line.box.x1 + 2, y1: line.box.y1 + 2 });
+            letterRows.push({ x0: letters.x0 - 2, y0: letters.y0 - 2, x1: letters.x1 + 2, y1: letters.y1 + 2 });
+            reachRows.push({ x0: letters.x0 - glyphHeight, y0: letters.y0 - 2, x1: letters.x1 + glyphHeight, y1: letters.y1 + 2 });
         }
     }
 
@@ -1494,6 +1541,7 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         textRows,
         parameters.gapInkShare,
         letterRows,
+        reachRows,
     );
     // A sliver a few pixels wide and tall beside a vertical is its rounded end or a stray edge,
     // and would take the attachment of a branch that belongs to the vertical.

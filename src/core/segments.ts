@@ -253,15 +253,19 @@ function hasLineAcross(lineArt: Mask, box: Box, row: Box, beyond: number): boole
  * @param textRows - Boxes of text rows.
  * @param minRun - Shortest part worth keeping.
  * @param lineArt - Line ink, without glyphs.
+ * @param reachRows - For each text row, the box of its letters widened by a glyph; a piece
+ *   in the row's margin that starts or ends beyond it reaches the row from outside.
  * @returns Parts of the piece outside every text row.
  */
-function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt: Mask): Array<Box>
+function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt: Mask, reachRows: Array<Box> | null): Array<Box>
 {
     const height = box.y1 - box.y0;
     const blocked = new Array<Box>();
 
-    for (const row of textRows)
+    for (let index = 0; index < textRows.length; index++)
     {
+        const row = textRows[index];
+        const reach = reachRows === null ? row : reachRows[index];
         const overlap = Math.min(row.y1, box.y1) - Math.max(row.y0, box.y0);
 
         // A line that runs on unbroken along the edge of the row, and past it on both sides,
@@ -274,7 +278,14 @@ function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt:
         const middle = (box.y0 + box.y1) / 2;
         const alongEdge = middle > row.y1 - 2 || middle < row.y0 + 2;
 
-        if (overlap >= 0.5 * height && row.x1 > box.x0 && row.x0 < box.x1 && !(alongEdge && hasLineAcross(lineArt, box, row, minRun)))
+        // Or it reaches the row from outside its letters, starting a glyph before the first or
+        // ending a glyph after the last: the branch above a label that stands a pixel or two
+        // under it (Alarcon-Munoz 2023's Rhinorex). A stroke lying within the letters' width
+        // is part of the text, an underline or a serif.
+        // A pixel or two of grace: a piece is cut where it leaves the vertical it starts at.
+        const fromOutside = box.x0 <= reach.x0 + 2 || box.x1 >= reach.x1 - 2;
+
+        if (overlap >= 0.5 * height && row.x1 > box.x0 && row.x0 < box.x1 && !(alongEdge && (fromOutside || hasLineAcross(lineArt, box, row, minRun))))
         {
             blocked.push(row);
         }
@@ -400,6 +411,7 @@ function hasInkBetween(ink: Mask, first: Box, second: Box, alongX: boolean, wind
  * @param gapInkShare - Share of a gap that must hold ink for the pieces to join.
  * @param letterRows - Boxes of the rows' letters alone, inside which a vertical is a letter's
  *   stroke and is dropped; the text rows serve when these are not given.
+ * @param reachRows - For each text row, the box of its letters widened by a glyph.
  * @returns Merged boxes and the number of gaps bridged.
  */
 function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number, ink: Mask | null, window: number, gapInkShare: number): MergeResult
@@ -637,6 +649,7 @@ export function extractSegments(
     textRows: Array<Box> = [],
     gapInkShare = 0.4,
     letterRows: Array<Box> | null = null,
+    reachRows: Array<Box> | null = null,
 ): SegmentSet
 {
     const horizontalMask = createDirectionalRunMask(lineArt, minHorizontalRun, true);
@@ -687,7 +700,7 @@ export function extractSegments(
     // least as long as it is thick; text has already been cut away.
     for (const piece of pieces)
     {
-        for (const part of clipToTextRows(piece, textRows, minHorizontalRun, lineArt))
+        for (const part of clipToTextRows(piece, textRows, minHorizontalRun, lineArt, reachRows))
         {
             if (part.x1 - part.x0 >= part.y1 - part.y0)
             {

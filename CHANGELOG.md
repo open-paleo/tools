@@ -27,6 +27,10 @@
   glyphs, and the node with it.
 - A vertical is dropped as a letter's stroke only where it stands among a row's letters, not
   in the margin kept before each label, where a small node's vertical stands.
+- Where a row's letters begin is found apart from the row's box, which the first text pass
+  may have started at a small node touching the label. A branch in the row's margin that
+  begins a glyph before the first letter is left whole, and the elbow rule also finds its
+  first tip at the end of a branch leaving the vertical's far end.
 - A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
   tinted background comes out of compression as a dark shade of the background, and was
   rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77

@@ -38,6 +38,31 @@ function findVerticalEndingAt(document: ExtractionDocument, row: TextLine): Segm
 }
 
 /**
+ * Whether a horizontal runs from a vertical to a tip, on the tip's row.
+ *
+ * @param document - Extraction document.
+ * @param vertical - The vertical.
+ * @param tip - The tip.
+ * @returns True when a branch joins the two.
+ */
+function hasBranchBetween(document: ExtractionDocument, vertical: Segment, tip: Tip): boolean
+{
+    const reach = Math.max(3, document.profile.lineThickness + 2);
+
+    for (const horizontal of document.horizontals)
+    {
+        const { box } = horizontal;
+
+        if (tip.y >= box.y0 - reach && tip.y <= box.y1 + reach && box.x0 <= vertical.box.x1 + reach && Math.abs(box.x1 - tip.x) <= reach)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
  * Gives each label row that stands beside the near end of an elbow its own tip: the elbow's
  * vertical becomes a node holding the tip the trace found at its far end and a new one at the
  * near end, paired with the row.
@@ -70,6 +95,7 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
         const nearTop = Math.abs(center - vertical.box.y0) < Math.abs(center - vertical.box.y1);
         const farY = nearTop ? vertical.box.y1 : vertical.box.y0;
         let elbowTip: Tip | null = null;
+        let branched = false;
 
         // The tip the trace left at the far end of the vertical, on the vertical itself.
         for (const tip of document.tips)
@@ -77,6 +103,20 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
             if (tip.parent !== null && Math.abs(tip.x - x) <= reach && Math.abs(tip.y - farY) <= reach && tip.y >= vertical.box.y0 - 1 && tip.y <= vertical.box.y1 + 1)
             {
                 elbowTip = tip;
+            }
+        }
+
+        // Or the tip at the end of a branch that leaves the far end: the vertical then turned
+        // one corner more before the trace called it a tip.
+        if (elbowTip === null)
+        {
+            for (const tip of document.tips)
+            {
+                if (tip.parent !== null && tip.x > vertical.box.x1 && Math.abs(tip.y - farY) <= reach && hasBranchBetween(document, vertical, tip))
+                {
+                    elbowTip = elbowTip === null || tip.x < elbowTip.x ? tip : elbowTip;
+                    branched = true;
+                }
             }
         }
 
@@ -131,7 +171,12 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
         tip.parent = node.id;
         parent.children[parent.children.indexOf(elbowTip.id)] = node.id;
         elbowTip.parent = node.id;
-        elbowTip.x = vertical.box.x1;
+
+        if (!branched)
+        {
+            elbowTip.x = vertical.box.x1;
+        }
+
         row.role = "tip";
         document.tips.push(tip);
         document.nodes.push(node);
