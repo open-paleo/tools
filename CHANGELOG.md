@@ -13,6 +13,8 @@
   wrong place and cutting it from its parent (Alarcon-Munoz 2023).
 - A branch end joined to nothing and with no label is dropped as a stray mark: the edge of
   a silhouette, a pie chart or a legend swatch. A loose tip that has a label stays.
+- When a tip chooses among label rows, height counts three times over, so the label on its
+  own row beats a scrap of the next row that begins nearer.
 - A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
   tinted background comes out of compression as a dark shade of the background, and was
   rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77

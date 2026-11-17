@@ -99,7 +99,11 @@ export function assignLabels(document: ExtractionDocument): void
                 // before a label can trace as a stub of its own, right where the label begins,
                 // and would otherwise take the row from the branch that ends short of it.
                 const loose = attached.has(tip.id) ? 0 : 100 * glyph;
-                tipPairings.push({ subject: tip.id, line, distance: Math.abs(offset) + Math.abs(rise) + loose });
+                // Height counts three times over: where rows stand a glyph apart, the label on
+                // a tip's own row, a few glyphs along, must beat a scrap of the next row that
+                // happens to begin nearer (Alarcon-Munoz 2023, rows 16 px apart).
+                const climb = line.frame === undefined ? 3 * Math.abs(rise) : Math.abs(rise);
+                tipPairings.push({ subject: tip.id, line, distance: Math.abs(offset) + climb + loose });
             }
         }
     }
