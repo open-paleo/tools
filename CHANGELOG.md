@@ -31,6 +31,8 @@
   may have started at a small node touching the label. A branch in the row's margin that
   begins a glyph before the first letter is left whole, and the elbow rule also finds its
   first tip at the end of a branch leaving the vertical's far end.
+- Two sister tips are put back under the small node they share, where the trace had passed
+  over its short vertical for having a single branch and handed both tips to the node behind.
 - A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
   tinted background comes out of compression as a dark shade of the background, and was
   rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77
