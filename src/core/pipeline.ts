@@ -6,7 +6,7 @@
 import type { Box, ExtractionDocument, GrayImage, Mask, OcrEngine, Orientation, ProfileOverrides, ProgressReporter, QcIssue, RgbaImage, Segment, TextLine, Tip, TreeNode } from "./types.ts";
 import { applyProfileOverrides, createEmptyProfile, measureProfile, measureTextMarks } from "./profile.ts";
 import { checkTipAlignment, recoverAlignedTips } from "./alignment.ts";
-import { pruneDecorations } from "./decorations.ts";
+import { dropLooseTips, pruneDecorations } from "./decorations.ts";
 import { assignPixelLengths, chooseRoot, pruneDegenerateNodes, refreshDisconnectedIssues } from "./tree.ts";
 import { detectOrientation } from "./orientation.ts";
 import { detectSlantedLabels } from "./slant.ts";
@@ -1692,6 +1692,7 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         }
     }
 
+    document.qc.push(...dropLooseTips(document));
     runQualityChecks(document);
 
     // The checks about loose pieces are made again now that every step has had its say.

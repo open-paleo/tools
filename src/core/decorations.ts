@@ -408,6 +408,39 @@ function joinColumns(document: ExtractionDocument): Array<QcIssue>
 }
 
 /**
+ * Drops the tips that are joined to nothing and labelled by nothing: the end of a stroke in a
+ * silhouette, a pie chart or a legend swatch. Such a tip carries no name and no place in the
+ * tree; in the viewer it is one more mark to delete. A loose tip with a label stays, since
+ * the label says a taxon is there and only its branch is missing.
+ *
+ * @param document - Extraction document, changed in place.
+ * @returns A note saying how many were dropped, or nothing.
+ */
+export function dropLooseTips(document: ExtractionDocument): Array<QcIssue>
+{
+    const kept = new Array<Tip>();
+
+    for (const tip of document.tips)
+    {
+        if (tip.parent !== null || tip.textLine !== null)
+        {
+            kept.push(tip);
+        }
+    }
+
+    const dropped = document.tips.length - kept.length;
+
+    if (dropped === 0)
+    {
+        return [];
+    }
+
+    document.tips = kept;
+
+    return [{ severity: "info", code: "loose-tips-dropped", message: `${dropped} branch end(s) joined to nothing and with no label were dropped as stray marks`, subject: null }];
+}
+
+/**
  * Removes disconnected subtrees that lie where decorations go: entirely right of the tips, or
  * above or below the tree with no labels. Their text rows become unassigned again.
  *
