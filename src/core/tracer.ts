@@ -526,8 +526,9 @@ function attachAndPrune(
  * Ranks an incoming branch as a candidate parent. One that comes from a vertical outranks a
  * loose fragment; touching ends outrank loose ones, the left end first; one arriving at a height
  * where the vertical has no child outranks one at a child's height, which is usually that
- * child's branch running on past the vertical; and among equals the longest is the branch rather
- * than label debris.
+ * child's branch running on past the vertical; among equals the one from the taller vertical is
+ * the stem, since a node's parent spans its children where a scrap of an arrow or a drawing is
+ * short; and last the longest is the branch rather than label debris.
  *
  * @param branch - Incoming branch.
  * @param candidate - Vertical it arrives at.
@@ -540,7 +541,8 @@ function scoreParent(branch: Branch, candidate: Candidate, tolerance: number): n
         + (branch.leftStrict ? 100000 : 0)
         + (branch.rightStrict ? 10000 : 0)
         + (isAtChildHeight(branch, candidate, tolerance) ? 0 : 1000)
-        + Math.min(999, branch.x1 - branch.x0);
+        + Math.min(999, branch.left === null ? 0 : branch.left.y1 - branch.left.y0)
+        + Math.min(999, branch.x1 - branch.x0) / 1000;
 }
 
 /**
@@ -723,6 +725,52 @@ function countTips(id: string, nodes: Map<string, TreeNode>): number
     }
 
     return total;
+}
+
+/**
+ * Frees each node whose stem only came near it, across a gap, from a vertical that carries
+ * nothing else and hangs from nothing: a scrap beside the tree, such as a piece of an arrow
+ * pointing at the node. Such a stem keeps the node from being joined to the vertical it stands
+ * against, and the scrap is then dissolved as a node with one child, leaving the node and all
+ * below it cut off.
+ *
+ * @param nodes - Node lookup, modified in place.
+ * @param looseStems - Ids of the nodes whose stem did not reach them.
+ * @returns Whether any node was freed.
+ */
+function detachLooseStems(nodes: Map<string, TreeNode>, looseStems: Set<string>): boolean
+{
+    let freed = false;
+
+    for (const id of looseStems)
+    {
+        const node = nodes.get(id);
+        const scraps = new Array<TreeNode>();
+        let above = node === undefined || node.parent === null ? undefined : nodes.get(node.parent);
+
+        // The scraps may hang one from another; all of them must carry nothing else.
+        while (above !== undefined && above.children.length === 1 && !scraps.includes(above))
+        {
+            scraps.push(above);
+            above = above.parent === null ? undefined : nodes.get(above.parent);
+        }
+
+        if (node === undefined || scraps.length === 0 || above !== undefined || scraps[scraps.length - 1].parent !== null)
+        {
+            continue;
+        }
+
+        for (const scrap of scraps)
+        {
+            nodes.delete(scrap.id);
+        }
+
+        node.parent = null;
+        node.attachY = null;
+        freed = true;
+    }
+
+    return freed;
 }
 
 /**
@@ -1008,11 +1056,18 @@ export function traceRectangularTree(
     }
 
     const nodes = new Map<string, TreeNode>();
+    const looseStems = new Set<string>();
 
     for (const candidate of ordered)
     {
         const id = nodeIds.get(candidate) as string;
         const parentBranch = choosePrimaryParent(candidate, tolerance);
+
+        if (parentBranch !== null && !parentBranch.rightStrict)
+        {
+            looseStems.add(id);
+        }
+
         candidate.children.sort(compareBranchHeights);
         const children = new Array<string>();
 
@@ -1042,6 +1097,12 @@ export function traceRectangularTree(
     }
 
     bridgeOrphans(nodes, tips, looseTolerance, tolerance, labelBoxes, labelReach, issues);
+
+    if (detachLooseStems(nodes, looseStems))
+    {
+        bridgeOrphans(nodes, tips, looseTolerance, tolerance, labelBoxes, labelReach, issues);
+    }
+
     collapseUnaryNodes(nodes, tips);
 
     let root: string | null = null;

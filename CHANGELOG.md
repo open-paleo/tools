@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.5 (unreleased)
+
+- A node is no longer cut off by a scrap beside the tree. A stem that only came near its node,
+  from a short vertical carrying nothing else, is let go, and the node joins the vertical it
+  stands against. Between two stems that are otherwise equal, the one from the taller vertical
+  wins. Both arose where an arrow pointing at a node traced as short pieces, once an excluded
+  area lowered the shortest vertical the figure accepts by a pixel.
+
 ## 0.5.4 (2026-11-17)
 
 - Areas of a figure can be left out. In the viewer, *Exclude area* takes rectangles dragged
