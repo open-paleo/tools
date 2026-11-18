@@ -46,6 +46,11 @@ export function convertToGray(image: RgbaImage): GrayImage
 const darkestColor = 110;
 
 /**
+ * The same where blue is the strongest channel.
+ */
+const darkestBlue = 70;
+
+/**
  * Marks dark pixels. With neutralOnly set, strongly colored pixels are left out, which
  * separates black line art from colored text and colored box borders.
  *
@@ -77,7 +82,12 @@ export function createDarkMask(image: RgbaImage, threshold: number, neutralOnly:
             const strongest = Math.max(red, green, blue);
             const chroma = strongest - Math.min(red, green, blue);
 
-            if (!neutralOnly || chroma <= maxChroma || strongest <= darkestColor)
+            // A line drawn in dark blue is as dark as that in two channels and is still a blue
+            // line, an arrow's tail and not a branch: where blue leads, only what is darker
+            // still passes.
+            const limit = blue > red && blue > green ? darkestBlue : darkestColor;
+
+            if (!neutralOnly || chroma <= maxChroma || strongest <= limit)
             {
                 mask[index] = 1;
             }

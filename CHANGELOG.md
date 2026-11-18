@@ -41,6 +41,9 @@
 - The elbow rule no longer takes the parent node, a short stem to the left, for a node
   standing on the vertical itself, and so finds the second tip of a small node it had left
   alone.
+- A line drawn in dark blue is not black ink: where blue is the strongest channel a pixel
+  must be darker still to count. An arrow's dark tail had stood in the line art beside the
+  tree it points at.
 - A pixel dark in every channel is black ink whatever its tint. A hairline in black over a
   tinted background comes out of compression as a dark shade of the background, and was
   rejected as colored, so thin lines vanished partway along (Alarcon-Munoz 2023: 46 of 77
