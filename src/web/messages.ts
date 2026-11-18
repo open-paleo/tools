@@ -59,6 +59,11 @@ export type ExtractRequest = {
     region: Box | null;
 
     /**
+     * Areas to leave out, possibly none.
+     */
+    exclude: Array<Box>;
+
+    /**
      * Whether labels should be read; OCR requests come back to the page.
      */
     readLabels: boolean;

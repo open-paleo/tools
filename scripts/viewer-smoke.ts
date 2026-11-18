@@ -236,6 +236,25 @@ try
     expect(((await page.textContent("#te-status")) ?? "") === `moved t5 under ${targetNode}`, "a tip moved from the keyboard alone");
     await page.click("#te-undo");
 
+    // Excluded areas: drag one out, see it counted, click it away again.
+    await page.click("#te-exclude-mode");
+    const frame = await page.locator("#te-canvas").boundingBox();
+
+    if (frame === null)
+    {
+        throw new Error("the canvas has no box");
+    }
+
+    await page.mouse.move(frame.x + 0.2 * frame.width, frame.y + 0.3 * frame.height);
+    await page.mouse.down();
+    await page.mouse.move(frame.x + 0.35 * frame.width, frame.y + 0.5 * frame.height, { steps: 5 });
+    await page.mouse.up();
+    expect(((await page.textContent("#te-status")) ?? "").includes("1 area left out"), "dragging in exclude mode leaves an area out");
+    expect(await page.isEnabled("#te-clear-excluded"), "the clear button comes alive with an area to clear");
+    await page.mouse.click(frame.x + 0.27 * frame.width, frame.y + 0.4 * frame.height);
+    expect(((await page.textContent("#te-status")) ?? "").includes("0 areas left out"), "clicking an excluded area puts it back");
+    await page.keyboard.press("Escape");
+
     // Accessibility, light and dark, and the narrow layout.
     await page.addScriptTag({ path: path.join(root, "node_modules", "axe-core", "axe.min.js") });
 

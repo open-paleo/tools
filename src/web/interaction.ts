@@ -31,6 +31,13 @@ export type InteractionCallbacks = {
     onRegionSet(region: Box): void;
 
     /**
+     * Called when an excluded area has been added or removed.
+     *
+     * @param added - True when one was added, false when one was removed.
+     */
+    onExclusionsChanged(added: boolean): void;
+
+    /**
      * Called when the user clicks where a tip should be added.
      *
      * @param x - Branch end x in image pixels.
@@ -158,6 +165,10 @@ export class PointerController
         {
             this.state.draftRegion = { x0: imageX, y0: imageY, x1: imageX, y1: imageY };
         }
+        else if (this.state.mode === "exclude")
+        {
+            this.state.draftExclusion = { x0: imageX, y0: imageY, x1: imageX, y1: imageY };
+        }
         else if (this.state.mode === "add-node")
         {
             this.state.draftSpan = { x0: imageX, y0: imageY, x1: imageX, y1: imageY };
@@ -239,6 +250,12 @@ export class PointerController
             this.state.draftRegion.y1 = this.canvasView.toImageY(screenY);
             this.canvasView.render(this.state);
         }
+        else if (this.state.draftExclusion !== null)
+        {
+            this.state.draftExclusion.x1 = this.canvasView.toImageX(screenX);
+            this.state.draftExclusion.y1 = this.canvasView.toImageY(screenY);
+            this.canvasView.render(this.state);
+        }
         else if (this.state.draftSpan !== null)
         {
             this.state.draftSpan.y1 = this.canvasView.toImageY(screenY);
@@ -277,6 +294,13 @@ export class PointerController
         if (this.state.draftRegion !== null)
         {
             this.finishRegion(this.state.draftRegion, drag.moved);
+
+            return;
+        }
+
+        if (this.state.draftExclusion !== null)
+        {
+            this.finishExclusion(this.state.draftExclusion, drag.moved);
 
             return;
         }
@@ -382,6 +406,46 @@ export class PointerController
         {
             this.state.region = { x0, y0, x1, y1 };
             this.callbacks.onRegionSet(this.state.region);
+        }
+
+        this.canvasView.render(this.state);
+        this.callbacks.onViewChanged();
+    }
+
+    /**
+     * Turns a dragged-out draft into an excluded area, if it is big enough; a click on an
+     * area already there, with no drag, takes it away. The mode stays on, since a figure
+     * usually has several things to leave out.
+     *
+     * @param draft - Draft rectangle in image coordinates, any corner order.
+     * @param moved - Whether the pointer actually moved.
+     */
+    private finishExclusion(draft: Box, moved: boolean): void
+    {
+        this.state.draftExclusion = null;
+        const x0 = Math.round(Math.min(draft.x0, draft.x1));
+        const x1 = Math.round(Math.max(draft.x0, draft.x1));
+        const y0 = Math.round(Math.min(draft.y0, draft.y1));
+        const y1 = Math.round(Math.max(draft.y0, draft.y1));
+
+        if (moved && x1 - x0 >= minRegionSize && y1 - y0 >= minRegionSize)
+        {
+            this.state.exclusions.push({ x0, y0, x1, y1 });
+            this.callbacks.onExclusionsChanged(true);
+        }
+        else if (!moved)
+        {
+            for (let index = this.state.exclusions.length - 1; index >= 0; index--)
+            {
+                const area = this.state.exclusions[index];
+
+                if (draft.x0 >= area.x0 && draft.x0 <= area.x1 && draft.y0 >= area.y0 && draft.y0 <= area.y1)
+                {
+                    this.state.exclusions.splice(index, 1);
+                    this.callbacks.onExclusionsChanged(false);
+                    break;
+                }
+            }
         }
 
         this.canvasView.render(this.state);

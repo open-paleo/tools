@@ -102,7 +102,7 @@ export type DragState = {
 /**
  * What a click or drag on the canvas does.
  */
-export type Mode = "pan" | "region" | "add-tip" | "add-node" | "move";
+export type Mode = "pan" | "region" | "exclude" | "add-tip" | "add-node" | "move";
 
 /**
  * A document as it was before an edit, with what the edit did.
@@ -179,6 +179,16 @@ export type ViewerState = {
     draftRegion: Box | null;
 
     /**
+     * Areas of the image to leave out of the analysis.
+     */
+    exclusions: Array<Box>;
+
+    /**
+     * Excluded area being dragged out, or null.
+     */
+    draftExclusion: Box | null;
+
+    /**
      * Vertical span of a node being dragged out, or null. Only x0, y0 and y1 are used.
      */
     draftSpan: Box | null;
@@ -237,6 +247,8 @@ export function createViewerState(): ViewerState
         extraction: null,
         region: null,
         draftRegion: null,
+        exclusions: [],
+        draftExclusion: null,
         draftSpan: null,
         draftMove: null,
         history: [],

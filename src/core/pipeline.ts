@@ -33,6 +33,7 @@ import {
     subtractMask,
     unionMask,
     measureThinInkLuminance,
+    computeMedian,
     createMaskFromComponents,
     findConnectedComponents,
 } from "./raster.ts";
@@ -317,6 +318,12 @@ export type ExtractOptions = {
      * image's coordinates either way.
      */
     region: Box | null;
+
+    /**
+     * Areas of the image to leave out: each is painted white before anything is read, so a
+     * pie chart, a legend or a silhouette beside the tree leaves no ink to trace.
+     */
+    exclude?: Array<Box>;
 
     /**
      * Receives stage progress, or null.
@@ -1364,6 +1371,69 @@ function isDrawnOnDark(image: RgbaImage): boolean
 }
 
 /**
+ * Paints areas of an image out, each in the color that surrounds it: the median of the
+ * pixels along its border. On a tinted figure a white patch would be a shape of its own,
+ * with edges where there were none.
+ *
+ * @param image - Image, dark on light.
+ * @param areas - Boxes to paint out, in the image's coordinates.
+ * @returns A copy with the areas painted out.
+ */
+function blankAreas(image: RgbaImage, areas: Array<Box>): RgbaImage
+{
+    const data = new Uint8ClampedArray(image.data);
+
+    for (const area of areas)
+    {
+        const box = clampBox(area, image.width, image.height);
+
+        if (box.x1 <= box.x0 || box.y1 <= box.y0)
+        {
+            continue;
+        }
+
+        const channels: Array<Array<number>> = [[], [], []];
+
+        for (let x = box.x0; x < box.x1; x++)
+        {
+            for (const y of [Math.max(0, box.y0 - 1), Math.min(image.height - 1, box.y1)])
+            {
+                for (let channel = 0; channel < 3; channel++)
+                {
+                    channels[channel].push(image.data[(y * image.width + x) * 4 + channel]);
+                }
+            }
+        }
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (const x of [Math.max(0, box.x0 - 1), Math.min(image.width - 1, box.x1)])
+            {
+                for (let channel = 0; channel < 3; channel++)
+                {
+                    channels[channel].push(image.data[(y * image.width + x) * 4 + channel]);
+                }
+            }
+        }
+
+        const fill = [computeMedian(channels[0], 255), computeMedian(channels[1], 255), computeMedian(channels[2], 255)];
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                const offset = (y * image.width + x) * 4;
+                data[offset] = fill[0];
+                data[offset + 1] = fill[1];
+                data[offset + 2] = fill[2];
+            }
+        }
+    }
+
+    return { width: image.width, height: image.height, data };
+}
+
+/**
  * Makes the negative of an image.
  *
  * @param image - Image.
@@ -1397,7 +1467,9 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     // A figure drawn light on dark, a scan printed in negative or a screenshot in a dark
     // theme, is turned into dark on light; everything after works on that.
     const inverted = isDrawnOnDark(givenImage);
-    const sourceImage = inverted ? invertImage(givenImage) : givenImage;
+    const excluded = options.exclude ?? [];
+    const readable = inverted ? invertImage(givenImage) : givenImage;
+    const sourceImage = excluded.length === 0 ? readable : blankAreas(readable, excluded);
     const sourceRegion = options.region === undefined || options.region === null ? null : clampBox(options.region, sourceImage.width, sourceImage.height);
 
     if (sourceRegion !== null && (sourceRegion.x1 - sourceRegion.x0 < 1 || sourceRegion.y1 - sourceRegion.y0 < 1))
@@ -1417,6 +1489,11 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
     const image = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (excluded.length > 0)
+    {
+        orientationIssues.unshift({ severity: "info", code: "areas-excluded", message: `${excluded.length} area(s) of the image were left out, as asked`, subject: null });
+    }
 
     if (inverted)
     {

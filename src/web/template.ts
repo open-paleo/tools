@@ -19,6 +19,10 @@ export const viewerMarkup = `
                 <button id="te-region-mode" class="tool" disabled title="Drag a rectangle around the tree, to extract only that part of the image">Select region</button>
                 <button id="te-clear-region" class="tool" disabled title="Analyze the whole image again">Clear region</button>
             </div>
+            <div class="start-buttons">
+                <button id="te-exclude-mode" class="tool" disabled title="Drag a rectangle over something to leave out: a legend, a pie chart, a silhouette">Exclude area</button>
+                <button id="te-clear-excluded" class="tool" disabled title="Leave nothing out again">Clear excluded</button>
+            </div>
         </div>
         <label class="names">
             <span>Known taxon names, one per line (optional)</span>

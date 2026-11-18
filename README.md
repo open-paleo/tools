@@ -68,6 +68,8 @@ makes no request to any other host.
 
 `--crop x,y,w,h` restricts the analysis to one region of the image (for example to leave out a
 time scale or a second panel); results are still reported in full-image coordinates.
+`--exclude "x,y,w,h;x,y,w,h"` leaves areas out of the analysis, a legend, a pie chart or a
+silhouette beside the tree; each is painted out before the figure is read.
 
 `--names` is a text file with one taxon name per line (for example the taxa of the paper's
 character matrix). OCR output is fuzzy-matched against it, which turns imperfect reads of small
@@ -82,6 +84,9 @@ The viewer runs the same pipeline on a dropped image, in a Web Worker so the pag
 responsive, and draws what it found over the figure.
 Scroll to zoom, drag to pan (or use the view controls on the figure), and use *Select region*
 beside the extract button to mark where the tree is when the figure holds more than the tree. Clicking a tip or node on the canvas selects it in the lists and the
+*Exclude area* marks things to leave out, a legend, a pie chart or a silhouette beside the tree:
+drag a rectangle over each, and click one to take it away. They are painted out before the
+figure is read.
 other way round; labels are editable in place and the Newick updates. Missed or spurious
 elements can be fixed by hand: *Add tip* then click a branch end, *Add node* then drag along the
 missing vertical connector (it takes over the branches it crosses), *Move* then drag a tip or

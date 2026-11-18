@@ -6,6 +6,7 @@
 
 import type { ExtractionDocument, OcrEngine } from "../core/types.ts";
 import { formatDocumentAsNewick, getNodeDisplayLabel } from "../core/newick.ts";
+import { rotateBox } from "../core/geometry.ts";
 import type { TesseractLike, TesseractPaths } from "../ocr/tesseract.ts";
 import { viewerMarkup } from "./template.ts";
 import { formatTimings } from "../core/pipeline.ts";
@@ -156,6 +157,8 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     const regionModeButton = getElement<HTMLButtonElement>("#te-region-mode");
     const modeHint = getElement<HTMLParagraphElement>("#te-mode-hint");
     const clearRegionButton = getElement<HTMLButtonElement>("#te-clear-region");
+    const excludeModeButton = getElement<HTMLButtonElement>("#te-exclude-mode");
+    const clearExcludedButton = getElement<HTMLButtonElement>("#te-clear-excluded");
     const addTipButton = getElement<HTMLButtonElement>("#te-add-tip");
     const addNodeButton = getElement<HTMLButtonElement>("#te-add-node");
     const moveButton = getElement<HTMLButtonElement>("#te-move");
@@ -205,6 +208,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     {
         const hints: Record<string, string> = {
             region: "Drag a rectangle around the tree, then press Extract tree to analyze only that area. Escape cancels.",
+            exclude: "Drag a rectangle over anything to leave out, such as a legend, a pie chart or a silhouette; draw as many as you need, and click one to take it away. Then press Extract tree. Escape leaves this mode.",
             "add-tip": "Click where the new tip's branch ends. Escape cancels.",
             "add-node": "Drag along the missing vertical connector, from its top to its bottom. Escape cancels.",
             move: "Drag a tip or node and drop it on the node it should hang from; a loose piece, drawn in red, is restored by moving its root. Escape leaves move mode.",
@@ -227,6 +231,10 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         zoomOutButton.disabled = !loaded;
         regionModeButton.disabled = !loaded;
         clearRegionButton.disabled = state.region === null;
+        excludeModeButton.disabled = !loaded;
+        clearExcludedButton.disabled = state.exclusions.length === 0;
+        excludeModeButton.setAttribute("aria-pressed", String(state.mode === "exclude"));
+        excludeModeButton.classList.toggle("active", state.mode === "exclude");
         const extracted = state.extraction !== null;
         selectButton.disabled = !extracted;
         selectButton.setAttribute("aria-pressed", String(extracted && (state.mode === "pan" || state.mode === "region")));
@@ -246,7 +254,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         addTipButton.classList.toggle("active", state.mode === "add-tip");
         addNodeButton.classList.toggle("active", state.mode === "add-node");
         moveButton.classList.toggle("active", state.mode === "move");
-        canvas.classList.toggle("region", state.mode === "region");
+        canvas.classList.toggle("region", state.mode === "region" || state.mode === "exclude");
         canvas.classList.toggle("add", state.mode === "add-tip" || state.mode === "add-node");
         canvas.classList.toggle("move", state.mode === "move");
         updateModeHint();
@@ -548,6 +556,8 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         state.extraction = null;
         state.region = null;
         state.draftRegion = null;
+        state.exclusions = [];
+        state.draftExclusion = null;
         state.draftSpan = null;
         state.selection = null;
         clearHistory();
@@ -616,6 +626,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
                 knownNames,
                 knownClades,
                 region: state.region,
+                exclude: state.exclusions,
                 ocr: ocrCheckbox.checked ? ocrEngine : null,
                 source: state.fileStem,
             }, { onProgress: handleProgress });
@@ -674,6 +685,16 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         context.rotate(quarterTurns * Math.PI / 2);
         context.drawImage(state.bitmap, -state.bitmap.width / 2, -state.bitmap.height / 2);
         const data = context.getImageData(0, 0, scratch.width, scratch.height);
+        // The areas left out were drawn on the image as it stood; they turn with it.
+        const turnedAreas = new Array<Box>();
+
+        for (const area of state.exclusions)
+        {
+            turnedAreas.push(rotateBox(area, state.bitmap.width, state.bitmap.height, quarterTurns));
+        }
+
+        state.exclusions = turnedAreas;
+        state.draftExclusion = null;
         state.bitmap = await createImageBitmap(scratch);
         state.image = { width: data.width, height: data.height, data: data.data };
         state.region = null;
@@ -803,6 +824,38 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     function handleRegionModeClick(): void
     {
         state.mode = state.mode === "region" ? "pan" : "region";
+        updateToolbar();
+    }
+
+    /**
+     * Switches between panning and marking areas to leave out.
+     */
+    function handleExcludeModeClick(): void
+    {
+        state.mode = state.mode === "exclude" ? "pan" : "exclude";
+        updateToolbar();
+    }
+
+    /**
+     * Forgets every area left out.
+     */
+    function handleClearExcludedClick(): void
+    {
+        state.exclusions = [];
+        state.draftExclusion = null;
+        setStatus("Nothing is left out now. Extract again to analyze the whole area.");
+        redraw();
+    }
+
+    /**
+     * Reports an area added to or taken from those left out.
+     *
+     * @param added - True when one was added.
+     */
+    function handleExclusionsChanged(added: boolean): void
+    {
+        const count = state.exclusions.length;
+        setStatus(`${added ? "Area left out" : "Area put back"}: ${count} area${count === 1 ? "" : "s"} left out. Extract to apply.`);
         updateToolbar();
     }
 
@@ -1097,6 +1150,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         {
             state.mode = "pan";
             state.draftRegion = null;
+            state.draftExclusion = null;
             state.draftSpan = null;
             state.draftMove = null;
             setStatus("Ready.");
@@ -1127,6 +1181,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     const pointer = new PointerController(canvas, canvasView, state, {
         onSelect: handleCanvasSelect,
         onRegionSet: handleRegionSet,
+        onExclusionsChanged: handleExclusionsChanged,
         onAddTip: handleAddTip,
         onAddNode: handleAddNode,
         onMoveUnder: handleMoveUnder,
@@ -1143,6 +1198,8 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     zoomOutButton.addEventListener("click", handleZoomOutClick, { signal });
     regionModeButton.addEventListener("click", handleRegionModeClick, { signal });
     clearRegionButton.addEventListener("click", handleClearRegionClick, { signal });
+    excludeModeButton.addEventListener("click", handleExcludeModeClick, { signal });
+    clearExcludedButton.addEventListener("click", handleClearExcludedClick, { signal });
     addTipButton.addEventListener("click", handleAddTipClick, { signal });
     addNodeButton.addEventListener("click", handleAddNodeClick, { signal });
     selectButton.addEventListener("click", handleSelectClick, { signal });

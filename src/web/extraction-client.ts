@@ -50,6 +50,11 @@ export type ExtractionRequest = {
     region: Box | null;
 
     /**
+     * Areas to leave out, possibly none.
+     */
+    exclude: Array<Box>;
+
+    /**
      * OCR engine for labels, or null to skip them.
      */
     ocr: OcrEngine | null;
@@ -142,6 +147,7 @@ export class ExtractionClient
             knownNames: request.knownNames,
             knownClades: request.knownClades,
             region: request.region,
+            exclude: request.exclude,
             readLabels: request.ocr !== null,
             source: request.source,
         };

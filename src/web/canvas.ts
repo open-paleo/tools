@@ -233,6 +233,7 @@ export class CanvasView
         }
 
         this.drawRegion(context, state, unit);
+        this.drawExclusions(context, state, unit);
 
         if (state.draftSpan !== null)
         {
@@ -445,6 +446,41 @@ export class CanvasView
         context.lineWidth = 2 * unit;
         context.setLineDash([6 * unit, 4 * unit]);
         context.strokeRect(x0, y0, x1 - x0, y1 - y0);
+        context.setLineDash([]);
+    }
+
+    /**
+     * Shades the areas left out of the analysis, and the one being dragged out.
+     *
+     * @param context - Canvas context in image space.
+     * @param state - Viewer state holding the areas.
+     * @param unit - Length of one screen pixel in image pixels.
+     */
+    private drawExclusions(context: CanvasRenderingContext2D, state: ViewerState, unit: number): void
+    {
+        const areas = state.draftExclusion === null ? state.exclusions : [...state.exclusions, state.draftExclusion];
+        context.lineWidth = 2 * unit;
+        context.setLineDash([4 * unit, 3 * unit]);
+
+        for (const area of areas)
+        {
+            const x0 = Math.min(area.x0, area.x1);
+            const y0 = Math.min(area.y0, area.y1);
+            const width = Math.abs(area.x1 - area.x0);
+            const height = Math.abs(area.y1 - area.y0);
+            context.fillStyle = "rgba(207, 34, 46, 0.22)";
+            context.fillRect(x0, y0, width, height);
+            context.strokeStyle = "rgba(207, 34, 46, 0.95)";
+            context.strokeRect(x0, y0, width, height);
+            // A cross corner to corner says "left out" without relying on the color.
+            context.beginPath();
+            context.moveTo(x0, y0);
+            context.lineTo(x0 + width, y0 + height);
+            context.moveTo(x0 + width, y0);
+            context.lineTo(x0, y0 + height);
+            context.stroke();
+        }
+
         context.setLineDash([]);
     }
 }

@@ -116,6 +116,7 @@ async function runExtraction(request: Extract<PageMessage, { type: "extract" }>)
             knownNames: request.knownNames,
             knownClades: request.knownClades,
             region: request.region,
+            exclude: request.exclude,
             source: request.source,
             progress: new MessageProgressReporter(),
         });

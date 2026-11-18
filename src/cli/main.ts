@@ -2,7 +2,7 @@
 /**
  * Command-line entry point.
  *
- *   tree-extractor extract <image> [--names <file>] [--known-names <file>|--no-known-names] [--known-clades <file>] [--out <dir>] [--no-ocr] [--overlay] [--no-lengths] [--no-rotation] [--profile key=value,...]
+ *   tree-extractor extract <image> [--names <file>] [--crop x,y,w,h] [--exclude x,y,w,h;...] [--known-names <file>|--no-known-names] [--known-clades <file>] [--out <dir>] [--no-ocr] [--overlay] [--no-lengths] [--no-rotation] [--profile key=value,...]
  */
 
 import * as fs from "node:fs";
@@ -80,6 +80,7 @@ function printUsage(): void
         "  --names <file>   Text file with one taxon name per line to match labels against",
         "  --out <dir>      Output directory (default: current directory)",
         "  --crop x,y,w,h   Analyze only this region of the image (pixels)",
+        "  --exclude x,y,w,h[;x,y,w,h...]  Leave these areas out: a legend, a pie chart, a silhouette",
         "  --known-names <file>  Known taxa to fall back on when a label is not in --names",
         "                   (default: names/known-taxa.txt shipped with the tool; --no-known-names skips it)",
         "  --known-clades <file>  Known clades, for mending the spelling of clade names",
@@ -266,6 +267,11 @@ type ExtractJob = {
     region: Box | null;
 
     /**
+     * Areas of the image to leave out.
+     */
+    exclude: Array<Box>;
+
+    /**
      * OCR engine, or null to skip reading labels.
      */
     ocr: Awaited<ReturnType<typeof createTesseractOcr>> | null;
@@ -307,7 +313,7 @@ type ExtractJob = {
 async function extractOne(imagePath: string, job: ExtractJob): Promise<number>
 {
     const image = await loadImage(imagePath);
-    const document = await extractTree(image, { ocr: job.ocr, names: job.names, knownNames: job.knownNames, knownClades: job.knownClades, source: path.basename(imagePath), region: job.region, parameters: { profileOverrides: job.profileOverrides, rotation: job.rotation } });
+    const document = await extractTree(image, { ocr: job.ocr, names: job.names, knownNames: job.knownNames, knownClades: job.knownClades, source: path.basename(imagePath), region: job.region, exclude: job.exclude, parameters: { profileOverrides: job.profileOverrides, rotation: job.rotation } });
     const stem = path.join(job.outDir, path.basename(imagePath, path.extname(imagePath)));
     fs.writeFileSync(`${stem}.json`, JSON.stringify(document, null, 2));
     const newick = formatDocumentAsNewick(document, { branchLengths: job.lengths });
@@ -459,6 +465,20 @@ async function runExtract(parsed: Arguments): Promise<number>
     fs.mkdirSync(outDir, { recursive: true });
     const cropFlag = parsed.flags.get("crop");
     const region = typeof cropFlag === "string" ? parseCrop(cropFlag) : null;
+    const excludeFlag = parsed.flags.get("exclude");
+    const exclude = new Array<Box>();
+
+    if (typeof excludeFlag === "string")
+    {
+        for (const part of excludeFlag.split(";"))
+        {
+            if (part.trim().length > 0)
+            {
+                exclude.push(parseCrop(part.trim()));
+            }
+        }
+    }
+
     const ocr = parsed.flags.has("no-ocr") ? null : await createTesseractOcr(tesseract);
     const profileFlag = parsed.flags.get("profile");
     const profileOverrides = typeof profileFlag === "string" ? parseProfileOverrides(profileFlag) : {};
@@ -469,6 +489,7 @@ async function runExtract(parsed: Arguments): Promise<number>
         knownClades,
         outDir,
         region,
+        exclude,
         ocr,
         profileOverrides,
         rotation: parsed.flags.has("no-rotation") ? "none" : "auto",
