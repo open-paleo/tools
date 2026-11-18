@@ -30,7 +30,10 @@ needs a reason in the pull request.
 dense, touching) under `bench/generated/`, three per style by default, with gold trees and name
 lists. Generation is deterministic from `--seed` (default 1) for a given machine, but SVG text
 rendering depends on the fonts installed, so the generated images are committed and regenerated
-only deliberately. `npm run bench -- --only=paper` restricts a run to matching case names. The
+only deliberately. `npm run bench -- --only=paper` restricts a run to matching case names. `--no-names` withholds each
+paper's list, so that labels are matched against the known taxa alone, as in the viewer. Setting
+`OCR_MODULE` to the path of a module that exports `createOcr` runs the benchmark with that OCR
+engine in place of Tesseract. The
 styles are in `bench/synthetic/generate.ts`; a new style is one more preset there.
 
 ## Held-out cases

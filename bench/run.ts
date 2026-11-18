@@ -10,7 +10,7 @@ import * as path from "node:path";
 import * as url from "node:url";
 import * as tesseract from "tesseract.js";
 
-import type { Box, CladeMark, ExtractionDocument, FigureProfile, LayoutKind, SupportLabelStyle } from "../src/core/types.ts";
+import type { Box, CladeMark, ExtractionDocument, FigureProfile, LayoutKind, OcrEngine, SupportLabelStyle } from "../src/core/types.ts";
 import { collectConnected } from "../src/core/tree.ts";
 import { formatProfile } from "../src/core/profile.ts";
 import { extractTree, formatTimings } from "../src/core/pipeline.ts";
@@ -267,9 +267,22 @@ const benchDir = path.dirname(url.fileURLToPath(import.meta.url));
 const outDir = path.join(benchDir, "out");
 const skipOcr = process.argv.includes("--no-ocr");
 const strict = process.argv.includes("--strict");
+const withoutNames = process.argv.includes("--no-names");
 const expectedIdentical = new Set(JSON.parse(fs.readFileSync(path.join(benchDir, "expectations.json"), "utf8")).identical as Array<string>);
 const filter = process.argv.find((argument) => argument.startsWith("--only=")) ?? null;
-const ocr = skipOcr ? null : await createTesseractOcr(tesseract);
+/**
+ * A module that supplies the OCR engine for a run in place of Tesseract.
+ */
+type OcrModule = {
+    /**
+     * Creates the engine.
+     */
+    createOcr(): Promise<OcrEngine>;
+};
+
+// Another engine can stand in for a run: a module that exports `createOcr`, named in OCR_MODULE.
+const ocrModule = process.env.OCR_MODULE === undefined ? null : (await import(url.pathToFileURL(path.resolve(process.env.OCR_MODULE)).href)) as OcrModule;
+const ocr = skipOcr ? null : (ocrModule === null ? await createTesseractOcr(tesseract) : await ocrModule.createOcr());
 /**
  * Whether a line of a name list holds a name.
  *
@@ -355,7 +368,9 @@ for (const caseDir of caseDirs)
 
     const names = new Array<string>();
 
-    for (const line of fs.readFileSync(path.resolve(caseDir, benchCase.names), "utf8").split(/\r?\n/))
+    // Without the paper's list a figure is matched against the known taxa alone, as it is when
+    // someone drops it into the viewer.
+    for (const line of withoutNames ? [] : fs.readFileSync(path.resolve(caseDir, benchCase.names), "utf8").split(/\r?\n/))
     {
         if (line.trim().length > 0)
         {
