@@ -1,11 +1,13 @@
 # Changelog
 
-## 0.5.4 (unreleased)
+## 0.5.4 (2026-11-17)
 
 - Areas of a figure can be left out. In the viewer, *Exclude area* takes rectangles dragged
   over a legend, a pie chart or a silhouette, any number of them, each removed by a click;
   the command line takes `--exclude x,y,w,h;...` and the library an `exclude` option. The
-  areas are painted out in the color that surrounds them before the figure is read.
+  areas are painted out in the color that surrounds them before the figure is read. Leaving
+  an area out can change the trace elsewhere, since some limits are measured over the whole
+  figure; check the result for a piece drawn in red.
 - A branch that runs along the edge of a text row, unbroken and past it on both sides, is no
   longer clipped at the row: a clade's name printed just above its own stem had cut the stem
   (Fonseca 2024: 125 of 170 tips named, now 149).
