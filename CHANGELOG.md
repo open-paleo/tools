@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.6 (unreleased)
+## 0.6.0 (2026-11-18)
 
 - The redrawn tree can be drawn without branch lengths: with *Draw branch lengths* unchecked
   every tip ends on one line and every level has room of its own, which makes the drawing
