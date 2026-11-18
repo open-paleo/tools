@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.5 (unreleased)
+## 0.5.5 (2026-11-17)
 
 - A node is no longer cut off by a scrap beside the tree. A stem that only came near its node,
   from a short vertical carrying nothing else, is let go, and the node joins the vertical it
