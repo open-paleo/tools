@@ -332,7 +332,7 @@ async function extractOne(imagePath: string, job: ExtractJob): Promise<number>
         }
 
         fs.writeFileSync(`${stem}.nex`, formatNexus(newick, taxa, "extracted", `Extracted from ${path.basename(imagePath)} by tree-extractor`));
-        const svg = renderTreeSvg(document, { branchLengths: job.lengths });
+        const svg = renderTreeSvg(document, { branchLengths: job.lengths, stepWidth: job.lengths ? 0 : 24 });
 
         if (svg !== null)
         {

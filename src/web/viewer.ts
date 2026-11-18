@@ -17,7 +17,7 @@ import { createViewerState } from "./state.ts";
 import { CanvasView } from "./canvas.ts";
 import { getNodeMarkerY } from "./lookup.ts";
 import type { ResultElements } from "./results.ts";
-import { getSelectionFromEvent, highlightSelection, renderResults, updateNewick } from "./results.ts";
+import { getRedrawOptions, getSelectionFromEvent, highlightSelection, renderResults, updateNewick } from "./results.ts";
 import { downloadDocumentFile, downloadNewickFile, downloadNexusFile, downloadSvgFile } from "./exports.ts";
 import { PointerController } from "./interaction.ts";
 import type { EditResult } from "../core/edit.ts";
@@ -182,6 +182,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         profileList: getElement<HTMLUListElement>("#te-profile"),
         newickOutput: getElement<HTMLTextAreaElement>("#te-newick"),
         redraw: getElement<HTMLElement>("#te-redraw"),
+        redrawLengths: getElement<HTMLInputElement>("#te-redraw-lengths"),
         downloadButtons: [downloadNewick, downloadNexus, downloadJson, downloadSvg],
     };
 
@@ -710,8 +711,16 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     {
         if (state.extraction !== null)
         {
-            downloadSvgFile(state.extraction, state.fileStem);
+            downloadSvgFile(state.extraction, state.fileStem, getRedrawOptions(results.redrawLengths.checked));
         }
+    }
+
+    /**
+     * Redraws the tree with or without its branch lengths.
+     */
+    function handleRedrawLengthsChange(): void
+    {
+        updateNewick(results, state.extraction);
     }
 
     /**
@@ -1189,6 +1198,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     });
 
     fileInput.addEventListener("change", handleFileChange, { signal });
+    results.redrawLengths.addEventListener("change", handleRedrawLengthsChange, { signal });
     root.addEventListener("dragover", handleDragOver, { signal });
     root.addEventListener("drop", handleDrop, { signal });
     runButton.addEventListener("click", handleRunClick, { signal });

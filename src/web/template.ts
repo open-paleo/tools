@@ -77,6 +77,7 @@ export const viewerMarkup = `
         </div>
         <div class="box redraw">
             <h2>Redrawn tree</h2>
+            <label class="redraw-lengths"><input type="checkbox" id="te-redraw-lengths" checked> Draw branch lengths</label>
             <div id="te-redraw" class="redraw-canvas" tabindex="0" role="img" aria-label="The traced tree redrawn" hidden></div>
         </div>
     </section>

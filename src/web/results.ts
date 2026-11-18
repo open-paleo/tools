@@ -5,6 +5,7 @@
 import type { ExtractionDocument } from "../core/types.ts";
 import { formatProfile } from "../core/profile.ts";
 import { renderTreeSvg } from "../core/render.ts";
+import type { RenderOptions } from "../core/render.ts";
 import { formatDocumentAsNewick, getNodeDisplayLabel, getTipDisplayName } from "../core/newick.ts";
 import type { Selection } from "./state.ts";
 import { collectConnected } from "./lookup.ts";
@@ -54,6 +55,11 @@ export type ResultElements = {
     redraw: HTMLElement;
 
     /**
+     * Checkbox that chooses whether the redrawn tree keeps its branch lengths.
+     */
+    redrawLengths: HTMLInputElement;
+
+    /**
      * Download buttons, enabled when there is a tree.
      */
     downloadButtons: Array<HTMLButtonElement>;
@@ -92,6 +98,18 @@ function createListItem(kind: "tip" | "node", id: string, value: string, classes
 }
 
 /**
+ * Gives the drawing options for the redrawn tree. Without branch lengths every level gets room
+ * of its own, so that each split can be checked against the figure.
+ *
+ * @param byLength - Whether branch lengths are drawn.
+ * @returns The options that differ from the renderer's own.
+ */
+export function getRedrawOptions(byLength: boolean): Partial<RenderOptions>
+{
+    return { branchLengths: byLength, stepWidth: byLength ? 0 : 24 };
+}
+
+/**
  * Refreshes the Newick text and download buttons from a document.
  *
  * @param elements - Panel elements.
@@ -102,7 +120,7 @@ export function updateNewick(elements: ResultElements, extraction: ExtractionDoc
     const newick = extraction === null ? null : formatDocumentAsNewick(extraction);
     elements.newickOutput.value = extraction === null ? "" : (newick ?? "(no tree found)");
     // The markup is the renderer's own, with every label escaped.
-    const svg = extraction === null ? null : renderTreeSvg(extraction, { fontSize: 14, rowHeight: 20 });
+    const svg = extraction === null ? null : renderTreeSvg(extraction, { fontSize: 14, rowHeight: 20, ...getRedrawOptions(elements.redrawLengths.checked) });
     elements.redraw.innerHTML = svg ?? "";
     elements.redraw.hidden = svg === null;
 

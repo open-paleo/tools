@@ -255,6 +255,14 @@ try
     expect(((await page.textContent("#te-status")) ?? "").includes("0 areas left out"), "clicking an excluded area puts it back");
     await page.keyboard.press("Escape");
 
+    // The redrawn tree with and without its branch lengths.
+    const drawnByLength = await page.innerHTML("#te-redraw");
+    await page.uncheck("#te-redraw-lengths");
+    const drawnStepped = await page.innerHTML("#te-redraw");
+    expect(drawnStepped.includes("<svg") && drawnStepped !== drawnByLength, "unchecking branch lengths redraws the tree as a cladogram");
+    await page.check("#te-redraw-lengths");
+    expect((await page.innerHTML("#te-redraw")) === drawnByLength, "checking it again restores the drawing by length");
+
     // Accessibility, light and dark, and the narrow layout.
     await page.addScriptTag({ path: path.join(root, "node_modules", "axe-core", "axe.min.js") });
 

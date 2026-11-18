@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.6 (unreleased)
+
+- The redrawn tree can be drawn without branch lengths: with *Draw branch lengths* unchecked
+  every tip ends on one line and every level has room of its own, which makes the drawing
+  easier to check split by split against the figure. *Download redrawn .svg* follows the same
+  choice. The renderer gains a `stepWidth` option.
+
 ## 0.5.5 (2026-11-17)
 
 - A node is no longer cut off by a scrap beside the tree. A stem that only came near its node,

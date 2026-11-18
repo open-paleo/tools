@@ -6,6 +6,7 @@ import type { ExtractionDocument } from "../core/types.ts";
 import { formatDocumentAsNewick, getTipDisplayName } from "../core/newick.ts";
 import { formatNexus } from "../core/nexus.ts";
 import { renderTreeSvg } from "../core/render.ts";
+import type { RenderOptions } from "../core/render.ts";
 
 /**
  * Offers a text file for download.
@@ -79,10 +80,11 @@ export function downloadDocumentFile(extraction: ExtractionDocument, fileStem: s
  *
  * @param extraction - Document with a tree.
  * @param fileStem - File name without extension.
+ * @param options - Drawing options, as the page shows the tree.
  */
-export function downloadSvgFile(extraction: ExtractionDocument, fileStem: string): void
+export function downloadSvgFile(extraction: ExtractionDocument, fileStem: string, options: Partial<RenderOptions>): void
 {
-    const svg = renderTreeSvg(extraction);
+    const svg = renderTreeSvg(extraction, options);
 
     if (svg !== null)
     {

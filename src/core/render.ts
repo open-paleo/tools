@@ -30,6 +30,12 @@ export type RenderOptions = {
     treeWidth: number;
 
     /**
+     * Least width of one level, in pixels, when the tree is drawn without branch lengths; a
+     * deep tree is then drawn wider than `treeWidth` so that no two levels run together.
+     */
+    stepWidth: number;
+
+    /**
      * Label font size in pixels.
      */
     fontSize: number;
@@ -47,6 +53,7 @@ export const defaultRenderOptions: RenderOptions = {
     branchLengths: true,
     rowHeight: 18,
     treeWidth: 320,
+    stepWidth: 0,
     fontSize: 12,
     nodeLabels: true,
 };
@@ -397,7 +404,7 @@ function layOutTree(document: ExtractionDocument, options: RenderOptions): TreeL
         const level = levelOf.get(id) ?? 0;
         const steps = Math.max(1, rootLevel);
 
-        return margin + ((steps - level) / steps) * options.treeWidth;
+        return margin + ((steps - level) / steps) * Math.max(options.treeWidth, steps * options.stepWidth);
     }
 
     // Second pass: positions. A tip under a shallower node still ends on the tip line in the

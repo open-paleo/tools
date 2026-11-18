@@ -68,6 +68,11 @@ test("renderTreeSvg sets depths from the ages and draws an axis when they are co
     assert.ok(svg.includes(">100<") && svg.includes(">0<"), "the axis has its end ticks");
     const stepped = renderTreeSvg(createDocument(true), { branchLengths: false });
     assert.ok(stepped !== null && !stepped.includes(">100<"), "without branch lengths there is no axis");
+    const steppedXs = (stepped.match(/<text x="([0-9.]+)" y="[0-9.]+" dominant-baseline/g) ?? []).map((text) => Number(text.split("\"")[1]));
+    assert.ok(steppedXs.length === 3 && steppedXs[0] === steppedXs[1] && steppedXs[1] === steppedXs[2], "without branch lengths every tip ends on one line");
+    const wide = renderTreeSvg(createDocument(true), { branchLengths: false, treeWidth: 20, stepWidth: 50 });
+    const wideXs = ((wide ?? "").match(/<text x="([0-9.]+)" y="[0-9.]+" dominant-baseline/g) ?? []).map((text) => Number(text.split("\"")[1]));
+    assert.ok(Math.abs(wideXs[0] - (steppedXs[0] - 320 + 2 * 50)) < 1, "two levels at a step width of 50 make a tree 100 wide");
 });
 
 test("renderTreeSvg returns null without a tree", () =>
