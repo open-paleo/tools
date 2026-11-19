@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.1 (unreleased)
+## 0.7.1 (2026-11-19)
 
 - `createPaddleOcr` accepts the `onnxruntime-web` module as it is typed, with no cast: the
   runtime's outputs are taken as unknown and checked to be a tensor of numbers.
