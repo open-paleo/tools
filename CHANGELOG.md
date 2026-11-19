@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.1 (unreleased)
+
+- `createPaddleOcr` accepts the `onnxruntime-web` module as it is typed, with no cast: the
+  runtime's outputs are taken as unknown and checked to be a tensor of numbers.
+- The recognition session logs errors only. The model as published carries unused
+  initializers, and the runtime printed a warning for each when the engine started.
+
 ## 0.7.0 (2026-11-19)
 
 - A second OCR engine can give a second reading. `createPaddleOcr` (`src/ocr/paddle.ts`) runs

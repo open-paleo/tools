@@ -266,6 +266,14 @@ try
     await page.check("#te-redraw-lengths");
     expect((await page.innerHTML("#te-redraw")) === drawnByLength, "checking it again restores the drawing by length");
 
+    // The checkbox for the second reading is shown for the accessibility check, as a host
+    // that supplies a second engine shows it.
+    await page.evaluate(() =>
+    {
+        (document.querySelector("#te-second-ocr-row") as HTMLElement).hidden = false;
+    });
+    expect(await page.isVisible("#te-second-ocr"), "the second-reading checkbox can be shown");
+
     // Accessibility, light and dark, and the narrow layout.
     await page.addScriptTag({ path: path.join(root, "node_modules", "axe-core", "axe.min.js") });
 

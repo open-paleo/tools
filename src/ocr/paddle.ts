@@ -6,7 +6,7 @@
 import type { GrayImage, OcrEngine, OcrResult } from "../core/types.ts";
 
 /**
- * A tensor as ONNX Runtime returns it.
+ * A tensor of numbers as ONNX Runtime returns it.
  */
 export type OrtTensorLike = {
     /**
@@ -18,6 +18,16 @@ export type OrtTensorLike = {
      * The values, in row-major order.
      */
     data: ArrayLike<number>;
+};
+
+/**
+ * Options for a session, of which only the logging level is set here.
+ */
+export type OrtSessionOptionsLike = {
+    /**
+     * Least severity the session logs: 0 verbose, 1 info, 2 warning, 3 error, 4 fatal.
+     */
+    logSeverityLevel?: 0 | 1 | 2 | 3 | 4;
 };
 
 /**
@@ -38,9 +48,10 @@ export type OrtSessionLike = {
      * Runs the model.
      *
      * @param feeds - Input tensors by name.
-     * @returns Output tensors by name.
+     * @returns Outputs by name. The runtime's own type allows values that are not tensors
+     * of numbers, so the engine checks what it is given.
      */
-    run(feeds: Record<string, unknown>): Promise<Record<string, OrtTensorLike>>;
+    run(feeds: Record<string, never>): Promise<Record<string, unknown>>;
 
     /**
      * Frees the session.
@@ -57,10 +68,20 @@ export type OrtSessionFactoryLike = {
     /**
      * Loads a model.
      *
-     * @param model - The model's bytes, or where to fetch it.
+     * @param model - Where to fetch the model.
+     * @param options - Session options.
      * @returns The session.
      */
-    create(model: Uint8Array | string): Promise<OrtSessionLike>;
+    create(model: string, options?: OrtSessionOptionsLike): Promise<OrtSessionLike>;
+
+    /**
+     * Loads a model.
+     *
+     * @param model - The model's bytes.
+     * @param options - Session options.
+     * @returns The session.
+     */
+    create(model: Uint8Array, options?: OrtSessionOptionsLike): Promise<OrtSessionLike>;
 };
 
 /**
@@ -202,6 +223,23 @@ function averageArea(image: GrayImage, left: number, top: number, right: number,
 }
 
 /**
+ * Tells whether a model output is a tensor of numbers with the three dimensions of a
+ * recognizer's answer: batch, steps and classes.
+ *
+ * @param value - The output.
+ * @returns Whether it can be decoded.
+ */
+function isNumberTensor(value: unknown): value is OrtTensorLike
+{
+    if (typeof value !== "object" || value === null || !("dims" in value) || !("data" in value))
+    {
+        return false;
+    }
+
+    return Array.isArray(value.dims) && value.dims.length === 3 && value.data instanceof Float32Array;
+}
+
+/**
  * Creates the engine.
  *
  * @param ort - The ONNX Runtime module.
@@ -211,7 +249,10 @@ function averageArea(image: GrayImage, left: number, top: number, right: number,
  */
 export async function createPaddleOcr(ort: OrtLike, model: Uint8Array | string, dictionary: string): Promise<OcrEngine>
 {
-    const session = await ort.InferenceSession.create(model);
+    // The model as published carries initializers no node uses, and the runtime warns of each
+    // one when the session starts; only errors are logged.
+    const options: OrtSessionOptionsLike = { logSeverityLevel: 3 };
+    const session = typeof model === "string" ? await ort.InferenceSession.create(model, options) : await ort.InferenceSession.create(model, options);
 
     return new PaddleOcrEngine(ort, session, parsePaddleDictionary(dictionary));
 }
@@ -267,8 +308,15 @@ class PaddleOcrEngine implements OcrEngine
 
         const line = prepareLine(image);
         const input = new this.ort.Tensor("float32", line.values, [1, 3, lineHeight, line.width]);
-        const outputs = await this.session.run({ [this.session.inputNames[0]]: input });
+        const feeds = { [this.session.inputNames[0]]: input } as Record<string, never>;
+        const outputs = await this.session.run(feeds);
         const output = outputs[this.session.outputNames[0]];
+
+        if (!isNumberTensor(output))
+        {
+            throw new Error("the recognition model did not return a tensor of numbers");
+        }
+
         const steps = output.dims[1];
         const classes = output.dims[2];
 

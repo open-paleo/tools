@@ -2,7 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 
 import type { GrayImage } from "../src/core/types.ts";
-import type { OrtLike, OrtSessionLike, OrtTensorLike } from "../src/ocr/paddle.ts";
+import type * as onnxRuntime from "onnxruntime-web/wasm";
+import type { OrtLike, OrtSessionLike } from "../src/ocr/paddle.ts";
 import { addSecondOpinion, createPaddleOcr, parsePaddleDictionary } from "../src/ocr/paddle.ts";
 
 /**
@@ -34,7 +35,7 @@ function createFakeRuntime(steps: Array<number>, classes: number, seen: Array<Fa
     const session: OrtSessionLike = {
         inputNames: ["x"],
         outputNames: ["y"],
-        run(feeds: Record<string, unknown>): Promise<Record<string, OrtTensorLike>>
+        run(feeds: Record<string, unknown>): Promise<Record<string, unknown>>
         {
             seen.push(feeds.x as FakeTensor);
             const data = new Float32Array(steps.length * classes);
@@ -51,6 +52,10 @@ function createFakeRuntime(steps: Array<number>, classes: number, seen: Array<Fa
 
     return { InferenceSession: { create: () => Promise.resolve(session) }, Tensor: FakeTensor };
 }
+
+// The real runtime module must be accepted as it is typed, with no cast by the host.
+export type RealRuntimeFits = typeof onnxRuntime extends OrtLike ? true : never;
+export const realRuntimeFits: RealRuntimeFits = true;
 
 const crop: GrayImage = { width: 96, height: 24, data: new Uint8ClampedArray(96 * 24).fill(255) };
 
@@ -71,6 +76,22 @@ test("the recognizer drops blanks and repeats, and keeps a letter doubled across
     assert.deepEqual(seen[0].dims, [1, 3, 48, 320]);
     assert.equal(seen[0].data[0], 1, "white is 1 after normalizing");
     assert.equal(seen[0].data[200], 0, "the padding is the middle gray");
+});
+
+test("the session is created logging errors only", async () =>
+{
+    const given = new Array<unknown>();
+    const runtime = createFakeRuntime([1], 4, []);
+    const create = runtime.InferenceSession.create.bind(runtime.InferenceSession);
+    runtime.InferenceSession.create = function record(model: never, options?: object): ReturnType<typeof create>
+    {
+        given.push(options);
+
+        return create(model);
+    };
+
+    await createPaddleOcr(runtime, "model", "a\nb\n");
+    assert.deepEqual(given, [{ logSeverityLevel: 3 }]);
 });
 
 test("a dictionary that does not fit the model is refused", async () =>
