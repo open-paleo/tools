@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.0 (unreleased)
+## 0.7.0 (2026-11-19)
 
 - A second OCR engine can give a second reading. `createPaddleOcr` (`src/ocr/paddle.ts`) runs
   PaddleOCR's PP-OCRv5 line recognizer on an ONNX Runtime the caller supplies, in the browser
