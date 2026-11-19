@@ -69,6 +69,11 @@ export type ExtractRequest = {
     readLabels: boolean;
 
     /**
+     * Whether the page's engine can give a second reading of a label that matched no name.
+     */
+    secondOpinion: boolean;
+
+    /**
      * Where the image came from.
      */
     source: string;
@@ -127,6 +132,11 @@ export type OcrRequest = {
      * Whether a name or a number is expected.
      */
     kind: "text" | "digits";
+
+    /**
+     * Whether this asks for the second reading, by the engine's other recognizer.
+     */
+    again: boolean;
 };
 
 /**

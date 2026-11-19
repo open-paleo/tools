@@ -50,6 +50,23 @@ let nextRequestId = 1;
 class BridgedOcrEngine implements OcrEngine
 {
     /**
+     * Sends a crop to the page for a second reading; present only when the page's engine has
+     * a second recognizer.
+     */
+    public readonly recognizeAgain?: (image: GrayImage, kind: "text" | "digits") => Promise<OcrResult>;
+
+    /**
+     * @param secondOpinion - Whether the page's engine can give a second reading.
+     */
+    public constructor(secondOpinion: boolean)
+    {
+        if (secondOpinion)
+        {
+            this.recognizeAgain = this.readAgain.bind(this);
+        }
+    }
+
+    /**
      * Sends a crop to the page for reading.
      *
      * @param image - Gray crop.
@@ -58,6 +75,31 @@ class BridgedOcrEngine implements OcrEngine
      */
     public recognize(image: GrayImage, kind: "text" | "digits"): Promise<OcrResult>
     {
+        return this.send(image, kind, false);
+    }
+
+    /**
+     * Sends a crop to the page for its second reading.
+     *
+     * @param image - Gray crop.
+     * @param kind - Whether a name or a number is expected.
+     * @returns The page's answer.
+     */
+    private readAgain(image: GrayImage, kind: "text" | "digits"): Promise<OcrResult>
+    {
+        return this.send(image, kind, true);
+    }
+
+    /**
+     * Posts a crop to the page and waits for the answer.
+     *
+     * @param image - Gray crop.
+     * @param kind - Whether a name or a number is expected.
+     * @param again - Whether the second reading is wanted.
+     * @returns The page's answer.
+     */
+    private send(image: GrayImage, kind: "text" | "digits", again: boolean): Promise<OcrResult>
+    {
         const requestId = nextRequestId++;
         const buffer = new ArrayBuffer(image.data.byteLength);
         new Uint8Array(buffer).set(image.data);
@@ -65,7 +107,7 @@ class BridgedOcrEngine implements OcrEngine
         return new Promise(function register(resolve: (result: OcrResult) => void): void
         {
             pending.set(requestId, { resolve });
-            port.postMessage({ type: "ocr", requestId, image: { width: image.width, height: image.height, buffer }, kind }, [buffer]);
+            port.postMessage({ type: "ocr", requestId, image: { width: image.width, height: image.height, buffer }, kind, again }, [buffer]);
         });
     }
 
@@ -111,7 +153,7 @@ async function runExtraction(request: Extract<PageMessage, { type: "extract" }>)
     try
     {
         const document = await extractTree(image, {
-            ocr: request.readLabels ? new BridgedOcrEngine() : null,
+            ocr: request.readLabels ? new BridgedOcrEngine(request.secondOpinion) : null,
             names: request.names,
             knownNames: request.knownNames,
             knownClades: request.knownClades,

@@ -11,6 +11,7 @@ import type { TesseractLike, TesseractPaths } from "../ocr/tesseract.ts";
 import { viewerMarkup } from "./template.ts";
 import { formatTimings } from "../core/pipeline.ts";
 import { createTesseractOcr } from "../ocr/tesseract.ts";
+import { addSecondOpinion } from "../ocr/paddle.ts";
 import type { Box } from "../core/types.ts";
 import type { HistoryEntry, Layers, Selection } from "./state.ts";
 import { createViewerState } from "./state.ts";
@@ -46,6 +47,13 @@ export type TreeExtractorOptions = {
      * Tesseract's defaults (a public CDN) when absent.
      */
     tesseractPaths?: TesseractPaths;
+
+    /**
+     * Returns a second OCR engine, asked to read again the labels whose first reading matched
+     * no name. Loaded on the first run that reads labels; without it there is no second
+     * reading.
+     */
+    loadSecondOcr?: () => OcrEngine | Promise<OcrEngine>;
 
     /**
      * Known taxon names for the second tier of matching: the names, or the URL of a text file
@@ -618,6 +626,20 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
 
                 setStatus("Starting the OCR engine (the first run loads its language data)…");
                 ocrEngine = await createTesseractOcr(await options.loadTesseract(), "eng", options.tesseractPaths);
+
+                if (options.loadSecondOcr !== undefined)
+                {
+                    // The second engine is an extra; a run goes ahead without it.
+                    try
+                    {
+                        setStatus("Starting the second OCR engine…");
+                        ocrEngine = addSecondOpinion(ocrEngine, await options.loadSecondOcr());
+                    }
+                    catch (error)
+                    {
+                        console.warn("tree-extractor: the second OCR engine did not start", error);
+                    }
+                }
             }
 
             setStatus(state.region === null ? "Tracing…" : "Tracing the selected region…");

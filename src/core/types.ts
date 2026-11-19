@@ -553,6 +553,16 @@ export type OcrEngine = {
     recognize(image: GrayImage, kind: "text" | "digits"): Promise<OcrResult>;
 
     /**
+     * Reads the same crop with a second recognizer, when the engine has one. The pipeline asks
+     * for it only where the first reading matched no name.
+     *
+     * @param image - The crop to read.
+     * @param kind - Whether a taxon name or a numeric support value is expected.
+     * @returns The recognized text and confidence.
+     */
+    recognizeAgain?(image: GrayImage, kind: "text" | "digits"): Promise<OcrResult>;
+
+    /**
      * Releases engine resources.
      *
      * @returns Resolves when the engine has shut down.

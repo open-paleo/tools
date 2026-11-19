@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.7.0 (unreleased)
+
+- A second OCR engine can give a second reading. `createPaddleOcr` (`src/ocr/paddle.ts`) runs
+  PaddleOCR's PP-OCRv5 line recognizer on an ONNX Runtime the caller supplies, in the browser
+  or in Node. A tip's label whose first reading matches no name is read again by the second
+  engine, and that reading is kept only if it does match one. Over the 94 gold figures this
+  names 34 more tips when no paper's list is given, and 4 more with one.
+- The viewer takes the second engine through a `loadSecondOcr` option, as it takes Tesseract;
+  without the option nothing changes. The standalone page turns it on with
+  `?second=<folder holding inference.onnx and dict.txt>`.
+- `OcrEngine` gains an optional `recognizeAgain`.
+- The benchmark runs with another engine (`OCR_MODULE`) and without the papers' lists
+  (`--no-names`).
+
 ## 0.6.0 (2026-11-18)
 
 - The redrawn tree can be drawn without branch lengths: with *Draw branch lengths* unchecked

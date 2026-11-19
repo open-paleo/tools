@@ -604,10 +604,27 @@ export async function readLabels(
             // The font profile describes the rows in the figure's frame; a row in a level frame
             // is read as it is.
             const condensing = line.frame === undefined ? document.profile.font.condensing : 1;
-            line.ocr = await ocr.recognize(cropAndScale(chooseSource(line), line.box, 3, scale, scale * condensing), "text");
+            const crop = cropAndScale(chooseSource(line), line.box, 3, scale, scale * condensing);
+            line.ocr = await ocr.recognize(crop, "text");
             const cleaned = cleanTaxonText(line.ocr.text);
             tip.label = cleaned.length > 0 ? cleaned : null;
             tip.match = chooseMatch(tip.label, names, knownNames, knownClades);
+
+            // A reading that matches no name gets a second opinion; it replaces the first only
+            // when it does match one.
+            if (ocr.recognizeAgain !== undefined && (tip.match === null || !tip.match.accepted))
+            {
+                const second = await ocr.recognizeAgain(crop, "text");
+                const secondLabel = cleanTaxonText(second.text);
+                const secondMatch = chooseMatch(secondLabel.length > 0 ? secondLabel : null, names, knownNames, knownClades);
+
+                if (secondMatch !== null && secondMatch.accepted)
+                {
+                    line.ocr = second;
+                    tip.label = secondLabel;
+                    tip.match = secondMatch;
+                }
+            }
         }
     }
 

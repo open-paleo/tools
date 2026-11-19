@@ -149,6 +149,7 @@ export class ExtractionClient
             region: request.region,
             exclude: request.exclude,
             readLabels: request.ocr !== null,
+            secondOpinion: request.ocr !== null && request.ocr.recognizeAgain !== undefined,
             source: request.source,
         };
         const { promise, resolve, reject } = Promise.withResolvers<ExtractionDocument>();
@@ -166,9 +167,10 @@ export class ExtractionClient
      * @param height - Crop height.
      * @param buffer - Gray pixels.
      * @param kind - Whether a name or a number is expected.
+     * @param again - Whether the engine's second recognizer is asked.
      * @returns Resolves when the answer has been posted.
      */
-    private async answerOcr(requestId: number, width: number, height: number, buffer: ArrayBuffer, kind: "text" | "digits"): Promise<void>
+    private async answerOcr(requestId: number, width: number, height: number, buffer: ArrayBuffer, kind: "text" | "digits", again: boolean): Promise<void>
     {
         const run = this.pendingRun;
         let text = "";
@@ -176,7 +178,8 @@ export class ExtractionClient
 
         if (run !== null && run.ocr !== null)
         {
-            const result = await run.ocr.recognize({ width, height, data: new Uint8ClampedArray(buffer) }, kind);
+            const crop = { width, height, data: new Uint8ClampedArray(buffer) };
+            const result = again && run.ocr.recognizeAgain !== undefined ? await run.ocr.recognizeAgain(crop, kind) : await run.ocr.recognize(crop, kind);
             text = result.text;
             confidence = result.confidence;
         }
@@ -196,7 +199,7 @@ export class ExtractionClient
 
         if (data.type === "ocr")
         {
-            void this.answerOcr(data.requestId, data.image.width, data.image.height, data.image.buffer, data.kind);
+            void this.answerOcr(data.requestId, data.image.width, data.image.height, data.image.buffer, data.kind, data.again);
         }
         else if (data.type === "progress")
         {
