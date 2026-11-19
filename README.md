@@ -141,6 +141,16 @@ defineTreeExtractorElement();           // importing alone defines nothing
 document.querySelector("tree-extractor").loadTesseract = loadTesseract;
 ```
 
+A second OCR engine is optional. Given `loadSecondOcr`, a function that returns an engine, the
+viewer shows a checkbox, *Read unmatched labels a second time*; when it is checked, a label
+whose first reading matches no name is read again and the second reading kept if it matches
+one. `createPaddleOcr` from `@open-paleo/tree-extractor/paddle` makes such an engine from
+PaddleOCR's PP-OCRv5 recognition model: it takes the ONNX Runtime module (`onnxruntime-web`
+1.31.1 is what the tests ran against), the model's location or bytes, and its dictionary as
+text, one character to a line. On the custom element the loader is the `loadSecondOcr`
+property, set before the element joins the page. The runtime's WebAssembly binary and the model come to about
+11 MB compressed, fetched on the first run that uses them.
+
 The viewer requests nothing the host did not name. Tesseract.js loads three things of its own,
 and a host that allows no third-party requests serves them itself and passes their locations:
 the worker script (`tesseract.js` 6.0.1, `dist/worker.min.js`), the core (`tesseract.js-core`
@@ -202,4 +212,6 @@ Code style follows the Open Paleo conventions (Allman braces, four-space indent,
 ## License
 
 MIT. Tesseract.js is Apache-2.0; sharp (used only by the command line for image decoding) is
-Apache-2.0.
+Apache-2.0. The optional second OCR engine runs on ONNX Runtime (MIT) with PaddleOCR's PP-OCRv5
+recognition model (Apache-2.0, published by PaddlePaddle); neither ships with this package, and
+a host that serves the model keeps the Apache-2.0 text with it.

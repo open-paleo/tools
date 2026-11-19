@@ -604,26 +604,49 @@ export async function readLabels(
             // The font profile describes the rows in the figure's frame; a row in a level frame
             // is read as it is.
             const condensing = line.frame === undefined ? document.profile.font.condensing : 1;
-            const crop = cropAndScale(chooseSource(line), line.box, 3, scale, scale * condensing);
-            line.ocr = await ocr.recognize(crop, "text");
+            line.ocr = await ocr.recognize(cropAndScale(chooseSource(line), line.box, 3, scale, scale * condensing), "text");
             const cleaned = cleanTaxonText(line.ocr.text);
             tip.label = cleaned.length > 0 ? cleaned : null;
             tip.match = chooseMatch(tip.label, names, knownNames, knownClades);
+        }
+    }
 
-            // A reading that matches no name gets a second opinion; it replaces the first only
-            // when it does match one.
-            if (ocr.recognizeAgain !== undefined && (tip.match === null || !tip.match.accepted))
+    // A reading that matches no name gets a second opinion, which replaces the first only when
+    // it does match one, and one that no first reading gave another tip: a label cut short
+    // reads as the tail of several names ("anosaurus"), and the second engine's cleaner reading
+    // of it would name a second tip Jingshanosaurus (Otero 2015).
+    if (ocr.recognizeAgain !== undefined)
+    {
+        const taken = new Set<string>();
+
+        for (const tip of document.tips)
+        {
+            if (tip.match !== null && tip.match.accepted)
             {
-                const second = await ocr.recognizeAgain(crop, "text");
-                const secondLabel = cleanTaxonText(second.text);
-                const secondMatch = chooseMatch(secondLabel.length > 0 ? secondLabel : null, names, knownNames, knownClades);
+                taken.add(normalizeName(tip.match.name));
+            }
+        }
 
-                if (secondMatch !== null && secondMatch.accepted)
-                {
-                    line.ocr = second;
-                    tip.label = secondLabel;
-                    tip.match = secondMatch;
-                }
+        for (const tip of document.tips)
+        {
+            const line = findTextLine(document, tip.textLine);
+
+            if (line === undefined || (tip.match !== null && tip.match.accepted))
+            {
+                continue;
+            }
+
+            const condensing = line.frame === undefined ? document.profile.font.condensing : 1;
+            const second = await ocr.recognizeAgain(cropAndScale(chooseSource(line), line.box, 3, scale, scale * condensing), "text");
+            const label = cleanTaxonText(second.text);
+            const match = chooseMatch(label.length > 0 ? label : null, names, knownNames, knownClades);
+
+            if (match !== null && match.accepted && !taken.has(normalizeName(match.name)))
+            {
+                line.ocr = second;
+                tip.label = label;
+                tip.match = match;
+                taken.add(normalizeName(match.name));
             }
         }
     }

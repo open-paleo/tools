@@ -8,9 +8,14 @@
   engine, and that reading is kept only if it does match one. Over the 94 gold figures this
   names 34 more tips when no paper's list is given, and 4 more with one.
 - The viewer takes the second engine through a `loadSecondOcr` option, as it takes Tesseract;
-  without the option nothing changes. The standalone page turns it on with
+  without the option nothing changes. With it, a checkbox appears under *Read labels (OCR)*,
+  *Read unmatched labels a second time* (`#te-second-ocr`), unchecked at first; the engine is
+  loaded on the first run that asks for it. The standalone page offers it with
   `?second=<folder holding inference.onnx and dict.txt>`.
-- `OcrEngine` gains an optional `recognizeAgain`.
+- A second reading never gives a tip a name that a first reading gave another tip, so a
+  label cut short cannot be matched to a name already in the tree.
+- `OcrEngine` gains an optional `recognizeAgain`; the custom element takes the second engine
+  as its `loadSecondOcr` property; the package exports the engine as `./paddle`.
 - The benchmark runs with another engine (`OCR_MODULE`) and without the papers' lists
   (`--no-names`).
 

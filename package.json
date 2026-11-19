@@ -23,6 +23,10 @@
             "types": "./dist/web/element.d.ts",
             "default": "./dist/web/element.js"
         },
+        "./paddle": {
+            "types": "./dist/ocr/paddle.d.ts",
+            "default": "./dist/ocr/paddle.js"
+        },
         "./viewer.css": "./dist/web/styles.css",
         "./worker": "./dist/web/worker.js",
         "./known-taxa.txt": "./names/known-taxa.txt",

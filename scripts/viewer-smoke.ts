@@ -255,6 +255,9 @@ try
     expect(((await page.textContent("#te-status")) ?? "").includes("0 areas left out"), "clicking an excluded area puts it back");
     await page.keyboard.press("Escape");
 
+    // The second reading is offered only when the host supplies an engine for it.
+    expect(await page.isHidden("#te-second-ocr-row"), "without a second engine its checkbox is not shown");
+
     // The redrawn tree with and without its branch lengths.
     const drawnByLength = await page.innerHTML("#te-redraw");
     await page.uncheck("#te-redraw-lengths");

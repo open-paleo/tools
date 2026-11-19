@@ -15,6 +15,7 @@ export const viewerMarkup = `
                 <button id="te-run" disabled>Extract tree</button>
             </div>
             <label class="ocr"><input type="checkbox" id="te-ocr" checked> Read labels (OCR)</label>
+            <label class="ocr" id="te-second-ocr-row" hidden title="Labels that match no name are read again by a second engine, which is a larger download the first time"><input type="checkbox" id="te-second-ocr"> Read unmatched labels a second time</label>
             <div class="start-buttons">
                 <button id="te-region-mode" class="tool" disabled title="Drag a rectangle around the tree, to extract only that part of the image">Select region</button>
                 <button id="te-clear-region" class="tool" disabled title="Analyze the whole image again">Clear region</button>

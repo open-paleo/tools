@@ -9,7 +9,7 @@
  * Importing this module defines nothing; call defineTreeExtractorElement.
  */
 
-import type { ExtractionDocument } from "../core/types.ts";
+import type { ExtractionDocument, OcrEngine } from "../core/types.ts";
 import type { TesseractLike, TesseractPaths } from "../ocr/tesseract.ts";
 import type { TreeExtractorHandle, TreeExtractorOptions } from "./viewer.ts";
 import { mountTreeExtractor } from "./viewer.ts";
@@ -18,6 +18,11 @@ import { mountTreeExtractor } from "./viewer.ts";
  * Loads the Tesseract.js module.
  */
 export type TesseractLoader = () => TesseractLike | Promise<TesseractLike>;
+
+/**
+ * Returns a second OCR engine, loaded however the host loads it.
+ */
+export type SecondOcrLoader = () => OcrEngine | Promise<OcrEngine>;
 
 /**
  * The tree extractor viewer as an element.
@@ -32,6 +37,8 @@ export class TreeExtractorElement extends HTMLElement
     private handle: TreeExtractorHandle | null = null;
 
     private loader: TesseractLoader | null = null;
+
+    private secondLoader: SecondOcrLoader | null = null;
 
     private names: Array<string> | null = null;
 
@@ -54,6 +61,25 @@ export class TreeExtractorElement extends HTMLElement
     public set loadTesseract(loader: TesseractLoader | null)
     {
         this.loader = loader;
+    }
+
+    /**
+     * The loader of a second OCR engine, for reading again the labels that matched no name.
+     *
+     * @returns The loader, or null.
+     */
+    public get loadSecondOcr(): SecondOcrLoader | null
+    {
+        return this.secondLoader;
+    }
+
+    /**
+     * Sets the loader of the second OCR engine. The viewer offers the second reading only
+     * when a loader is set before the element joins the page.
+     */
+    public set loadSecondOcr(loader: SecondOcrLoader | null)
+    {
+        this.secondLoader = loader;
     }
 
     /**
@@ -110,6 +136,7 @@ export class TreeExtractorElement extends HTMLElement
         // A property set on the element before it was defined sits on the instance and hides
         // the accessor; it is taken off and set again through the accessor.
         this.adoptProperty("loadTesseract");
+        this.adoptProperty("loadSecondOcr");
         this.adoptProperty("knownNames");
         this.adoptProperty("knownClades");
         const workerUrl = this.getAttribute("worker-url");
@@ -142,6 +169,7 @@ export class TreeExtractorElement extends HTMLElement
         const options: TreeExtractorOptions = {
             workerUrl,
             loadTesseract: this.callLoader.bind(this),
+            loadSecondOcr: this.secondLoader ?? undefined,
             tesseractPaths: workerPath === null && corePath === null && langPath === null ? undefined : paths,
             knownNames: this.names ?? this.getAttribute("known-names-url") ?? undefined,
             knownClades: this.clades ?? this.getAttribute("known-clades-url") ?? undefined,
@@ -217,7 +245,7 @@ export class TreeExtractorElement extends HTMLElement
      *
      * @param name - Property name.
      */
-    private adoptProperty(name: "loadTesseract" | "knownNames" | "knownClades"): void
+    private adoptProperty(name: "loadTesseract" | "loadSecondOcr" | "knownNames" | "knownClades"): void
     {
         if (Object.prototype.hasOwnProperty.call(this, name))
         {

@@ -214,6 +214,7 @@
 .tree-extractor section.controls .start { display: flex; flex-direction: column; gap: 10px; }
 .tree-extractor section.controls .start-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .tree-extractor section.controls label.ocr { display: inline-flex; align-items: center; }
+.tree-extractor section.controls label.ocr[hidden] { display: none; }
 .tree-extractor section.view .hint { margin: 0 0 10px; }
 .tree-extractor section.view fieldset.layers { margin: 8px 0 0; padding: 0; border: 0; align-items: center; }
 .tree-extractor section.view fieldset.layers legend { float: left; padding: 0; margin-right: 16px; color: var(--_muted); }

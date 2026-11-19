@@ -149,6 +149,9 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
 
     const fileInput = getElement<HTMLInputElement>("#te-file");
     const ocrCheckbox = getElement<HTMLInputElement>("#te-ocr");
+    const secondOcrCheckbox = getElement<HTMLInputElement>("#te-second-ocr");
+    // The second reading is offered only where the host supplies an engine for it.
+    getElement<HTMLElement>("#te-second-ocr-row").hidden = options.loadSecondOcr === undefined;
     const namesInput = getElement<HTMLTextAreaElement>("#te-names");
     let knownNames = new Array<string>();
     let knownClades = new Array<string>();
@@ -198,6 +201,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     const canvasView = new CanvasView(canvas);
     const extractionClient = new ExtractionClient(options.workerUrl);
     let ocrEngine: OcrEngine | null = null;
+    let secondOcrEngine: OcrEngine | null = null;
     let engaged = false;
 
     /**
@@ -601,6 +605,22 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     }
 
     /**
+     * Gives the engine for a run: none when labels are not read, the first engine alone, or
+     * the first with the second behind it when the second reading is asked for and loaded.
+     *
+     * @returns The engine, or null.
+     */
+    function chooseOcrEngine(): OcrEngine | null
+    {
+        if (!ocrCheckbox.checked || ocrEngine === null)
+        {
+            return null;
+        }
+
+        return secondOcrCheckbox.checked && secondOcrEngine !== null ? addSecondOpinion(ocrEngine, secondOcrEngine) : ocrEngine;
+    }
+
+    /**
      * Runs the pipeline on the loaded image, or on the marked region of it.
      *
      * @returns Resolves when results are shown.
@@ -626,19 +646,20 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
 
                 setStatus("Starting the OCR engine (the first run loads its language data)…");
                 ocrEngine = await createTesseractOcr(await options.loadTesseract(), "eng", options.tesseractPaths);
+            }
 
-                if (options.loadSecondOcr !== undefined)
+            if (ocrCheckbox.checked && secondOcrCheckbox.checked && secondOcrEngine === null && options.loadSecondOcr !== undefined)
+            {
+                // The second engine is an extra; a run goes ahead without it.
+                try
                 {
-                    // The second engine is an extra; a run goes ahead without it.
-                    try
-                    {
-                        setStatus("Starting the second OCR engine…");
-                        ocrEngine = addSecondOpinion(ocrEngine, await options.loadSecondOcr());
-                    }
-                    catch (error)
-                    {
-                        console.warn("tree-extractor: the second OCR engine did not start", error);
-                    }
+                    setStatus("Starting the second OCR engine (the first run downloads it)…");
+                    secondOcrEngine = await options.loadSecondOcr();
+                }
+                catch (error)
+                {
+                    console.warn("tree-extractor: the second OCR engine did not start", error);
+                    secondOcrCheckbox.checked = false;
                 }
             }
 
@@ -650,7 +671,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
                 knownClades,
                 region: state.region,
                 exclude: state.exclusions,
-                ocr: ocrCheckbox.checked ? ocrEngine : null,
+                ocr: chooseOcrEngine(),
                 source: state.fileStem,
             }, { onProgress: handleProgress });
             state.selection = null;
@@ -1344,6 +1365,11 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         abort.abort();
         resizeObserver.disconnect();
         extractionClient.terminate();
+
+        if (secondOcrEngine !== null)
+        {
+            void secondOcrEngine.terminate();
+        }
 
         if (ocrEngine !== null)
         {
