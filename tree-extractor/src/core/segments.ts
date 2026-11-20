@@ -1266,3 +1266,66 @@ export function dropInsets(horizontals: Array<Segment>, verticals: Array<Segment
 
     return dropped;
 }
+
+/**
+ * Removes the verticals that branches cross and none ends at: a guide line ruled across the
+ * figure at a height or a date. A node's vertical is where its branches begin and its stem
+ * ends, and no branch of the tree runs through it; left in, a rule cuts every branch it meets
+ * and holds the pieces as its children (Penkalski 2018, whose dotted elevation lines gathered
+ * tips from across the tree).
+ *
+ * @param verticals - Vertical segments, changed in place.
+ * @param horizontals - Horizontal segments.
+ * @param tolerance - How near a branch end must come to a vertical to end at it.
+ * @param longest - Least height of a rule, in pixels.
+ * @param tallest - Greatest thickness of a horizontal that counts as a branch crossing.
+ * @returns The number of verticals removed.
+ */
+export function dropCrossedRules(verticals: Array<Segment>, horizontals: Array<Segment>, tolerance: number, longest: number, tallest: number): number
+{
+    let dropped = 0;
+
+    for (let index = verticals.length - 1; index >= 0; index--)
+    {
+        const { box } = verticals[index];
+        const half = (box.x1 - box.x0) / 2;
+        const x = (box.x0 + box.x1) / 2;
+        let crossing = 0;
+        let ending = 0;
+
+        for (const horizontal of horizontals)
+        {
+            const other = horizontal.box;
+            const y = (other.y0 + other.y1) / 2;
+
+            if (y < box.y0 - tolerance || y > box.y1 + tolerance)
+            {
+                continue;
+            }
+
+            // Only a line crosses: a band or a shaded box that lies over the tree's backbone
+            // is as long and far taller (Poust 2020).
+            if (other.x0 < x - half - tolerance && other.x1 > x + half + tolerance && other.y1 - other.y0 <= tallest)
+            {
+                crossing++;
+            }
+            else if (Math.abs(other.x0 - x) <= half + tolerance || Math.abs(other.x1 - x) <= half + tolerance)
+            {
+                ending++;
+            }
+        }
+
+        // One branch end beside a rule is chance, the tick or the box the rule starts from; a
+        // node's vertical has two at the least, its stem and a child, and is not crossed.
+        // And a rule runs far across the figure, where a node spanning that much would have
+        // many branches ending at it: a short vertical crossed twice is a node whose stem
+        // runs on as a child, or two close nodes read as one (Wilson 2020).
+        if (crossing >= 2 && ending <= 1 && box.y1 - box.y0 >= longest)
+        {
+            verticals.splice(index, 1);
+            dropped++;
+        }
+    }
+
+    return dropped;
+}

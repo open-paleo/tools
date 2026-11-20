@@ -39,7 +39,7 @@ import {
     findConnectedComponents,
 } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { dropInsets, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
+import { dropCrossedRules, dropInsets, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -1882,6 +1882,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
             message: `a boxed inset at x ${inset.x0}-${inset.x1}, y ${inset.y0}-${inset.y1}, such as a legend or a time scale, was left out of the tree`,
             subject: null,
         });
+    }
+
+    // A guide line ruled across the branches goes.
+    const crossedRules = dropCrossedRules(verticals, horizontals, Math.max(3, Math.round(thickness) + 2), Math.round(0.2 * image.height), glyphHeight);
+
+    if (crossedRules > 0)
+    {
+        frameIssues.push({ severity: "info", code: "rules-dropped", message: `${crossedRules} line(s) that branches cross and none ends at were left out as rules across the figure`, subject: null });
     }
 
     // Steps between successive nodes of a pectinate tree can be shorter than the shortest run

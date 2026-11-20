@@ -7,6 +7,9 @@
   more tips is kept. A tree drawn root-down with level notes scattered over it used to be
   read as it stood, and gave nothing (Funston 2026). The same is done for a figure taken as
   root-left when a third of its lettering is on its side (Penkalski 2018).
+- A guide line ruled across the figure is left out: a vertical running a fifth of the figure
+  or more that branches cross and at most one ends at. Such a line cut every branch it met
+  and held the pieces as its children.
 - A tip is carried through a wedge that opens wider than a label row is tall, where a label
   begins just past it: a collapsed clade drawn as a long triangle (Funston 2026).
 - The `rotation` parameter also takes `"root-bottom"` and `"root-top"`, to say how the tree
