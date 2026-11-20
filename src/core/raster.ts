@@ -463,6 +463,66 @@ export function closeMask(mask: Mask, radius: number): Mask
 }
 
 /**
+ * Estimates the background level at each pixel: the image with everything dark and narrower
+ * than twice the radius taken out, by a running maximum followed by a running minimum. Lines
+ * and letters vanish; bands, boxes and the paper stay at their own level.
+ *
+ * @param image - Gray image.
+ * @param radius - Half the breadth of the widest ink to look past.
+ * @returns The background, the same size as the image.
+ */
+export function estimateBackground(image: GrayImage, radius: number): GrayImage
+{
+    const brightest = filterExtreme(filterExtreme(image, radius, true, true), radius, false, true);
+
+    return filterExtreme(filterExtreme(brightest, radius, true, false), radius, false, false);
+}
+
+/**
+ * Replaces each pixel by the brightest or darkest within a distance along one axis.
+ *
+ * @param image - Gray image.
+ * @param radius - Distance in pixels.
+ * @param alongX - Whether to look along rows or along columns.
+ * @param brightest - Whether to take the brightest or the darkest.
+ * @returns The filtered image.
+ */
+function filterExtreme(image: GrayImage, radius: number, alongX: boolean, brightest: boolean): GrayImage
+{
+    const { width, height } = image;
+    const data = new Uint8ClampedArray(width * height);
+    const length = alongX ? width : height;
+    const lines = alongX ? height : width;
+    const step = alongX ? 1 : width;
+
+    for (let line = 0; line < lines; line++)
+    {
+        const start = alongX ? line * width : line;
+
+        for (let position = 0; position < length; position++)
+        {
+            const first = Math.max(0, position - radius);
+            const last = Math.min(length - 1, position + radius);
+            let extreme = image.data[start + first * step];
+
+            for (let other = first + 1; other <= last; other++)
+            {
+                const value = image.data[start + other * step];
+
+                if (brightest ? value > extreme : value < extreme)
+                {
+                    extreme = value;
+                }
+            }
+
+            data[start + position * step] = extreme;
+        }
+    }
+
+    return { width, height, data };
+}
+
+/**
  * Marks pixels inside long runs in one direction only.
  *
  * @param mask - Source mask.

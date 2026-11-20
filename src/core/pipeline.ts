@@ -15,7 +15,7 @@ import type { SlantedLabels } from "./slant.ts";
 import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
-import { bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findNodeDiscs, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
+import { bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import {
     applyHysteresis,
     closeMask,
@@ -26,6 +26,7 @@ import {
     createDirectionalRunMask,
     createLongRunMask,
     dilate,
+    estimateBackground,
     estimateLineThickness,
     keepComponentsTouching,
     paintMask,
@@ -238,6 +239,16 @@ export type Parameters = {
 };
 
 /**
+ * Least half-breadth, in pixels, of the widest ink the background estimate looks past.
+ */
+const backgroundRadius = 5;
+
+/**
+ * Gray levels by which faint ink must be darker than its background.
+ */
+const faintContrast = 12;
+
+/**
  * Default thresholds.
  */
 export const defaultParameters: Parameters = {
@@ -421,7 +432,14 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // touching the tree is thin and colored too.
     const coloredLines = keepColoredLines(colored.thin, 6 * markerRadius);
     const darkInk = createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma);
-    const strongInk = unionMask(unionMask(darkInk, coloredLines), bridgeUnderShapes(darkInk, subtractMask(colored.thin, coloredLines), 2));
+    // Lines in a muted or a vivid light color join the line ink too, unless they run along a
+    // filled shape: a range bar's darker edge is such a stroke (Wang 2025).
+    const offColorStrokes = findOffColorLines(image, parameters.coloredThreshold, parameters.coloredMinChroma, markerRadius);
+    // Where the figure's colored lines are themselves thick, a shape is filled only if it is
+    // thicker still.
+    const filled = markerRadius === parameters.markerRadius ? roughMarkers : unionMask(colored.fat, findFatShapes(createColoredMask(image, 235, 30), markerRadius));
+    const offColorLines = subtractMask(offColorStrokes, keepComponentsTouching(offColorStrokes, dilate(filled, 2)));
+    const strongInk = unionMask(unionMask(unionMask(darkInk, coloredLines), offColorLines), bridgeUnderShapes(darkInk, subtractMask(colored.thin, coloredLines), 2));
 
     // A rough text pass learns the glyph size and finds glyph pixels to keep out of the line art.
     // The runs stripped as line art must be longer than a letter stroke, so when the first pass
@@ -486,10 +504,44 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const strongLines = subtractMask(strongInk, glyphZone);
     const nearStrong = dilate(strongLines, parameters.weakReach);
     const weakCandidates = createDarkMask(image, parameters.lineThresholdWeak, true, parameters.weakMaxChroma);
-    const weakInk = subtractMask(subtractMask(weakCandidates, invertMask(nearStrong)), dilate(rough.glyphMask, 4));
+    // Faint ink is darker than what surrounds it. A background band is at the weak level all
+    // over, and taking the part of it that lies beside a line thickens every line that crosses
+    // the band until close verticals run together (Rauhut 2019: a gray band at 184 down the
+    // backbone).
+    // The estimate must look past the figure's own lines: where they are thicker than its
+    // reach, the middle of a line passes for background, and the soft edge beside it is then
+    // no darker than its surround (Poropat 2014: lines twelve pixels thick lost their edge
+    // column, and with it two tips whose stubs are barely longer than the line is thick).
+    const reach = Math.max(backgroundRadius, Math.ceil(estimateLineThickness(strongLines) / 2) + 3);
+    const faint = keepDarkerThanSurround(weakCandidates, gray, estimateBackground(gray, reach), faintContrast);
+    const weakInk = subtractMask(subtractMask(faint, invertMask(nearStrong)), dilate(rough.glyphMask, 4));
     const lineInk = closeMask(applyHysteresis(strongLines, weakInk), parameters.closeRadius);
 
     return { gray, textInk, runInk: runInk ?? textInk, lineInk, glyphMask: rough.glyphMask, markers: colored.fat, paleMarkers, fragmented, widened, glyphHeight, roughLines: rough.lines };
+}
+
+/**
+ * Keeps the pixels of a mask that are darker than the background around them.
+ *
+ * @param mask - Candidate pixels.
+ * @param gray - The image in gray.
+ * @param background - The background level at each pixel.
+ * @param contrast - Gray levels a pixel must lie below its background.
+ * @returns The pixels that stand out.
+ */
+function keepDarkerThanSurround(mask: Mask, gray: GrayImage, background: GrayImage, contrast: number): Mask
+{
+    const data = new Uint8Array(mask.data.length);
+
+    for (let index = 0; index < data.length; index++)
+    {
+        if (mask.data[index] !== 0 && gray.data[index] <= background.data[index] - contrast)
+        {
+            data[index] = 1;
+        }
+    }
+
+    return { width: mask.width, height: mask.height, data };
 }
 
 /**

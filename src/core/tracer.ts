@@ -230,7 +230,17 @@ function findNearestVertical(
         const distance = Math.abs(candidate.x - x);
         const onSide = side === "left" ? candidate.x <= x + slack : candidate.x >= x - slack;
 
-        if (onSide && distance <= reach && y >= candidate.y0 - slack && y <= candidate.y1 + slack && distance < bestDistance)
+        if (!onSide || distance > reach || y < candidate.y0 - slack || y > candidate.y1 + slack)
+        {
+            continue;
+        }
+
+        // Two verticals within a pixel of each other in distance are equally near; the taller
+        // is the node, and the other a scrap beside it: a dash of a grid line at a corner took
+        // a branch from its node by half a pixel (Loewen 2024).
+        const tie = best !== null && Math.abs(distance - bestDistance) <= 1;
+
+        if (best === null || (tie ? candidate.y1 - candidate.y0 > best.y1 - best.y0 : distance < bestDistance))
         {
             best = candidate;
             bestDistance = distance;

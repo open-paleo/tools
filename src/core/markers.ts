@@ -71,6 +71,26 @@ export function splitColoredInk(image: RgbaImage, threshold: number, minChroma: 
 }
 
 /**
+ * Luminance below which a color of moderate chroma is a dark, muted line color.
+ */
+const mutedLuminance = 110;
+
+/**
+ * Chroma a dark, muted color must exceed.
+ */
+const mutedChroma = 60;
+
+/**
+ * Luminance below which a color of high chroma is a vivid line color.
+ */
+const vividLuminance = 200;
+
+/**
+ * Chroma a vivid color must exceed.
+ */
+const vividChroma = 150;
+
+/**
  * Narrowest a colored shape can be and still be an arrowhead or a dot, in pixels.
  */
 const slightestHead = 6;
@@ -233,6 +253,65 @@ export function createColoredMask(image: RgbaImage, threshold: number, minChroma
 }
 
 /**
+ * Finds the lines drawn in the two kinds of color the main rule leaves out. Bands, fills and
+ * photographs hold such colors too: what survives an erosion goes, and so does the rim it
+ * leaves and any outline of a shape, as for the main colored ink.
+ *
+ * @param image - Source image.
+ * @param threshold - Luminance below which the main rule counts a colored pixel as dark.
+ * @param minChroma - Chroma the main rule requires.
+ * @param radius - Half-width of the erosion square; strokes thinner than its width are thin.
+ * @returns The pixels of those lines.
+ */
+export function findOffColorLines(image: RgbaImage, threshold: number, minChroma: number, radius: number): Mask
+{
+    const offColor = createOffColorMask(image, threshold, minChroma);
+    const thin = subtractMask(offColor, dilate(erode(offColor, radius), radius + 2));
+    removeOutlines(thin, 8 * radius, 2 * radius + 3);
+    removeLoops(thin, Math.max(2, radius), 8 * radius);
+    const lines = keepColoredLines(thin, 6 * radius);
+    removeDashes(lines);
+
+    return lines;
+}
+
+/**
+ * Finds the pixels in the two kinds of line color the main rule leaves out: a dark, muted
+ * color, such as a slate blue, whose chroma is short of the limit, and a vivid light one, such
+ * as a yellow, which is brighter than the threshold (Wu 2015 draws branches in both). Bands,
+ * fills and photographs hold such colors too, so the caller keeps only what is drawn as lines.
+ *
+ * @param image - Source image.
+ * @param threshold - Luminance below which the main rule counts a colored pixel as dark.
+ * @param minChroma - Chroma the main rule requires.
+ * @returns The pixels in those colors that the main rule does not take.
+ */
+function createOffColorMask(image: RgbaImage, threshold: number, minChroma: number): Mask
+{
+    const { width, height, data } = image;
+    const mask = new Uint8Array(width * height);
+
+    for (let index = 0; index < width * height; index++)
+    {
+        const offset = index * 4;
+        const red = data[offset];
+        const green = data[offset + 1];
+        const blue = data[offset + 2];
+        const luminance = 0.299 * red + 0.587 * green + 0.114 * blue;
+        const chroma = Math.max(red, green, blue) - Math.min(red, green, blue);
+        const muted = luminance < mutedLuminance && chroma > mutedChroma;
+        const vivid = luminance < vividLuminance && chroma > vividChroma;
+
+        if ((muted || vivid) && !(luminance < threshold && chroma > minChroma))
+        {
+            mask[index] = 1;
+        }
+    }
+
+    return { width, height, data: mask };
+}
+
+/**
  * Clears thin components that are the outline of a rectangle: a colored border around a clade
  * box, which is neither a line of the tree nor a marker. Branches crossing the border cut it
  * into pieces, so the mask is grown first to join them again; a joined component is an outline
@@ -289,6 +368,121 @@ function removeOutlines(thin: Mask, minSize: number, rim: number): void
         if (outlines.has(labels[index]))
         {
             thin.data[index] = 0;
+        }
+    }
+}
+
+/**
+ * Clears thin components that close on themselves. A tree's lines enclose nothing, so a stroke
+ * that runs around an area is the outline of something else: a range bar drawn hollow (Wang
+ * 2025), the border of a shaded clade (Poust 2020). Lines crossing the outline cut it, so the
+ * mask is grown first to join it again.
+ *
+ * @param thin - Thin colored mask, modified in place.
+ * @param grow - How far the mask is grown before looking.
+ * @param smallest - Fewest pixels an enclosed area must hold, so that a pinhole is no loop.
+ */
+function removeLoops(thin: Mask, grow: number, smallest: number): void
+{
+    const { width, height } = thin;
+    const grown = findConnectedComponents(dilate(thin, grow));
+    const gaps = findConnectedComponents(invertMask(dilate(thin, grow)));
+    const enclosed = new Set<number>();
+
+    for (let index = 0; index < gaps.components.length; index++)
+    {
+        const { box, area } = gaps.components[index];
+
+        if (area >= smallest && box.x0 > 0 && box.y0 > 0 && box.x1 < width && box.y1 < height)
+        {
+            enclosed.add(index + 1);
+        }
+    }
+
+    const loops = new Set<number>();
+
+    for (let y = 1; y < height - 1; y++)
+    {
+        for (let x = 1; x < width - 1; x++)
+        {
+            const index = y * width + x;
+
+            if (!enclosed.has(gaps.labels[index]))
+            {
+                continue;
+            }
+
+            // The piece that walls an enclosed area in is beside it on some side.
+            for (const neighbor of [index - 1, index + 1, index - width, index + width])
+            {
+                if (grown.labels[neighbor] !== 0)
+                {
+                    loops.add(grown.labels[neighbor]);
+                }
+            }
+        }
+    }
+
+    if (loops.size === 0)
+    {
+        return;
+    }
+
+    for (let index = 0; index < grown.labels.length; index++)
+    {
+        if (loops.has(grown.labels[index]))
+        {
+            thin.data[index] = 0;
+        }
+    }
+}
+
+/**
+ * Clears the pieces of a dashed rule: three or more strokes end to end on one row or in one
+ * column. A branch is drawn solid; a dashed line in color marks a boundary across the figure.
+ *
+ * @param lines - Mask of colored strokes, modified in place.
+ */
+function removeDashes(lines: Mask): void
+{
+    const labeling = findConnectedComponents(lines);
+    const onRow = new Map<number, Array<number>>();
+    const inColumn = new Map<number, Array<number>>();
+
+    for (let index = 0; index < labeling.components.length; index++)
+    {
+        const { box } = labeling.components[index];
+        const wide = box.x1 - box.x0;
+        const tall = box.y1 - box.y0;
+
+        if (wide >= 2 * tall)
+        {
+            onRow.set(box.y0, [...(onRow.get(box.y0) ?? []), index + 1]);
+        }
+        else if (tall >= 2 * wide)
+        {
+            inColumn.set(box.x0, [...(inColumn.get(box.x0) ?? []), index + 1]);
+        }
+    }
+
+    const dashes = new Set<number>();
+
+    for (const group of [...onRow.values(), ...inColumn.values()])
+    {
+        if (group.length >= 3)
+        {
+            for (const label of group)
+            {
+                dashes.add(label);
+            }
+        }
+    }
+
+    for (let index = 0; index < labeling.labels.length; index++)
+    {
+        if (dashes.has(labeling.labels[index]))
+        {
+            lines.data[index] = 0;
         }
     }
 }
@@ -822,9 +1016,12 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
     // Solid discs: dark ones in the text ink, half inked at least; then pale ones in everything
     // that is not white, which must be nearly solid, since the gray fringe of a thick mark
     // passes the looser test.
-    for (const [ink, minShare] of [[textInk, 0.5], [tintInk, 0.7]] as Array<[Mask, number]>)
+    // The last pass takes the ink as it is: a solid dot has no digit to close over, and beside
+    // two verticals a few pixels apart the closing fuses them with the dot into one tall blob
+    // (Wilson 2020).
+    for (const [ink, minShare, closing] of [[textInk, 0.5, true], [tintInk, 0.7, true], [textInk, 0.85, false]] as Array<[Mask, number, boolean]>)
     {
-        const closed = closeMask(ink, Math.max(2, Math.round(glyphHeight / 5)));
+        const closed = closing ? closeMask(ink, Math.max(2, Math.round(glyphHeight / 5))) : ink;
         const { components } = findConnectedComponents(erode(closed, radius));
 
         for (const component of components)

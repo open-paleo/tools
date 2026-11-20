@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.7.2 (unreleased)
+
+- Faint ink beside a line counts only where it is darker than the background around it. A
+  gray band or a tint used to be taken as faint ink along every line that crossed it, which
+  thickened the lines until close verticals ran together.
+- Branches drawn in a dark, muted color (a slate blue) or a vivid light one (a yellow) are
+  traced. Strokes in those colors that close on themselves, run along a filled shape or are
+  dashed are left out: the outline of a shaded clade, the edge of a range bar, a boundary rule.
+- A solid node marker beside two close verticals is found as a marker, and no longer joins
+  them into one node.
+- Where two verticals are equally near a branch end, to within a pixel, the taller takes it.
+- Over 94 gold figures, 2,878 of 3,204 tips are named, from 2,837. Two figures lose a name.
+
 ## 0.7.1 (2026-11-19)
 
 - `createPaddleOcr` accepts the `onnxruntime-web` module as it is typed, with no cast: the
