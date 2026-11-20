@@ -1,9 +1,10 @@
 name: Release the outline tracer
 
 # Each tool is released by its own tag, outline-tracer-v1.2.3 for this one.
-# Publishes a release when such a tag is pushed: checks the code, packs the tarball and
-# attaches it to a GitHub release with the changelog entry as notes. open-paleo/media pins the
-# tarball by URL and hash.
+# Publishes a release when such a tag is pushed: checks the code, packs the tarball, attaches it
+# to a GitHub release with the changelog entry as notes, and tells open-paleo/web and
+# open-paleo/media, which pin the tarball by URL and hash and each open a pull request to move the
+# pin.
 on:
   push:
     tags: ["outline-tracer-v*.*.*"]
@@ -65,3 +66,30 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release create "$GITHUB_REF_NAME" "$TARBALL" --title "outline-tracer $VERSION" --notes-file release-notes.md
+
+      # A missed notification must not fail the release: the pins can be moved by hand. Each token
+      # is a fine-grained one scoped to its repository; -f, not -F, so every value is sent as a
+      # string.
+      - name: Tell the web repository a release landed
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.WEB_DISPATCH_TOKEN }}
+        run: |
+          gh api repos/open-paleo/web/dispatches \
+            -f event_type=outline-tracer-released \
+            -f "client_payload[version]=$VERSION" \
+            -f "client_payload[tag]=$GITHUB_REF_NAME" \
+            -f "client_payload[tarball_url]=https://github.com/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME/$TARBALL" \
+            -f "client_payload[integrity]=$INTEGRITY"
+
+      - name: Tell the media repository a release landed
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.MEDIA_DISPATCH_TOKEN }}
+        run: |
+          gh api repos/open-paleo/media/dispatches \
+            -f event_type=outline-tracer-released \
+            -f "client_payload[version]=$VERSION" \
+            -f "client_payload[tag]=$GITHUB_REF_NAME" \
+            -f "client_payload[tarball_url]=https://github.com/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME/$TARBALL" \
+            -f "client_payload[integrity]=$INTEGRITY"
