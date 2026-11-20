@@ -544,6 +544,43 @@ function findTextLine(document: ExtractionDocument, id: string | null): TextLine
 }
 
 /**
+ * Least width of a row, as a share of its height, for it to be judged as a lone stroke; a
+ * narrow row is a single digit, whose own ink is sparse in its box only if it is a "1" or a "7".
+ */
+const strokeBreadth = 0.8;
+
+/**
+ * Share of a row's crop that is ink below which the row holds a thin stroke and no character.
+ */
+const strokeShare = 0.13;
+
+/**
+ * Confidence below which a sparse row's reading is taken for a guess at a stroke.
+ */
+const strokeConfidence = 50;
+
+/**
+ * Measures how much of a crop is ink.
+ *
+ * @param crop - Gray crop, dark ink on a light ground.
+ * @returns The share of its pixels darker than the middle gray.
+ */
+function measureInkShare(crop: GrayImage): number
+{
+    let dark = 0;
+
+    for (let index = 0; index < crop.data.length; index++)
+    {
+        if (crop.data[index] < 128)
+        {
+            dark++;
+        }
+    }
+
+    return dark / Math.max(1, crop.data.length);
+}
+
+/**
  * Reads every assigned text line with the OCR engine and fills in tip and node labels.
  *
  * @param document - Document updated in place.
@@ -663,11 +700,18 @@ export async function readLabels(
 
         if (line !== undefined)
         {
-            line.ocr = await ocr.recognize(cropAndScale(chooseSource(line), line.box, 3, scale), "digits");
+            const crop = cropAndScale(chooseSource(line), line.box, 3, scale);
+            line.ocr = await ocr.recognize(crop, "digits");
             // A row at a node is a support value or a clade name. Read as a value, a name
             // comes out as the few of its letters that pass for digits ("Dryomorpha" as "00").
             const cleaned = isNameText(line.ocr.text) ? cleanTaxonText(line.ocr.text) : cleanSupportText(line.ocr.text);
-            node.label = cleaned.length > 0 ? matchCladeName(cleaned, knownClades)?.name ?? cleaned : null;
+            // A row that is one thin stroke across its box is a leader line pointing at the
+            // node, which reads as a digit: Otero 2015 has no support values and came out with
+            // a "2" and a "7" from the lines leading to its clade names. Thin or gray digits
+            // are as sparse in their box, so the reading must be an unsure one as well.
+            const sparse = line.box.x1 - line.box.x0 >= strokeBreadth * (line.box.y1 - line.box.y0) && measureInkShare(crop) < strokeShare;
+            const stroke = sparse && line.ocr.confidence < strokeConfidence;
+            node.label = cleaned.length > 0 && !stroke ? matchCladeName(cleaned, knownClades)?.name ?? cleaned : null;
         }
 
         // The clade's name from the box or band that shades it, kept as printed.

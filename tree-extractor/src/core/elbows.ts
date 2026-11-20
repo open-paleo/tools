@@ -78,7 +78,12 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
 
     for (const row of document.textLines)
     {
-        if (row.role !== "unassigned" || row.glyphCount < 4 || row.frame !== undefined)
+        // A row a node took for its label is looked at too when it is long enough to be a
+        // name: beside a vertical that carries no node, the nearest node claimed it (Otero
+        // 2015: Vulcanodon, on a stub six pixels long, read as the label of the node beside it).
+        const claimed = row.role === "node" && row.glyphCount >= 6;
+
+        if ((row.role !== "unassigned" && !claimed) || row.glyphCount < 4 || row.frame !== undefined)
         {
             continue;
         }
@@ -177,6 +182,15 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
         if (!branched)
         {
             elbowTip.x = vertical.box.x1;
+        }
+
+        for (const other of document.nodes)
+        {
+            if (other.textLine === row.id)
+            {
+                other.textLine = null;
+                other.label = null;
+            }
         }
 
         row.role = "tip";
