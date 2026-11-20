@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.3 (2026-11-19)
 
 - Labels over a background band no longer lose their first letters. A band at the level of
   faint ink was faint in speckles, which joined the letters standing on it into a blob; faint
