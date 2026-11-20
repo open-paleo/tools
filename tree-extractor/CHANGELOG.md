@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- On a figure drawn on a colored ground, a range bar or an arrowhead before a label is again
+  kept out of the label's box. The ground had counted as one great pale marker, so that
+  nothing on it stood out as a marker of its own.
 - A boxed inset, such as a legend or a time scale drawn as a column of cells, is left out of
   the tree: a frame of four lines that nothing crosses goes with what it holds, and the
   quality checks name it. Its frame had served as a node, and its entries as tips.

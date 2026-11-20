@@ -424,7 +424,10 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const coloredThickness = estimateLineThickness(createColoredMask(image, parameters.coloredThreshold, parameters.coloredMinChroma));
     const markerRadius = coloredThickness >= 2 * parameters.markerRadius ? Math.round(coloredThickness) + 1 : parameters.markerRadius;
     const colored = splitColoredInk(image, parameters.coloredThreshold, parameters.coloredMinChroma, markerRadius);
-    const paleMarkers = findFatShapes(createColoredMask(image, 235, 30), parameters.markerRadius);
+    // A colored ground is pale and fat all over, and is no marker: with it in the mask every
+    // glyph lies on a marker that goes on all around, and a range bar before a label can no
+    // longer be told from a letter on a panel (Foth 2017, drawn on yellow).
+    const paleMarkers = dropGround(findFatShapes(createColoredMask(image, 235, 30), parameters.markerRadius));
     // Row boxes leave out glyphs lying on these, so a range bar beside a label neither starts
     // the row nor clips the branch that runs into it.
     const roughMarkers = unionMask(colored.fat, paleMarkers);
@@ -602,6 +605,31 @@ function keepInkInBoxes(boxes: Array<Box>, textInk: Mask, glyphMask: Mask, thick
     }
 
     return { width, height, data };
+}
+
+/**
+ * Takes out of a mask the shapes that span most of the image: the ground the figure is drawn
+ * on.
+ *
+ * @param mask - Fat shapes.
+ * @returns The mask without shapes whose box covers more than half the image.
+ */
+function dropGround(mask: Mask): Mask
+{
+    const labeling = findConnectedComponents(mask);
+    const kept = new Set<number>();
+
+    for (let index = 0; index < labeling.components.length; index++)
+    {
+        const { box } = labeling.components[index];
+
+        if (2 * (box.x1 - box.x0) * (box.y1 - box.y0) <= mask.width * mask.height)
+        {
+            kept.add(index + 1);
+        }
+    }
+
+    return createMaskFromComponents(labeling.labels, kept, mask.width, mask.height);
 }
 
 /**
