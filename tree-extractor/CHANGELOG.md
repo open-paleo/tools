@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- A figure whose orientation cannot be decided is read turned as well, when as many branch
+  ends have their label above or below as beside them, and the reading that names clearly
+  more tips is kept. A tree drawn root-down with level notes scattered over it used to be
+  read as it stood, and gave nothing (Funston 2026).
+- The `rotation` parameter also takes `"root-bottom"` and `"root-top"`, to say how the tree
+  stands.
+
 ## 0.7.4 (2026-11-20)
 
 - On a figure drawn on a colored ground, a range bar or an arrowhead before a label is again

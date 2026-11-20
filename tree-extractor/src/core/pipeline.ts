@@ -186,10 +186,10 @@ export type Parameters = {
     gapInkShare: number;
 
     /**
-     * Whether to detect a tree drawn on its side and turn it ("auto"), or to take the image
-     * as it is ("none").
+     * Whether to detect a tree drawn on its side and turn it ("auto"), to take the image as
+     * it is ("none"), or to take the tree as standing a given way.
      */
-    rotation: "auto" | "none";
+    rotation: "auto" | "none" | "root-bottom" | "root-top";
 
     /**
      * Paint a cross through filled node discs so that the branches they cover connect.
@@ -1563,6 +1563,120 @@ function invertImage(image: RgbaImage): RgbaImage
  */
 export async function extractTree(givenImage: RgbaImage, options: Partial<ExtractOptions> = {}): Promise<ExtractionDocument>
 {
+    const first = await extractTreeOnce(givenImage, options);
+    const find = first.orientationFind;
+    const rotation = options.parameters?.rotation ?? defaultParameters.rotation;
+
+    // An undecided figure is read as it stands. Where as many branch ends have their label
+    // above or below as beside them, it may be a tree on its side with level notes scattered
+    // over it (Funston 2026: 23 ends with a label to the right, 22 with one above), so it is
+    // read turned as well, and the reading that names clearly more tips is kept.
+    if (rotation !== "auto" || find === null || first.document.profile.orientation !== "unknown" || find.slanted)
+    {
+        return first.document;
+    }
+
+    let best = first.document;
+    let bestScore = countPlacedTips(best);
+
+    for (const turned of ["root-bottom", "root-top"] as const)
+    {
+        const ends = turned === "root-bottom" ? find.topEnds : find.bottomEnds;
+
+        if (2 * ends < find.rightEnds || ends < 3)
+        {
+            continue;
+        }
+
+        const other = (await extractTreeOnce(givenImage, { ...options, parameters: { ...options.parameters, rotation: turned } })).document;
+        const score = countPlacedTips(other);
+
+        if (score >= bestScore + Math.max(3, Math.round(bestScore / 4)))
+        {
+            best = other;
+            bestScore = score;
+        }
+    }
+
+    return best;
+}
+
+/**
+ * One reading of a figure, with what was found about how it stands.
+ */
+type Reading = {
+    /**
+     * The extraction.
+     */
+    document: ExtractionDocument;
+
+    /**
+     * The orientation finder's evidence, or null when it was not asked.
+     */
+    orientationFind: OrientationFind | null;
+};
+
+/**
+ * Counts the tips of the main tree that a reading placed: those given an accepted name, or,
+ * where no label was read at all, those with a label row.
+ *
+ * @param document - The extraction.
+ * @returns The count.
+ */
+function countPlacedTips(document: ExtractionDocument): number
+{
+    const nodes = new Map<string, TreeNode>();
+
+    for (const node of document.nodes)
+    {
+        nodes.set(node.id, node);
+    }
+
+    const inTree = new Set<string>();
+    const pending = document.root === null ? [] : [document.root];
+
+    while (pending.length > 0)
+    {
+        const id = pending.pop() as string;
+        const node = nodes.get(id);
+
+        if (node === undefined)
+        {
+            inTree.add(id);
+        }
+        else
+        {
+            pending.push(...node.children);
+        }
+    }
+
+    let named = 0;
+    let rowed = 0;
+    let read = false;
+
+    for (const tip of document.tips)
+    {
+        read = read || tip.label !== null;
+
+        if (inTree.has(tip.id))
+        {
+            named += tip.match !== null && tip.match.accepted ? 1 : 0;
+            rowed += tip.textLine !== null ? 1 : 0;
+        }
+    }
+
+    return read ? named : rowed;
+}
+
+/**
+ * Reads a figure once, standing the way the options give or the way it is found to stand.
+ *
+ * @param givenImage - Decoded RGBA image.
+ * @param options - OCR engine, name list, region and threshold overrides.
+ * @returns The extraction and the orientation evidence.
+ */
+async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOptions> = {}): Promise<Reading>
+{
     const parameters = { ...defaultParameters, ...options.parameters };
     // A figure drawn light on dark, a scan printed in negative or a screenshot in a dark
     // theme, is turned into dark on light; everything after works on that.
@@ -1584,7 +1698,8 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     const orientationStarted = performance.now();
     const inkAdaptation = parameters.adaptiveInk ? adaptInkThresholds(parameters, sourceCrop) : null;
     const orientationFind = parameters.rotation === "auto" ? detectOrientation(sourceCrop, parameters.inkThreshold, parameters.lineThreshold, parameters.maxChroma, parameters.coloredThreshold, parameters.coloredMinChroma, parameters.markerRadius) : null;
-    const orientation: Orientation = orientationFind === null ? "root-left" : orientationFind.orientation;
+    const forced = parameters.rotation === "root-bottom" || parameters.rotation === "root-top" ? parameters.rotation : null;
+    const orientation: Orientation = forced ?? (orientationFind === null ? "root-left" : orientationFind.orientation);
     const slantedFigure = parameters.slantedTrees && orientationFind !== null && orientationFind.slanted;
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
     const image = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
@@ -2035,5 +2150,5 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         translateDocument(document, region.x0, region.y0);
     }
 
-    return document;
+    return { document, orientationFind };
 }
