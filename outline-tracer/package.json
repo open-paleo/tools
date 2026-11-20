@@ -1,6 +1,6 @@
 {
     "name": "@open-paleo/outline-tracer",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Traces skeletal reconstructions into outlines: finds the animal in a figure, fills its body and traces it with potrace",
     "license": "GPL-2.0-or-later",
     "type": "module",

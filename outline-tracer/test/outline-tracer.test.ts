@@ -119,3 +119,14 @@ test("a trace is the same every time", async () =>
     assert.match(first.svg, /<path /);
     assert.equal(first.svg, second.svg);
 });
+
+test("the placement puts the outline over the animal on the figure", async () =>
+{
+    const result = await traceOutline(createFigure(), defaultTraceOptions, await loadNodeTracer());
+
+    // The animal spans columns 250 to 550 and rows 120 to 330, with a 4 px margin around it.
+    assert.ok(Math.abs(result.placement.left - 246) <= 1, "left " + result.placement.left);
+    assert.ok(Math.abs(result.placement.top - 116) <= 1, "top " + result.placement.top);
+    assert.ok(Math.abs(result.placement.left + result.placement.width - 554) <= 1, "right");
+    assert.ok(Math.abs(result.placement.top + result.placement.height - 334) <= 1, "bottom");
+});

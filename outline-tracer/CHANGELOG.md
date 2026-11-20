@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.1.0 (2026-11-20)
+## 0.2.0 (2026-11-19)
+
+- `traceOutline()` also returns the outline's `placement`: where its SVG lies on the figure, in
+  the figure's pixels, to lay one over the other
+
+## 0.1.0 (2026-11-19)
 
 - First release, moved from open-paleo/media's tracing script: finds the animal in a skeletal
   reconstruction, fills its body and traces it with potrace's WebAssembly build. Runs in Node

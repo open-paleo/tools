@@ -73,6 +73,31 @@ export type TraceReport = {
 };
 
 /**
+ * Where an outline lies on its figure, in the figure's own pixels.
+ */
+export type OutlinePlacement = {
+    /**
+     * The left edge of the outline's SVG.
+     */
+    left: number;
+
+    /**
+     * The top edge.
+     */
+    top: number;
+
+    /**
+     * The width.
+     */
+    width: number;
+
+    /**
+     * The height.
+     */
+    height: number;
+};
+
+/**
  * A traced outline.
  */
 export type TraceResult = {
@@ -80,6 +105,11 @@ export type TraceResult = {
      * The outline, as potrace writes it.
      */
     svg: string;
+
+    /**
+     * Where the SVG lies on the figure, to lay one over the other.
+     */
+    placement: OutlinePlacement;
 
     /**
      * What the trace found and changed.
@@ -1072,7 +1102,15 @@ export async function traceOutline(image: RgbaImage, options: TraceOptions, trac
         throw new Error("The figure has nothing dark enough to trace; try a higher threshold.");
     }
 
-    const svg = await tracer(createTraceImage(body.mask, body.box), speckleArea);
+    const traceImage = createTraceImage(body.mask, body.box);
+    const svg = await tracer(traceImage, speckleArea);
+    const scale = image.width / processingWidth;
+    const placement: OutlinePlacement = {
+        left: (body.box.left - cropMargin) * scale,
+        top: (body.box.top - cropMargin) * scale,
+        width: traceImage.width * scale,
+        height: traceImage.height * scale,
+    };
 
-    return { svg, report: body.report };
+    return { svg, placement, report: body.report };
 }
