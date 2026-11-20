@@ -11,4 +11,7 @@ writing or modifying any code. The rules that are easy to miss:
 - a blank line before every `return`
 - Allman braces, four-space indent, `type` not `interface`, `Array<T>`, no abbreviated names
 
-The benchmark (`npm run bench`) must still report `identical=true` after any change to `src/core`.
+Each tool lives in its own folder and its commands are run from there.
+
+In `tree-extractor`, the benchmark (`npm run bench`) must still report `identical=true` after
+any change to `src/core`.

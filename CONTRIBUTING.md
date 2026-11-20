@@ -1,6 +1,6 @@
 # Contributing
 
-tree-extractor follows the code style of the other Open Paleo repositories (see
+The tools here follow the code style of the other Open Paleo repositories (see
 [open-paleo/data](https://github.com/open-paleo/data) `scripts/CONTRIBUTING.md`): TypeScript run
 directly on Node 24, Allman braces, four-space indentation, double quotes, `type` over
 `interface`, `Array<T>`, no abbreviated identifiers, multi-line JSDoc on everything exported.
@@ -25,12 +25,12 @@ Rules specific to this repository, or easy to miss:
 - **Globals are declared with types** (a `Window` augmentation in `src/web/globals.d.ts`), never
   through `globalThis as { ... }` casts.
 
-Before opening a pull request:
+Before opening a pull request, in the folder of the tool that changed:
 
 ```sh
 npm run typecheck
 npm run lint
 npm test
 npm run spellcheck
-npm run bench      # must still report identical=true for every case with an image present
+npm run bench      # tree-extractor: must still report identical=true for every case with an image present
 ```

@@ -1,11 +1,12 @@
-name: Release
+name: Release the tree extractor
 
-# Publishes a release when a version tag is pushed: checks the code, packs the tarball,
+# Each tool is released by its own tag, tree-extractor-v1.2.3 for this one.
+# Publishes a release when such a tag is pushed: checks the code, packs the tarball,
 # attaches it to a GitHub release with the changelog entry as notes, and tells the web
 # repository, which pins the tarball by URL and hash and opens a pull request to move the pin.
 on:
   push:
-    tags: ["v*.*.*"]
+    tags: ["tree-extractor-v*.*.*"]
 
 permissions:
   contents: write
@@ -13,19 +14,24 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tree-extractor
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
+      # Dependencies are installed once for all the tools, from the root.
       - run: npm ci
+        working-directory: .
 
       # The tag must name the version in package.json, or the tarball and the release disagree.
       - name: Check the tag against the package version
         run: |
           version=$(node -p "require('./package.json').version")
-          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+          if [ "tree-extractor-v$version" != "$GITHUB_REF_NAME" ]; then
             echo "tag $GITHUB_REF_NAME does not match package version $version" >&2
             exit 1
           fi
@@ -73,5 +79,5 @@ jobs:
             -f event_type=tree-extractor-released \
             -f "client_payload[version]=$VERSION" \
             -f "client_payload[tag]=$GITHUB_REF_NAME" \
-            -f "client_payload[tarball_url]=https://github.com/open-paleo/tree-extractor/releases/download/$GITHUB_REF_NAME/$TARBALL" \
+            -f "client_payload[tarball_url]=https://github.com/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME/$TARBALL" \
             -f "client_payload[integrity]=$INTEGRITY"

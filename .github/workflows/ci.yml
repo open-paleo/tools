@@ -1,20 +1,28 @@
 name: CI
 
+# Each tool has its own job, run when its folder or the shared setup changes.
 on:
   push:
     branches: [main]
+    paths: ["tree-extractor/**", "package.json", "package-lock.json", ".github/workflows/ci.yml"]
   pull_request:
+    paths: ["tree-extractor/**", "package.json", "package-lock.json", ".github/workflows/ci.yml"]
 
 jobs:
-  check:
+  tree-extractor:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tree-extractor
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
+      # Dependencies are installed once for all the tools, from the root.
       - run: npm ci
+        working-directory: .
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run spellcheck
