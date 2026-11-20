@@ -1571,7 +1571,15 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     // above or below as beside them, it may be a tree on its side with level notes scattered
     // over it (Funston 2026: 23 ends with a label to the right, 22 with one above), so it is
     // read turned as well, and the reading that names clearly more tips is kept.
-    if (rotation !== "auto" || find === null || first.document.profile.orientation !== "unknown" || find.slanted)
+    // A figure taken for root-left with much of its lettering on its side is doubtful in the
+    // same way: a root-left tree's text is level, and here the level text is the notes, the
+    // key and the axis (Penkalski 2018: 17 ends with a label to the right against 7 above,
+    // and a third of the glyphs sideways).
+    const glyphs = find === null ? 0 : find.uprightGlyphs + find.sidewaysGlyphs;
+    const sideways = find !== null && first.document.profile.orientation === "root-left" && glyphs > 0 && find.sidewaysGlyphs >= sidewaysShare * glyphs;
+    const undecided = first.document.profile.orientation === "unknown";
+
+    if (rotation !== "auto" || find === null || find.slanted || !(undecided || sideways))
     {
         return first.document;
     }
@@ -1583,7 +1591,7 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     {
         const ends = turned === "root-bottom" ? find.topEnds : find.bottomEnds;
 
-        if (2 * ends < find.rightEnds || ends < 3)
+        if (ends < 3 || (!sideways && 2 * ends < find.rightEnds))
         {
             continue;
         }
@@ -1600,6 +1608,11 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
 
     return best;
 }
+
+/**
+ * Share of a figure's glyphs set on their side from which a root-left reading is doubted.
+ */
+const sidewaysShare = 0.3;
 
 /**
  * One reading of a figure, with what was found about how it stands.
@@ -2011,7 +2024,15 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         // long as the figure.
         const maxWidth = Infinity;
         const maxHeight = 2.5 * glyphHeight;
-        extendTipsThroughMarkers(document, keepSmallShapes(findFatShapes(lineInk, Math.max(parameters.markerRadius, Math.round(thickness) + 1)), maxWidth, maxHeight), thickness, 2);
+        const solidShapes = findFatShapes(lineInk, Math.max(parameters.markerRadius, Math.round(thickness) + 1));
+        extendTipsThroughMarkers(document, keepSmallShapes(solidShapes, maxWidth, maxHeight), thickness, 2);
+        // A wedge for a collapsed clade can open wider than a label row is tall. A shape up to
+        // twice that height is passed through as well, but only where a label begins just
+        // past it: a silhouette a branch happens to end at has none (Funston 2026, a wedge
+        // three glyphs high at its open end).
+        // The wedge is taken at the least radius: it must count as a shape from where it is
+        // barely thicker than the branch that runs into it.
+        extendTipsThroughMarkers(document, keepSmallShapes(findFatShapes(lineInk, parameters.markerRadius), maxWidth, 2 * maxHeight), thickness, 2, 4 * glyphHeight, 1.3 * glyphHeight);
         extendTipsThroughMarkers(document, keepSmallShapes(markers, maxWidth, maxHeight), thickness, glyphHeight);
 
         if (parameters.paleMarkers)
