@@ -11,6 +11,8 @@
   sides, so that a dot ending a tip's branch is not taken for one.
 - A tip on a stub too short to trace is recovered even when a node beside it had taken its
   label for the node's own.
+- A tip's label set on two lines is read whole: the second line is the unclaimed row just
+  under the first, starting where it starts and nearer than the next tip's label would be.
 - A row at a node that is a single thin stroke and read without confidence is a leader line,
   and is no longer given as a support value.
 - Over 94 gold figures, 2,899 of 3,204 tips are named, from 2,878, and no figure loses a name.

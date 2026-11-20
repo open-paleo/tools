@@ -4,7 +4,7 @@
  */
 
 import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, ProgressReporter, RotatedFrame, TextLine, TreeNode } from "./types.ts";
-import { cropAndScale } from "./raster.ts";
+import { compareNumbers, computeMedian, cropAndScale } from "./raster.ts";
 import { mapPointToFrame } from "./geometry.ts";
 import { rotateGrayToFrame } from "./slant.ts";
 import { matchKnownName, matchName, normalizeName } from "./matching.ts";
@@ -581,6 +581,83 @@ function measureInkShare(crop: GrayImage): number
 }
 
 /**
+ * Measures how far apart the tips' label rows stand: the median distance between the centers
+ * of neighboring rows, among rows in the figure's own frame.
+ *
+ * @param document - Document with labels assigned.
+ * @returns The distance in pixels, or null with fewer than three such rows.
+ */
+function measureRowPitch(document: ExtractionDocument): number | null
+{
+    const centers = new Array<number>();
+
+    for (const tip of document.tips)
+    {
+        const line = findTextLine(document, tip.textLine);
+
+        if (line !== undefined && line.frame === undefined)
+        {
+            centers.push((line.box.y0 + line.box.y1) / 2);
+        }
+    }
+
+    if (centers.length < 3)
+    {
+        return null;
+    }
+
+    centers.sort(compareNumbers);
+    const gaps = new Array<number>();
+
+    for (let index = 1; index < centers.length; index++)
+    {
+        gaps.push(centers[index] - centers[index - 1]);
+    }
+
+    return computeMedian(gaps, 0);
+}
+
+/**
+ * Finds the second line of a tip's label: an unclaimed row just under the first, starting at
+ * the same place, and nearer to it than rows of different tips stand to one another.
+ *
+ * @param document - Document with labels assigned.
+ * @param first - The tip's row.
+ * @param rowPitch - Distance between neighboring tips' rows, or null when unknown.
+ * @returns The row, or null.
+ */
+function findSecondLine(document: ExtractionDocument, first: TextLine, rowPitch: number | null): TextLine | null
+{
+    if (rowPitch === null || first.frame !== undefined)
+    {
+        return null;
+    }
+
+    const glyph = document.glyphHeight;
+    const center = (first.box.y0 + first.box.y1) / 2;
+    let found: TextLine | null = null;
+
+    for (const row of document.textLines)
+    {
+        const below = (row.box.y0 + row.box.y1) / 2 - center;
+        const aligned = Math.abs(row.box.x0 - first.box.x0) <= glyph / 2;
+        const near = below > glyph / 2 && below <= secondLineReach * rowPitch && row.box.y0 - first.box.y1 <= glyph / 2;
+
+        if (row.role === "unassigned" && row.frame === undefined && row.glyphCount >= 3 && aligned && near)
+        {
+            found = found === null || row.box.y0 < found.box.y0 ? row : found;
+        }
+    }
+
+    return found;
+}
+
+/**
+ * How near the second line of a label stands, as a share of the distance between tips' rows.
+ */
+const secondLineReach = 0.65;
+
+/**
  * Reads every assigned text line with the OCR engine and fills in tip and node labels.
  *
  * @param document - Document updated in place.
@@ -626,6 +703,8 @@ export async function readLabels(
         return turned;
     }
 
+    const rowPitch = measureRowPitch(document);
+
     for (const tip of document.tips)
     {
         const line = findTextLine(document, tip.textLine);
@@ -645,6 +724,32 @@ export async function readLabels(
             const cleaned = cleanTaxonText(line.ocr.text);
             tip.label = cleaned.length > 0 ? cleaned : null;
             tip.match = chooseMatch(tip.label, names, knownNames, knownClades);
+
+            // A label set on two lines: the row under this one, starting where it starts and
+            // closer than the next tip's row would be, with no tip of its own (Otero 2015:
+            // "basalmost" over "sauropodomorphs"). It is taken unless the first line alone
+            // names a taxon and the two together do not.
+            const second = findSecondLine(document, line, rowPitch);
+
+            if (second !== null && tip.label !== null)
+            {
+                second.ocr = await ocr.recognize(cropAndScale(chooseSource(second), second.box, 3, scale, scale * condensing), "text");
+                const rest = cleanTaxonText(second.ocr.text);
+                const joined = `${tip.label} ${rest}`;
+                const joinedMatch = chooseMatch(joined, names, knownNames, knownClades);
+                const firstNames = tip.match !== null && tip.match.accepted;
+                const bothName = joinedMatch !== null && joinedMatch.accepted;
+
+                // Both lines must be words: marks beside the tree read as a few stray characters.
+                const words = /\p{L}{3}/u.test(tip.label) && /\p{L}{3}/u.test(rest);
+
+                if (words && (bothName || !firstNames))
+                {
+                    tip.label = joined;
+                    tip.match = joinedMatch;
+                    second.role = "tip";
+                }
+            }
         }
     }
 
