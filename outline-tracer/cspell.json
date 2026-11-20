@@ -1,0 +1,24 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        "alphamax",
+        "Catmull",
+        "extractcolors",
+        "Felzenszwalb",
+        "Huttenlocher",
+        "luma",
+        "opticurve",
+        "opttolerance",
+        "pathonly",
+        "posterizationalgorithm",
+        "posterizelevel",
+        "potrace",
+        "turdsize",
+        "turnpolicy"
+    ],
+    "ignorePaths": [
+        "node_modules/**",
+        "dist/**"
+    ]
+}

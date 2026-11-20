@@ -5,6 +5,7 @@ Each tool is its own package, with its own version, changelog and license.
 
 | Tool | What it does | License |
 |---|---|---|
+| [outline-tracer](outline-tracer/) | Traces skeletal reconstructions into outlines for open-paleo/media, in Node or a browser | GPL-2.0-or-later |
 | [tree-extractor](tree-extractor/) | Extracts phylogenetic trees from figure images into Newick and Nexus, with a browser viewer | MIT |
 
 ## Working here

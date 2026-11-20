@@ -1,0 +1,49 @@
+{
+    "name": "@open-paleo/outline-tracer",
+    "version": "0.1.0",
+    "description": "Traces skeletal reconstructions into outlines: finds the animal in a figure, fills its body and traces it with potrace",
+    "license": "GPL-2.0-or-later",
+    "type": "module",
+    "engines": {
+        "node": ">=24"
+    },
+    "files": [
+        "dist",
+        "CHANGELOG.md"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./potrace": {
+            "types": "./dist/potrace.d.ts",
+            "default": "./dist/potrace.js"
+        },
+        "./node": {
+            "types": "./dist/node.d.ts",
+            "default": "./dist/node.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json",
+        "prepack": "npm run build",
+        "test": "node --experimental-strip-types --test test/*.test.ts",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint src/ test/",
+        "lint:fix": "eslint src/ test/ --fix",
+        "spellcheck": "cspell \"src/**/*.ts\" \"test/**/*.ts\" \"*.md\" --no-progress"
+    },
+    "dependencies": {
+        "esm-potrace-wasm": "0.5.1"
+    },
+    "devDependencies": {
+        "@eslint/js": "9.39.5",
+        "@stylistic/eslint-plugin": "5.10.0",
+        "@types/node": "22.20.5",
+        "cspell": "8.17.5",
+        "eslint": "9.39.5",
+        "typescript": "5.7.3",
+        "typescript-eslint": "8.22.0"
+    }
+}

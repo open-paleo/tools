@@ -1,0 +1,8 @@
+# NodeJS
+node_modules/
+
+# Compiled package, produced by `npm run build`
+dist/
+
+# MacOS
+.DS_Store

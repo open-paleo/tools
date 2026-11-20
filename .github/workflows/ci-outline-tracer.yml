@@ -1,0 +1,30 @@
+name: CI for the outline tracer
+
+# Runs when the outline tracer's folder or the shared setup changes.
+on:
+  push:
+    branches: [main]
+    paths: ["outline-tracer/**", "package.json", "package-lock.json", ".github/workflows/ci-outline-tracer.yml"]
+  pull_request:
+    paths: ["outline-tracer/**", "package.json", "package-lock.json", ".github/workflows/ci-outline-tracer.yml"]
+
+jobs:
+  outline-tracer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: outline-tracer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      # Dependencies are installed once for all the tools, from the root.
+      - run: npm ci
+        working-directory: .
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run spellcheck
+      - run: npm test
+      - run: npm run build
