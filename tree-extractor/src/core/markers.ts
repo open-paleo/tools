@@ -1019,7 +1019,7 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
     // The last pass takes the ink as it is: a solid dot has no digit to close over, and beside
     // two verticals a few pixels apart the closing fuses them with the dot into one tall blob
     // (Wilson 2020).
-    for (const [ink, minShare, closing] of [[textInk, 0.5, true], [tintInk, 0.7, true], [textInk, 0.85, false]] as Array<[Mask, number, boolean]>)
+    for (const [ink, minShare, closing] of [[textInk, 0.5, true], [tintInk, 0.7, true], [textInk, 0.8, false]] as Array<[Mask, number, boolean]>)
     {
         const closed = closing ? closeMask(ink, Math.max(2, Math.round(glyphHeight / 5))) : ink;
         const { components } = findConnectedComponents(erode(closed, radius));
@@ -1036,8 +1036,11 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
             // a junction is smaller, down to three line widths, below which it is the line's own
             // rounded corner (Manitkoon 2023's dots are 21 px on 5 px lines, under 1.5 glyphs).
             const smallest = Math.min(1.5 * glyphHeight, Math.max(3 * thickness, 0.9 * glyphHeight));
+            // A small solid dot is coarse at its edge once eroded: eleven pixels across, its
+            // core holds 70 of the 121 in its box, where a larger disc holds three quarters.
+            const leastFill = closing ? 0.6 : 0.57;
 
-            if (size < smallest || size > 3.5 * glyphHeight || Math.abs(width - height) > 0.1 * size + 1 || component.area < 0.6 * coreWidth * coreHeight)
+            if (size < smallest || size > 3.5 * glyphHeight || Math.abs(width - height) > 0.1 * size + 1 || component.area < leastFill * coreWidth * coreHeight)
             {
                 continue;
             }
@@ -1049,7 +1052,12 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
             // fifths of its box.
             const wanted = size < 1.5 * glyphHeight ? Math.max(minShare, 0.72) : minShare;
 
-            if (measureInkShare(ink, box) >= wanted && countSidesEntered(lineInk, box, thickness) >= 2 && !overlapsAny(discs, box))
+            // A dot let in by the looser fill must stand at a junction, with lines on three
+            // sides: a dot that ends a tip's branch is as coarse, and a cross painted through
+            // it would run the branch on (Ramirez-Velasco 2021).
+            const sidesWanted = component.area < 0.6 * coreWidth * coreHeight ? 3 : 2;
+
+            if (measureInkShare(ink, box) >= wanted && countSidesEntered(lineInk, box, thickness) >= sidesWanted && !overlapsAny(discs, box))
             {
                 discs.push(box);
             }

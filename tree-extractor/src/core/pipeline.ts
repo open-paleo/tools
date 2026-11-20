@@ -462,18 +462,26 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // Bold text at normal sizes is left alone, since its halo would merge letters and rows.
     // A profile override settles the question either way.
     const fragmented = rough.fragmented;
-    const widened = parameters.profileOverrides.widenText ?? (fragmented || rough.glyphHeight <= parameters.smallGlyphHeight);
+    let widened = parameters.profileOverrides.widenText ?? (fragmented || rough.glyphHeight <= parameters.smallGlyphHeight);
     let runInk: Mask | null = null;
 
     if (widened)
     {
+        const plainInk = textInk;
+        const plainStrip = roughStrip;
+        const plainRough = rough;
         // Only strokes may rejoin: a pale band or fill behind the labels is faint ink too, and
         // would flood into the text ink and dissolve every label standing on it (Longrich 2011).
         const faint = createDarkMask(image, parameters.inkThresholdWeak, false, parameters.maxChroma);
         // A fill is a fat piece of the faint ink, thicker than a stroke and at least six glyphs
         // one way, that is mostly not certain ink: a pale band, where a thick black bar, which
         // is fat and large too, is certain ink through and through.
-        const faintStrokes = subtractMask(faint, findPaleFills(faint, textInk, Math.max(4, Math.round(rough.glyphHeight / 3)), 6 * rough.glyphHeight));
+        const unfilled = subtractMask(faint, findPaleFills(faint, textInk, Math.max(4, Math.round(rough.glyphHeight / 3)), 6 * rough.glyphHeight));
+        // A band whose level lies at the weak threshold is faint in speckles, which no test
+        // for a fill catches; they joined the letters standing on it into one blob, and each
+        // label began where the band ended (Otero 2015: "anosaurus" for Jingshanosaurus). A
+        // stroke is darker than what surrounds it, and a speckle of the band is not.
+        const faintStrokes = keepDarkerThanSurround(unfilled, gray, estimateBackground(gray, Math.max(backgroundRadius, Math.round(rough.glyphHeight / 3))), faintContrast);
         // The extractor measures line width on this ink, and figures with thick range bars
         // have come to rely on what the unfiltered faint ink does to that measure (Naish 2022),
         // so it keeps the ink as it was.
@@ -481,6 +489,18 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
         textInk = applyHysteresis(textInk, faintStrokes);
         roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
         rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers });
+
+        // Widening is meant to mend letters. Where it leaves fewer than half the rows the
+        // plain ink gave, it has joined letters and rows instead, and the plain ink stands
+        // (Longrich 2011: 46 rows of bold lettering became 3).
+        if (parameters.profileOverrides.widenText === undefined && 2 * rough.lines.length < plainRough.lines.length)
+        {
+            textInk = plainInk;
+            roughStrip = plainStrip;
+            rough = plainRough;
+            runInk = null;
+            widened = false;
+        }
     }
 
     const glyphHeight = rough.glyphHeight;

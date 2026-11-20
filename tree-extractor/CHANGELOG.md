@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Labels over a background band no longer lose their first letters. A band at the level of
+  faint ink was faint in speckles, which joined the letters standing on it into a blob; faint
+  lettering strokes must now be darker than the background around them.
+- Where thickening thin lettering leaves fewer than half the text rows it started with, the
+  lettering is kept as it was.
+- A small solid node dot is found more readily, but only at a junction with lines on three
+  sides, so that a dot ending a tip's branch is not taken for one.
+- Over 94 gold figures, 2,898 of 3,204 tips are named, from 2,878, and no figure loses a name.
 - The tool moved into the `tree-extractor` folder of a repository shared with other Open Paleo
   tools. Its releases are now tagged `tree-extractor-v1.2.3`; the package and its contents are
   unchanged.
