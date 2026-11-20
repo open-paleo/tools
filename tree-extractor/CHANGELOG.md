@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A boxed inset, such as a legend or a time scale drawn as a column of cells, is left out of
+  the tree: a frame of four lines that nothing crosses goes with what it holds, and the
+  quality checks name it. Its frame had served as a node, and its entries as tips.
 - The few pixels of branch between a node and a range bar are traced as a branch, where they
   are too short to count as a line: the tip then runs through the bar to its label. On Wang
   2025 the bars' darker edges had been standing in for those branches, joining some tips to

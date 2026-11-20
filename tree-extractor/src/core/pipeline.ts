@@ -39,7 +39,7 @@ import {
     findConnectedComponents,
 } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
+import { dropInsets, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -1715,6 +1715,18 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
 
     const chartStrips: ChartStripFind = parameters.chartStrips ? removeChartStrips(horizontals, verticals, image.width, image.height, glyphHeight, thickness) : { issues: [], axisRules: [], axisTicks: [] };
     const frameIssues = [...removeFrameSegments(horizontals, image.width, image.height), ...removeFrameSegments(verticals, image.width, image.height), ...chartStrips.issues, ...removeChartLines(horizontals, verticals, image.width, image.height)];
+
+    // A box inside the figure that nothing crosses goes, frame and contents: a legend, or a
+    // time scale drawn as a column of cells.
+    for (const inset of dropInsets(horizontals, verticals, 3 * glyphHeight, Math.max(3, Math.round(thickness) + 2)))
+    {
+        frameIssues.push({
+            severity: "info",
+            code: "inset-dropped",
+            message: `a boxed inset at x ${inset.x0}-${inset.x1}, y ${inset.y0}-${inset.y1}, such as a legend or a time scale, was left out of the tree`,
+            subject: null,
+        });
+    }
 
     // Steps between successive nodes of a pectinate tree can be shorter than the shortest run
     // that counts as a line; the ink between two close verticals supplies the missing branch.

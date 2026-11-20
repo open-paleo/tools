@@ -1160,3 +1160,109 @@ export function findMarkerStubs(lineInk: Mask, verticals: Array<Segment>, horizo
 
     return found;
 }
+
+/**
+ * Removes boxed insets: a frame of four lines that nothing crosses, with whatever it holds. A
+ * legend drawn inside the figure is such a box, and its frame, a tall line beside the tree,
+ * otherwise serves the trace as a node (Foth 2017, where half the tree hung from the legend).
+ * A tree's own lines close no box, and a box around part of the tree is crossed by the
+ * branches that enter it.
+ *
+ * @param horizontals - Horizontal segments, changed in place.
+ * @param verticals - Vertical segments, changed in place.
+ * @param smallest - Least width and height of an inset, in pixels.
+ * @param tolerance - How far a frame's lines may miss each other at a corner.
+ * @returns The boxes of the insets removed.
+ */
+export function dropInsets(horizontals: Array<Segment>, verticals: Array<Segment>, smallest: number, tolerance: number): Array<Box>
+{
+    const dropped = new Array<Box>();
+
+    // The horizontal that runs from one vertical to the other at a height, or null.
+    function findRail(left: Box, right: Box, y: number): Segment | null
+    {
+        for (const segment of horizontals)
+        {
+            const { box } = segment;
+
+            if (Math.abs((box.y0 + box.y1) / 2 - y) <= tolerance + (box.y1 - box.y0) / 2 && box.x0 <= left.x1 + tolerance && box.x1 >= right.x0 - tolerance
+                && box.x0 >= left.x0 - tolerance && box.x1 <= right.x1 + tolerance)
+            {
+                return segment;
+            }
+        }
+
+        return null;
+    }
+
+    function isInside(box: Box, frame: Box): boolean
+    {
+        return box.x0 >= frame.x0 - tolerance && box.x1 <= frame.x1 + tolerance && box.y0 >= frame.y0 - tolerance && box.y1 <= frame.y1 + tolerance;
+    }
+
+    function isOutside(box: Box, frame: Box): boolean
+    {
+        return box.x1 <= frame.x0 + tolerance || box.x0 >= frame.x1 - tolerance || box.y1 <= frame.y0 + tolerance || box.y0 >= frame.y1 - tolerance;
+    }
+
+    for (const left of verticals)
+    {
+        for (const right of verticals)
+        {
+            const tall = left.box.y1 - left.box.y0;
+
+            if (right.box.x0 - left.box.x1 < smallest || tall < smallest || Math.abs(right.box.y0 - left.box.y0) > tolerance || Math.abs(right.box.y1 - left.box.y1) > tolerance)
+            {
+                continue;
+            }
+
+            if (findRail(left.box, right.box, left.box.y0) === null || findRail(left.box, right.box, left.box.y1) === null)
+            {
+                continue;
+            }
+
+            const frame: Box = { x0: left.box.x0, y0: left.box.y0, x1: right.box.x1, y1: left.box.y1 };
+            let crossed = false;
+            let inside = 0;
+            let outside = 0;
+
+            for (const segment of [...horizontals, ...verticals])
+            {
+                if (isInside(segment.box, frame))
+                {
+                    inside++;
+                }
+                else if (isOutside(segment.box, frame))
+                {
+                    outside++;
+                }
+                else
+                {
+                    crossed = true;
+                }
+            }
+
+            // The part of the figure with most of the lines is the tree, framed or not.
+            if (!crossed && inside < outside)
+            {
+                dropped.push(frame);
+            }
+        }
+    }
+
+    for (const frame of dropped)
+    {
+        for (const list of [horizontals, verticals])
+        {
+            for (let index = list.length - 1; index >= 0; index--)
+            {
+                if (isInside(list[index].box, frame))
+                {
+                    list.splice(index, 1);
+                }
+            }
+        }
+    }
+
+    return dropped;
+}
