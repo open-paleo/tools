@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.2 (unreleased)
+## 0.7.2 (2026-11-19)
 
 - Faint ink beside a line counts only where it is darker than the background around it. A
   gray band or a tint used to be taken as faint ink along every line that crossed it, which
