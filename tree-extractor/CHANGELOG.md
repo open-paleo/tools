@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.4 (2026-11-20)
 
 - On a figure drawn on a colored ground, a range bar or an arrowhead before a label is again
   kept out of the label's box. The ground had counted as one great pale marker, so that
