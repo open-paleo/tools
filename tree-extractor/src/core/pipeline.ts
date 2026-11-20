@@ -39,7 +39,7 @@ import {
     findConnectedComponents,
 } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { extractSegments, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
+import { extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -1732,6 +1732,25 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         {
             horizontals.push(connector);
             connectors.add(connector.id);
+        }
+    }
+
+    // The piece of branch from a node into a range bar, where it is too short to be a line.
+    if (parameters.extendThroughShapes)
+    {
+        const bars = keepSmallShapes(parameters.paleMarkers ? unionMask(markers, paleMarkers) : markers, Infinity, 2.5 * glyphHeight);
+        let highest = 0;
+
+        // Segments have been dropped along the way, so their count is no guide to a free
+        // identifier.
+        for (const segment of horizontals)
+        {
+            highest = Math.max(highest, Number(segment.id.slice(1)) || 0);
+        }
+
+        for (const stub of findMarkerStubs(lineInk, verticals, horizontals, bars, minHorizontalRun, thickness, highest + 1))
+        {
+            horizontals.push(stub);
         }
     }
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- The few pixels of branch between a node and a range bar are traced as a branch, where they
+  are too short to count as a line: the tip then runs through the bar to its label. On Wang
+  2025 the bars' darker edges had been standing in for those branches, joining some tips to
+  the wrong node.
+
 ## 0.7.3 (2026-11-19)
 
 - Labels over a background band no longer lose their first letters. A band at the level of

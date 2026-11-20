@@ -1043,3 +1043,120 @@ export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, ho
 
     return found;
 }
+
+/**
+ * Finds the branches too short to count as lines that run from a vertical into a marker: a
+ * range bar begins a few pixels from the node its tip hangs from, and the piece of branch
+ * between them is shorter than the shortest run that is a line (Wang 2025: seven pixels from
+ * the node to the bar). Each becomes a horizontal segment ending at the marker, which the tip
+ * is later carried through.
+ *
+ * @param lineInk - Line ink mask.
+ * @param verticals - Vertical segments.
+ * @param horizontals - Horizontal segments already found.
+ * @param markers - Marker shapes no taller than a label row.
+ * @param shortest - Shortest run that already counts as a line.
+ * @param thickness - Line thickness in pixels.
+ * @param nextId - First identifier number to use.
+ * @returns The stubs as horizontal segments.
+ */
+export function findMarkerStubs(lineInk: Mask, verticals: Array<Segment>, horizontals: Array<Segment>, markers: Mask, shortest: number, thickness: number, nextId: number): Array<Segment>
+{
+    const { width, height, data } = lineInk;
+    const found = new Array<Segment>();
+    const half = Math.max(1, Math.round(thickness / 2));
+    let id = nextId;
+
+    // The end of the run of ink that leaves the vertical at a row, when the run is short and
+    // a marker begins where it stops; otherwise -1.
+    function findStubEnd(vertical: Box, y: number): number
+    {
+        let x = vertical.x1;
+
+        while (x < width && x - vertical.x1 < shortest && data[y * width + x] === 1)
+        {
+            x++;
+        }
+
+        if (x - vertical.x1 < 2 || x - vertical.x1 >= shortest)
+        {
+            return -1;
+        }
+
+        for (let ahead = x; ahead < Math.min(width, x + 4); ahead++)
+        {
+            for (let row = Math.max(0, y - 1); row <= Math.min(height - 1, y + 1); row++)
+            {
+                if (markers.data[row * width + ahead] === 1)
+                {
+                    return x;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    // A horizontal that already leaves the vertical at this row is the branch itself, and
+    // one that begins where the stub stops is the bar, traced as a segment of its own: a bar
+    // drawn in black or in a dark color is line ink, and the trace joins it to the node
+    // across the gap (Gonzalez Riga 2018, where a stub besides took the bar's tip from its
+    // label).
+    function isCovered(vertical: Box, y: number, end: number): boolean
+    {
+        for (const segment of horizontals)
+        {
+            const { box } = segment;
+            const onRow = y >= box.y0 - half && y < box.y1 + half;
+
+            if (onRow && ((box.x0 <= vertical.x1 + 1 && box.x1 > vertical.x1 + 2) || (box.x0 >= end - 2 && box.x0 <= end + 4)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    for (const vertical of verticals)
+    {
+        // A vertical much thinner than the figure's lines is the edge of a box or a symbol,
+        // not a node: the ink that leaves it for a marker is part of the same drawing
+        // (Ramirez-Velasco 2021: the rim of the symbol that ends a range bar).
+        if (vertical.box.x1 - vertical.box.x0 < Math.max(2, thickness / 2))
+        {
+            continue;
+        }
+
+        let runStart = -1;
+        let runEnd = 0;
+
+        for (let y = vertical.box.y0; y <= vertical.box.y1; y++)
+        {
+            const end = y < vertical.box.y1 ? findStubEnd(vertical.box, y) : -1;
+
+            if (end >= 0 && runStart < 0)
+            {
+                runStart = y;
+                runEnd = end;
+            }
+            else if (end >= 0)
+            {
+                runEnd = Math.max(runEnd, end);
+            }
+            else if (runStart >= 0)
+            {
+                const center = Math.round((runStart + y - 1) / 2);
+
+                if (y - runStart <= 2 * thickness + 2 && !isCovered(vertical.box, center, runEnd))
+                {
+                    found.push({ id: `h${id++}`, orientation: "horizontal", box: { x0: vertical.box.x0, y0: center - half, x1: runEnd, y1: center + half + 1 } });
+                }
+
+                runStart = -1;
+            }
+        }
+    }
+
+    return found;
+}
