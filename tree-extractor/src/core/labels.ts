@@ -3,7 +3,7 @@
  * against a name list.
  */
 
-import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, ProgressReporter, RotatedFrame, TextLine, TreeNode } from "./types.ts";
+import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, ProgressReporter, RotatedFrame, TextLine, Tip, TreeNode } from "./types.ts";
 import { compareNumbers, computeMedian, cropAndScale } from "./raster.ts";
 import { mapPointToFrame } from "./geometry.ts";
 import { rotateGrayToFrame } from "./slant.ts";
@@ -658,6 +658,61 @@ function findSecondLine(document: ExtractionDocument, first: TextLine, rowPitch:
 const secondLineReach = 0.65;
 
 /**
+ * A row that reads as a name and stands apart from any tip.
+ */
+type DistantLabel = {
+    /**
+     * The row.
+     */
+    row: TextLine;
+
+    /**
+     * Its text, cleaned.
+     */
+    label: string;
+
+    /**
+     * The name it matches.
+     */
+    match: NameMatch;
+};
+
+/**
+ * How far a name may stand from its tip's height when names are paired in order, in glyph
+ * heights.
+ */
+const distantReach = 6;
+
+/**
+ * Fewest tips that must find a name for names to be paired in order at all.
+ */
+const fewestInOrder = 3;
+
+/**
+ * Orders tips from the top down.
+ *
+ * @param left - First tip.
+ * @param right - Second tip.
+ * @returns Negative when the first is higher.
+ */
+function compareTipHeights(left: Tip, right: Tip): number
+{
+    return left.y - right.y;
+}
+
+/**
+ * Orders distant labels from the top down.
+ *
+ * @param left - First label.
+ * @param right - Second label.
+ * @returns Negative when the first is higher.
+ */
+function compareDistantHeights(left: DistantLabel, right: DistantLabel): number
+{
+    return left.row.box.y0 - right.row.box.y0;
+}
+
+/**
  * Reads every assigned text line with the OCR engine and fills in tip and node labels.
  *
  * @param document - Document updated in place.
@@ -701,6 +756,220 @@ export async function readLabels(
         }
 
         return turned;
+    }
+
+    // Pairs the tips with their names by order where the names stand apart from the branch
+    // ends: beside a drawing of each taxon, say, some way from the tip and not at its height
+    // (Gomez 2024, where every name is set by a skull). Only when most tips of the tree are
+    // still unnamed, and enough rows elsewhere read as names: the tips from the top down
+    // then take the names from the top down, each name within a few rows of its tip.
+    async function pairLabelsInOrder(): Promise<void>
+    {
+        const attached = collectAttachedTips(document);
+        const glyph = document.glyphHeight;
+        const unnamed = new Array<Tip>();
+        const held = new Set<string>();
+        const heldNames = new Set<string>();
+
+        for (const tip of document.tips)
+        {
+            if (!attached.has(tip.id))
+            {
+                continue;
+            }
+
+            if (tip.match !== null && tip.match.accepted)
+            {
+                heldNames.add(normalizeName(tip.match.name));
+
+                if (tip.textLine !== null)
+                {
+                    held.add(tip.textLine);
+                }
+            }
+            else
+            {
+                unnamed.push(tip);
+            }
+        }
+
+        if (attached.size < 4 || 2 * unnamed.length < attached.size)
+        {
+            return;
+        }
+
+        const distant = new Array<DistantLabel>();
+
+        for (const row of document.textLines)
+        {
+            if (held.has(row.id) || row.frame !== undefined || row.glyphCount < 4 || !isLabelSized(row, glyph))
+            {
+                continue;
+            }
+
+            row.ocr ??= await ocr.recognize(cropAndScale(chooseSource(row), row.box, 3, scale), "text");
+            const label = cleanTaxonText(row.ocr.text);
+            const match = chooseMatch(label.length > 0 ? label : null, names, knownNames, knownClades);
+
+            // A clade's name printed on a branch reads as a name too, and comes near enough to
+            // a genus of the list to pass for it ("Brachiosauridae" for Brachiosaurus): a row
+            // with a family's or a higher ending names a tip only when the list has it so.
+            // The ending is looked for in the reading as it stands, whose first letter may be
+            // misread.
+            const clade = /(idae|inae|oidea|iformes)$/i.test(label) && match !== null && normalizeName(match.name) !== normalizeName(label);
+
+            if (match !== null && match.accepted && !clade && !heldNames.has(normalizeName(match.name)))
+            {
+                distant.push({ row, label, match });
+            }
+        }
+
+        if (2 * distant.length < unnamed.length)
+        {
+            return;
+        }
+
+        unnamed.sort(compareTipHeights);
+        distant.sort(compareDistantHeights);
+        const farthest = distantReach * glyph;
+        // A tip left without a name costs as much as the farthest pairing; a name passed
+        // over costs little, since rows that read as names are also clade names and notes.
+        const skipTip = farthest;
+        const skipRow = glyph;
+        const parentX = new Map<string, number>();
+
+        for (const node of document.nodes)
+        {
+            for (const child of node.children)
+            {
+                parentX.set(child, node.x);
+            }
+        }
+
+        const tipCount = unnamed.length;
+        const rowCount = distant.length;
+        const cost = new Float64Array((tipCount + 1) * (rowCount + 1));
+        const step = new Uint8Array((tipCount + 1) * (rowCount + 1));
+
+        // The cheapest way to pair the first tips with the first rows, in order; leaving a
+        // tip or a row out costs as much as the farthest pairing allowed.
+        for (let tipIndex = 0; tipIndex <= tipCount; tipIndex++)
+        {
+            for (let rowIndex = 0; rowIndex <= rowCount; rowIndex++)
+            {
+                const at = tipIndex * (rowCount + 1) + rowIndex;
+
+                if (tipIndex === 0 && rowIndex === 0)
+                {
+                    continue;
+                }
+
+                let best = Infinity;
+                let how = 0;
+
+                if (tipIndex > 0 && cost[at - (rowCount + 1)] + skipTip < best)
+                {
+                    best = cost[at - (rowCount + 1)] + skipTip;
+                    how = 1;
+                }
+
+                if (rowIndex > 0 && cost[at - 1] + skipRow < best)
+                {
+                    best = cost[at - 1] + skipRow;
+                    how = 2;
+                }
+
+                if (tipIndex > 0 && rowIndex > 0)
+                {
+                    const tip = unnamed[tipIndex - 1];
+                    const { box } = distant[rowIndex - 1].row;
+                    const apart = Math.abs((box.y0 + box.y1) / 2 - tip.y);
+
+                    // The name may stand before the branch end, over a dashed stretch of the
+                    // branch or where a drawing left it room, but not before the node the
+                    // tip hangs from, where the clade names are.
+                    const leftmost = parentX.get(tip.id) ?? tip.x - glyph;
+
+                    if (apart <= farthest && box.x0 >= leftmost && cost[at - (rowCount + 1) - 1] + apart < best)
+                    {
+                        best = cost[at - (rowCount + 1) - 1] + apart;
+                        how = 3;
+                    }
+                }
+
+                cost[at] = best;
+                step[at] = how;
+            }
+        }
+
+        let tipIndex = tipCount;
+        let rowIndex = rowCount;
+        const pairs = new Array<[Tip, DistantLabel]>();
+
+        while (tipIndex > 0 || rowIndex > 0)
+        {
+            const how = step[tipIndex * (rowCount + 1) + rowIndex];
+
+            if (how === 3)
+            {
+                pairs.push([unnamed[tipIndex - 1], distant[rowIndex - 1]]);
+                tipIndex--;
+                rowIndex--;
+            }
+            else if (how === 1)
+            {
+                tipIndex--;
+            }
+            else
+            {
+                rowIndex--;
+            }
+        }
+
+        // Order is evidence only in a run of names: one or two pairings are as likely a stray
+        // row beside a stray tip (Hu 2009).
+        if (pairs.length < fewestInOrder)
+        {
+            return;
+        }
+
+        for (const [tip, found] of pairs)
+        {
+            const earlier = findTextLine(document, tip.textLine);
+
+            if (earlier !== undefined)
+            {
+                earlier.role = "unassigned";
+            }
+
+            // A loose tip that held the row gives it up.
+            for (const other of document.tips)
+            {
+                if (other.textLine === found.row.id)
+                {
+                    other.textLine = null;
+                    other.label = null;
+                    other.match = null;
+                }
+            }
+
+            tip.textLine = found.row.id;
+            tip.label = found.label;
+            tip.match = found.match;
+            found.row.role = "tip";
+        }
+
+        const paired = pairs.length;
+
+        if (paired > 0)
+        {
+            document.qc.push({
+                severity: "info",
+                code: "labels-paired-in-order",
+                message: `${paired} tip(s) had no name beside them and were given the names that stand apart, in order from the top`,
+                subject: null,
+            });
+        }
     }
 
     const rowPitch = measureRowPitch(document);
@@ -792,6 +1061,8 @@ export async function readLabels(
             }
         }
     }
+
+    await pairLabelsInOrder();
 
     for (const node of document.nodes)
     {

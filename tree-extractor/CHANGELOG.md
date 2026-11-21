@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Names that stand apart from the branch ends are paired with the tips in order. Where most
+  tips of the tree are unnamed and rows elsewhere read as names, beside a drawing of each
+  taxon, say, the tips from the top down take the names from the top down; at least three
+  must pair, and the quality checks say how many did (Gomez 2024, 1 of 14 names to all 14).
 - Two verticals a few pixels apart, closed into one broad line, no longer join every branch
   that meets them into a single piece. The breadth of such a line counted as horizontal ink
   in each of its rows; where that made a piece too tall to be a line, those short runs are
