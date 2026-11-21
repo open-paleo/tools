@@ -620,6 +620,97 @@ function isInsideAny(box: Box, containers: Array<Box>): boolean
 }
 
 /**
+ * Takes out of the horizontal runs those that are only the breadth of a thick vertical: short
+ * runs lying wholly on ink that stands several times taller than they are long. Two verticals
+ * a few pixels apart close into one broad line, each row of which is a horizontal run, and
+ * through them every branch that meets the line joins into one piece (Sanchez-Fenollosa 2025,
+ * where the branch to Stegosauridae went into a piece 133 pixels tall and was lost).
+ *
+ * @param horizontalMask - Pixels in horizontal runs of the least length.
+ * @param lineArt - Line ink.
+ * @param shortest - The least length of a horizontal run.
+ * @returns The mask without those runs, in the pieces they had joined.
+ */
+function dropVerticalBreadth(horizontalMask: Mask, lineArt: Mask, shortest: number): Mask
+{
+    const { width, height } = lineArt;
+    const standing = new Uint32Array(width * height);
+
+    // The height of the vertical run of ink through each pixel.
+    for (let x = 0; x < width; x++)
+    {
+        let start = -1;
+
+        for (let y = 0; y <= height; y++)
+        {
+            const on = y < height && lineArt.data[y * width + x] === 1;
+
+            if (on && start < 0)
+            {
+                start = y;
+            }
+            else if (!on && start >= 0)
+            {
+                for (let row = start; row < y; row++)
+                {
+                    standing[row * width + x] = y - start;
+                }
+
+                start = -1;
+            }
+        }
+    }
+
+    // Only where the breadth has joined branches into a piece no line could be: a broad
+    // vertical on its own is left as it is, since the ink across a node drawn as a narrow
+    // box is what joins its two sides (Otero 2015).
+    const labeling = findConnectedComponents(horizontalMask);
+    const joined = new Uint8Array(labeling.components.length + 1);
+
+    for (let index = 0; index < labeling.components.length; index++)
+    {
+        const { box } = labeling.components[index];
+        joined[index + 1] = box.y1 - box.y0 > 4 * shortest && box.x1 - box.x0 >= 3 * shortest ? 1 : 0;
+    }
+
+    const data = new Uint8Array(horizontalMask.data);
+
+    for (let y = 0; y < height; y++)
+    {
+        let start = -1;
+
+        for (let x = 0; x <= width; x++)
+        {
+            const on = x < width && horizontalMask.data[y * width + x] === 1;
+
+            if (on && start < 0)
+            {
+                start = x;
+            }
+            else if (!on && start >= 0)
+            {
+                const length = x - start;
+                let tall = 0;
+
+                for (let column = start; column < x && length < 3 * shortest; column++)
+                {
+                    tall += standing[y * width + column] >= 3 * length ? 1 : 0;
+                }
+
+                if (length < 3 * shortest && tall >= 0.9 * length && joined[labeling.labels[y * width + start]] === 1)
+                {
+                    data.fill(0, y * width + start, y * width + x);
+                }
+
+                start = -1;
+            }
+        }
+    }
+
+    return { width, height, data };
+}
+
+/**
  * Extracts horizontal and vertical segments from a line-art mask. Each direction is taken from
  * a mask of long runs in that direction only, so a thick horizontal cannot masquerade as a short
  * vertical and a vertical cannot be swallowed by the horizontal it crosses. Broken pieces of one
@@ -652,7 +743,7 @@ export function extractSegments(
     reachRows: Array<Box> | null = null,
 ): SegmentSet
 {
-    const horizontalMask = createDirectionalRunMask(lineArt, minHorizontalRun, true);
+    const horizontalMask = dropVerticalBreadth(createDirectionalRunMask(lineArt, minHorizontalRun, true), lineArt, minHorizontalRun);
     const components = findConnectedComponents(horizontalMask).components;
     let pieces = new Array<Box>();
 

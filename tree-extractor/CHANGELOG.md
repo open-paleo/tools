@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Two verticals a few pixels apart, closed into one broad line, no longer join every branch
+  that meets them into a single piece. The breadth of such a line counted as horizontal ink
+  in each of its rows; where that made a piece too tall to be a line, those short runs are
+  now left out (Sanchez-Fenollosa 2025, whose tree came out in two halves).
 - A figure whose orientation cannot be decided is read turned as well, when as many branch
   ends have their label above or below as beside them, and the reading that names clearly
   more tips is kept. A tree drawn root-down with level notes scattered over it used to be
