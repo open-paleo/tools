@@ -395,6 +395,83 @@ function hasInkBetween(ink: Mask, first: Box, second: Box, alongX: boolean, wind
 }
 
 /**
+ * Finds the branch that turns a corner at one end of a vertical: a horizontal that begins at
+ * the vertical's column and reaches that end's last rows. A stem ends at the column, and a
+ * node's circle begins before it and lies past the end.
+ *
+ * @param vertical - The vertical's box.
+ * @param atBottom - Whether the bottom end is meant; otherwise the top.
+ * @param horizontals - Horizontal boxes.
+ * @returns The horizontal that begins there, or null.
+ */
+function findCorner(vertical: Box, atBottom: boolean, horizontals: Array<Box>): Box | null
+{
+    const end = atBottom ? vertical.y1 : vertical.y0;
+
+    for (const horizontal of horizontals)
+    {
+        const reach = Math.max(3, horizontal.y1 - horizontal.y0);
+        const reachesEnd = atBottom
+            ? horizontal.y0 <= end && horizontal.y1 >= end - reach
+            : horizontal.y1 >= end && horizontal.y0 <= end + reach;
+
+        // A scrap no longer than the vertical is broad is the vertical's own end, not a branch,
+        // and neither is a hairline beside a line several pixels thick.
+        const leaves = horizontal.x1 > vertical.x1 + 2 * reach && 2 * (horizontal.y1 - horizontal.y0) >= vertical.x1 - vertical.x0;
+
+        if (reachesEnd && leaves && horizontal.x0 >= vertical.x0 - reach && horizontal.x0 <= vertical.x1 + reach)
+        {
+            return horizontal;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Whether two verticals in one column are two nodes, one above the other: each turns a corner
+ * into a branch of its own at the end facing the other, and some row of the column between
+ * them is blank. A stem that joins one vertical halfway also cuts it in two, but fills the
+ * gap; a label's box blanks the gap, but leaves no corners.
+ *
+ * @param ink - All dark pixels of the image.
+ * @param upper - The upper vertical's box.
+ * @param lower - The lower vertical's box.
+ * @param horizontals - Horizontal boxes.
+ * @returns True when the two were drawn apart.
+ */
+function standApart(ink: Mask, upper: Box, lower: Box, horizontals: Array<Box>): boolean
+{
+    const above = findCorner(upper, true, horizontals);
+    const below = findCorner(lower, false, horizontals);
+
+    if (above === null || below === null || above === below)
+    {
+        return false;
+    }
+
+    const x0 = Math.max(upper.x0, lower.x0);
+    const x1 = Math.min(upper.x1, lower.x1);
+
+    for (let y = upper.y1; y < lower.y0; y++)
+    {
+        let blank = true;
+
+        for (let x = x0; x < x1 && blank; x++)
+        {
+            blank = ink.data[y * ink.width + x] !== 1;
+        }
+
+        if (blank)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
  * Joins collinear segments separated by a small gap, such as a branch cut by the white
  * background box of a support label. Two segments join when their cross-axis extents overlap
  * by at least half of the thinner one and the along-axis gap is at most maxGap.
@@ -412,9 +489,12 @@ function hasInkBetween(ink: Mask, first: Box, second: Box, alongX: boolean, wind
  * @param letterRows - Boxes of the rows' letters alone, inside which a vertical is a letter's
  *   stroke and is dropped; the text rows serve when these are not given.
  * @param reachRows - For each text row, the box of its letters widened by a glyph.
+ * @param corners - Horizontal boxes, for verticals: two verticals that each turn a corner at
+ *   the end facing the other are two nodes one above the other in a column, and the ink in
+ *   the gap is their own branches (Rauhut 2019); null joins them all the same.
  * @returns Merged boxes and the number of gaps bridged.
  */
-function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number, ink: Mask | null, window: number, gapInkShare: number): MergeResult
+function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number, ink: Mask | null, window: number, gapInkShare: number, corners: Array<Box> | null = null): MergeResult
 {
     const merged = new Array<Box>();
     let bridged = 0;
@@ -451,6 +531,11 @@ function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number,
                 const thinner = alongX
                     ? Math.min(first.y1 - first.y0, second.y1 - second.y0)
                     : Math.min(first.x1 - first.x0, second.x1 - second.x0);
+
+                if (overlap >= 0.5 * thinner && corners !== null && ink !== null && gap > 2 && standApart(ink, first, second, corners))
+                {
+                    continue;
+                }
 
                 if (overlap >= 0.5 * thinner && (ink === null || gap <= 0 || hasInkBetween(ink, first, second, alongX, window, gapInkShare)))
                 {
@@ -817,7 +902,7 @@ export function extractSegments(
     const verticals = new Array<Segment>();
 
     const mergedHorizontals = mergeCollinearBoxes(pieces, true, maxGap, ink, Math.round(window / 2), gapInkShare);
-    const mergedVerticals = mergeCollinearBoxes(verticalBoxes, false, maxVerticalGap, ink, Math.round(window / 2), gapInkShare);
+    const mergedVerticals = mergeCollinearBoxes(verticalBoxes, false, maxVerticalGap, ink, Math.round(window / 2), gapInkShare, mergedHorizontals.boxes);
     mergedVerticals.bridged += joinVerticalsAcrossText(mergedVerticals.boxes, textRows, mergedHorizontals.boxes);
 
     for (const box of mergedHorizontals.boxes)

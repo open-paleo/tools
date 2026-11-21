@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- A staircase read as one node is taken apart again. Where the nodes of a backbone stand a
+  few pixels apart, their verticals close into one broad vertical holding every branch; its
+  children are now nested by where each branch begins along that breadth (Rauhut 2019, 22
+  of 39 splits to 34).
+- Two verticals in one column stay two nodes when each turns into a branch of its own at the
+  end facing the other and the column between them is blank, however much ink stands beside
+  the gap.
 - Names that stand apart from the branch ends are paired with the tips in order. Where most
   tips of the tree are unnamed and rows elsewhere read as names, beside a drawing of each
   taxon, say, the tips from the top down take the names from the top down; at least three

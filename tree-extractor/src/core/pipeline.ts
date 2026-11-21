@@ -45,6 +45,7 @@ import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labe
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { recoverElbowTips } from "./elbows.ts";
+import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
 import { clampBox, cropImage, rotateBox, translateDocument } from "./geometry.ts";
 import { deleteTip } from "./edit.ts";
@@ -2061,6 +2062,12 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     if (dissolved > 0)
     {
         document.qc.push({ severity: "info", code: "degenerate-node-dissolved", message: `${dissolved} node(s) with fewer than two children were dissolved`, subject: null });
+    }
+
+    // A node whose vertical is several close verticals read as one is taken apart again.
+    if (slantedTrace === null)
+    {
+        document.qc.push(...resolveStaircases(document, createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma), thickness));
     }
 
     assignLabels(document);
