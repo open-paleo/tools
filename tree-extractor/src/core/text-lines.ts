@@ -562,7 +562,7 @@ function splitLeadingValues(lines: Array<OpenLine>, glyphHeight: number): Array<
                 shortestValue = Math.min(shortestValue, height);
 
                 // A digit, or two that touch: not a dash, a range bar or a dot.
-                digitShaped = digitShaped && width >= 0.4 * height && width <= 2 * height;
+                digitShaped = digitShaped && width >= 0.3 * height && width <= 2 * height;
 
                 // The value stands over or under the branch, not on it as the label does.
                 beside = beside && (glyphs[index].box.y1 <= line.center + 1 || glyphs[index].box.y0 >= line.center - 1);
