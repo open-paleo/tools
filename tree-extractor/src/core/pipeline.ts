@@ -1626,6 +1626,14 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     let best = first.document;
     let bestScore = countPlacedTips(best);
 
+    // A reading that named half its tips stands the right way up: a turned one would have to
+    // name a quarter more again to replace it, and each is a full reading with its own OCR
+    // (Fonseca 2024, 161 tips named, was read twice more on its side).
+    if (bestScore >= 4 && 2 * bestScore >= best.tips.length)
+    {
+        return best;
+    }
+
     for (const turned of ["root-bottom", "root-top"] as const)
     {
         const ends = turned === "root-bottom" ? find.topEnds : find.bottomEnds;

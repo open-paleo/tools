@@ -199,6 +199,10 @@ npm run typecheck
 npm run spellcheck
 ```
 
+The three benchmark commands spread their cases over several processes, one fewer than the
+machine has cores and eight at most; `-- --jobs=N` sets the number, and `-- --only=text` keeps
+the cases whose names hold that text.
+
 Any change under `src/core` must leave `npm run bench:strict` green; the cases it must keep
 identical are listed in `bench/expectations.json`.
 

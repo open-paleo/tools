@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Large figures read several times faster. A figure whose first reading names half its tips
+  is no longer read again turned on its side, and a candidate time axis is given up once
+  six labels beside it hold no number (Fonseca 2024: 1,386 OCR calls to 200, 56 s to 14 s).
+- The benchmark spreads its cases over several processes (`--jobs=N`); a full run takes about
+  two minutes where it took over thirty.
 - Trees drawn with forks are read. Where each node is a point with one line slanting up to a
   child and another slanting down, and the figure has hardly a vertical in it, a vertical is
   stood in for every fork and the children's branches are carried back to it (Averianov

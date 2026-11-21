@@ -788,6 +788,12 @@ export async function calibrateAxis(document: ExtractionDocument, textInk: Mask,
 }
 
 /**
+ * Number of labels read beside a candidate axis before it is given up for having no number
+ * among them.
+ */
+const fewestAxisReads = 6;
+
+/**
  * One label read in one orientation.
  */
 type LabelRead = {
@@ -829,6 +835,8 @@ export async function readAxisPoints(document: ExtractionDocument, textInk: Mask
     const boxes = findAxisLabelBoxes(document, textInk, axis, below, ticks, glyphHeight);
     const band = layOutLabelBand(axis, below, glyphHeight, textInk.height);
     const orientations: Array<Array<LabelRead>> = [[], [], []];
+    let labelsRead = 0;
+    let numbers = 0;
 
     for (const box of boxes)
     {
@@ -865,7 +873,18 @@ export async function readAxisPoints(document: ExtractionDocument, textInk: Mask
             }
 
             const result = await ocr.recognize(attempt, "digits");
-            orientations[index].push({ x: tick, value: parseAxisNumber(result.text), confidence: result.confidence });
+            const value = parseAxisNumber(result.text);
+            orientations[index].push({ x: tick, value, confidence: result.confidence });
+            numbers += value === null ? 0 : 1;
+        }
+
+        // An axis's labels are numbers. Where the first several are none, the line is a branch
+        // or a rule and the labels are names, and the rest need not be read.
+        labelsRead++;
+
+        if (labelsRead >= fewestAxisReads && numbers === 0)
+        {
+            return [];
         }
     }
 

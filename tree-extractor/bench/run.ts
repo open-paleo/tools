@@ -314,6 +314,12 @@ for (const argument of process.argv)
 
 const roots = holdout ? [path.join(benchDir, "holdout", "cases")] : [path.join(benchDir, "cases"), path.join(benchDir, "generated", "cases")];
 
+// One share of the cases, for a run split over several processes: --shard=2/8 takes every
+// eighth case from the third on. `bench/parallel.ts` starts the shares and joins their output.
+const shardArgument = process.argv.find((argument) => argument.startsWith("--shard=")) ?? null;
+const [shardIndex, shardCount] = shardArgument === null ? [0, 1] : shardArgument.slice("--shard=".length).split("/").map(Number);
+let caseNumber = 0;
+
 for (const root of roots)
 {
     if (!fs.existsSync(root))
@@ -325,7 +331,12 @@ for (const root of roots)
     {
         if (filter === null || name.includes(filter.slice("--only=".length)))
         {
-            caseDirs.push(path.join(root, name));
+            if (caseNumber % shardCount === shardIndex)
+            {
+                caseDirs.push(path.join(root, name));
+            }
+
+            caseNumber++;
         }
     }
 }
