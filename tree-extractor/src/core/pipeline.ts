@@ -45,6 +45,7 @@ import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labe
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { recoverElbowTips } from "./elbows.ts";
+import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
 import { clampBox, cropImage, rotateBox, translateDocument } from "./geometry.ts";
@@ -1928,6 +1929,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     if (crossedRules > 0)
     {
         frameIssues.push({ severity: "info", code: "rules-dropped", message: `${crossedRules} line(s) that branches cross and none ends at were left out as rules across the figure`, subject: null });
+    }
+
+    // A tree drawn with slanted risers in place of verticals gets a vertical at each fork.
+    const straightened = slantedFigure ? 0 : straightenForks(textInk, lineInk, horizontals, verticals, thickness, minHorizontalRun).forks;
+
+    if (straightened > 0)
+    {
+        frameIssues.push({ severity: "info", code: "forks-straightened", message: `${straightened} fork(s) drawn with slanted risers were read as nodes`, subject: null });
     }
 
     // A stroke of a number printed against a branch is no node on it.

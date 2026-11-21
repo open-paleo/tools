@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Trees drawn with forks are read. Where each node is a point with one line slanting up to a
+  child and another slanting down, and the figure has hardly a vertical in it, a vertical is
+  stood in for every fork and the children's branches are carried back to it (Averianov
+  2021 fig. 23, 11 of 20 names to an exact match).
 - A short upright that one branch crosses and none ends at is left out as a stroke of
   lettering: a digit of a support value printed against a stem cut the stem in two and left
   everything past it detached (Fonseca 2024, four tips).
