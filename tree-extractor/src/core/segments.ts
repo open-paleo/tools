@@ -1142,9 +1142,12 @@ export function splitJoggedVerticals(verticals: Array<Segment>, horizontals: Arr
  * @param maxGap - Largest gap between the verticals' edges to look across.
  * @param thickness - Line thickness in pixels.
  * @param nextId - First identifier number to use.
+ * @param stepsOnly - Whether to keep only the step of a staircase: a connector at one end of
+ *   the left vertical, to a right vertical that no branch arrives at. The wider search finds
+ *   ink between any two close verticals, which on most figures is something else.
  * @returns The connectors as horizontal segments.
  */
-export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, horizontals: Array<Segment>, maxGap: number, thickness: number, nextId: number): Array<Segment>
+export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, horizontals: Array<Segment>, maxGap: number, thickness: number, nextId: number, stepsOnly = false): Array<Segment>
 {
     const { width, data } = lineInk;
     const found = new Array<Segment>();
@@ -1167,13 +1170,31 @@ export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, ho
         return false;
     }
 
+    // Whether a branch arrives at a vertical from the left: its stem.
+    function hasStem(vertical: Segment): boolean
+    {
+        const reach = thickness + 2;
+
+        for (const segment of horizontals)
+        {
+            const { box } = segment;
+
+            if (box.x0 < vertical.box.x0 - reach && box.x1 >= vertical.box.x0 - 1 && box.x1 <= vertical.box.x1 + reach && box.y1 > vertical.box.y0 - reach && box.y0 < vertical.box.y1 + reach)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     for (const left of verticals)
     {
         for (const right of verticals)
         {
             const gap = right.box.x0 - left.box.x1;
 
-            if (left === right || gap < 1 || gap > maxGap)
+            if (left === right || gap < 1 || gap > maxGap || (stepsOnly && hasStem(right)))
             {
                 continue;
             }
@@ -1186,6 +1207,16 @@ export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, ho
                 continue;
             }
 
+            // Lines of the tree, not strokes of a letter or the sides of a small shape.
+            const slight = Math.min(left.box.y1 - left.box.y0, right.box.y1 - right.box.y0) < 5 * thickness
+                || Math.max(left.box.x1 - left.box.x0, right.box.x1 - right.box.x0) > 2 * thickness + 1;
+
+            if (stepsOnly && slight)
+            {
+                continue;
+            }
+
+            const between = new Array<Segment>();
             let runStart = -1;
 
             for (let y = top; y <= bottom; y++)
@@ -1206,13 +1237,33 @@ export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, ho
                     const half = Math.max(1, Math.round(thickness / 2));
                     const center = Math.round((runStart + y - 1) / 2);
 
-                    if (!isCovered(left.box.x1, right.box.x0, center))
+                    // The gap may have closed along the stretch where the two run side by side,
+                    // so the join is taken to be at an end when its ink reaches one.
+                    // The right vertical goes on past that end, as the next step of a staircase
+                    // does; two strokes side by side over the same height are hatching.
+                    const atTop = runStart - left.box.y0 <= thickness + 1 && right.box.y0 < left.box.y0 - thickness && right.box.y1 < left.box.y1 - thickness;
+                    const atBottom = left.box.y1 - y <= thickness + 1 && right.box.y1 > left.box.y1 + thickness && right.box.y0 > left.box.y0 + thickness;
+                    const atEnd = atTop || atBottom;
+
+                    if (!isCovered(left.box.x1, right.box.x0, center) && (!stepsOnly || atEnd))
                     {
-                        found.push({ id: `h${id++}`, orientation: "horizontal", box: { x0: left.box.x0, y0: center - half, x1: right.box.x1, y1: center + half + 1 } });
+                        between.push({ id: "", orientation: "horizontal", box: { x0: left.box.x0, y0: center - half, x1: right.box.x1, y1: center + half + 1 } });
                     }
 
                     runStart = -1;
                 }
+            }
+
+            // Two joins between one pair are the top and bottom of a closed shape.
+            if (stepsOnly && between.length !== 1)
+            {
+                continue;
+            }
+
+            for (const connector of between)
+            {
+                connector.id = `h${id++}`;
+                found.push(connector);
             }
         }
     }

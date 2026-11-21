@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- The step of a staircase only a few pixels long is found: where a vertical ends in a join to
+  a second vertical at most three pixels beside it, which goes on past that end and has no
+  branch of its own arriving, the join is taken as the branch between them (Rauhut 2019, 49
+  of 57 names to 53). The wider search between any two close verticals stays a setting.
 - A staircase read as one node is taken apart again. Where the nodes of a backbone stand a
   few pixels apart, their verticals close into one broad vertical holding every branch; its
   children are now nested by where each branch begins along that breadth (Rauhut 2019, 22

@@ -1903,13 +1903,13 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         connectors.add(connector.id);
     }
 
-    if (parameters.shortConnectors)
+    // Everywhere, only the step of a staircase a few pixels long; the wider search is a setting.
+    const connectorGap = parameters.shortConnectors ? minHorizontalRun : 3;
+
+    for (const connector of findShortConnectors(lineInk, verticals, horizontals, connectorGap, thickness, horizontals.length + 1, !parameters.shortConnectors))
     {
-        for (const connector of findShortConnectors(lineInk, verticals, horizontals, minHorizontalRun, thickness, horizontals.length + 1))
-        {
-            horizontals.push(connector);
-            connectors.add(connector.id);
-        }
+        horizontals.push(connector);
+        connectors.add(connector.id);
     }
 
     // The piece of branch from a node into a range bar, where it is too short to be a line.
