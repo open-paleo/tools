@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.8.0 (2026-11-21)
 
 - A branch may begin a little past the end of a riser that leans, where no upright one is in
   reach (Mateus and others 2011, Brachiosaurus).
