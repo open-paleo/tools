@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A support value printed just before a tip's label gets a row of its own. The two clustered
+  into one row, and the short branch between them, lying inside a text row, was cut away
+  with its tip (Fonseca 2024, 151 of 170 names to 155).
 - A label's row is measured by its letters when a branch is tested for running through it:
   a row that took in the label's own range bar stood taller than its text and cut the branch
   of the tip above (Rauhut 2019's Suchomimus).

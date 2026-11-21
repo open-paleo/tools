@@ -494,7 +494,116 @@ function clusterIntoLines(glyphs: Array<Component>, uprights: Array<Component>, 
         }
     }
 
-    return lines;
+    return splitLeadingValues(lines, glyphHeight);
+}
+
+/**
+ * Splits a support value off the start of the label it stands before. A value printed beside
+ * a node whose tip branch is short comes within a letter's height of the tip's label, and the
+ * two cluster into one row; the branch between them then lies inside a text row and is cut
+ * away, tip and all (Fonseca 2024's "79 Plateosaurus trossingensis"). The value is told by
+ * its size and its place: one to three glyphs at the start, each the size of a small digit
+ * beside the letters that follow, clear of the row's middle where the branch runs, and set
+ * off from them by a gap wider than any within the label. A dash, a dot or a range bar before a label is none of these.
+ *
+ * @param lines - Rows of text.
+ * @param glyphHeight - Glyph height in pixels.
+ * @returns The rows, with such values in rows of their own.
+ */
+function splitLeadingValues(lines: Array<OpenLine>, glyphHeight: number): Array<OpenLine>
+{
+    const result = new Array<OpenLine>();
+
+    for (const line of lines)
+    {
+        const glyphs = [...line.glyphs].sort(compareComponentLeftEdges);
+        let cut = -1;
+
+        // The widest gap among the first three, where the row would be cut.
+        let widest = 0;
+        let reach = glyphs.length === 0 ? 0 : glyphs[0].box.x1;
+
+        for (let index = 1; index < glyphs.length && index <= 3 && glyphs.length >= 8; index++)
+        {
+            const gap = glyphs[index].box.x0 - reach;
+
+            if (gap > widest)
+            {
+                widest = gap;
+                cut = index;
+            }
+
+            reach = Math.max(reach, glyphs[index].box.x1);
+        }
+
+        if (cut < 0 || widest < 0.6 * glyphHeight)
+        {
+            result.push(line);
+            continue;
+        }
+
+        // Every other gap of the row must be clearly narrower, and the letters taller.
+        let nextWidest = 0;
+        let tallestValue = 0;
+        let shortestValue = Infinity;
+        let digitShaped = true;
+        let beside = true;
+        const heights = new Array<number>();
+        reach = glyphs[cut].box.x1;
+
+        for (let index = 0; index < glyphs.length; index++)
+        {
+            const height = glyphs[index].box.y1 - glyphs[index].box.y0;
+
+            if (index < cut)
+            {
+                const width = glyphs[index].box.x1 - glyphs[index].box.x0;
+                tallestValue = Math.max(tallestValue, height);
+                shortestValue = Math.min(shortestValue, height);
+
+                // A digit, or two that touch: not a dash, a range bar or a dot.
+                digitShaped = digitShaped && width >= 0.4 * height && width <= 2 * height;
+
+                // The value stands over or under the branch, not on it as the label does.
+                beside = beside && (glyphs[index].box.y1 <= line.center + 1 || glyphs[index].box.y0 >= line.center - 1);
+                continue;
+            }
+
+            heights.push(height);
+
+            if (index > cut)
+            {
+                nextWidest = Math.max(nextWidest, glyphs[index].box.x0 - reach);
+                reach = Math.max(reach, glyphs[index].box.x1);
+            }
+        }
+
+        heights.sort(compareNumbers);
+        const tallLetters = heights[Math.floor(0.75 * heights.length)];
+
+        const small = tallestValue <= 0.7 * Math.min(tallLetters, glyphHeight) && shortestValue >= 0.4 * tallLetters;
+
+        if (widest < 1.3 * nextWidest || !small || !digitShaped || !beside)
+        {
+            result.push(line);
+            continue;
+        }
+
+        const value = openLine(glyphs[0]);
+        const label = openLine(glyphs[cut]);
+
+        for (let index = 1; index < glyphs.length; index++)
+        {
+            if (index !== cut)
+            {
+                addGlyph(index < cut ? value : label, glyphs[index]);
+            }
+        }
+
+        result.push(value, label);
+    }
+
+    return result;
 }
 
 /**
