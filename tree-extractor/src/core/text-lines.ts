@@ -498,6 +498,24 @@ function clusterIntoLines(glyphs: Array<Component>, uprights: Array<Component>, 
 }
 
 /**
+ * Whether a glyph is a filled dot about as large as a letter: round in outline and nearly
+ * all ink, which no letter is.
+ *
+ * @param glyph - The glyph.
+ * @param glyphHeight - Glyph height in pixels.
+ * @returns True for a dot.
+ */
+function isDisc(glyph: Component, glyphHeight: number): boolean
+{
+    const width = glyph.box.x1 - glyph.box.x0;
+    const height = glyph.box.y1 - glyph.box.y0;
+    const round = width <= 1.25 * height && height <= 1.25 * width;
+    const sized = height >= 0.5 * glyphHeight && height <= 1.6 * glyphHeight;
+
+    return round && sized && glyph.area >= 0.7 * width * height;
+}
+
+/**
  * Splits a support value off the start of the label it stands before. A value printed beside
  * a node whose tip branch is short comes within a letter's height of the tip's label, and the
  * two cluster into one row; the branch between them then lies inside a text row and is cut
@@ -534,6 +552,22 @@ function splitLeadingValues(lines: Array<OpenLine>, glyphHeight: number): Array<
             }
 
             reach = Math.max(reach, glyphs[index].box.x1);
+        }
+
+        // A filled dot before the label marks the end of the tip's branch and is no letter:
+        // it goes whatever the gap, so that the branch may reach it (Mateus and others 2011).
+        if (glyphs.length >= 5 && isDisc(glyphs[0], glyphHeight) && glyphs[1].box.x0 > glyphs[0].box.x1)
+        {
+            const mark = openLine(glyphs[0]);
+            const rest = openLine(glyphs[1]);
+
+            for (let index = 2; index < glyphs.length; index++)
+            {
+                addGlyph(rest, glyphs[index]);
+            }
+
+            result.push(mark, rest);
+            continue;
         }
 
         if (cut < 0 || widest < 0.6 * glyphHeight)

@@ -39,7 +39,7 @@ import {
     findConnectedComponents,
 } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { dropCrossedRules, dropCrossingStrokes, dropInsets, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
+import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -2013,6 +2013,12 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     for (const line of roughLines)
     {
         roughBoxes.push(line.box);
+    }
+
+    // A stem run together with the bar of a tip beyond its node is two branches.
+    if (!slantedFigure)
+    {
+        partAtCrossings(horizontals, verticals, lineInk, tolerance);
     }
 
     // Filled triangles at the tips of a slanted figure read as glyphs and leave the line art;

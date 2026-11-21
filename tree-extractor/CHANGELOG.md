@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A filled dot before a tip's label gets a row of its own, so the branch may reach it; in the
+  label's row it had the end of a short branch cut away.
+- A thin stem run together with the range bar of a tip beyond its node is parted at the node.
+  As one segment its middle was the bar's, and the stem missed the node it came from (Mateus
+  and others 2011, 17 of 25 names to 20, wrong splits 3 to 1).
 - Large figures read several times faster. A figure whose first reading names half its tips
   is no longer read again turned on its side, and a candidate time axis is given up once
   six labels beside it hold no number (Fonseca 2024: 1,386 OCR calls to 200, 56 s to 14 s).

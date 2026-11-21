@@ -1514,6 +1514,124 @@ export function dropInsets(horizontals: Array<Segment>, verticals: Array<Segment
 }
 
 /**
+ * Measures the rows a stretch of a horizontal's ink fills: the rows inked over most of the
+ * stretch.
+ *
+ * @param lineInk - Line ink.
+ * @param box - Box of the whole horizontal.
+ * @param x0 - First column of the stretch.
+ * @param x1 - Column after its last.
+ * @returns The stretch's own box, or null when it holds no such row.
+ */
+function measureStretch(lineInk: Mask, box: Box, x0: number, x1: number): Box | null
+{
+    let top = -1;
+    let bottom = -1;
+
+    for (let y = box.y0; y < box.y1; y++)
+    {
+        let inked = 0;
+
+        for (let x = x0; x < x1; x++)
+        {
+            inked += lineInk.data[y * lineInk.width + x];
+        }
+
+        if (inked >= 0.6 * (x1 - x0))
+        {
+            top = top < 0 ? y : top;
+            bottom = y;
+        }
+    }
+
+    return top < 0 ? null : { x0, y0: top, x1, y1: bottom + 1 };
+}
+
+/**
+ * Parts a horizontal where a vertical crosses it and the ink on the two sides differs in
+ * height: a thin stem that arrives at a node, run together with the range bar of a tip that
+ * leaves the node at the same height. As one segment its middle is the bar's, and the stem
+ * can miss the node it comes from by the difference (Mateus and others 2011, four tips).
+ *
+ * @param horizontals - Horizontal segments; changed in place.
+ * @param verticals - Vertical segments.
+ * @param lineInk - Line ink.
+ * @param tolerance - Attachment tolerance in pixels.
+ * @returns How many horizontals were parted.
+ */
+export function partAtCrossings(horizontals: Array<Segment>, verticals: Array<Segment>, lineInk: Mask, tolerance: number): number
+{
+    let highest = 0;
+
+    for (const segment of horizontals)
+    {
+        highest = Math.max(highest, Number.parseInt(segment.id.slice(1), 10) || 0);
+    }
+
+    let parted = 0;
+    const count = horizontals.length;
+
+    for (let index = 0; index < count; index++)
+    {
+        const { box } = horizontals[index];
+
+        for (const vertical of verticals)
+        {
+            const x = Math.round((vertical.box.x0 + vertical.box.x1) / 2);
+
+            // The vertical stands within the horizontal, with a stretch of it on each side.
+            if (vertical.box.x0 < box.x0 + tolerance || vertical.box.x1 > box.x1 - tolerance || vertical.box.y1 < box.y0 || vertical.box.y0 > box.y1)
+            {
+                continue;
+            }
+
+            const left = measureStretch(lineInk, box, box.x0, vertical.box.x0);
+            const right = measureStretch(lineInk, box, vertical.box.x1, box.x1);
+
+            if (left === null || right === null || Math.abs((left.y1 - left.y0) - (right.y1 - right.y0)) < 2)
+            {
+                continue;
+            }
+
+            // A bar drawn evenly about its branch leaves the middle where the thin stretch is,
+            // and nothing is amiss (Rauhut 2019); only a bar set to one side moves it off.
+            const thin = left.y1 - left.y0 < right.y1 - right.y0 ? left : right;
+            const middle = (box.y0 + box.y1) / 2;
+
+            if (middle >= thin.y0 && middle <= thin.y1)
+            {
+                continue;
+            }
+
+            // The box must be the bar's own: one that took in a neighboring line as well is
+            // some other fault, and parting it there mends nothing.
+            const thick = thin === left ? right : left;
+
+            if (thick.y0 > box.y0 + 1 || thick.y1 < box.y1 - 1)
+            {
+                continue;
+            }
+
+            // And a bar is longer than it is thick, which the ink beside a node need not be.
+            if (thick.x1 - thick.x0 < 2 * (thick.y1 - thick.y0))
+            {
+                continue;
+            }
+
+            left.x1 = x;
+            right.x0 = x;
+            horizontals[index].box = left;
+            highest++;
+            horizontals.push({ id: `h${highest}`, orientation: "horizontal", box: right });
+            parted++;
+            break;
+        }
+    }
+
+    return parted;
+}
+
+/**
  * Drops short verticals that one branch crosses and none ends at: a stroke of a support value
  * printed against a branch, or a tick. Such a stroke cuts the branch in two and stands as a
  * node between the halves, and where the branch is a short stem the half before it is left
