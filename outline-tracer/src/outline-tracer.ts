@@ -35,6 +35,38 @@ export type TraceOptions = {
      * Points, in the image's own pixels, inside spaces that must stay open.
      */
     keepOpen: Array<[number, number]>;
+
+    /**
+     * A point, in the image's own pixels, on the animal to keep, for figures that show several;
+     * the largest is kept when it is missing.
+     */
+    select?: [number, number];
+
+    /**
+     * Rectangles, in the image's own pixels as [left, top, right, bottom], to blank out before
+     * tracing, such as a zoom box or a human figure touching the animal.
+     */
+    erase?: Array<[number, number, number, number]>;
+
+    /**
+     * Strokes to blank out before tracing, in the image's own pixels as [x1, y1, x2, y2, width]:
+     * for dots and pointer lines along the animal, where a rectangle would take part of it too.
+     * A stroke needn't be exact: where it clips the animal's edge, the edge is kept.
+     */
+    eraseLines?: Array<[number, number, number, number, number]>;
+
+    /**
+     * How wide a gap in the body's outline the trace closes before filling, in pixels of an
+     * 800 px wide figure; 0.67 unless given. Wider closes skulls and jaws whose outlines have
+     * wider gaps, but also closes narrow spaces between parts.
+     */
+    close?: number;
+
+    /**
+     * Points, in the image's own pixels, inside spaces that must be filled, such as a jaw or toe
+     * whose outline opens too wide for the trace to close by itself.
+     */
+    fill?: Array<[number, number]>;
 };
 
 /**
@@ -70,6 +102,28 @@ export type TraceReport = {
      * Keep-open points that fell on the drawing rather than in an open space, so did nothing.
      */
     keepOpenMissed: Array<[number, number]>;
+
+    /**
+     * How many detached drawings joined to the animal by thin lines were removed, such as bones
+     * drawn beside the skeleton with lines to where they belong.
+     */
+    calloutsRemoved: number;
+
+    /**
+     * The background color taken from the figure's top corners, as "#rrggbb", when it is not
+     * white; empty when it is.
+     */
+    background: string;
+
+    /**
+     * Whether the select point was too far from any drawing, so the largest animal was kept.
+     */
+    selectMissed: boolean;
+
+    /**
+     * Fill points that were on the drawing already, or in a space too open to fill, so did nothing.
+     */
+    fillMissed: Array<[number, number]>;
 };
 
 /**
@@ -138,6 +192,21 @@ export type OutlineBody = {
 };
 
 /**
+ * A fill point waiting for a closing that encloses its space.
+ */
+type FillPoint = {
+    /**
+     * The point, in the image's own pixels, as given.
+     */
+    point: [number, number];
+
+    /**
+     * The point's pixel in the mask.
+     */
+    index: number;
+};
+
+/**
  * A black-and-white mask: 1 for ink, 0 for paper.
  */
 export type BinaryMask = {
@@ -178,6 +247,31 @@ type GrayImage = {
 };
 
 /**
+ * An image as three gray planes, one per color channel, over white.
+ */
+type ColorPlanes = {
+    /**
+     * The red channel.
+     */
+    red: GrayImage;
+
+    /**
+     * The green channel.
+     */
+    green: GrayImage;
+
+    /**
+     * The blue channel.
+     */
+    blue: GrayImage;
+};
+
+/**
+ * A color, as red, green and blue from 0 to 255.
+ */
+type Color = [number, number, number];
+
+/**
  * The connected regions of one value in a mask.
  */
 type Regions = {
@@ -205,6 +299,31 @@ type Run = {
      * The column after the run.
      */
     end: number;
+};
+
+/**
+ * A band of runs: where it starts and ends, and how much its runs' starts and ends wander.
+ */
+type BandMeasure = {
+    /**
+     * The earliest start.
+     */
+    start: number;
+
+    /**
+     * The latest end.
+     */
+    end: number;
+
+    /**
+     * How far the runs' starts spread.
+     */
+    startWander: number;
+
+    /**
+     * How far the runs' ends spread.
+     */
+    endWander: number;
 };
 
 /**
@@ -270,6 +389,11 @@ type Animal = {
      * How many were dropped.
      */
     shapesDropped: number;
+
+    /**
+     * Whether a select point was given but too far from any drawing.
+     */
+    selectMissed: boolean;
 };
 
 /**
@@ -289,9 +413,55 @@ const closeRadius = Math.round(0.67 * unit);
 // Shapes this close to the largest belong to the animal, such as teeth drawn apart from the jaw.
 const nearDistance = 4 * unit;
 
-// A ground line: a band at most this thick whose ink runs across this share of the width.
-const lineMaximumThickness = 8 * unit;
-const lineMinimumShare = 0.3;
+// A ground line: a band at most this thick whose ink runs across this share of the width, as
+// straight as this (its rows start and end within this of one another), and standing alone: the
+// rows just above and below it are less than this share ink. A ground strip at the foot of the
+// figure may be any thickness, but runs across this share of the width.
+const lineMaximumThickness = 12 * unit;
+const lineMinimumShare = 0.12;
+const lineStraightness = 3 * unit;
+const lineIsolation = 0.5;
+const groundStripShare = 0.6;
+
+// Things stand on a ground line, so at least this share of the figure's ink lies above it; the top
+// edge of a back, which is thin and straight too, has the animal below it.
+const groundInkAbove = 0.6;
+
+// A grid or frame line: a band at most this thick whose rows (or columns) are ink across this
+// share of the figure, counting the animal it passes behind, with this much less ink just beside
+// it, where the animal alone is.
+const gridMaximumThickness = 4 * unit;
+const gridCoverage = 0.85;
+const gridBesideDrop = 0.25;
+
+// Where an erased grid line crossed the animal's edge, an erased pixel is drawn again when more
+// than half of the pixels this near it, other than the line's, are ink.
+const repairRadius = 3 * unit;
+
+// Under an erase stroke, an opening of this radius keeps the animal's body and loses lines and dots,
+// and the body is given back this near the animal as traced with the strokes.
+const strokeOpenRadius = 2 * unit;
+const strokeMargin = 3 * unit;
+
+// The widest closing that finds the dents strokes cut into the animal.
+const strokeDentLimit = 30 * unit;
+
+// A grid line that runs along the animal's edge for this long is kept there, as part of the edge.
+const grazingLength = 6 * unit;
+
+// A fill point fills the space it is in once the narrowest of these closings encloses it.
+const fillRadii = [4 * unit, 6 * unit, 9 * unit, 13 * unit, 18 * unit, 26 * unit, 36 * unit];
+
+// A fill point on the drawing moves to the nearest space this near it.
+const fillReach = 3 * unit;
+
+// A vertical line, such as a grid line or an upright scale bar: a band at most this wide whose ink
+// runs down this share of the height, straight and standing alone as a ground line must.
+const verticalMaximumThickness = 4 * unit;
+const verticalMinimumShare = 0.4;
+
+// Inside a hollow claw standing on a ground line, there is drawing this close above the line.
+const clawReach = 6 * unit;
 
 // The anti-aliased edge erased with a ground line, the widest hollow claw that stands on one, and
 // how much of the line's top edge is kept under a foot.
@@ -303,6 +473,26 @@ const footDepth = unit;
 // the square of their opening: a claw open at the tip, not the gap between two teeth.
 const cavityRadius = 3 * unit;
 const cavityRatio = 4;
+
+// The background: the color of a patch at each top corner, this wide, counts as background when it
+// is this light and this even; pixels this close to a background color are background.
+const cornerPatch = 4 * unit;
+const backgroundLightness = 120;
+const backgroundEvenness = 12;
+const backgroundDistance = 40;
+
+// Pixels this colorful (the spread between their strongest and weakest channel) count as drawing
+// even when they are lighter than the threshold, such as an animal drawn in yellow.
+const colorSpread = 60;
+
+// How far a select point may be from the drawing it picks.
+const selectReach = 15 * unit;
+
+// Call-outs: thin lines narrower than twice this vanish when the drawing is opened; what they join
+// to the animal is removed when it is at least this share of the animal's size and this far from it.
+const calloutRadius = Math.round(1.5 * unit);
+const calloutShare = 0.03;
+const calloutGap = 8 * unit;
 
 // The margin around the traced outline, and the smallest speck potrace keeps, in pixels.
 const cropMargin = 4 * unit;
@@ -374,24 +564,174 @@ function createResampleWeights(sourceSize: number, targetSize: number): Resample
 }
 
 /**
- * Convert an image to gray, over a white background.
+ * Split an image into its color channels, over a white background.
  *
  * @param image - The image.
- * @returns The gray image.
+ * @returns The three channels.
  */
-function createGrayImage(image: RgbaImage): GrayImage
+function createColorPlanes(image: RgbaImage): ColorPlanes
 {
-    const pixels = new Uint8Array(image.width * image.height);
+    const size = image.width * image.height;
+    const planes: ColorPlanes = {
+        red: { width: image.width, height: image.height, pixels: new Uint8Array(size) },
+        green: { width: image.width, height: image.height, pixels: new Uint8Array(size) },
+        blue: { width: image.width, height: image.height, pixels: new Uint8Array(size) },
+    };
 
-    for (let index = 0; index < pixels.length; index++)
+    for (let index = 0; index < size; index++)
     {
         const alpha = image.data[index * 4 + 3] / 255;
-        const luma = 0.299 * image.data[index * 4] + 0.587 * image.data[index * 4 + 1] + 0.114 * image.data[index * 4 + 2];
 
-        pixels[index] = Math.round(luma * alpha + 255 * (1 - alpha));
+        planes.red.pixels[index] = Math.round(image.data[index * 4] * alpha + 255 * (1 - alpha));
+        planes.green.pixels[index] = Math.round(image.data[index * 4 + 1] * alpha + 255 * (1 - alpha));
+        planes.blue.pixels[index] = Math.round(image.data[index * 4 + 2] * alpha + 255 * (1 - alpha));
     }
 
-    return { width: image.width, height: image.height, pixels };
+    return planes;
+}
+
+/**
+ * Find the median of a list of values.
+ *
+ * @param values - The values; sorted in place.
+ * @returns The median.
+ */
+function findMedian(values: Array<number>): number
+{
+    values.sort((first, second) => first - second);
+
+    return values[Math.floor(values.length / 2)];
+}
+
+/**
+ * Read the color of a patch, if it is even enough to be background.
+ *
+ * @param planes - The image.
+ * @param left - The patch's left edge.
+ * @returns The patch's median color, or undefined if it is uneven or too dark to be background.
+ */
+function readCornerColor(planes: ColorPlanes, left: number): Color | undefined
+{
+    const size = Math.min(cornerPatch, planes.red.width, planes.red.height);
+    const channels: Array<Array<number>> = [[], [], []];
+
+    for (let y = 0; y < size; y++)
+    {
+        for (let x = left; x < left + size; x++)
+        {
+            const index = y * planes.red.width + x;
+
+            channels[0].push(planes.red.pixels[index]);
+            channels[1].push(planes.green.pixels[index]);
+            channels[2].push(planes.blue.pixels[index]);
+        }
+    }
+
+    const color: Color = [findMedian(channels[0]), findMedian(channels[1]), findMedian(channels[2])];
+    let spread = 0;
+
+    for (let channel = 0; channel < 3; channel++)
+    {
+        const low = channels[channel][Math.floor(channels[channel].length * 0.1)];
+        const high = channels[channel][Math.floor(channels[channel].length * 0.9)];
+
+        spread = Math.max(spread, high - low);
+    }
+
+    const lightness = 0.299 * color[0] + 0.587 * color[1] + 0.114 * color[2];
+
+    return lightness >= backgroundLightness && spread <= backgroundEvenness ? color : undefined;
+}
+
+/**
+ * Find the background colors: white, and the color of each top corner that is even and light.
+ *
+ * @param planes - The image.
+ * @returns The colors.
+ */
+function findBackgroundColors(planes: ColorPlanes): Array<Color>
+{
+    const colors: Array<Color> = [[255, 255, 255]];
+    const size = Math.min(cornerPatch, planes.red.width);
+
+    for (const left of [0, planes.red.width - size])
+    {
+        const color = readCornerColor(planes, left);
+        const distance = color ? (255 - color[0]) ** 2 + (255 - color[1]) ** 2 + (255 - color[2]) ** 2 : 0;
+
+        // White is already a background color.
+        if (color && distance >= backgroundDistance * backgroundDistance)
+        {
+            colors.push(color);
+        }
+    }
+
+    return colors;
+}
+
+/**
+ * Write a color as "#rrggbb".
+ *
+ * @param color - The color.
+ * @returns The color as hex.
+ */
+function formatColor(color: Color): string
+{
+    let hex = "#";
+
+    for (const channel of color)
+    {
+        hex += channel.toString(16).padStart(2, "0");
+    }
+
+    return hex;
+}
+
+/**
+ * Find the drawing: pixels darker than the threshold or clearly colored, unless close to a
+ * background color.
+ *
+ * @param planes - The image.
+ * @param threshold - How dark a pixel must be, from 0 to 255.
+ * @param backgrounds - The background colors.
+ * @returns The ink.
+ */
+function createInkMask(planes: ColorPlanes, threshold: number, backgrounds: Array<Color>): BinaryMask
+{
+    const size = planes.red.pixels.length;
+    const pixels = new Uint8Array(size);
+    const limit = backgroundDistance * backgroundDistance;
+
+    for (let index = 0; index < size; index++)
+    {
+        const red = planes.red.pixels[index];
+        const green = planes.green.pixels[index];
+        const blue = planes.blue.pixels[index];
+        let isBackground = false;
+
+        for (const color of backgrounds)
+        {
+            const distance = (red - color[0]) ** 2 + (green - color[1]) ** 2 + (blue - color[2]) ** 2;
+
+            if (distance < limit)
+            {
+                isBackground = true;
+                break;
+            }
+        }
+
+        if (isBackground)
+        {
+            continue;
+        }
+
+        const luma = 0.299 * red + 0.587 * green + 0.114 * blue;
+        const spread = Math.max(red, green, blue) - Math.min(red, green, blue);
+
+        pixels[index] = luma < threshold || spread > colorSpread ? 1 : 0;
+    }
+
+    return { width: planes.red.width, height: planes.red.height, pixels };
 }
 
 /**
@@ -481,32 +821,142 @@ function findLongestRun(mask: BinaryMask, y: number): Run
 }
 
 /**
- * Erase one ground line, rows top to bottom, keeping its top edge under anything that stands on
- * it, and under narrow gaps between such places (inside a hollow claw).
+ * Report whether there is drawing just above a row in a column, as inside a hollow claw.
+ *
+ * @param mask - The mask.
+ * @param x - The column.
+ * @param top - The row; drawing is looked for above it.
+ * @returns Whether there is.
+ */
+function hasDrawingAbove(mask: BinaryMask, x: number, top: number): boolean
+{
+    for (let y = top - 1; y >= Math.max(0, top - clawReach); y--)
+    {
+        if (mask.pixels[y * mask.width + x] === 1)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Find the share of a row's span that is ink.
+ *
+ * @param mask - The mask.
+ * @param y - The row; outside the mask counts as no ink.
+ * @param left - The span's first column.
+ * @param right - The column after the span.
+ * @returns The share, from 0 to 1.
+ */
+function findRowInkShare(mask: BinaryMask, y: number, left: number, right: number): number
+{
+    if (y < 0 || y >= mask.height || right <= left)
+    {
+        return 0;
+    }
+
+    let ink = 0;
+
+    for (let x = left; x < right; x++)
+    {
+        ink += mask.pixels[y * mask.width + x];
+    }
+
+    return ink / (right - left);
+}
+
+/**
+ * Find the share of a column's span that is ink.
+ *
+ * @param mask - The mask.
+ * @param x - The column; outside the mask counts as no ink.
+ * @param top - The span's first row.
+ * @param bottom - The row after the span.
+ * @returns The share, from 0 to 1.
+ */
+function findColumnInkShare(mask: BinaryMask, x: number, top: number, bottom: number): number
+{
+    if (x < 0 || x >= mask.width || bottom <= top)
+    {
+        return 0;
+    }
+
+    let ink = 0;
+
+    for (let y = top; y < bottom; y++)
+    {
+        ink += mask.pixels[y * mask.width + x];
+    }
+
+    return ink / (bottom - top);
+}
+
+/**
+ * Find the span of a band of runs, and how much their starts and ends wander.
+ *
+ * @param runs - The runs, one per row or column.
+ * @param first - The band's first row or column.
+ * @param last - Its last.
+ * @returns The band's extent and wander.
+ */
+function measureBand(runs: Array<Run>, first: number, last: number): BandMeasure
+{
+    const measure: BandMeasure = { start: Infinity, end: 0, startWander: 0, endWander: 0 };
+    let longest = 0;
+    let lowestStart = Infinity;
+    let lowestEnd = Infinity;
+
+    for (let index = first; index <= last; index++)
+    {
+        measure.start = Math.min(measure.start, runs[index].start);
+        measure.end = Math.max(measure.end, runs[index].end);
+        longest = Math.max(longest, runs[index].end - runs[index].start);
+    }
+
+    // Straightness counts only the band's full runs: a faint anti-aliased edge row can break into
+    // a shorter one.
+    for (let index = first; index <= last; index++)
+    {
+        if (runs[index].end - runs[index].start >= longest * 0.9)
+        {
+            lowestStart = Math.min(lowestStart, runs[index].start);
+            lowestEnd = Math.min(lowestEnd, runs[index].end);
+        }
+    }
+
+    for (let index = first; index <= last; index++)
+    {
+        if (runs[index].end - runs[index].start >= longest * 0.9)
+        {
+            measure.startWander = Math.max(measure.startWander, runs[index].start - lowestStart);
+            measure.endWander = Math.max(measure.endWander, runs[index].end - lowestEnd);
+        }
+    }
+
+    return measure;
+}
+
+/**
+ * Erase one ground line or strip, rows first to last, keeping its top edge under anything that
+ * stands on it, and under narrow gaps between such places with drawing just above them (inside a
+ * hollow claw); the space between two separate feet has none.
  *
  * @param mask - The mask, changed in place.
- * @param runs - Each row's longest run.
+ * @param band - The band's extent.
  * @param first - The band's first row.
  * @param last - The band's last row.
  */
-function eraseGroundLine(mask: BinaryMask, runs: Array<Run>, first: number, last: number): void
+function eraseGroundLine(mask: BinaryMask, band: BandMeasure, first: number, last: number): void
 {
     const top = Math.max(0, first - lineMargin);
     const bottom = Math.min(mask.height - 1, last + lineMargin);
     const keepTo = Math.min(bottom, first + footDepth);
-    let left = mask.width;
-    let right = 0;
-
-    for (let y = first; y <= last; y++)
-    {
-        left = Math.min(left, runs[y].start);
-        right = Math.max(right, runs[y].end);
-    }
-
     const isStanding = new Uint8Array(mask.width);
     let lastStanding = -1;
 
-    for (let x = left; x < right; x++)
+    for (let x = band.start; x < band.end; x++)
     {
         if (top === 0 || mask.pixels[(top - 1) * mask.width + x] !== 1)
         {
@@ -515,14 +965,24 @@ function eraseGroundLine(mask: BinaryMask, runs: Array<Run>, first: number, last
 
         if (lastStanding >= 0 && x - lastStanding <= footGap)
         {
-            isStanding.fill(1, lastStanding + 1, x);
+            let isClaw = true;
+
+            for (let between = lastStanding + 1; between < x && isClaw; between++)
+            {
+                isClaw = hasDrawingAbove(mask, between, top);
+            }
+
+            if (isClaw)
+            {
+                isStanding.fill(1, lastStanding + 1, x);
+            }
         }
 
         isStanding[x] = 1;
         lastStanding = x;
     }
 
-    for (let x = left; x < right; x++)
+    for (let x = band.start; x < band.end; x++)
     {
         for (let y = isStanding[x] ? keepTo + 1 : top; y <= bottom; y++)
         {
@@ -532,18 +992,356 @@ function eraseGroundLine(mask: BinaryMask, runs: Array<Run>, first: number, last
 }
 
 /**
- * Erase ground lines: thin bands whose ink runs across much of the figure.
+ * Find the share of each row, or each column, that is ink.
+ *
+ * @param mask - The mask.
+ * @param isColumns - Whether to measure columns rather than rows.
+ * @returns The shares, one per row or column.
+ */
+function measureCoverage(mask: BinaryMask, isColumns: boolean): Float64Array
+{
+    const coverage = new Float64Array(isColumns ? mask.width : mask.height);
+
+    for (let y = 0; y < mask.height; y++)
+    {
+        for (let x = 0; x < mask.width; x++)
+        {
+            coverage[isColumns ? x : y] += mask.pixels[y * mask.width + x];
+        }
+    }
+
+    for (let index = 0; index < coverage.length; index++)
+    {
+        coverage[index] /= isColumns ? mask.height : mask.width;
+    }
+
+    return coverage;
+}
+
+/**
+ * Find where a grid line runs along the animal's edge rather than across it: stretches at least
+ * grazingLength long where the animal's ink lies on one side of the line only. There, erasing the
+ * line would take a long sliver of the animal's edge, which the rebuild can't draw again.
+ *
+ * @param mask - The mask.
+ * @param isColumns - Whether the line is vertical.
+ * @param before - The row or column just before the line.
+ * @param after - The row or column just after the line.
+ * @returns 1 for each position along the line inside such a stretch.
+ */
+function findGrazingStretches(mask: BinaryMask, isColumns: boolean, before: number, after: number): Uint8Array
+{
+    const across = isColumns ? mask.height : mask.width;
+    const limit = isColumns ? mask.width : mask.height;
+    const kept = new Uint8Array(across);
+    let start = -1;
+
+    for (let along = 0; along <= across; along++)
+    {
+        let isOneSided = false;
+
+        if (along < across)
+        {
+            const first = before < 0 ? 0 : isColumns ? mask.pixels[along * mask.width + before] : mask.pixels[before * mask.width + along];
+            const second = after >= limit ? 0 : isColumns ? mask.pixels[along * mask.width + after] : mask.pixels[after * mask.width + along];
+
+            isOneSided = first !== second;
+        }
+
+        if (isOneSided && start < 0)
+        {
+            start = along;
+        }
+        else if (!isOneSided && start >= 0)
+        {
+            if (along - start >= grazingLength)
+            {
+                kept.fill(1, start, along);
+            }
+
+            start = -1;
+        }
+    }
+
+    return kept;
+}
+
+/**
+ * Report whether a line runs through the animal at a pixel: the animal's ink lies on both sides
+ * of the line there.
+ *
+ * @param mask - The mask.
+ * @param x - The column.
+ * @param y - The row.
+ * @param isColumns - Whether the line is vertical, so its sides are left and right.
+ * @param before - The row (or column) just before the line, with its margin.
+ * @param after - The row (or column) just after it.
+ * @returns Whether it is.
+ */
+function isInsideAnimal(mask: BinaryMask, x: number, y: number, isColumns: boolean, before: number, after: number): boolean
+{
+    const limit = isColumns ? mask.width : mask.height;
+    const first = before < 0 ? 0 : isColumns ? mask.pixels[y * mask.width + before] : mask.pixels[before * mask.width + x];
+    const second = after >= limit ? 0 : isColumns ? mask.pixels[y * mask.width + after] : mask.pixels[after * mask.width + x];
+
+    return first === 1 && second === 1;
+}
+
+/**
+ * Draw the animal's edge again where erased grid lines crossed it: an erased pixel becomes ink
+ * when more than half of the pixels near it, other than erased ones, are ink. Inside the animal's
+ * edge that holds; along a line standing alone, it doesn't.
  *
  * @param mask - The mask, changed in place.
+ * @param erasedLines - The pixels the grid lines took.
+ */
+function repairLineCrossings(mask: BinaryMask, erasedLines: BinaryMask): void
+{
+    const width = mask.width + 1;
+    const inkSums = new Float64Array(width * (mask.height + 1));
+    const keptSums = new Float64Array(width * (mask.height + 1));
+
+    for (let y = 0; y < mask.height; y++)
+    {
+        for (let x = 0; x < mask.width; x++)
+        {
+            const index = y * mask.width + x;
+            const isKept = erasedLines.pixels[index] === 0 ? 1 : 0;
+            const sum = (y + 1) * width + x + 1;
+
+            inkSums[sum] = inkSums[sum - 1] + inkSums[sum - width] - inkSums[sum - width - 1] + mask.pixels[index] * isKept;
+            keptSums[sum] = keptSums[sum - 1] + keptSums[sum - width] - keptSums[sum - width - 1] + isKept;
+        }
+    }
+
+    for (let y = 0; y < mask.height; y++)
+    {
+        for (let x = 0; x < mask.width; x++)
+        {
+            if (erasedLines.pixels[y * mask.width + x] === 0)
+            {
+                continue;
+            }
+
+            const left = Math.max(0, x - repairRadius);
+            const top = Math.max(0, y - repairRadius);
+            const right = Math.min(mask.width, x + repairRadius + 1);
+            const bottom = Math.min(mask.height, y + repairRadius + 1);
+            const ink = inkSums[bottom * width + right] - inkSums[top * width + right] - inkSums[bottom * width + left] + inkSums[top * width + left];
+            const kept = keptSums[bottom * width + right] - keptSums[top * width + right] - keptSums[bottom * width + left] + keptSums[top * width + left];
+
+            if (kept > 0 && ink / kept > 0.5)
+            {
+                mask.pixels[y * mask.width + x] = 1;
+            }
+        }
+    }
+}
+
+/**
+ * Erase grid and frame lines, rows or columns: thin bands of ink across nearly the whole figure,
+ * counting the animal they pass behind, with much less ink just beside them. Each is erased
+ * except where it runs through the animal; where it crosses the animal's edge, repairLineCrossings
+ * draws the edge again.
+ *
+ * @param mask - The mask, changed in place.
+ * @param isColumns - Whether to erase vertical lines rather than horizontal ones.
+ * @param erasedLines - Where to mark the pixels erased, to repair the animal's edge after.
  * @returns How many lines were erased.
+ */
+function eraseGridLines(mask: BinaryMask, isColumns: boolean, erasedLines: BinaryMask): number
+{
+    const coverage = measureCoverage(mask, isColumns);
+    const length = coverage.length;
+    const across = isColumns ? mask.height : mask.width;
+    let erased = 0;
+    let index = 0;
+
+    while (index < length)
+    {
+        if (coverage[index] < gridCoverage)
+        {
+            index++;
+            continue;
+        }
+
+        let last = index;
+
+        while (last + 1 < length && coverage[last + 1] >= gridCoverage)
+        {
+            last++;
+        }
+
+        const before = index - lineMargin - 1;
+        const after = last + lineMargin + 1;
+        let lineCoverage = 1;
+
+        for (let line = index; line <= last; line++)
+        {
+            lineCoverage = Math.min(lineCoverage, coverage[line]);
+        }
+
+        const isBesideClear = (before < 0 || coverage[before] <= lineCoverage - gridBesideDrop) && (after >= length || coverage[after] <= lineCoverage - gridBesideDrop);
+
+        if (last - index + 1 <= gridMaximumThickness && isBesideClear)
+        {
+            const kept = findGrazingStretches(mask, isColumns, before, after);
+
+            for (let along = 0; along < across; along++)
+            {
+                const x = isColumns ? 0 : along;
+                const y = isColumns ? along : 0;
+
+                if (kept[along] === 1 || isInsideAnimal(mask, x, y, isColumns, before, after))
+                {
+                    continue;
+                }
+
+                for (let line = Math.max(0, index - lineMargin); line <= Math.min(length - 1, last + lineMargin); line++)
+                {
+                    const pixel = isColumns ? along * mask.width + line : line * mask.width + along;
+
+                    if (mask.pixels[pixel] === 1)
+                    {
+                        mask.pixels[pixel] = 0;
+                        erasedLines.pixels[pixel] = 1;
+                    }
+                }
+            }
+
+            erased++;
+        }
+
+        index = last + 1;
+    }
+
+    return erased;
+}
+
+/**
+ * Find the longest run of ink in a column.
+ *
+ * @param mask - The mask.
+ * @param x - The column.
+ * @returns The run, in rows; empty if the column has no ink.
+ */
+function findLongestColumnRun(mask: BinaryMask, x: number): Run
+{
+    let best: Run = { start: 0, end: 0 };
+    let start = -1;
+
+    for (let y = 0; y <= mask.height; y++)
+    {
+        const isInk = y < mask.height && mask.pixels[y * mask.width + x] === 1;
+
+        if (isInk && start < 0)
+        {
+            start = y;
+        }
+        else if (!isInk && start >= 0)
+        {
+            if (y - start > best.end - best.start)
+            {
+                best = { start, end: y };
+            }
+
+            start = -1;
+        }
+    }
+
+    return best;
+}
+
+/**
+ * Erase vertical lines that stand alone, such as grid lines and upright scale bars.
+ *
+ * @param mask - The mask, changed in place.
+ * @returns How many were erased.
+ */
+function eraseVerticalLines(mask: BinaryMask): number
+{
+    const runs = new Array<Run>();
+    const minimumLength = mask.height * verticalMinimumShare;
+    let erased = 0;
+
+    for (let x = 0; x < mask.width; x++)
+    {
+        runs.push(findLongestColumnRun(mask, x));
+    }
+
+    let x = 0;
+
+    while (x < mask.width)
+    {
+        if (runs[x].end - runs[x].start < minimumLength)
+        {
+            x++;
+            continue;
+        }
+
+        let last = x;
+
+        while (last + 1 < mask.width && runs[last + 1].end - runs[last + 1].start >= minimumLength)
+        {
+            last++;
+        }
+
+        const band = measureBand(runs, x, last);
+        const isAlone = findColumnInkShare(mask, x - lineMargin - 1, band.start, band.end) < lineIsolation &&
+            findColumnInkShare(mask, last + lineMargin + 1, band.start, band.end) < lineIsolation;
+
+        if (last - x + 1 <= verticalMaximumThickness && band.startWander <= lineStraightness && band.endWander <= lineStraightness && isAlone)
+        {
+            const leftSide = Math.max(0, x - lineMargin - 1);
+            const rightSide = Math.min(mask.width - 1, last + lineMargin + 1);
+
+            // Only rows where the line stands alone: where the animal's ink lies on either side of
+            // it, it is kept, so the animal's outline is never cut.
+            for (let y = band.start; y < band.end; y++)
+            {
+                if (mask.pixels[y * mask.width + leftSide] === 1 || mask.pixels[y * mask.width + rightSide] === 1)
+                {
+                    continue;
+                }
+
+                for (let column = leftSide + 1; column < rightSide; column++)
+                {
+                    mask.pixels[y * mask.width + column] = 0;
+                }
+            }
+
+            erased++;
+        }
+
+        x = last + 1;
+    }
+
+    return erased;
+}
+
+/**
+ * Erase ground lines: thin, straight bands of ink across much of the figure that stand alone, and
+ * a ground strip of any thickness along the foot of the figure.
+ *
+ * @param mask - The mask, changed in place.
+ * @returns How many were erased.
  */
 function eraseGroundLines(mask: BinaryMask): number
 {
     const runs = new Array<Run>();
+    const inkAbove = new Float64Array(mask.height + 1);
     let erased = 0;
 
     for (let y = 0; y < mask.height; y++)
     {
+        let rowInk = 0;
+
+        for (let x = 0; x < mask.width; x++)
+        {
+            rowInk += mask.pixels[y * mask.width + x];
+        }
+
+        inkAbove[y + 1] = inkAbove[y] + rowInk;
         runs.push(findLongestRun(mask, y));
     }
 
@@ -565,9 +1363,17 @@ function eraseGroundLines(mask: BinaryMask): number
             last++;
         }
 
-        if (last - y + 1 <= lineMaximumThickness)
+        const band = measureBand(runs, y, last);
+        const isClearAbove = findRowInkShare(mask, y - lineMargin - 1, band.start, band.end) < lineIsolation;
+        const isClearBelow = findRowInkShare(mask, last + lineMargin + 1, band.start, band.end) < lineIsolation;
+        const isStraight = band.startWander <= lineStraightness && band.endWander <= lineStraightness;
+        const isUnderneath = inkAbove[y] >= groundInkAbove * inkAbove[mask.height];
+        const isLine = last - y + 1 <= lineMaximumThickness && isStraight && isClearAbove && isClearBelow && isUnderneath;
+        const isStrip = last >= mask.height - 1 - lineMargin && band.end - band.start >= mask.width * groundStripShare && isClearAbove;
+
+        if (isLine || isStrip)
         {
-            eraseGroundLine(mask, runs, y, last);
+            eraseGroundLine(mask, band, y, last);
             erased++;
         }
 
@@ -575,6 +1381,235 @@ function eraseGroundLines(mask: BinaryMask): number
     }
 
     return erased;
+}
+
+/**
+ * Blank out thick line segments.
+ *
+ * @param mask - The mask, changed in place.
+ * @param segments - The segments, in the mask's pixels as [x1, y1, x2, y2, width].
+ * @param erased - Where to mark the pixels erased, so restoreStrokeEdges can draw the animal's
+ * edge again where a stroke clipped it.
+ */
+function eraseSegments(mask: BinaryMask, segments: Array<[number, number, number, number, number]>, erased: BinaryMask): void
+{
+    for (const [x1, y1, x2, y2, width] of segments)
+    {
+        const radius = width / 2;
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const lengthSquared = dx * dx + dy * dy;
+
+        for (let y = Math.max(0, Math.floor(Math.min(y1, y2) - radius)); y <= Math.min(mask.height - 1, Math.ceil(Math.max(y1, y2) + radius)); y++)
+        {
+            for (let x = Math.max(0, Math.floor(Math.min(x1, x2) - radius)); x <= Math.min(mask.width - 1, Math.ceil(Math.max(x1, x2) + radius)); x++)
+            {
+                const along = lengthSquared === 0 ? 0 : Math.max(0, Math.min(1, ((x - x1) * dx + (y - y1) * dy) / lengthSquared));
+                const distanceX = x - (x1 + along * dx);
+                const distanceY = y - (y1 + along * dy);
+
+                if (distanceX * distanceX + distanceY * distanceY <= radius * radius && mask.pixels[y * mask.width + x] === 1)
+                {
+                    mask.pixels[y * mask.width + x] = 0;
+                    erased.pixels[y * mask.width + x] = 1;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Give back the ink erase strokes took from the animal itself, so a stroke that strays over the
+ * animal's edge doesn't cut into it. Only the animal's thick body comes back: what an opening of
+ * the animal without the strokes keeps, losing thin lines and dots. Of that, a pixel comes back if
+ * it lies in a dent the strokes cut into the animal, which a closing of the animal as traced with
+ * the strokes fills, or within strokeMargin of the animal. A pointer line, a dot, or a shape that
+ * overlaps the animal and was painted over where it meets it, stays erased.
+ *
+ * @param ink - The ink after the strokes and line erasing, changed in place.
+ * @param erased - The pixels the strokes erased.
+ * @param widest - The widest stroke, in the mask's pixels.
+ * @param select - The select point, in the mask's pixels, if any.
+ */
+function restoreStrokeEdges(ink: BinaryMask, erased: BinaryMask, widest: number, select: [number, number] | undefined): void
+{
+    const whole: BinaryMask = { width: ink.width, height: ink.height, pixels: new Uint8Array(ink.pixels.length) };
+
+    for (let index = 0; index < ink.pixels.length; index++)
+    {
+        whole.pixels[index] = ink.pixels[index] | erased.pixels[index];
+    }
+
+    const wholeAnimal = selectAnimal(whole, select).mask;
+    const thick = dilateMask(erodeMask(wholeAnimal, strokeOpenRadius), strokeOpenRadius);
+    const dents = closeMask(selectAnimal(ink, select).mask, Math.min(strokeDentLimit, Math.ceil(widest) + unit));
+
+    for (let index = 0; index < ink.pixels.length; index++)
+    {
+        if (erased.pixels[index] === 1 && thick.pixels[index] === 1 && dents.pixels[index] === 1)
+        {
+            ink.pixels[index] = 1;
+        }
+    }
+
+    const nearAnimal = dilateMask(selectAnimal(ink, select).mask, strokeMargin);
+
+    for (let index = 0; index < ink.pixels.length; index++)
+    {
+        if (erased.pixels[index] === 1 && thick.pixels[index] === 1 && nearAnimal.pixels[index] === 1)
+        {
+            ink.pixels[index] = 1;
+        }
+    }
+}
+
+/**
+ * Give back the outline erase strokes cut where they crossed it beside a light space, such as a
+ * white bone just inside a skeletal drawing's edge: there the outline is a thin line, which
+ * restoreStrokeEdges leaves erased. The animal is filled with and without the strokes; each piece
+ * the strokes took from the filled body is given back if it is a space in the animal: its opening
+ * to the outside is at most two strokes wide, and it borders the animal along at least twice as
+ * much. A pointer line is too thin to be a piece, and a shape painted over where it meets the
+ * animal, such as a scale figure's hand, borders mostly paper.
+ *
+ * @param ink - The ink after restoreStrokeEdges, changed in place.
+ * @param erased - The pixels the strokes erased.
+ * @param widest - The widest stroke, in the mask's pixels.
+ * @param select - The select point, in the mask's pixels, if any.
+ * @param keepOpen - The keep-open points, in the mask's pixels.
+ * @param radius - The closing radius for filling the body.
+ */
+function restoreStrokeDents(ink: BinaryMask, erased: BinaryMask, widest: number, select: [number, number] | undefined, keepOpen: Array<[number, number]>, radius: number): void
+{
+    const whole: BinaryMask = { width: ink.width, height: ink.height, pixels: new Uint8Array(ink.pixels.length) };
+
+    for (let index = 0; index < ink.pixels.length; index++)
+    {
+        whole.pixels[index] = ink.pixels[index] | erased.pixels[index];
+    }
+
+    const wholeBody = fillBody(selectAnimal(whole, select).mask, keepOpen, radius);
+
+    fillCavities(wholeBody, keepOpen);
+
+    const body = fillBody(selectAnimal(ink, select).mask, keepOpen, radius);
+
+    fillCavities(body, keepOpen);
+
+    const thick = dilateMask(erodeMask(wholeBody, strokeOpenRadius), strokeOpenRadius);
+    const pieces: BinaryMask = { width: ink.width, height: ink.height, pixels: new Uint8Array(ink.pixels.length) };
+
+    for (let index = 0; index < ink.pixels.length; index++)
+    {
+        pieces.pixels[index] = thick.pixels[index] === 1 && body.pixels[index] === 0 ? 1 : 0;
+    }
+
+    const regions = labelRegions(pieces, 1, false);
+    const openings = new Float64Array(regions.sizes.length);
+    const borders = new Float64Array(regions.sizes.length);
+    const touchesStroke = new Uint8Array(regions.sizes.length);
+
+    for (let y = 0; y < ink.height; y++)
+    {
+        for (let x = 0; x < ink.width; x++)
+        {
+            const index = y * ink.width + x;
+            const region = regions.labels[index];
+
+            if (region < 0)
+            {
+                continue;
+            }
+
+            if (erased.pixels[index] === 1)
+            {
+                touchesStroke[region] = 1;
+            }
+
+            if (isBesideOutside(body, pieces, x, y))
+            {
+                openings[region]++;
+            }
+
+            if (isBesideBody(body, x, y))
+            {
+                borders[region]++;
+            }
+        }
+    }
+
+    for (let index = 0; index < ink.pixels.length; index++)
+    {
+        const region = regions.labels[index];
+
+        if (region >= 0 && erased.pixels[index] === 1 && touchesStroke[region] === 1 && openings[region] <= 2 * widest && borders[region] >= 2 * openings[region])
+        {
+            ink.pixels[index] = 1;
+        }
+    }
+}
+
+/**
+ * Report whether a pixel borders the outside: a neighbor, across an edge, that is neither body
+ * nor piece, or the mask's border.
+ *
+ * @param body - The filled body.
+ * @param pieces - The pieces strokes took from the body.
+ * @param x - The column.
+ * @param y - The row.
+ * @returns Whether it borders the outside.
+ */
+function isBesideOutside(body: BinaryMask, pieces: BinaryMask, x: number, y: number): boolean
+{
+    if (x === 0 || y === 0 || x === body.width - 1 || y === body.height - 1)
+    {
+        return true;
+    }
+
+    const neighbors = [y * body.width + x - 1, y * body.width + x + 1, (y - 1) * body.width + x, (y + 1) * body.width + x];
+
+    for (const neighbor of neighbors)
+    {
+        if (body.pixels[neighbor] === 0 && pieces.pixels[neighbor] === 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Report whether a pixel borders the body: a neighbor, across an edge, that is body.
+ *
+ * @param body - The filled body.
+ * @param x - The column.
+ * @param y - The row.
+ * @returns Whether it borders the body.
+ */
+function isBesideBody(body: BinaryMask, x: number, y: number): boolean
+{
+    const index = y * body.width + x;
+
+    return (x > 0 && body.pixels[index - 1] === 1) || (x < body.width - 1 && body.pixels[index + 1] === 1)
+        || (y > 0 && body.pixels[index - body.width] === 1) || (y < body.height - 1 && body.pixels[index + body.width] === 1);
+}
+
+/**
+ * Blank out rectangles.
+ *
+ * @param mask - The mask, changed in place.
+ * @param rectangles - The rectangles, in the mask's pixels as [left, top, right, bottom].
+ */
+function eraseRectangles(mask: BinaryMask, rectangles: Array<[number, number, number, number]>): void
+{
+    for (const [left, top, right, bottom] of rectangles)
+    {
+        for (let y = Math.max(0, top); y < Math.min(mask.height, bottom); y++)
+        {
+            mask.pixels.fill(0, y * mask.width + Math.max(0, left), y * mask.width + Math.min(mask.width, right));
+        }
+    }
 }
 
 /**
@@ -790,14 +1825,13 @@ function closeMask(mask: BinaryMask, radius: number): BinaryMask
 }
 
 /**
- * Keep the animal: the largest shape, and the shapes close to it.
+ * Find the largest region.
  *
- * @param ink - The figure's ink.
- * @returns The animal.
+ * @param regions - The regions.
+ * @returns The largest, or -1 if there are none.
  */
-function selectAnimal(ink: BinaryMask): Animal
+function findLargestRegion(regions: Regions): number
 {
-    const regions = labelRegions(ink, 1, true);
     let largest = -1;
 
     for (let region = 0; region < regions.sizes.length; region++)
@@ -808,11 +1842,58 @@ function selectAnimal(ink: BinaryMask): Animal
         }
     }
 
+    return largest;
+}
+
+/**
+ * Find the region a select point picks: the one under it, or the nearest within reach.
+ *
+ * @param regions - The ink's regions.
+ * @param width - The mask's width.
+ * @param height - The mask's height.
+ * @param point - The point, in the mask's pixels.
+ * @returns The region, or -1 if none is within reach.
+ */
+function findSelectedRegion(regions: Regions, width: number, height: number, point: [number, number]): number
+{
+    for (let radius = 0; radius <= selectReach; radius++)
+    {
+        for (let dy = -radius; dy <= radius; dy++)
+        {
+            for (let dx = -radius; dx <= radius; dx++)
+            {
+                const x = point[0] + dx;
+                const y = point[1] + dy;
+                const isOnRing = Math.abs(dx) === radius || Math.abs(dy) === radius;
+
+                if (isOnRing && x >= 0 && y >= 0 && x < width && y < height && regions.labels[y * width + x] >= 0)
+                {
+                    return regions.labels[y * width + x];
+                }
+            }
+        }
+    }
+
+    return -1;
+}
+
+/**
+ * Keep the animal: the selected shape or else the largest, and the shapes close to it.
+ *
+ * @param ink - The figure's ink.
+ * @param select - A point on the animal to keep, in the mask's pixels, if given.
+ * @returns The animal.
+ */
+function selectAnimal(ink: BinaryMask, select: [number, number] | undefined): Animal
+{
+    const regions = labelRegions(ink, 1, true);
+    const selected = select ? findSelectedRegion(regions, ink.width, ink.height, select) : -1;
+    const chosen = selected >= 0 ? selected : findLargestRegion(regions);
     const main: BinaryMask = { width: ink.width, height: ink.height, pixels: new Uint8Array(ink.pixels.length) };
 
     for (let index = 0; index < ink.pixels.length; index++)
     {
-        main.pixels[index] = regions.labels[index] === largest && largest >= 0 ? 1 : 0;
+        main.pixels[index] = regions.labels[index] === chosen && chosen >= 0 ? 1 : 0;
     }
 
     const reach = dilateMask(main, nearDistance);
@@ -833,7 +1914,111 @@ function selectAnimal(ink: BinaryMask): Animal
         pixels[index] = kept.has(regions.labels[index]) ? 1 : 0;
     }
 
-    return { mask: { width: ink.width, height: ink.height, pixels }, shapesKept: kept.size, shapesDropped: regions.sizes.length - kept.size };
+    return {
+        mask: { width: ink.width, height: ink.height, pixels },
+        shapesKept: kept.size,
+        shapesDropped: regions.sizes.length - kept.size,
+        selectMissed: select !== undefined && selected < 0,
+    };
+}
+
+/**
+ * Remove call-outs: drawings joined to the animal only by thin lines, such as bones drawn beside
+ * the skeleton with lines to where they belong, and the lines that join them. Thin parts of the
+ * animal itself, such as a tail tip or a claw, lead to nothing and stay.
+ *
+ * @param animal - The animal's filled body, changed in place.
+ * @param select - A point on the animal, in the mask's pixels, if given.
+ * @returns How many call-outs were removed.
+ */
+function removeCallouts(animal: BinaryMask, select: [number, number] | undefined): number
+{
+    const opened = dilateMask(erodeMask(animal, calloutRadius), calloutRadius);
+    const regions = labelRegions(opened, 1, true);
+    const selected = select ? findSelectedRegion(regions, animal.width, animal.height, select) : -1;
+    const main = selected >= 0 ? selected : findLargestRegion(regions);
+
+    if (main < 0)
+    {
+        return 0;
+    }
+
+    const mainMask: BinaryMask = { width: animal.width, height: animal.height, pixels: new Uint8Array(animal.pixels.length) };
+
+    for (let index = 0; index < animal.pixels.length; index++)
+    {
+        mainMask.pixels[index] = regions.labels[index] === main ? 1 : 0;
+    }
+
+    // Shapes big enough to be drawings, and far enough from the animal not to be a part of it
+    // that opening cut off, such as a leg at a narrow joint.
+    const nearMain = dilateMask(mainMask, calloutGap);
+    const isNear = new Uint8Array(regions.sizes.length);
+
+    for (let index = 0; index < animal.pixels.length; index++)
+    {
+        if (nearMain.pixels[index] === 1 && regions.labels[index] >= 0)
+        {
+            isNear[regions.labels[index]] = 1;
+        }
+    }
+
+    const detached: BinaryMask = { width: animal.width, height: animal.height, pixels: new Uint8Array(animal.pixels.length) };
+    let count = 0;
+
+    for (let region = 0; region < regions.sizes.length; region++)
+    {
+        if (region !== main && isNear[region] === 0 && regions.sizes[region] >= calloutShare * regions.sizes[main])
+        {
+            count++;
+
+            for (let index = 0; index < animal.pixels.length; index++)
+            {
+                if (regions.labels[index] === region)
+                {
+                    detached.pixels[index] = 1;
+                }
+            }
+        }
+    }
+
+    if (count === 0)
+    {
+        return 0;
+    }
+
+    // The thin parts: ink the opened drawing doesn't reach. Those touching a call-out are its lines.
+    const callouts = dilateMask(detached, calloutRadius + 2);
+    const reached = dilateMask(opened, calloutRadius + 1);
+    const thin: BinaryMask = { width: animal.width, height: animal.height, pixels: new Uint8Array(animal.pixels.length) };
+
+    for (let index = 0; index < animal.pixels.length; index++)
+    {
+        thin.pixels[index] = animal.pixels[index] === 1 && reached.pixels[index] === 0 ? 1 : 0;
+    }
+
+    const thinRegions = labelRegions(thin, 1, true);
+    const isLine = new Uint8Array(thinRegions.sizes.length);
+
+    for (let index = 0; index < animal.pixels.length; index++)
+    {
+        if (thinRegions.labels[index] >= 0 && callouts.pixels[index] === 1)
+        {
+            isLine[thinRegions.labels[index]] = 1;
+        }
+    }
+
+    for (let index = 0; index < animal.pixels.length; index++)
+    {
+        const isLinePixel = thinRegions.labels[index] >= 0 && isLine[thinRegions.labels[index]] === 1;
+
+        if (animal.pixels[index] === 1 && (callouts.pixels[index] === 1 || isLinePixel))
+        {
+            animal.pixels[index] = 0;
+        }
+    }
+
+    return count;
 }
 
 /**
@@ -877,11 +2062,12 @@ function findOutsideRegions(mask: BinaryMask, paper: Regions, keepOpen: Array<[n
  *
  * @param animal - The animal's ink.
  * @param keepOpen - The keep-open points, in this mask's pixels.
+ * @param radius - The widest gap closed, in this mask's pixels.
  * @returns The filled body.
  */
-function fillBody(animal: BinaryMask, keepOpen: Array<[number, number]>): BinaryMask
+function fillBody(animal: BinaryMask, keepOpen: Array<[number, number]>, radius: number): BinaryMask
 {
-    const closed = closeMask(animal, closeRadius);
+    const closed = closeMask(animal, radius);
     const paper = labelRegions(closed, 0, false);
     const outside = findOutsideRegions(closed, paper, keepOpen);
     const pixels = new Uint8Array(animal.pixels.length);
@@ -981,6 +2167,230 @@ function fillCavities(body: BinaryMask, keepOpen: Array<[number, number]>): numb
 }
 
 /**
+ * Fill the spaces fill points are in. Each space is closed with the narrowest closing, from four
+ * units up to thirty-six, that encloses it or fills it, and filled along with the gaps that closed
+ * it. A point on the drawing moves to the nearest space within three units.
+ *
+ * @param body - The filled body, changed in place.
+ * @param points - The fill points, in the image's own pixels.
+ * @param scale - Mask pixels per image pixel.
+ * @param keepOpen - The keep-open points, in the mask's pixels; their spaces are never filled.
+ * @returns The fill points that did nothing, in the image's own pixels.
+ */
+function fillSpaces(body: BinaryMask, points: Array<[number, number]>, scale: number, keepOpen: Array<[number, number]>): Array<[number, number]>
+{
+    let waiting = new Array<FillPoint>();
+
+    for (const [x, y] of points)
+    {
+        const column = Math.min(body.width - 1, Math.max(0, Math.round(x * scale)));
+        const row = Math.min(body.height - 1, Math.max(0, Math.round(y * scale)));
+
+        waiting.push({ point: [x, y], index: findNearestPaper(body, column, row) });
+    }
+
+    for (const radius of fillRadii)
+    {
+        if (waiting.length === 0)
+        {
+            break;
+        }
+
+        waiting = fillSpacesAtRadius(body, waiting, radius, keepOpen);
+    }
+
+    const missed = new Array<[number, number]>();
+
+    for (const waitingPoint of waiting)
+    {
+        missed.push(waitingPoint.point);
+    }
+
+    return missed;
+}
+
+/**
+ * Find the paper pixel nearest a point, within fillReach of it, for a fill point that landed on
+ * the drawing a pixel or two from the space meant.
+ *
+ * @param body - The filled body.
+ * @param column - The point's column.
+ * @param row - The point's row.
+ * @returns The pixel's index; the point's own if it is paper or no paper is near it.
+ */
+function findNearestPaper(body: BinaryMask, column: number, row: number): number
+{
+    let nearest = row * body.width + column;
+    let nearestDistance = Infinity;
+
+    if (body.pixels[nearest] === 0)
+    {
+        return nearest;
+    }
+
+    for (let y = Math.max(0, row - fillReach); y <= Math.min(body.height - 1, row + fillReach); y++)
+    {
+        for (let x = Math.max(0, column - fillReach); x <= Math.min(body.width - 1, column + fillReach); x++)
+        {
+            const distance = (x - column) * (x - column) + (y - row) * (y - row);
+
+            if (body.pixels[y * body.width + x] === 0 && distance <= fillReach * fillReach && distance < nearestDistance)
+            {
+                nearest = y * body.width + x;
+                nearestDistance = distance;
+            }
+        }
+    }
+
+    return nearest;
+}
+
+/**
+ * Fill the spaces that one closing encloses around fill points.
+ *
+ * @param body - The filled body, changed in place.
+ * @param points - The fill points not yet filled.
+ * @param radius - The closing's radius, in the mask's pixels.
+ * @param keepOpen - The keep-open points, in the mask's pixels; their spaces are never filled.
+ * @returns The fill points this closing didn't enclose.
+ */
+function fillSpacesAtRadius(body: BinaryMask, points: Array<FillPoint>, radius: number, keepOpen: Array<[number, number]>): Array<FillPoint>
+{
+    const waiting = new Array<FillPoint>();
+    const wide = closeMask(body, radius);
+    const paper = labelRegions(wide, 0, false);
+    const outside = findOutsideRegions(wide, paper, keepOpen);
+    const regions = new Set<number>();
+    const closed = new Array<FillPoint>();
+
+    for (const fillPoint of points)
+    {
+        const region = paper.labels[fillPoint.index];
+
+        if (body.pixels[fillPoint.index] === 0 && wide.pixels[fillPoint.index] === 1)
+        {
+            closed.push(fillPoint);
+            continue;
+        }
+
+        if (body.pixels[fillPoint.index] === 1 || region < 0 || outside.has(region))
+        {
+            waiting.push(fillPoint);
+            continue;
+        }
+
+        regions.add(region);
+    }
+
+    fillClosedSpaces(body, wide, closed, radius);
+
+    if (regions.size === 0)
+    {
+        return waiting;
+    }
+
+    const space: BinaryMask = { width: body.width, height: body.height, pixels: new Uint8Array(body.pixels.length) };
+
+    for (let index = 0; index < body.pixels.length; index++)
+    {
+        space.pixels[index] = regions.has(paper.labels[index]) ? 1 : 0;
+    }
+
+    // The gaps the closing bridged that join a filled space, near it: its opening.
+    const nearSpace = dilateMask(space, 3 * radius);
+    const bridges: BinaryMask = { width: body.width, height: body.height, pixels: new Uint8Array(body.pixels.length) };
+
+    for (let index = 0; index < body.pixels.length; index++)
+    {
+        const isBridge = wide.pixels[index] === 1 && body.pixels[index] === 0 && space.pixels[index] === 0;
+
+        bridges.pixels[index] = isBridge && nearSpace.pixels[index] === 1 ? 1 : 0;
+    }
+
+    const bridgeRegions = labelRegions(bridges, 1, true);
+    const touching = new Uint8Array(bridgeRegions.sizes.length);
+    const touchingSpace = dilateMask(space, 1);
+
+    for (let index = 0; index < body.pixels.length; index++)
+    {
+        if (bridgeRegions.labels[index] >= 0 && touchingSpace.pixels[index] === 1)
+        {
+            touching[bridgeRegions.labels[index]] = 1;
+        }
+    }
+
+    for (let index = 0; index < body.pixels.length; index++)
+    {
+        const isBridge = bridgeRegions.labels[index] >= 0 && touching[bridgeRegions.labels[index]] === 1;
+
+        if (space.pixels[index] === 1 || isBridge)
+        {
+            body.pixels[index] = 1;
+        }
+    }
+
+    // A point on the drawing that a filled space now covers counts as filled.
+    for (let index = waiting.length - 1; index >= 0; index--)
+    {
+        if (space.pixels[waiting[index].index] === 1)
+        {
+            waiting.splice(index, 1);
+        }
+    }
+
+    return waiting;
+}
+
+/**
+ * Fill the spaces a closing filled by itself around fill points: the closing's new ink joined to
+ * each point, up to four closing radii from it.
+ *
+ * @param body - The filled body, changed in place.
+ * @param wide - The body after the closing.
+ * @param points - The fill points whose pixel the closing filled.
+ * @param radius - The closing's radius, in the mask's pixels.
+ */
+function fillClosedSpaces(body: BinaryMask, wide: BinaryMask, points: Array<FillPoint>, radius: number): void
+{
+    if (points.length === 0)
+    {
+        return;
+    }
+
+    const added: BinaryMask = { width: body.width, height: body.height, pixels: new Uint8Array(body.pixels.length) };
+
+    for (let index = 0; index < body.pixels.length; index++)
+    {
+        added.pixels[index] = wide.pixels[index] === 1 && body.pixels[index] === 0 ? 1 : 0;
+    }
+
+    const regions = labelRegions(added, 1, true);
+    const reach = 4 * radius;
+
+    for (const fillPoint of points)
+    {
+        const region = regions.labels[fillPoint.index];
+        const pointX = fillPoint.index % body.width;
+        const pointY = Math.floor(fillPoint.index / body.width);
+
+        for (let y = Math.max(0, pointY - reach); y <= Math.min(body.height - 1, pointY + reach); y++)
+        {
+            for (let x = Math.max(0, pointX - reach); x <= Math.min(body.width - 1, pointX + reach); x++)
+            {
+                const index = y * body.width + x;
+                const distanceX = x - pointX;
+                const distanceY = y - pointY;
+
+                if (regions.labels[index] === region && distanceX * distanceX + distanceY * distanceY <= reach * reach)
+                {
+                    body.pixels[index] = 1;
+                }
+            }
+        }
+    }
+}
+
+/**
  * Find the box around a mask's ink.
  *
  * @param mask - The mask.
@@ -1049,39 +2459,105 @@ function createTraceImage(mask: BinaryMask, box: PixelBox): RgbaImage
  */
 export function findOutlineBody(image: RgbaImage, options: TraceOptions): OutlineBody
 {
-    const gray = resizeGrayImage(createGrayImage(image), processingWidth);
-    const ink: BinaryMask = { width: gray.width, height: gray.height, pixels: new Uint8Array(gray.pixels.length) };
+    const source = createColorPlanes(image);
+    const planes: ColorPlanes = {
+        red: resizeGrayImage(source.red, processingWidth),
+        green: resizeGrayImage(source.green, processingWidth),
+        blue: resizeGrayImage(source.blue, processingWidth),
+    };
+    const gray = planes.red;
     const scale = processingWidth / image.width;
+    const backgrounds = findBackgroundColors(planes);
+    const ink = createInkMask(planes, options.threshold, backgrounds);
     const keepOpen = new Array<[number, number]>();
     const keepOpenMissed = new Array<[number, number]>();
+    const select: [number, number] | undefined = options.select
+        ? [Math.min(gray.width - 1, Math.round(options.select[0] * scale)), Math.min(gray.height - 1, Math.round(options.select[1] * scale))]
+        : undefined;
+    const erase = new Array<[number, number, number, number]>();
 
-    for (let index = 0; index < gray.pixels.length; index++)
+    for (const [left, top, right, bottom] of options.erase ?? [])
     {
-        ink.pixels[index] = gray.pixels[index] < options.threshold ? 1 : 0;
+        erase.push([Math.floor(left * scale), Math.floor(top * scale), Math.ceil(right * scale), Math.ceil(bottom * scale)]);
     }
 
-    const linesErased = eraseGroundLines(ink);
-    const animal = selectAnimal(ink);
+    eraseRectangles(ink, erase);
+
+    // Pixels erased by grid lines, where the animal's edge is drawn again after.
+    const erasedLines: BinaryMask = { width: ink.width, height: ink.height, pixels: new Uint8Array(ink.pixels.length) };
+
+    const segments = new Array<[number, number, number, number, number]>();
+
+    for (const [x1, y1, x2, y2, width] of options.eraseLines ?? [])
+    {
+        segments.push([x1 * scale, y1 * scale, x2 * scale, y2 * scale, width * scale]);
+    }
+
+    const erasedByStrokes: BinaryMask = { width: ink.width, height: ink.height, pixels: new Uint8Array(segments.length > 0 ? ink.pixels.length : 0) };
+    let widest = 0;
+
+    for (const segment of segments)
+    {
+        widest = Math.max(widest, segment[4]);
+    }
+
+    eraseSegments(ink, segments, erasedByStrokes);
+
+    // Ground lines first: their feet need care that a grid line's crossings don't.
+    const groundLines = eraseGroundLines(ink);
+    const gridLines = eraseGridLines(ink, false, erasedLines) + eraseGridLines(ink, true, erasedLines);
+
+    repairLineCrossings(ink, erasedLines);
+
+    const linesErased = groundLines + gridLines + eraseVerticalLines(ink);
 
     for (const [x, y] of options.keepOpen)
     {
-        const point: [number, number] = [Math.min(gray.width - 1, Math.round(x * scale)), Math.min(gray.height - 1, Math.round(y * scale))];
+        keepOpen.push([Math.min(gray.width - 1, Math.round(x * scale)), Math.min(gray.height - 1, Math.round(y * scale))]);
+    }
 
-        keepOpen.push(point);
+    const radius = options.close === undefined ? closeRadius : Math.round(options.close * unit);
 
-        if (animal.mask.pixels[point[1] * gray.width + point[0]] === 1)
+    if (segments.length > 0)
+    {
+        restoreStrokeEdges(ink, erasedByStrokes, widest, select);
+        restoreStrokeDents(ink, erasedByStrokes, widest, select, keepOpen, radius);
+    }
+
+    const animal = selectAnimal(ink, select);
+
+    for (let index = 0; index < keepOpen.length; index++)
+    {
+        const [column, row] = keepOpen[index];
+
+        if (animal.mask.pixels[row * gray.width + column] === 1)
         {
-            keepOpenMissed.push([x, y]);
+            keepOpenMissed.push(options.keepOpen[index]);
         }
     }
 
-    const mask = fillBody(animal.mask, keepOpen);
+    const mask = fillBody(animal.mask, keepOpen, radius);
     const cavitiesFilled = fillCavities(mask, keepOpen);
+    const fillMissed = fillSpaces(mask, options.fill ?? [], scale, keepOpen);
+
+    // On the filled body the animal is one solid shape, so only drawings hanging off it by thin
+    // lines come apart when it is opened; on the drawing itself, a skeleton's thin outlines would.
+    const calloutsRemoved = removeCallouts(mask, select);
 
     return {
         mask,
         box: findInkBox(mask),
-        report: { linesErased, shapesKept: animal.shapesKept, shapesDropped: animal.shapesDropped, cavitiesFilled, keepOpenMissed },
+        report: {
+            linesErased,
+            shapesKept: animal.shapesKept,
+            shapesDropped: animal.shapesDropped,
+            cavitiesFilled,
+            keepOpenMissed,
+            calloutsRemoved,
+            background: backgrounds.length > 1 ? formatColor(backgrounds[1]) : "",
+            selectMissed: animal.selectMissed,
+            fillMissed,
+        },
     };
 }
 
