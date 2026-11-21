@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A short upright that one branch crosses and none ends at is left out as a stroke of
+  lettering: a digit of a support value printed against a stem cut the stem in two and left
+  everything past it detached (Fonseca 2024, four tips).
 - A support value printed just before a tip's label gets a row of its own. The two clustered
   into one row, and the short branch between them, lying inside a text row, was cut away
   with its tip (Fonseca 2024, 151 of 170 names to 155).

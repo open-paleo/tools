@@ -39,7 +39,7 @@ import {
     findConnectedComponents,
 } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { dropCrossedRules, dropInsets, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
+import { dropCrossedRules, dropCrossingStrokes, dropInsets, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -1928,6 +1928,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     if (crossedRules > 0)
     {
         frameIssues.push({ severity: "info", code: "rules-dropped", message: `${crossedRules} line(s) that branches cross and none ends at were left out as rules across the figure`, subject: null });
+    }
+
+    // A stroke of a number printed against a branch is no node on it.
+    const strokes = dropCrossingStrokes(verticals, horizontals, Math.max(3, Math.round(thickness) + 2), Math.round(1.5 * glyphHeight));
+
+    if (strokes > 0)
+    {
+        frameIssues.push({ severity: "info", code: "strokes-dropped", message: `${strokes} short upright(s) that a branch crosses and none ends at were left out as strokes of lettering`, subject: null });
     }
 
     // Steps between successive nodes of a pectinate tree can be shorter than the shortest run

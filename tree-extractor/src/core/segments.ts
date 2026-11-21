@@ -1514,6 +1514,64 @@ export function dropInsets(horizontals: Array<Segment>, verticals: Array<Segment
 }
 
 /**
+ * Drops short verticals that one branch crosses and none ends at: a stroke of a support value
+ * printed against a branch, or a tick. Such a stroke cuts the branch in two and stands as a
+ * node between the halves, and where the branch is a short stem the half before it is left
+ * joined to nothing (Fonseca 2024, where "59" under a stem's corner detached four tips).
+ *
+ * @param verticals - Vertical segments; changed in place.
+ * @param horizontals - Horizontal segments.
+ * @param tolerance - Attachment tolerance in pixels.
+ * @param tallest - Tallest vertical that can be such a stroke.
+ * @returns How many verticals were dropped.
+ */
+export function dropCrossingStrokes(verticals: Array<Segment>, horizontals: Array<Segment>, tolerance: number, tallest: number): number
+{
+    let dropped = 0;
+
+    for (let index = verticals.length - 1; index >= 0; index--)
+    {
+        const { box } = verticals[index];
+
+        if (box.y1 - box.y0 > tallest)
+        {
+            continue;
+        }
+
+        let crossing = 0;
+        let ending = 0;
+
+        for (const horizontal of horizontals)
+        {
+            const middle = (horizontal.box.y0 + horizontal.box.y1) / 2;
+
+            if (middle < box.y0 - tolerance || middle > box.y1 + tolerance || horizontal.box.x1 < box.x0 - tolerance || horizontal.box.x0 > box.x1 + tolerance)
+            {
+                continue;
+            }
+
+            // The branch may be a stub that passes the stroke by a pixel or two on each side.
+            if (horizontal.box.x0 < box.x0 - 1 && horizontal.box.x1 > box.x1 + 1 && middle > box.y0 && middle < box.y1)
+            {
+                crossing++;
+            }
+            else
+            {
+                ending++;
+            }
+        }
+
+        if (crossing === 1 && ending === 0)
+        {
+            verticals.splice(index, 1);
+            dropped++;
+        }
+    }
+
+    return dropped;
+}
+
+/**
  * Removes the verticals that branches cross and none ends at: a guide line ruled across the
  * figure at a height or a date. A node's vertical is where its branches begin and its stem
  * ends, and no branch of the tree runs through it; left in, a rule cuts every branch it meets
