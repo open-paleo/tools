@@ -110,7 +110,7 @@ export type TraceReport = {
     calloutsRemoved: number;
 
     /**
-     * The background color taken from the figure's top corners, as "#rrggbb", when it is not
+     * The background color taken from the figure's top corners, as a CSS hex color, when it is not
      * white; empty when it is.
      */
     background: string;
@@ -670,7 +670,7 @@ function findBackgroundColors(planes: ColorPlanes): Array<Color>
 }
 
 /**
- * Write a color as "#rrggbb".
+ * Write a color as a CSS hex color, such as "#ffffff".
  *
  * @param color - The color.
  * @returns The color as hex.
