@@ -211,6 +211,8 @@ function createBranch(id: string, segment: string, x0: number, x1: number, y: nu
  * @param reach - Largest allowed horizontal distance in pixels.
  * @param slack - How far beyond a vertical's ends the point may still lie.
  * @param side - Which end of the branch this is; the vertical must lie beyond that end.
+ * @param leaning - Whether the vertical may lean: the point may then lie beyond its ends by
+ *   half as much again as it lies to the side, as the end of a slanted riser does.
  * @returns The nearest vertical or null.
  */
 function findNearestVertical(
@@ -220,6 +222,7 @@ function findNearestVertical(
     reach: number,
     slack: number,
     side: "left" | "right",
+    leaning = false,
 ): Candidate | null
 {
     let best: Candidate | null = null;
@@ -230,7 +233,9 @@ function findNearestVertical(
         const distance = Math.abs(candidate.x - x);
         const onSide = side === "left" ? candidate.x <= x + slack : candidate.x >= x - slack;
 
-        if (!onSide || distance > reach || y < candidate.y0 - slack || y > candidate.y1 + slack)
+        const beyond = leaning ? slack + distance / 2 : slack;
+
+        if (!onSide || distance > reach || y < candidate.y0 - beyond || y > candidate.y1 + beyond)
         {
             continue;
         }
@@ -465,6 +470,9 @@ function attachAndPrune(
             branch.left = findNearestVertical(active, branch.x0, branch.y, tolerance, tolerance, "left");
             branch.leftStrict = branch.left !== null;
             branch.left ??= findNearestVertical(active, branch.x0, branch.y, looseTolerance, tolerance, "left");
+
+            // A riser that leans carries its child's branch off its own end (Mateus 2011).
+            branch.left ??= findNearestVertical(active, branch.x0, branch.y, 2 * tolerance, tolerance, "left", true);
             branch.right = branch.glued ? null : findNearestVertical(active, branch.x1, branch.y, tolerance, tolerance, "right");
             branch.rightStrict = branch.right !== null;
 

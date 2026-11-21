@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- A branch may begin a little past the end of a riser that leans, where no upright one is in
+  reach (Mateus and others 2011, Brachiosaurus).
 - A filled dot before a tip's label gets a row of its own, so the branch may reach it; in the
   label's row it had the end of a short branch cut away.
 - A thin stem run together with the range bar of a tip beyond its node is parted at the node.
