@@ -689,9 +689,41 @@ function keepRungs(runs: Mask, anchors: Mask, apart: number): Mask
 }
 
 /**
+ * Finds the first or last row of a rough text row that holds letters, from a column on.
+ *
+ * @param box - Box of the rough row.
+ * @param from - First column of the letters.
+ * @param glyphMask - Glyph pixels of the rough text pass.
+ * @param lineInk - Line ink.
+ * @param fromTop - Whether to look for the first row; otherwise the last.
+ * @returns The row.
+ */
+function findLetterEdge(box: Box, from: number, glyphMask: Mask, lineInk: Mask, fromTop: boolean): number
+{
+    for (let step = 0; step < box.y1 - box.y0; step++)
+    {
+        const y = fromTop ? box.y0 + step : box.y1 - 1 - step;
+        let letters = 0;
+
+        for (let x = from; x < box.x1; x++)
+        {
+            const index = y * glyphMask.width + x;
+            letters += glyphMask.data[index] === 1 && lineInk.data[index] === 0 ? 1 : 0;
+        }
+
+        if (letters >= 2)
+        {
+            return y;
+        }
+    }
+
+    return fromTop ? box.y0 : box.y1 - 1;
+}
+
+/**
  * Moves the start of a rough text row's box up to its first letter, past whatever line art
  * the rough pass took for part of the label: the glyph pixels there that proved to be line
- * ink. Only the start moves, and only by a modest share of the row: bold letters hold long
+ * ink. Only the start moves, and with it the top and bottom, and only by a modest share of the row: bold letters hold long
  * strokes that pass for line ink too, and a row cut down to what is left of them no longer
  * covers its label (Poropat 2014).
  *
@@ -721,7 +753,12 @@ function shrinkToLetters(box: Box, glyphMask: Mask, lineInk: Mask): Box
         // A pixel or two is the end of a stroke left over from a line, not a letter.
         if (letters >= 3)
         {
-            return { x0: x, y0: box.y0, x1: box.x1, y1: box.y1 };
+            // Line art before the letters may stand above or below them too, and make the
+            // row taller than its text: the rows are those the letters reach.
+            const y0 = x === box.x0 ? box.y0 : findLetterEdge(box, x, glyphMask, lineInk, true);
+            const y1 = x === box.x0 ? box.y1 : findLetterEdge(box, x, glyphMask, lineInk, false) + 1;
+
+            return { x0: x, y0, x1: box.x1, y1 };
         }
     }
 

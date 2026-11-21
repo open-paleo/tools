@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A label's row is measured by its letters when a branch is tested for running through it:
+  a row that took in the label's own range bar stood taller than its text and cut the branch
+  of the tip above (Rauhut 2019's Suchomimus).
+- A vertical is no longer split at a jog where two lines run side by side along it and its
+  stem arrives below the jog: the upper line goes on down beside the lower, and the split
+  cut it off from its stem (Rauhut 2019's Dilophosaurus).
 - The step of a staircase only a few pixels long is found: where a vertical ends in a join to
   a second vertical at most three pixels beside it, which goes on past that end and has no
   branch of its own arriving, the join is taken as the branch between them (Rauhut 2019, 49

@@ -276,7 +276,10 @@ function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt:
         // The rows come widened by two pixels above and below; a line whose middle lies in
         // that margin runs along the edge of the text, under or over it, not through it.
         const middle = (box.y0 + box.y1) / 2;
-        const alongEdge = middle > row.y1 - 2 || middle < row.y0 + 2;
+        // The edge is that of the row's letters: a rough row that took in the label's range
+        // bar and its stub stands taller than its text, and the branch of the tip above
+        // would run through it (Rauhut 2019's Suchomimus, over Baryonyx).
+        const alongEdge = middle > reach.y1 - 2 || middle < reach.y0 + 2;
 
         // Or it reaches the row from outside its letters, starting a glyph before the first or
         // ending a glyph after the last: the branch above a label that stands a pixel or two
@@ -1059,15 +1062,22 @@ export function splitJoggedVerticals(verticals: Array<Segment>, horizontals: Arr
         let jogY = -1;
         let upper = 0;
         let lower = 0;
+        let sideBySide = false;
 
         if (width > thickness + 1 && width <= 3 * thickness + 2 && box.y1 - box.y0 >= 2 * shortest)
         {
             const middles = new Array<number | null>();
 
+            let broadRows = 0;
+
             for (let y = box.y0; y < box.y1; y++)
             {
-                middles.push(findLineMiddle(lineArt, box, y, widest));
+                const middle = findLineMiddle(lineArt, box, y, widest);
+                middles.push(middle);
+                broadRows += middle === null ? 1 : 0;
             }
+
+            sideBySide = width > 2 * thickness + 1 && broadRows >= shortest;
 
             // Try each row as the jog: every row above must stand in one column and every row
             // below in another, a step to the right apart, but for the row or two of the jog.
@@ -1105,14 +1115,23 @@ export function splitJoggedVerticals(verticals: Array<Segment>, horizontals: Arr
         }
 
         let branchLeaves = false;
+        let stemBelow = false;
 
         for (const horizontal of horizontals)
         {
             const y = (horizontal.box.y0 + horizontal.box.y1) / 2;
             branchLeaves = branchLeaves || (jogY >= 0 && Math.abs(y - jogY) <= thickness + 2 && horizontal.box.x0 <= box.x1 + thickness && horizontal.box.x1 > box.x1 + shortest);
+
+            // The stem arrives from the left; the part above the jog is the earlier node and
+            // should be the one it reaches.
+            const arrives = horizontal.box.x0 < box.x0 - shortest && horizontal.box.x1 >= box.x0 - thickness && horizontal.box.x1 <= box.x1 + thickness;
+            stemBelow = stemBelow || (arrives && y > jogY + thickness + 2 && y < box.y1);
         }
 
-        if (jogY < 0 || !branchLeaves)
+        // Where two lines run side by side over a stretch of a vertical broad enough for them
+        // and the stem comes in below the jog, the upper line goes on down past the jog beside
+        // the lower: a staircase, taken apart after tracing by its branches (Rauhut 2019).
+        if (jogY < 0 || !branchLeaves || (sideBySide && stemBelow))
         {
             result.verticals.push(vertical);
             continue;
