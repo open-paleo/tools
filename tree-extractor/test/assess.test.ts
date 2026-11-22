@@ -55,7 +55,8 @@ test("a reading is doubted for few tips, few names, loose tips or unused labels"
 {
     assert.match(assessReading(buildDocument(2, 0, 0, 0), true, true)?.message ?? "", /only 2 tip/);
     assert.match(assessReading(buildDocument(5, 15, 0, 0), true, true)?.message ?? "", /only 5 of the tree's 20 tips match a name/);
-    assert.match(assessReading(buildDocument(10, 0, 10, 0), true, true)?.message ?? "", /10 of the 20 tips found are not joined/);
+    assert.equal(assessReading(buildDocument(10, 0, 10, 0), true, true), null);
+    assert.match(assessReading(buildDocument(10, 0, 10, 0), true, false)?.message ?? "", /10 of the 20 tips with a name are not joined/);
     assert.match(assessReading(buildDocument(8, 2, 0, 12), true, true)?.message ?? "", /12 row\(s\) of text/);
     assert.match(assessReading(buildDocument(0, 0, 0, 0), true, true)?.message ?? "", /no tree was found/);
 });

@@ -17,7 +17,7 @@ const fewestTips = 4;
 const namedShare = 0.75;
 
 /**
- * Share of all the tips found that must be joined to the tree.
+ * Share of the tips with a name that must be joined to the tree.
  */
 const joinedShare = 0.7;
 
@@ -44,14 +44,25 @@ export function assessReading(document: ExtractionDocument, listed: boolean, rea
     let inTree = 0;
     let named = 0;
     let labelled = 0;
+    let loose = 0;
 
     for (const tip of document.tips)
     {
+        const isNamed = tip.match !== null && tip.match.accepted;
+        const isLabelled = tip.label !== null && tip.label.length > 0;
+
         if (connected.has(tip.id))
         {
             inTree++;
-            named += tip.match !== null && tip.match.accepted ? 1 : 0;
-            labelled += tip.label !== null && tip.label.length > 0 ? 1 : 0;
+            named += isNamed ? 1 : 0;
+            labelled += isLabelled ? 1 : 0;
+        }
+        else if (!read || (listed ? isNamed : isLabelled))
+        {
+            // A branch end with no name, off beside the tree, is a stray mark: a piece of a
+            // chart's frame, a tick. Only a tip that has its name and is not in the tree is
+            // one the tree is missing (Baiano 2020, exact with six such ends beside it).
+            loose++;
         }
     }
 
@@ -71,9 +82,9 @@ export function assessReading(document: ExtractionDocument, listed: boolean, rea
         reasons.push(listed ? `only ${named} of the tree's ${inTree} tips match a name` : `only ${labelled} of the tree's ${inTree} tips have a label`);
     }
 
-    if (document.tips.length > 0 && inTree < joinedShare * document.tips.length)
+    if (loose > 0 && inTree < joinedShare * (inTree + loose))
     {
-        reasons.push(`${document.tips.length - inTree} of the ${document.tips.length} tips found are not joined to the tree`);
+        reasons.push(`${loose} of the ${inTree + loose} tips with a name are not joined to the tree`);
     }
 
     let unused = 0;
