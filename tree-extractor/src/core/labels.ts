@@ -5,6 +5,7 @@
 
 import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, ProgressReporter, RotatedFrame, TextLine, Tip, TreeNode } from "./types.ts";
 import { compareNumbers, computeMedian, cropAndScale } from "./raster.ts";
+import { createId, sortChildren } from "./edit.ts";
 import { mapPointToFrame } from "./geometry.ts";
 import { rotateGrayToFrame } from "./slant.ts";
 import { matchKnownName, matchName, normalizeName } from "./matching.ts";
@@ -503,6 +504,28 @@ export function isHigherTaxonName(label: string): boolean
     const word = label.trim();
 
     return /^[A-Z][a-z]+$/.test(word) && /(sauria|idae|inae|ini|oidea|iformes|morpha|thoraces)$/.test(word);
+}
+
+/**
+ * Whether a tip already has a name.
+ *
+ * @param document - Extraction document.
+ * @param name - The name.
+ * @returns True when a tip's accepted match is that name.
+ */
+function isNameHeld(document: ExtractionDocument, name: string): boolean
+{
+    const wanted = normalizeName(name);
+
+    for (const tip of document.tips)
+    {
+        if (tip.match !== null && tip.match.accepted && normalizeName(tip.match.name) === wanted)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
@@ -1190,6 +1213,25 @@ export async function readLabels(
             const sparse = line.box.x1 - line.box.x0 >= strokeBreadth * (line.box.y1 - line.box.y0) && measureInkShare(crop) < strokeShare;
             const stroke = sparse && line.ocr.confidence < strokeConfidence;
             node.label = cleaned.length > 0 && !stroke ? matchCladeName(cleaned, knownClades)?.name ?? cleaned : null;
+
+            // A name of the paper's own list is a tip's, not a node's. It stands at a node
+            // where the node's branch runs straight on into the tip's, the middle child of
+            // three, and the tip's stretch of it is too short to be a line (Fonseca 2024,
+            // Nevadadromeus beside the dot on its node).
+            const listed = isNameText(line.ocr.text) ? chooseMatch(cleaned, names, knownNames, knownClades) : null;
+            const beside = line.box.x0 >= node.x && line.box.x0 - node.x <= 2 * document.glyphHeight;
+
+            if (listed !== null && listed.accepted && listed.source === "list" && beside && !isNameHeld(document, listed.name))
+            {
+                const middle = (line.box.y0 + line.box.y1) / 2;
+                const tip: Tip = { id: createId(document, "t"), x: line.box.x0 - 1, y: middle, parent: node.id, textLine: line.id, label: cleaned, match: listed, source: "traced", age: null, length: line.box.x0 - 1 - node.x };
+                document.tips.push(tip);
+                node.children.push(tip.id);
+                sortChildren(document, node);
+                node.label = null;
+                node.textLine = null;
+                line.role = "tip";
+            }
         }
 
         // The clade's name from the box or band that shades it, kept as printed.

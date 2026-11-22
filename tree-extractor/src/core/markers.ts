@@ -1006,9 +1006,11 @@ export function extendTipsThroughMarkers(document: ExtractionDocument, fat: Mask
  * @param glyphHeight - Glyph height in pixels.
  * @param thickness - Line thickness in pixels.
  * @param tintInk - Everything that is not white, for pale solid discs; the text ink by default.
+ * @param anyInk - All dark ink at the line threshold, lettering included, in which hairlines
+ *   too gray for the text ink still show; the text ink by default.
  * @returns Bounding boxes of the discs.
  */
-export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number, thickness: number, tintInk: Mask = textInk): Array<Box>
+export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number, thickness: number, tintInk: Mask = textInk, anyInk: Mask = textInk): Array<Box>
 {
     const radius = Math.max(2, Math.round(thickness / 2) + 1);
     const discs = new Array<Box>();
@@ -1057,7 +1059,13 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
             // it would run the branch on (Ramirez-Velasco 2021).
             const sidesWanted = component.area < 0.6 * coreWidth * coreHeight ? 3 : 2;
 
-            if (measureInkShare(ink, box) >= wanted && countSidesEntered(lineInk, box, thickness) >= sidesWanted && !overlapsAny(discs, box))
+            // A dot beside a label is sorted with the lettering, and the ends of its lines with
+            // it, so the line ink shows nothing entering. In all the ink the lines are there:
+            // the right side is left out, where the label stands, and what enters on two of
+            // the other three is a node's branches (Fonseca 2024's numbered dots).
+            const entered = Math.max(countSidesEntered(lineInk, box, thickness), countSidesEntered(anyInk, box, thickness, true));
+
+            if (measureInkShare(ink, box) >= wanted && entered >= sidesWanted && !overlapsAny(discs, box))
             {
                 discs.push(box);
             }
@@ -1151,9 +1159,10 @@ export function measureInkShare(mask: Mask, box: Box): number
  * @param lineInk - Line ink.
  * @param box - The box.
  * @param thickness - Line thickness in pixels.
+ * @param leaveRight - Whether to leave the right side out, where a label may stand.
  * @returns Sides entered, 0 to 4.
  */
-function countSidesEntered(lineInk: Mask, box: Box, thickness: number): number
+function countSidesEntered(lineInk: Mask, box: Box, thickness: number, leaveRight = false): number
 {
     const { width, height, data } = lineInk;
     const band = 3;
@@ -1176,7 +1185,7 @@ function countSidesEntered(lineInk: Mask, box: Box, thickness: number): number
 
     let sides = 0;
     sides += countInk(box.x0 - band, box.y0, box.x0, box.y1) >= needed ? 1 : 0;
-    sides += countInk(box.x1, box.y0, box.x1 + band, box.y1) >= needed ? 1 : 0;
+    sides += !leaveRight && countInk(box.x1, box.y0, box.x1 + band, box.y1) >= needed ? 1 : 0;
     sides += countInk(box.x0, box.y0 - band, box.x1, box.y0) >= needed ? 1 : 0;
     sides += countInk(box.x0, box.y1, box.x1, box.y1 + band) >= needed ? 1 : 0;
 

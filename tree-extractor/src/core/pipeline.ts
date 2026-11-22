@@ -1573,6 +1573,31 @@ function blankAreas(image: RgbaImage, areas: Array<Box>): RgbaImage
 }
 
 /**
+ * Clears boxes out of a mask.
+ *
+ * @param mask - Mask.
+ * @param boxes - Boxes to clear.
+ * @returns A copy without the ink in the boxes.
+ */
+function blankMaskAreas(mask: Mask, boxes: Array<Box>): Mask
+{
+    const data = new Uint8Array(mask.data);
+
+    for (const box of boxes)
+    {
+        for (let y = Math.max(0, box.y0); y < Math.min(mask.height, box.y1); y++)
+        {
+            for (let x = Math.max(0, box.x0); x < Math.min(mask.width, box.x1); x++)
+            {
+                data[y * mask.width + x] = 0;
+            }
+        }
+    }
+
+    return { width: mask.width, height: mask.height, data };
+}
+
+/**
  * Makes the negative of an image.
  *
  * @param image - Image.
@@ -1818,7 +1843,34 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     // A numbered disc over a junction cuts the branches there; a cross painted through it, in
     // the copy the segments are taken from, lets them run on.
-    const nodeDiscs = parameters.nodeDiscs ? findNodeDiscs(textInk, lineInk, glyphHeight, thickness, createDarkMask(image, 230, false, parameters.maxChroma)) : [];
+    const nodeDiscs = parameters.nodeDiscs ? findNodeDiscs(textInk, lineInk, glyphHeight, thickness, createDarkMask(image, 230, false, parameters.maxChroma), createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma)) : [];
+    // A dot no larger than a letter, on a node beside a tip's label, stands in the label's
+    // row: the row then begins at the node, and the tip's branch lies inside it. The row is
+    // made to begin after the dot, and the dot is left out when the text is found again.
+    const smallDiscs = new Array<Box>();
+
+    for (const disc of nodeDiscs)
+    {
+        if (Math.max(disc.x1 - disc.x0, disc.y1 - disc.y0) < 1.2 * glyphHeight)
+        {
+            smallDiscs.push(disc);
+        }
+    }
+
+    for (const line of roughLines)
+    {
+        for (const disc of smallDiscs)
+        {
+            const overlap = Math.min(disc.y1, line.box.y1) - Math.max(disc.y0, line.box.y0);
+            const atStart = disc.x0 >= line.box.x0 - 2 && disc.x0 <= line.box.x0 + glyphHeight;
+
+            if (atStart && 2 * overlap >= disc.y1 - disc.y0 && line.box.x1 - disc.x1 >= 2 * glyphHeight)
+            {
+                line.box = { x0: disc.x1 + 1, y0: line.box.y0, x1: line.box.x1, y1: line.box.y1 };
+            }
+        }
+    }
+
     const lineArt: Mask = { width: lineInk.width, height: lineInk.height, data: new Uint8Array(lineInk.data) };
     paintCrosses(lineArt, nodeDiscs, thickness, 1.2 * glyphHeight);
     // The extractor judges a run's thickness on the text ink around it, so the disc goes there too.
@@ -2055,7 +2107,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const lineArtMask = slantedTrace === null
         ? dilate(keepInkInBoxes(lineArtBoxes, textInk, glyphMask, thickness), 1)
         : dilate(slantedTrace.skeleton, Math.max(1, Math.round(thickness / 2) + 1));
-    const text = detectTextLines(textInk, { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers) });
+    const text = detectTextLines(smallDiscs.length === 0 ? textInk : blankMaskAreas(textInk, smallDiscs), { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers) });
 
     // Labels set at a slant are found again in a level frame of their own; the level rows in
     // that zone, fragments of the same labels, give way to them.

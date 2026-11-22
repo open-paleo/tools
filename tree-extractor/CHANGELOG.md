@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A name of the paper's own list read at a node is a tip of that node. Where a node's branch
+  runs straight on into its middle child's, the tip's stretch is too short to be a line, and
+  the name was kept as the node's label (Poropat 2014, 33 of 36 names to 35; Fonseca 2024;
+  Prieto-Marquez 2012).
+- A small numbered dot on a node beside a tip's label is found although the ends of its
+  lines were sorted with the lettering, and is kept out of the label's row.
 - In a slanted tree, the forks inside a fan's wedge are one node. A polytomy drawn as a fan
   has its lines run together into a black wedge at the node, and the skeleton forked wherever
   a line parted from the rest (Upchurch 2015, six wrong splits to two; Gallina 2014, four to
