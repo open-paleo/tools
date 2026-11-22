@@ -1,0 +1,23 @@
+#NEXUS
+
+[ novas2013a_fig8: Abelisauroid summary cladogram, root at the bottom, fully resolved. ABELISAUROIDEA, ABELISAURIDAE and BRACHYROSTRA, each printed just right of the stem below the node it names, are kept as internal labels in their printed capitals. The thick bars and numbers point to anatomical drawings, not branches. 10 tips, fully resolved; 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=10;
+    TAXLABELS
+        Ceratosaurus
+        Noasauridae
+        Rugops
+        Abelisaurus
+        Majungasaurus
+        Carnotaurus
+        Aucasaurus
+        Ilokelesia
+        Skorpiovenator
+        Ekrixinatosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE novas2013a_fig8 = [&R] (Ceratosaurus,(Noasauridae,(Rugops,(Abelisaurus,(Majungasaurus,((Carnotaurus,Aucasaurus),(Ilokelesia,(Skorpiovenator,Ekrixinatosaurus)))BRACHYROSTRA)))ABELISAURIDAE)ABELISAUROIDEA);
+END;

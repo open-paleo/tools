@@ -1,0 +1,47 @@
+#NEXUS
+
+[ zhou2026a_fig6: Dromaeosaurid strict consensus, panel A. Two large fans: nine microraptorines leave one vertical (stem entering at Hesperonychus' height) and fourteen eudromaeosaurs another (stem at Velociraptor mongoliensis' height), each read as one node with the entered line as a child, as in earlier batches. No clade names are printed. 34 tips, 2 polytomies (9, 14 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=34;
+    TAXLABELS
+        Mahakala_omnogovae
+        Rahonavis_ostromi
+        Buitreraptor_gonzalezorum
+        Neuquenraptor_argentinus
+        Austroraptor_cabazai
+        Shanag_ashile
+        Tianyuraptor_ostromi
+        Zhenyuanlong_suni
+        Jian_changmaensis
+        Zhongjianosaurus_yangi
+        Wulong_bohaiensis
+        IVPP_V22530
+        Hesperonychus_elizabethae
+        Changyuraptor_yangi
+        Sinornithosaurus_millenii
+        Microraptor_zhaoianus
+        Graciliraptor_lujiatunensis
+        Saurornitholestes_langstoni
+        Bambiraptor_feinbergorum
+        Acheroraptor_temertyorum
+        Velociraptor_osmolskae
+        Balaur_bondoc
+        Dakotaraptor_steini
+        Yurgovuchia_doellingi
+        Luanchuanraptor_henanensis
+        Velociraptor_mongoliensis
+        Deinonychus_antirrhopus
+        Dromaeosaurus_albertensis
+        Achillobator_giganticus
+        Adasaurus_mongoliensis
+        Utahraptor_ostrommaysi
+        Atrociraptor_marshalli
+        Linheraptor_exquisitus
+        Tsaagan_mangas
+    ;
+END;
+
+BEGIN TREES;
+    TREE zhou2026a_fig6 = [&R] (Mahakala_omnogovae,((Rahonavis_ostromi,(Buitreraptor_gonzalezorum,(Neuquenraptor_argentinus,Austroraptor_cabazai))),(Shanag_ashile,((Tianyuraptor_ostromi,(Zhenyuanlong_suni,(Jian_changmaensis,Zhongjianosaurus_yangi,Wulong_bohaiensis,IVPP_V22530,Hesperonychus_elizabethae,Changyuraptor_yangi,Sinornithosaurus_millenii,Microraptor_zhaoianus,Graciliraptor_lujiatunensis))),(Saurornitholestes_langstoni,(Bambiraptor_feinbergorum,(Acheroraptor_temertyorum,Velociraptor_osmolskae,Balaur_bondoc,Dakotaraptor_steini,Yurgovuchia_doellingi,Luanchuanraptor_henanensis,Velociraptor_mongoliensis,Deinonychus_antirrhopus,Dromaeosaurus_albertensis,Achillobator_giganticus,Adasaurus_mongoliensis,Utahraptor_ostrommaysi,Atrociraptor_marshalli,(Linheraptor_exquisitus,Tsaagan_mangas))))))));
+END;

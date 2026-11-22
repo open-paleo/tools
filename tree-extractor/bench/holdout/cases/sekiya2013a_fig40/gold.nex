@@ -1,0 +1,46 @@
+#NEXUS
+
+[ sekiya2013a_fig40: Slanted sauropodomorph cladogram. Where lines converge, each was traced from its tip at 45° and measured row by row: the Marasuchus-Herrerasaurus pair, Eoraptor and the rest meet at the root (three-way); Plateosauravus, the Jingshanosaurus-Yunnanosaurus clade and the sauropod stem meet at node 12 (the two lines overlap only as they converge); six branches fan from node 17. Node 5 sits on ‘G.’ sinensis's line, which is read as Prosauropoda's stem below it. Sauropodomorpha (node 1), Prosauropoda (node 5) and Sauropoda (node 17) are kept as internal labels; the node numbers and the 'outgroup' bracket are not. 33 tips, 3 polytomies (3, 3, 6 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=33;
+    TAXLABELS
+        Marasuchus
+        Herrerasaurus
+        Eoraptor
+        Guaibasaurus
+        Saturnalia
+        Thecodontosaurus
+        Efraasia
+        Anchisaurus
+        '‘G.’ sinensis'
+        Sarahsaurus
+        Massospondylus
+        Adeopapposaurus
+        Plateosaurus
+        Riojasaurus
+        Coloradisaurus
+        Lufengosaurus
+        Plateosauravus
+        Jingshanosaurus
+        Seitaad
+        Y._huangi
+        'Y. robustus (V93)'
+        ZMNH-M8739
+        Antetonitrus
+        Aardonyx
+        Blikanasaurus
+        Lesemsaurus
+        Camelotia
+        Melanorosaurus
+        Lamplughsaura
+        Vulcanodon
+        Shunosaurus
+        Omeisaurus
+        Barapasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE sekiya2013a_fig40 = [&R] ((Marasuchus,Herrerasaurus),Eoraptor,((Guaibasaurus,Saturnalia),(Thecodontosaurus,(Efraasia,(Anchisaurus,(('‘G.’ sinensis',(Sarahsaurus,((Massospondylus,Adeopapposaurus),((Plateosaurus,Riojasaurus),(Coloradisaurus,Lufengosaurus)))))Prosauropoda,(Plateosauravus,((Jingshanosaurus,Seitaad),(Y._huangi,('Y. robustus (V93)',ZMNH-M8739))),(Antetonitrus,Aardonyx,Blikanasaurus,Lesemsaurus,(Camelotia,Melanorosaurus),(Lamplughsaura,(Vulcanodon,(Shunosaurus,(Omeisaurus,Barapasaurus)))))Sauropoda)))))Sauropodomorpha));
+END;

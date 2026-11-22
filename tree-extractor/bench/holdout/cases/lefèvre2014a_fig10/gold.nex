@@ -1,0 +1,37 @@
+#NEXUS
+
+[ lefèvre2014a_fig10: Avialan strict consensus, read from 3x crops. The circled letters A and B are keys to the caption (A Jeholornithiformes, B pygostylia), not printed names, so they are not encoded. The root node (Eosinopteryx, Aurornis and the rest) and the enantiornithine node (Pengornis, Protopteryx, the Longipteryx clade and Ornithuromorpha, entered between the Longipteryx and Archaeorhynchus lines) are multi-way. 24 tips, 2 polytomies (3, 4 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Eosinopteryx
+        Aurornis
+        Anchiornis
+        Archaeopteryx
+        Xiaotingia
+        Rahonavis
+        Jeholornis_palmapenis
+        Jeholornis_curvipes
+        Jeholornis_prima
+        Jixiangornis
+        Sapeornis
+        Confuciusornis
+        Pengornis
+        Protopteryx
+        Longipteryx
+        Concornis
+        Gobipteryx
+        Archaeorhynchus
+        Schizooura
+        Jianchangornis
+        Yixianornis
+        Gansus
+        Apsaravis
+        Patagopteryx
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'lefèvre2014a_fig10' = [&R] (Eosinopteryx,Aurornis,(Anchiornis,(Archaeopteryx,(Xiaotingia,(Rahonavis,((Jeholornis_palmapenis,(Jeholornis_curvipes,Jeholornis_prima)),(Jixiangornis,(Sapeornis,(Confuciusornis,(Pengornis,Protopteryx,(Longipteryx,(Concornis,Gobipteryx)),(Archaeorhynchus,(Schizooura,(Jianchangornis,(Yixianornis,(Gansus,(Apsaravis,Patagopteryx))))))))))))))));
+END;

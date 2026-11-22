@@ -1,0 +1,81 @@
+#NEXUS
+
+[ poole2022a_fig6: Ornithopod parsimony consensus, left tree. Branches read from the PDF's vector lines (1.18 pt); the Talenkauen-Valdosaurus pair and the rhabdodontid subtree sit in an embedded raster patch, where the vector lines stop, and were read from the render at 3x. Tip names are vector outlines (no text layer), assigned in top-to-bottom order. Neornithischia, Clypeodonta, Iguanodontia, Dryomorpha and Rhabdodontidae, printed beside node dots, are kept as internal labels; the band names on the right (Thescelosauridae, Rhabdodontoidea, Ankylopollexia, ...) span both trees and are not encoded. The Trinisaura-Kangnasaurus node (checked at 4x) is a three-way split. 68 tips, 7 polytomies (3, 3, 4, 8, 5, 3, 3 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=68;
+    TAXLABELS
+        Eocursor
+        Lesothosaurus
+        Stormbergia
+        Shishugou_taxon
+        Agilisaurus
+        Hexinlusaurus
+        Haya
+        Othnielosaurus
+        Jeholosaurus
+        Orodromeus
+        Zephyrosaurus
+        Parksosaurus
+        Thescelosaurus_infernalis
+        Thescelosaurus_neglectus
+        Hypsilophodon
+        Gasparinisaura
+        Leaellynasaura
+        Macrogryphosaurus
+        Talenkauen
+        Valdosaurus
+        Anabisetia
+        Trinisaura
+        Kangnasaurus
+        Muttaburrasaurus
+        Tenontosaurus_dossi
+        Tenontosaurus_tilletti
+        Rhabdodon
+        Zalmoxes_robustus
+        Zalmoxes_shqiperorum
+        Dryosaurus
+        Dysalotosaurus
+        Kirkwood_taxon
+        Uteodon
+        Camptosaurus
+        Dakotadon
+        Owenodon
+        Theiophytalia
+        Iguanacolossus
+        Lanzhousaurus
+        Bolong
+        Jinzhousaurus
+        Lurdusaurus
+        Barilium_holotype
+        Hypselospinus
+        Ouranosaurus
+        Xuwulong
+        Hippodraco
+        Iguanodon
+        Equijubus
+        Proa
+        Fukuisaurus
+        Mantellisaurus_holotype
+        RBINS_R57
+        Probactrosaurus
+        Batyrosaurus
+        Altirhinus
+        Jeyawati
+        Eolambia
+        Protohadros
+        Shuangmiaosaurus
+        Levnesovia
+        Tethyshadros
+        Bactrosaurus
+        Gilmoreosaurus
+        Telmatosaurus
+        Hypacrosaurus
+        Maiasaura
+        Edmontosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE poole2022a_fig6 = [&R] (Eocursor,(Lesothosaurus,Stormbergia,(Shishugou_taxon,((Agilisaurus,Hexinlusaurus),((Haya,(Othnielosaurus,Jeholosaurus)),(((Orodromeus,Zephyrosaurus),(Parksosaurus,(Thescelosaurus_infernalis,Thescelosaurus_neglectus))),(Hypsilophodon,(Gasparinisaura,(Leaellynasaura,(Macrogryphosaurus,((Talenkauen,Valdosaurus),(Anabisetia,(Trinisaura,Kangnasaurus,((Muttaburrasaurus,((Tenontosaurus_dossi,Tenontosaurus_tilletti),(Rhabdodon,(Zalmoxes_robustus,Zalmoxes_shqiperorum))Rhabdodontidae)),((Dryosaurus,(Dysalotosaurus,Kirkwood_taxon)),(Uteodon,(Camptosaurus,(Dakotadon,(Owenodon,Theiophytalia,Iguanacolossus,(Lanzhousaurus,((Bolong,Jinzhousaurus),(Lurdusaurus,(Barilium_holotype,Hypselospinus)),Ouranosaurus,Xuwulong,Hippodraco,((Iguanodon,Equijubus),(Proa,Fukuisaurus)),(Mantellisaurus_holotype,RBINS_R57),(Probactrosaurus,Batyrosaurus,Altirhinus,Jeyawati,(Eolambia,Protohadros,(Shuangmiaosaurus,Levnesovia,(Tethyshadros,((Bactrosaurus,Gilmoreosaurus),(Telmatosaurus,(Hypacrosaurus,(Maiasaura,Edmontosaurus)))))))))))))))Dryomorpha)))))))Iguanodontia)Clypeodonta))))Neornithischia));
+END;

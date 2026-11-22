@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/gates2021a_fig14.png",
+  "names": "names.txt",
+  "source": "Gates and Lamb 2021, Canadian Journal of Earth Sciences 58, Fig. 14: hadrosauroid phylogeny with Lophorhothon atopus (bold) and each taxon's region; rectangular, root left, thin lines, no support values. Image: census figure (1145x1258 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the 61 printed tip labels in full, each with its region after a hyphen as printed ('Edmontosaurus annectens - Laramidia'), including the specimen tips 'Sabinosaur PASAC-1 - Mexico' and 'Big Bend UTEP 37.7 - Laramidia'",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosauroid cladogram. Read with the run-length line reader (identical at three settings), which lost one clade, ((Arenysaurus, Blasisaurus), Hypacrosaurus altispinus, Olorotitan), whose stem enters at H. altispinus' height; it was read from a 4x crop and inserted as sister to ((Sahaliyania, Velafrons), Magnapaulia). The root is three-way (the rest, Iguanodon, Jinzhousaurus). No clade names are printed. 61 tips, 4 polytomies (3, 3, 3, 3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/scannella2014a_fig3.png",
+  "names": "names.txt",
+  "source": "Scannella et al. 2014, Proceedings of the National Academy of Sciences 111, Fig. 3A: strict consensus of 250000 MPTs of Hell Creek Formation Triceratops specimens; rectangular, root left, specimen-number tips in bold, grey stratigraphic bands (U3, M3, L3) with skull silhouettes, a tree-statistics block, bootstrap value 65. Panels B and C (other codings of the same specimens) are excluded. Image: census figure (660x1596 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 660,
+    "y1": 622
+  },
+  "region_note": "panel A; panels B and C below it repeat the specimens under other analyses",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "printed tip names (specimen numbers with a space, 'MOR 1122'; genus names for the two outgroups). The census matrix list (MorphoBank 1099) spells the same specimens without the space and partly in lower case ('MOR1122', 'mor2982') and has eight more OTUs, so it is not used. 'MOR 3011' is printed with the stratigraphic note '(m3)', not part of the name",
+  "gold": "gold.nex",
+  "gold_note": "Triceratops specimen consensus, panel A. Three large fans: fifteen specimens leave one vertical (stem entering at MOR 2574's height), and MOR 3011, MOR 981, MOR 3081, MOR 1122 leave the bootstrap-65 node with the rest of the ingroup. The band labels U3, M3, L3 and 'upper/lower' mark stratigraphic levels, not clades. 23 tips, 2 polytomies (5, 15 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

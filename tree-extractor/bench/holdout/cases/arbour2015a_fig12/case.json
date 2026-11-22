@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/arbour2015a_fig12.png",
+  "names": "names.txt",
+  "source": "Arbour and Currie 2015, Journal of Systematic Palaeontology 14, Fig. 12: time-calibrated 50% majority-rule tree of Ankylosauridae and other thyreophorans with S-DIVA biogeography; rectangular, root left, a Jurassic-Cretaceous stage chart above, black range bars, continent icons on branches and nodes, node dots with clade names, skull-ornament diagrams at the right, grey unplaced taxa, dashed lines for the maximum-agreement-subtree resolution among ankylosaurins. Image: census figure (1623x2036 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "printed tip names (genus only mostly; the census matrix list spells several differently, e.g. Dongyangopelta for the printed Donyangopelta, Argentine ankylosaur for Argentinian nodosaurid), with the quotation marks as printed. The four grey taxa drawn without branches (Sarcolestes, Japanese ankylosaur, Bissektipelta, Kaiparowits ankylosaurid; 'taxon has uncertain phylogenetic relationship') are not in the tree or the list",
+  "gold": "gold.nex",
+  "gold_note": "Thyreophoran time tree, read by eye with the parts under continent icons and the close steps checked at 2x. Thyreophora, Ankylosauria, Ankylosauridae, Ankylosaurinae and Ankylosaurini, printed beside node dots, are kept as internal labels. The (Ankylosaurus, Anodontosaurus) and (Scolosaurus, Ziapelta) pairs are joined by dashed lines, which the caption gives as the maximum-agreement-subtree resolution; they are encoded as drawn, and without them those five taxa form one polytomy. Under the Asia icon the Donyangopelta node is entered at Sauroplites' height, and the seven-way nodosaurid node at Panoplosaurus' height; both read as children of the node entered, as in earlier batches. 41 tips, 5 polytomies (3, 7, 4, 4, 3 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

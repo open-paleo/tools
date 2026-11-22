@@ -1,0 +1,74 @@
+#NEXUS
+
+[ hu2017z_fig9: Bird cladogram, read from 2x crops. Eleven clade names printed beside node squares are kept as internal labels. The seven-taxon Qiliania node is entered at Gobipteryx's height, and the (Vegavis, (Gallus, Anas)) branch continues straight through the node its stem enters; both are read as children of the node entered, as in earlier batches. 61 tips, 7 polytomies (3, 3, 6, 7, 3, 5, 4 children); 11 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=61;
+    TAXLABELS
+        Dromaeosauridae
+        Archaeopteryx
+        Jeholornis
+        Eoconfuciusornis
+        Changchengornis
+        Confuciusornis_sanctus
+        Confuciusornis_dui
+        Jinzhouornis
+        Sapeornis
+        Iberomesornis
+        Protopteryx
+        Eopengornis
+        Pengornis
+        Eocathayornis
+        Longipteryx
+        Boluochia
+        Shanweiniao
+        Rapaxavis
+        Longirostravis
+        Monoenantiornis
+        Pteryornis
+        Dunhuangia
+        Eoenantiornis
+        Elsornis
+        Sulcavis
+        Shenqiornis
+        Longusunguis
+        Zhouornis
+        Fortunguavis
+        Parabohaiornis
+        Bohaiornis
+        Qiliania
+        Vescornis
+        Neuquenornis
+        Gobipteryx
+        Cathayornis
+        Eoalulavis
+        Concornis
+        Archaeorhynchus
+        Jianchangornis
+        Patagopteryx
+        Schizooura
+        Vorona
+        Hongshanornis
+        Longicrusavis
+        Piscivoravis
+        Yixianornis
+        Yanornis
+        Songlingornis
+        Iteravis
+        Gansus
+        Ichthyornis
+        Apsaravis
+        Vegavis
+        Gallus
+        Anas
+        Enaliornis
+        Baptornis_advenus
+        Baptornis_varneri
+        Parahesperornis
+        Hesperornis
+    ;
+END;
+
+BEGIN TREES;
+    TREE hu2017z_fig9 = [&R] (Dromaeosauridae,(Archaeopteryx,(Jeholornis,((Eoconfuciusornis,(Changchengornis,Confuciusornis_sanctus,(Confuciusornis_dui,Jinzhouornis)))Confuciusornithiformes,(Sapeornis,((Iberomesornis,((Protopteryx,(Eopengornis,Pengornis)Pengornithidae),(Eocathayornis,((Longipteryx,Boluochia),(Shanweiniao,(Rapaxavis,Longirostravis)))Longipterygidae,(Monoenantiornis,(Pteryornis,Dunhuangia,Eoenantiornis,Elsornis,((Sulcavis,Shenqiornis),(Longusunguis,((Zhouornis,Fortunguavis),(Parabohaiornis,Bohaiornis))))Bohaiornithidae,(Qiliania,Vescornis,Neuquenornis,Gobipteryx,Cathayornis,Eoalulavis,Concornis))))))Enantiornithes,(Archaeorhynchus,(Jianchangornis,((Patagopteryx,Schizooura,Vorona),((Hongshanornis,Longicrusavis)Hongshanornithidae,(Piscivoravis,Yixianornis,Yanornis,Songlingornis,(Iteravis,(Gansus,(Ichthyornis,Apsaravis,(Vegavis,(Gallus,Anas)Neornithes),(Enaliornis,(Baptornis_advenus,(Baptornis_varneri,(Parahesperornis,Hesperornis))))))))))))Ornithuromorpha)Ornithothoraces))Pygostylia))Aves);
+END;

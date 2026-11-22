@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/magyar2026a_fig14.png",
+  "names": "names.txt",
+  "source": "Magyar et al. 2026, Journal of Systematic Palaeontology 24, Fig. 14: strict (= majority-rule) consensus of the second analysis, the updated Dai et al. (2025) dataset, with Telmatosauridae and Kryptohadros kallaiae in red; rectangular, root top left, thick lines, bold italic names, numbered and lettered node squares keyed in the caption. Image: census figure (2008x1432 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the 66 printed tip names (genus and species)",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosauroid consensus, read by eye with the dense parts checked at 2x. The node numbers 1-8 and letters A-G are keys to the caption (1 Hadrosauriformes, 2 Hadrosauroidea, 3 Hadrosauromorpha, 4 Hadrosauridae, 5 Euhadrosauria, 6 Saurolophinae, 7 Lambeosaurinae, 8 Corythosauria, A Brachylophosaurini, B Kritosaurini, C Saurolophini, D Edmontosaurini, E Arenysaurini, F Parasaurolophini, G Lambeosaurini), not printed names, so no internal labels are encoded; Telmatosauridae is marked only by colour. Node F's stem enters at the height of Parasaurolophus cyrtocristatus, which is read as one of its three children, as in earlier batches. 66 tips, 4 polytomies (4, 3, 3, 3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

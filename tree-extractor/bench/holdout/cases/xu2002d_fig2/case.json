@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/xu2002d_fig2.png",
+  "names": "names.txt",
+  "source": "Xu et al. 2002, Nature 419, Fig. 2: simplified strict consensus of 210 trees placing Incisivosaurus gauthieri; rectangular, root left, thin lines, one node dot with an arrow from 'Oviraptorosauria'. Image: census figure (900x776 px), a 300 dpi page render re-made 2026-11-21 to include the tip names, which are vector outlines beside the raster (the earlier image showed only their first letters).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the higher-taxon tips and the specimen tip 'IGM 100/42'",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur summary consensus. Oviraptorosauria, joined by an arrow to a node dot, is kept as an internal label. The stem from the Ornitholestes node runs straight across the vertical that carries the Paraves, Alvarezsauridae and oviraptorosaur-therizinosauroid lines; it is read as entering that vertical (a three-way node), and its continuation as the oviraptorosaur-therizinosauroid stem, the only reading in which every line has a parent, as in earlier batches. The seven-way oviraptorid node is entered at Oviraptor philoceratops' height. 19 tips, 2 polytomies (3, 7 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

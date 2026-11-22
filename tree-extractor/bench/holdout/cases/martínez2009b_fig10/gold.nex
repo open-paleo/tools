@@ -1,0 +1,25 @@
+#NEXUS
+
+[ martínez2009b_fig10: Early dinosaur summary tree. Dinosauria, Ornithischia, Saurischia, Theropoda and Sauropodomorpha, joined by arrows to red node dots, are kept as internal labels. Two dots sit on a vertical shared with the node below: Ornithischia's dot is where the (Pisanosaurus, other Ornithischia) line leaves the Dinosauria vertical, below Silesaurus, and Theropoda's where Neotheropoda leaves, above the entering stem; each dot is read as its own node, so (Silesaurus, (Pisanosaurus, other Ornithischia)) and (Guaibasaurus, Neotheropoda) are clades. Fully resolved. 12 tips, fully resolved; 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=12;
+    TAXLABELS
+        Outgroup
+        Silesaurus
+        Pisanosaurus
+        other_Ornithischia
+        Herrerasaurus
+        Staurikosaurus
+        Eoraptor
+        Guaibasaurus
+        Neotheropoda
+        Panphagia
+        Saturnalia
+        other_Sauropodomorpha
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'martínez2009b_fig10' = [&R] (Outgroup,((Silesaurus,(Pisanosaurus,other_Ornithischia))Ornithischia,((Herrerasaurus,Staurikosaurus),(Eoraptor,((Guaibasaurus,Neotheropoda)Theropoda,(Panphagia,(Saturnalia,other_Sauropodomorpha))Sauropodomorpha)))Saurischia)Dinosauria);
+END;

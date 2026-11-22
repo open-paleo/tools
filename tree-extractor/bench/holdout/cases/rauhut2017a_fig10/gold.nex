@@ -1,0 +1,22 @@
+#NEXUS
+
+[ rauhut2017a_fig10: Theropod summary tree 2, root at the bottom. Averostra, Tetanurae and Avetheropoda, printed beside node dots, are kept as internal labels. Fully resolved. 9 tips, fully resolved; 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=9;
+    TAXLABELS
+        Dilophosaurus
+        Ceratosauria
+        Chilesaurus
+        Pandoravenator
+        Condorraptor
+        Piatnitzkysaurus
+        Spinosauroidea
+        Allosauroidea
+        Coelurosauria
+    ;
+END;
+
+BEGIN TREES;
+    TREE rauhut2017a_fig10 = [&R] (Dilophosaurus,(Ceratosauria,(Chilesaurus,(Pandoravenator,((Condorraptor,Piatnitzkysaurus),(Spinosauroidea,(Allosauroidea,Coelurosauria)Avetheropoda))))Tetanurae)Averostra);
+END;

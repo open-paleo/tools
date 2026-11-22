@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/rauhut2017a_fig10.png",
+  "names": "names.txt",
+  "source": "Rauhut and Pol 2017, Ameghiniana 54, Fig. 10, tree 2: one of three simplified theropod trees showing the possible positions of Pandoravenator (bold); vertical, root at the bottom, tip names written upwards above the branches, collapsed clades as triangles (shaded by group), node dots with clade names. Trees 1 and 3 are excluded. Image: census figure (971x2492 px), a page render (inverted on raw extraction).",
+  "region": {
+    "x0": 0,
+    "y0": 805,
+    "x1": 971,
+    "y1": 1688
+  },
+  "region_note": "tree 2 (the middle panel). The census region was tree 1, which draws Pandoravenator three times on dashed alternative branches and so shows no single tree; trees 2 and 3 are ordinary trees, and tree 2 is used instead of replacing the figure",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of tree 2, including the collapsed-clade tips Ceratosauria, Spinosauroidea, Allosauroidea and Coelurosauria",
+  "gold": "gold.nex",
+  "gold_note": "Theropod summary tree 2, root at the bottom. Averostra, Tetanurae and Avetheropoda, printed beside node dots, are kept as internal labels. Fully resolved. 9 tips, fully resolved; 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,57 @@
+#NEXUS
+
+[ müller2017z_fig3: Early dinosauriform cladogram. Each coloured box spans exactly one clade; its vertical name is kept as an internal label (Lagerpetidae, 'Dinosaurifor.' as printed, Dinosauria, Saurischia, Theropoda, Sauropodomorpha). Several fans are entered at a child's height (Silesaurus, Scutellosaurus, between Petrified forest theropod and Zupaysaurus, Chromogisaurus), read as one node, as in earlier batches. 44 tips, 5 polytomies (4, 3, 4, 5, 3 children); 6 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=44;
+    TAXLABELS
+        Euparkeria_capensis
+        Lagerpeton_chanarensis
+        Ixalerpeton_polesinensis
+        Dromomeron_romeri
+        Dromomeron_gregorii
+        Marasuchus_lilloensis
+        Pseudolagosuchus_major
+        Lewisuchus_admixtus
+        Saltopus_elginensis
+        Asilisaurus_kongwe
+        Eucoelophysis_baldwini
+        Sacisaurus_agudoensis
+        Silesaurus_opolensis
+        Diodorus_scytobrachion
+        Eocursor_parvus
+        Lesothosaurus_diagnosticus
+        Scutellosaurus_lawleri
+        Heterodontosaurus_tucki
+        Pisanosaurus_mertii
+        Staurikosaurus_pricei
+        Sanjuansaurus_gordilloi
+        Herrerasaurus_ischigualastensis
+        Daemonosaurus_chaulidos
+        Tawa_hallae
+        Chindesaurus_briansmalli
+        Eodromaeus_murphi
+        Guaibasaurus_candelariensis
+        'CAPPA/UFSM 0179'
+        Dilophosaurus_wetherelli
+        Petrified_forest_theropod
+        Zupaysaurus_rugeiri
+        Liliensternus_liliensterni
+        Syntarsus_kayentakatae
+        Syntarsus_rhodesiensis
+        Coelophysis_bauri
+        Buriolestes_schultzi
+        Eoraptor_lunensis
+        Pampadromaeus_barberenai
+        Panphagia_protos
+        Chromogisaurus_novasi
+        Saturnalia_tupiniquim
+        Pantydraco_caducus
+        Efraasia_minor
+        Plateosaurus_engelhardti
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'müller2017z_fig3' = [&R] (Euparkeria_capensis,((Lagerpeton_chanarensis,(Ixalerpeton_polesinensis,(Dromomeron_romeri,Dromomeron_gregorii)))Lagerpetidae,(Marasuchus_lilloensis,(Pseudolagosuchus_major,Lewisuchus_admixtus,Saltopus_elginensis,((Asilisaurus_kongwe,((Eucoelophysis_baldwini,(Sacisaurus_agudoensis,Silesaurus_opolensis,Diodorus_scytobrachion)),(Eocursor_parvus,Lesothosaurus_diagnosticus,Scutellosaurus_lawleri,(Heterodontosaurus_tucki,Pisanosaurus_mertii)))),((Staurikosaurus_pricei,(Sanjuansaurus_gordilloi,Herrerasaurus_ischigualastensis)),(Daemonosaurus_chaulidos,((Tawa_hallae,Chindesaurus_briansmalli),(Eodromaeus_murphi,(Guaibasaurus_candelariensis,(('CAPPA/UFSM 0179',Dilophosaurus_wetherelli,Petrified_forest_theropod,Zupaysaurus_rugeiri,(Liliensternus_liliensterni,(Syntarsus_kayentakatae,(Syntarsus_rhodesiensis,Coelophysis_bauri))))Theropoda,(Buriolestes_schultzi,(Eoraptor_lunensis,(Pampadromaeus_barberenai,(Panphagia_protos,(Chromogisaurus_novasi,Saturnalia_tupiniquim),(Pantydraco_caducus,(Efraasia_minor,Plateosaurus_engelhardti))))))Sauropodomorpha))))))Saurischia)Dinosauria))Dinosaurifor.));
+END;

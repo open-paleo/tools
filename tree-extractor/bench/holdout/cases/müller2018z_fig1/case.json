@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/müller2018z_fig1.png",
+  "names": "names.txt",
+  "source": "Müller, Pretto, Kerber, Silva-Neves & Dias-da-Silva 2018, Biology Letters 14: 20170581 (comment on Baron & Barrett 2017) (corpus placeholder key müller2018z), Fig. 1: reduced strict consensus with ordered characters placing Chilesaurus (red silhouette) among sauropodomorphs; rectangular, root left, node dots with red arrows from clade names, coloured bands behind Ornithoscelida and Saurischia, silhouettes with arrows. Image: census figure (1265x683 px), the 2026-11-21 page render that includes the text-layer labels (flag labels_from_text_layer).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the higher-taxon tips Ornithischia, Theropoda, Herrerasauridae, Plateosauridae and 'other sauropodomorphs'",
+  "gold": "gold.nex",
+  "gold_note": "Early dinosaur summary tree. Ornithoscelida, Dinosauria, Saurischia and Sauropodomorpha, joined by red arrows to node dots, are kept as internal labels. Fully resolved. 14 tips, fully resolved; 4 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

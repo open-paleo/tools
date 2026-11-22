@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census/figures/martínez2009b_fig10.png",
+  "names": "names.txt",
+  "source": "Martínez and Alcober 2009, PLoS ONE 4, Fig. 10: simplified cladogram placing Panphagia (bold); rectangular, root left, red node dots with arrows from clade names, bootstrap above and Bremer below the nodes, a frame. Image: census figure (1036x549 px), the embedded raster.",
+  "license": "CC BY (Creative Commons Attribution License; the text gives no version)",
+  "attribution": "Martínez, R. N.; Alcober, O. A. (2009). A Basal Sauropodomorph (Dinosauria: Saurischia) from the Ischigualasto Formation (Triassic, Carnian) and the Early Evolution of Sauropodomorpha. PLoS ONE. https://doi.org/10.1371/journal.pone.0004397. Fig. 10. CC BY.",
+  "names_note": "no matrix held; list = the printed tip names, including Outgroup, 'other Ornithischia', Neotheropoda and 'other Sauropodomorpha'",
+  "gold": "gold.nex",
+  "gold_note": "Early dinosaur summary tree. Dinosauria, Ornithischia, Saurischia, Theropoda and Sauropodomorpha, joined by arrows to red node dots, are kept as internal labels. Two dots sit on a vertical shared with the node below: Ornithischia's dot is where the (Pisanosaurus, other Ornithischia) line leaves the Dinosauria vertical, below Silesaurus, and Theropoda's where Neotheropoda leaves, above the entering stem; each dot is read as its own node, so (Silesaurus, (Pisanosaurus, other Ornithischia)) and (Guaibasaurus, Neotheropoda) are clades. Fully resolved. 12 tips, fully resolved; 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

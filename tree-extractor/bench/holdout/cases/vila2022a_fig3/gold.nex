@@ -1,0 +1,34 @@
+#NEXUS
+
+[ vila2022a_fig3: Saltasaurid time tree. Branch topology read from the PDF's black vector lines (0.74 pt; the area boxes are drawn on top of them), tip names from the text layer, one per branch. Saltasauridae, Saltasaurinae, Saltasaurini, Opisthocoelicaudiinae and Lognkosauria, each printed beside its node's area box, are kept as internal labels; the area codes (EFS, S, AE, ...) are not names. 21 tips, fully resolved; 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=21;
+    TAXLABELS
+        Neuquensaurus
+        Saltasaurus
+        Maxakalisaurus
+        Abditosaurus
+        Paralititan
+        Mansourasaurus
+        Paludititan
+        Ampelosaurus
+        Lirainosaurus
+        Opisthocoelicaudia
+        Lohuecotitan
+        Pellegrinisaurus
+        Dreadnoughtus
+        Alamosaurus
+        Baurutitan
+        Notocolossus
+        Atsinganosaurus
+        Mendozasaurus
+        Epachthosaurus
+        Rukwatitan
+        Futalognkosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE vila2022a_fig3 = [&R] ((((Neuquensaurus,Saltasaurus)Saltasaurini,(Maxakalisaurus,(Abditosaurus,Paralititan)))Saltasaurinae,((Mansourasaurus,Paludititan),((Ampelosaurus,(Lirainosaurus,Opisthocoelicaudia)),(Lohuecotitan,(Pellegrinisaurus,(Dreadnoughtus,(Alamosaurus,Baurutitan))))))Opisthocoelicaudiinae),((((Notocolossus,Atsinganosaurus),Mendozasaurus),Epachthosaurus),(Rukwatitan,Futalognkosaurus))Lognkosauria)Saltasauridae;
+END;

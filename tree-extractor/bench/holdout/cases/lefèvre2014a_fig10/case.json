@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/lefèvre2014a_fig10.png",
+  "names": "names.txt",
+  "source": "Lefèvre et al. 2014, Biological Journal of the Linnean Society 113, Fig. 10: strict consensus, Avialae part only, with Jeholornis curvipes highlighted; rectangular, root left, thin lines, small bold names, Bremer values beside the internodes, two circled node letters A and B keyed in the caption. Image: census figure (800x444 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names",
+  "gold": "gold.nex",
+  "gold_note": "Avialan strict consensus, read from 3x crops. The circled letters A and B are keys to the caption (A Jeholornithiformes, B pygostylia), not printed names, so they are not encoded. The root node (Eosinopteryx, Aurornis and the rest) and the enantiornithine node (Pengornis, Protopteryx, the Longipteryx clade and Ornithuromorpha, entered between the Longipteryx and Archaeorhynchus lines) are multi-way. 24 tips, 2 polytomies (3, 4 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

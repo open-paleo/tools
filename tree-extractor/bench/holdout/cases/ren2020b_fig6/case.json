@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/ren2020b_fig6.png",
+  "names": "names.txt",
+  "source": "Ren et al. 2020, Historical Biology 32, Fig. 6: sauropod phylogeny with Anhuilong (arrowed); rectangular, root left, thin lines, five node dots with clade names beside them. Image: census figure (1650x1609 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the outgroup tip Theropoda, 'Amaragsaurus' as printed, and ‘Omeisaurus’ maoianus with its quotation marks",
+  "gold": "gold.nex",
+  "gold_note": "Sauropod cladogram, read by eye (the line reader did not hold the thin antialiased lines together) with the close parts checked at 3x. Sauropodomorpha, Sauropoda, Eusauropoda, Mamenchisauridae and Neosauropoda, printed beside node dots, are kept as internal labels. The Plateosaurus line stops about 4 px short of the Sauropodomorpha vertical; it is read as that node's child, the only node it can belong to. At the Turiasaurus, rebbachisaurid and Mamenchisaurus nodes the stem enters at the height of a child line (Atlasaurus, Limaysaurus, M. hochuanensis), read as that node's child, as in earlier batches. 47 tips, 6 polytomies (3, 3, 7, 3, 3, 7 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

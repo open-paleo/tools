@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/sekiya2013a_fig40.png",
+  "names": "names.txt",
+  "source": "Sekiya et al. 2013, Historical Biology 26, Fig. 40: sauropodomorph cladogram placing ZMNH-M8739 (bold); slanted (diagonal), root at the bottom, thick lines, numbered node circles 1-22, three clade names beside nodes, an 'outgroup' bracket. Image: census figure (1487x1091 px), the 2026-11-21 page render that includes the text-layer tip names (flag labels_from_text_layer).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including 'Lesemsaurus' (sic), ‘G.’ sinensis with its quotation marks, 'Y. robustus (V93)' and the specimen tip ZMNH-M8739",
+  "gold": "gold.nex",
+  "gold_note": "Slanted sauropodomorph cladogram. Where lines converge, each was traced from its tip at 45° and measured row by row: the Marasuchus-Herrerasaurus pair, Eoraptor and the rest meet at the root (three-way); Plateosauravus, the Jingshanosaurus-Yunnanosaurus clade and the sauropod stem meet at node 12 (the two lines overlap only as they converge); six branches fan from node 17. Node 5 sits on ‘G.’ sinensis's line, which is read as Prosauropoda's stem below it. Sauropodomorpha (node 1), Prosauropoda (node 5) and Sauropoda (node 17) are kept as internal labels; the node numbers and the 'outgroup' bracket are not. 33 tips, 3 polytomies (3, 3, 6 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

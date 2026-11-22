@@ -249,3 +249,53 @@ Run before any change was made for these figures.
 - Splits, among the tips named: 283 of 291 (97%), with 6 wrong splits.
 - Fourteen figures: 433 of 455 names (95%). The other six hold 85% of the loss: dai2022a_fig9 0 of 88, hwang2004a_fig12 9 of 55, prieto-márquez2013c_fig26 0 of 34 (no tree extracted), fiorillo2014a_fig6 0 of 11, arcucci2003a_fig4 3 of 12, qiu2025a_fig3 3 of 10.
 - dai2022a_fig9's census image had no tip names: they are PDF text over the raster. The corpus re-rendered it from the page with its text layer on 2026-11-21 (corpus 567e2415), after the baseline above; with that image, and no change to the tool, it names 80 of 88. Without it in the count the baseline is 448 of 577 (78%).
+
+## Batch 4 (20 cases, no skips)
+
+| Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
+|---|---|---|---:|---|---:|---|---|---|
+| hu2017z_fig9 | rectangular | no | 61 | 3, 3, 6, 7, 3, 5, 4 | 11 | printed | image-transcription | ? |
+| magyar2026a_fig14 | rectangular | no | 66 | 4, 3, 3, 3 | - | printed | image-transcription | ? |
+| ren2020b_fig6 | rectangular | no | 47 | 3, 3, 7, 3, 3, 7 | 5 | printed | image-transcription | ? |
+| läng2010a_fig22 | rectangular | no | 39 | 6, 3, 8 | 8 | printed | image-transcription | ? |
+| vila2022a_fig3 | rectangular | yes | 21 | - | 5 | printed | pdf-vector | ? |
+| arbour2015a_fig12 | rectangular | yes | 41 | 3, 7, 4, 4, 3 | 5 | printed | image-transcription | ? |
+| pretto2018a_fig11 | slanted | no | 44 | 4, 3, 4, 3 | - | printed | image-transcription | ? |
+| scannella2014a_fig3 | rectangular | no | 23 | 5, 15 | - | printed | image-transcription | ? |
+| rauhut2017a_fig10 | vertical | no | 9 | - | 3 | printed | image-transcription | ? |
+| müller2018z_fig1 | rectangular | no | 14 | - | 4 | printed | image-transcription | ? |
+| xu2002d_fig2 | rectangular | no | 19 | 3, 7 | 1 | printed | image-transcription | ? |
+| poole2022a_fig6 | rectangular | no | 68 | 3, 3, 4, 8, 5, 3, 3 | 5 | printed | pdf-vector | yes |
+| novas2013a_fig8 | vertical | no | 10 | - | 3 | printed | image-transcription | ? |
+| poropat2023a_fig30 | rectangular | no | 59 | 3, 5, 3, 3, 3, 5 | 13 | printed | image-transcription | yes |
+| zhou2026a_fig6 | rectangular | no | 34 | 9, 14 | - | matrix | image-transcription | ? |
+| sekiya2013a_fig40 | slanted | no | 33 | 3, 3, 6 | 3 | printed | image-transcription | ? |
+| müller2017z_fig3 | rectangular | no | 44 | 4, 3, 4, 5, 3 | 6 | printed | image-transcription | yes |
+| martínez2009b_fig10 | rectangular | no | 12 | - | 5 | printed | image-transcription | yes |
+| lefèvre2014a_fig10 | rectangular | no | 24 | 3, 4 | - | printed | image-transcription | ? |
+| gates2021a_fig14 | rectangular | no | 61 | 3, 3, 3, 3 | - | printed | image-transcription | ? |
+
+No figure was skipped. One case uses a different panel from the census region: `rauhut2017a_fig10`'s census region is tree 1, which draws Pandoravenator three times on dashed alternative branches and so shows no single tree (the reason `pol2022a_fig6` was skipped in batch 3); trees 2 and 3 of the same figure are ordinary trees, so the case uses tree 2 with its own `region` rather than drawing a replacement.
+
+Census images corrected before transcription (corpus commits e0fcbea0, e6a97e4d, 93163442):
+
+- `vila2022a_fig3`: the vector renders' prose blanking had erased the top tip name 'Neuquensaurus'. A check of all 32 blanked renders found two more with figure text erased, `han2014b_fig5` (two tip names) and `soto-acuña2021a_fig3` (the Jurassic/Cretaceous bar, the panel letters and the map's top labels; it has a holdout case). All three were re-rendered over the same box at the same size, so coordinates are unchanged; the other 29 lose only prose, watermarks or page numbers.
+- `xu2002d_fig2`: its tip names are vector outlines beside the raster, not PDF text, so the earlier labels_from_text_layer re-render missed them and its image showed only their first letters. Now 900x776 px with the names; the old image sits at offset (9, 16).
+- `poole2022a_fig6`: the census had taken the page's one embedded raster, a 1122x214 strip of the rhabdodontid part of both trees. The figure is vector; the image is now a 300 dpi render of the whole figure (1964x1361) with `region` on the left tree.
+- `müller2018z_fig1` and `sekiya2013a_fig40` (labels_from_text_layer) were checked to be the re-rendered images with their labels in.
+
+Notes on batch 4:
+
+- Close nodes and fans were checked at 2-8x or measured: pretto2018a_fig11 (the Petrified forest teropod / Dilophosaurus node, three-way), poole2022a_fig6 (Trinisaura-Kangnasaurus, three-way), gates2021a_fig14 (the upper lambeosaurin node, which the line reader lost), and the converging lines of sekiya2013a_fig40, which were traced row by row: the root and node 12 are three-way, the two lines into node 12 only overlapping as they converge.
+- Methods: vila2022a_fig3 and poole2022a_fig6 from the PDF's vector lines (poole's rhabdodontid part and its Talenkauen pair sit in an embedded raster and were read from the render); gates2021a_fig14 with the line reader plus one clade by eye; poropat2023a_fig30's lines are filled shapes and its names outlines, so it was read by eye; the rest by eye from crops.
+- Caption keys are not encoded as clade labels (magyar2026a_fig14 1-8 and A-G, lefèvre2014a_fig10 A and B, sekiya2013a_fig40's node numbers); each gold_note gives the key where the caption has one. Names joined to a node by an arrow or leader line, printed beside a node dot or stem, or written on a box spanning one clade are kept (müller2017z_fig3 keeps the printed abbreviation 'Dinosaurifor.'). martínez2009b_fig10 has two dots on verticals shared with the node below; each dot is read as its own node, and the gold_note says so.
+- Names as printed, including the misspellings and cut-offs ('Lesemsaurus', 'Amaragsaurus', 'Chindesaurus briansmalli', 'Petrified forest teropod'), gates2021a_fig14's full labels with their region suffix ('Edmontosaurus annectens - Laramidia'), and quotation marks. zhou2026a_fig6 uses the matrix list (every printed tip maps to one taxon); scannella2014a_fig3's list spells the specimens without spaces ('MOR1122'), so it uses the printed names.
+- None of batch 4's census images cuts off tips, so no `image_tips_visible` fields.
+
+### Batch 4 baseline (tree extractor 0.8.1 plus the batch 3 fixes, commit 09cb7ef, run cold on 2026-11-21)
+
+Run before any change was made for these figures.
+
+- Names: 537 of 729 (74%). Exact matches: 3 of 20 (hu2017z_fig9, lefèvre2014a_fig10, ren2020b_fig6). Every name right: 8 of 20.
+- Splits, among the tips named: 387 of 400 (97%), with 3 wrong splits.
+- Thirteen figures: 494 of 520 names (95%). The other seven hold 86% of the loss: pretto2018a_fig11 0 of 44, läng2010a_fig22 0 of 39, zhou2026a_fig6 0 of 34, poole2022a_fig6 47 of 68, vila2022a_fig3 3 of 21, scannella2014a_fig3 10 of 23, arbour2015a_fig12 32 of 41.

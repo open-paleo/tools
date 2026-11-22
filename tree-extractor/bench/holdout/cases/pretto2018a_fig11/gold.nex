@@ -1,0 +1,57 @@
+#NEXUS
+
+[ pretto2018a_fig11: Early dinosauriform strict consensus, panel A, read from 3x crops and the close nodes at 8x. Four nodes are multi-way: Saltopus/Lewisuchus/Pseudolagosuchus with the rest; the Diodorus-Silesaurus-Sacisaurus node; the Scutellosaurus node (entered at Eocursor's height); and Petrified forest teropod, Dilophosaurus and the coelophysid clade, which leave one vertical below Dilophosaurus. No clade names are printed; the numbers are bootstrap and Bremer values. 44 tips, 4 polytomies (4, 3, 4, 3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=44;
+    TAXLABELS
+        Euparkeria_capensis
+        Lagerpeton_chanarensis
+        Ixalerpeton_polesinensis
+        Dromomeron_gregorii
+        Dromomeron_romeri
+        Marasuchus_lilloensis
+        Saltopus_elginensis
+        Lewisuchus_admixtus
+        Pseudolagosuchus_major
+        Asilisaurus_kongwe
+        Eucoelophysis_baldwini
+        Diodorus_scytobrachion
+        Silesaurus_opolensis
+        Sacisaurus_agudoensis
+        Scutellosaurus_lawleri
+        Lesothosaurus_diagnosticus
+        Eocursor_parvus
+        Pisanosaurus_mertii
+        Heterodontosaurus_tucki
+        Staurikosaurus_pricei
+        Herrerasaurus_ischigualastensis
+        Sanjuansaurus_gordilloi
+        Daemonosaurus_chauliodus
+        Chindesaurus_briansmalli
+        Tawa_hallae
+        Eodromaeus_murphi
+        Guaibasaurus_candelariensis
+        Zupaysaurus_rougeiri
+        Petrified_forest_teropod
+        Dilophosaurus_wetherelli
+        Liliensternus_liliensterni
+        Syntarsus_kayentakatae
+        Coelophysis_bauri
+        Syntarsus_rhodesiensis
+        Buriolestes_schultzi
+        Eoraptor_lunensis
+        Pampadromaeus_barberenai
+        Panphagia_protos
+        Saturnalia_tupiniquim
+        Chromogisaurus_novasi
+        Bagualosaurus_agudoensis
+        Pantydraco_caducus
+        Efraasia_minor
+        Plateosaurus_engelhardti
+    ;
+END;
+
+BEGIN TREES;
+    TREE pretto2018a_fig11 = [&R] (Euparkeria_capensis,((Lagerpeton_chanarensis,(Ixalerpeton_polesinensis,(Dromomeron_gregorii,Dromomeron_romeri))),(Marasuchus_lilloensis,(Saltopus_elginensis,Lewisuchus_admixtus,Pseudolagosuchus_major,((Asilisaurus_kongwe,((Eucoelophysis_baldwini,(Diodorus_scytobrachion,Silesaurus_opolensis,Sacisaurus_agudoensis)),(Scutellosaurus_lawleri,Lesothosaurus_diagnosticus,Eocursor_parvus,(Pisanosaurus_mertii,Heterodontosaurus_tucki)))),((Staurikosaurus_pricei,(Herrerasaurus_ischigualastensis,Sanjuansaurus_gordilloi)),(Daemonosaurus_chauliodus,((Chindesaurus_briansmalli,Tawa_hallae),(Eodromaeus_murphi,(Guaibasaurus_candelariensis,((Zupaysaurus_rougeiri,(Petrified_forest_teropod,Dilophosaurus_wetherelli,(Liliensternus_liliensterni,(Syntarsus_kayentakatae,(Coelophysis_bauri,Syntarsus_rhodesiensis))))),(Buriolestes_schultzi,(Eoraptor_lunensis,(Pampadromaeus_barberenai,(Panphagia_protos,((Saturnalia_tupiniquim,Chromogisaurus_novasi),(Bagualosaurus_agudoensis,(Pantydraco_caducus,(Efraasia_minor,Plateosaurus_engelhardti)))))))))))))))))));
+END;

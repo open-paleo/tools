@@ -1,0 +1,60 @@
+#NEXUS
+
+[ ren2020b_fig6: Sauropod cladogram, read by eye (the line reader did not hold the thin antialiased lines together) with the close parts checked at 3x. Sauropodomorpha, Sauropoda, Eusauropoda, Mamenchisauridae and Neosauropoda, printed beside node dots, are kept as internal labels. The Plateosaurus line stops about 4 px short of the Sauropodomorpha vertical; it is read as that node's child, the only node it can belong to. At the Turiasaurus, rebbachisaurid and Mamenchisaurus nodes the stem enters at the height of a child line (Atlasaurus, Limaysaurus, M. hochuanensis), read as that node's child, as in earlier batches. 47 tips, 6 polytomies (3, 3, 7, 3, 3, 7 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=47;
+    TAXLABELS
+        Theropoda
+        Thecodontosaurus
+        Plateosaurus
+        Vulcanodon
+        Shunosaurus
+        Omeisaurus_tianfuensis
+        Anhuilong
+        Huangshanlong
+        Qijianglong
+        Chuanjiesaurus
+        Yuanmousaurus
+        Mamenchisaurus_sinocanadorum
+        Mamenchisaurus_youngi
+        Mamenchisaurus_hochuanensis
+        Mamenchisaurus_anyuensis
+        Mamenchisaurus_constructus
+        '‘Omeisaurus’ maoianus'
+        Barapasaurus
+        Spinophorosaurus
+        Nebulasaurus
+        Patagosaurus
+        Turiasaurus
+        Atlasaurus
+        Losillasaurus
+        Haplocanthosaurus
+        Rebbachisaurus
+        Limaysaurus
+        Nigersaurus
+        Amaragsaurus
+        Dicraeosaurus
+        Suuwassea
+        Apatosaurus
+        Diplodocus
+        Tornieria
+        Barosaurus
+        Jobaria
+        Camarasaurus
+        Brachiosaurus
+        Euhelopus
+        Lirainosaurus
+        Isisaurus
+        Saltasaurus
+        Opisthocoelicaudia
+        Alamosaurus
+        Malawisaurus
+        Rapetosaurus
+        Nemegtosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE ren2020b_fig6 = [&R] (Theropoda,(Thecodontosaurus,Plateosaurus,(Vulcanodon,(Shunosaurus,(((Omeisaurus_tianfuensis,(Anhuilong,Huangshanlong)),(Qijianglong,Chuanjiesaurus,(Yuanmousaurus,Mamenchisaurus_sinocanadorum,Mamenchisaurus_youngi,Mamenchisaurus_hochuanensis,Mamenchisaurus_anyuensis,Mamenchisaurus_constructus,'‘Omeisaurus’ maoianus')))Mamenchisauridae,(Barapasaurus,((Spinophorosaurus,Nebulasaurus),(Patagosaurus,((Turiasaurus,Atlasaurus,Losillasaurus),(Haplocanthosaurus,(((Rebbachisaurus,Limaysaurus,Nigersaurus),((Amaragsaurus,Dicraeosaurus),(Suuwassea,(Apatosaurus,(Diplodocus,(Tornieria,Barosaurus)))))),(Jobaria,(Camarasaurus,(Brachiosaurus,(Euhelopus,(Lirainosaurus,Isisaurus,Saltasaurus,Opisthocoelicaudia,Alamosaurus,Malawisaurus,(Rapetosaurus,Nemegtosaurus)))))))Neosauropoda)))))))Eusauropoda)Sauropoda)Sauropodomorpha);
+END;

@@ -1,0 +1,72 @@
+#NEXUS
+
+[ poropat2023a_fig30: Macronarian tree, read by eye with the dense parts checked in crops (the figure's lines are filled shapes and its names outlines, so neither the vector paths nor the text layer could be used, and the pixel reader breaks at the open node circles). The thirteen capitalised clade names, each at an open node circle or joined to one by a grey leader line, are kept as internal labels. Several fans are entered at the height of a middle child (Sauroposeidon, Diamantinasaurus, Gobititan, Jainosaurus, Patagotitan), read as that node's child, as in earlier batches. 59 tips, 6 polytomies (3, 5, 3, 3, 3, 5 children); 13 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=59;
+    TAXLABELS
+        Aragosaurus
+        Galveosaurus
+        BRACHIOSAURIDAE
+        Dongbeititan
+        Phuwiangosaurus
+        Tangvayosaurus
+        Jiangshanosaurus
+        Ruyangosaurus
+        Yongjinglong
+        Euhelopus
+        Qiaowanlong
+        Europatitan
+        Sauroposeidon
+        '“Paluxysaurus”'
+        Cloverly_titanosauriform
+        Padillasaurus
+        Ligabuesaurus
+        Tastavinsaurus
+        Angolatitan
+        Chubutisaurus
+        Wintonotitan
+        AODF_0836
+        AODF_0906
+        Diamantinasaurus
+        Sarmientosaurus
+        Savannasaurus
+        Huanghetitan
+        Erketu
+        Gobititan
+        '“Huanghetitan” ruyangensis'
+        Andesaurus
+        Huabeisaurus
+        Baotianmansaurus
+        Dongyangosaurus
+        Daxiatitan
+        Xianshanosaurus
+        Malawisaurus
+        Nemegtosaurus
+        Tapuiasaurus
+        Rapetosaurus
+        Isisaurus
+        Saltasaurus
+        Alamosaurus
+        Opisthocoelicaudia
+        Pitekunsaurus
+        Epachthosaurus
+        Mendozasaurus
+        Argentinosaurus
+        Futalognkosaurus
+        Notocolossus
+        Patagotitan
+        Puertasaurus
+        Muyelensaurus
+        Rinconsaurus
+        Aeolosaurus
+        Antarctosaurus
+        Jainosaurus
+        Normanniasaurus
+        Vahiny
+    ;
+END;
+
+BEGIN TREES;
+    TREE poropat2023a_fig30 = [&R] (Aragosaurus,(Galveosaurus,(BRACHIOSAURIDAE,(Dongbeititan,(((Phuwiangosaurus,Tangvayosaurus),(Jiangshanosaurus,((Ruyangosaurus,Yongjinglong),(Euhelopus,Qiaowanlong))))EUHELOPODIDAE,((Europatitan,Sauroposeidon,'“Paluxysaurus”'),(Cloverly_titanosauriform,((Padillasaurus,((Ligabuesaurus,Tastavinsaurus),(Angolatitan,Chubutisaurus))),(Wintonotitan,((AODF_0836,AODF_0906,Diamantinasaurus,Sarmientosaurus,Savannasaurus)DIAMANTINASAURIA,(Huanghetitan,((Erketu,Gobititan,'“Huanghetitan” ruyangensis'),(Andesaurus,(Huabeisaurus,((Baotianmansaurus,Dongyangosaurus),((Daxiatitan,Xianshanosaurus),(Malawisaurus,(((Nemegtosaurus,Tapuiasaurus),(Rapetosaurus,(Isisaurus,(Saltasaurus,(Alamosaurus,Opisthocoelicaudia)))))SALTASAUROIDEA,(Pitekunsaurus,(Epachthosaurus,((Mendozasaurus,(Argentinosaurus,Futalognkosaurus,(Notocolossus,Patagotitan,Puertasaurus)))LOGNKOSAURIA,((Muyelensaurus,Rinconsaurus)RINCONSAURIA,(Aeolosaurus,Antarctosaurus,Jainosaurus,Normanniasaurus,Vahiny)AEOLOSAURINI))))COLOSSOSAURIA)EUTITANOSAURIA)LITHOSTROTIA))))TITANOSAURIA)))))))))SOMPHOSPONDYLI)TITANOSAURIFORMES))MACRONARIA;
+END;

@@ -1,0 +1,36 @@
+#NEXUS
+
+[ scannella2014a_fig3: Triceratops specimen consensus, panel A. Three large fans: fifteen specimens leave one vertical (stem entering at MOR 2574's height), and MOR 3011, MOR 981, MOR 3081, MOR 1122 leave the bootstrap-65 node with the rest of the ingroup. The band labels U3, M3, L3 and 'upper/lower' mark stratigraphic levels, not clades. 23 tips, 2 polytomies (5, 15 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=23;
+    TAXLABELS
+        Arrhinoceratops
+        Eotriceratops
+        MOR_2923
+        MOR_2979
+        MOR_2702
+        MOR_004
+        MOR_2971
+        MOR_2978
+        MOR_1625
+        MOR_2574
+        MOR_2999
+        MOR_2936
+        MOR_1604
+        MOR_2924
+        UCMP_113697
+        MOR_3045
+        MOR_3027
+        MOR_2982
+        MOR_1120
+        MOR_3011
+        MOR_981
+        MOR_3081
+        MOR_1122
+    ;
+END;
+
+BEGIN TREES;
+    TREE scannella2014a_fig3 = [&R] (Arrhinoceratops,(Eotriceratops,((((MOR_2923,MOR_2979,MOR_2702,MOR_004,MOR_2971,MOR_2978,MOR_1625,MOR_2574,MOR_2999,MOR_2936,MOR_1604,MOR_2924,UCMP_113697,MOR_3045,MOR_3027),MOR_2982),MOR_1120),MOR_3011,MOR_981,MOR_3081,MOR_1122)));
+END;

@@ -1,0 +1,74 @@
+#NEXUS
+
+[ gates2021a_fig14: Hadrosauroid cladogram. Read with the run-length line reader (identical at three settings), which lost one clade, ((Arenysaurus, Blasisaurus), Hypacrosaurus altispinus, Olorotitan), whose stem enters at H. altispinus' height; it was read from a 4x crop and inserted as sister to ((Sahaliyania, Velafrons), Magnapaulia). The root is three-way (the rest, Iguanodon, Jinzhousaurus). No clade names are printed. 61 tips, 4 polytomies (3, 3, 3, 3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=61;
+    TAXLABELS
+        Edmontosaurus_annectens_-_Laramidia
+        Edmontosaurus_regalis_-_Laramidia
+        Shantungosaurus_giganteus_-_China
+        Kundurosaurus_nagornyi_-_China
+        Kerberosaurus_manakini_-_China
+        Saurolophus_osborni_-_Laramidia
+        Saurolophus_angustirostris_-_Mongolia
+        Saurolophus_morrisi_-_Laramidia
+        Prosaurolophus_maximus_-_Laramidia
+        Sabinosaur_PASAC-1_-_Mexico
+        Secernosaurus_koerneri_-_Argentina
+        Willinaqake_salitralensis_-_Argentina
+        Big_Bend_UTEP_37.7_-_Laramidia
+        Gryposaurus_monumentensis_-_Laramidia
+        Gryposaurus_notabilis_-_Laramidia
+        Gryposaurus_latidens_-_Laramidia
+        Kritosaurus_horneri_-_Laramidia
+        Kritosaurus_navajovius_-_Laramidia
+        Naashoibitosaurus_ostromi_-_Laramidia
+        Acristavus_gagslarsoni_-_Laramidia
+        Brachylophosaurus_canadensis_-_Laramidia
+        Maiasaura_peeblesorum_-_Laramidia
+        Arenysaurus_ardevoli_-_Spain
+        Blasisaurus_canudoi_-_Spain
+        Hypacrosaurus_altispinus_-_Laramidia
+        Olorotitan_ararhensis_-_China
+        Sahaliyania_elunchunorum_-_China
+        Velafrons_coahuilensis_-_Mexico
+        Magnapaulia_laticaudus_-_Mexico
+        Hypacrosaurus_stebingeri_-_Laramidia
+        Corythosaurus_casuarius_-_Laramidia
+        Corythosaurus_intermedius_-_Laramidia
+        Lambeosaurus_lambei_-_Laramidia
+        Lambeosaurus_magnicristatus_-_Laramidia
+        Parasaurolophus_walkeri_-_Laramidia
+        Parasaurolophus_tubicen_-_Laramidia
+        Parasaurolophus_cyrtocristatus_-_Laramidia
+        Charonosaurus_jiayinensis_-_China
+        Pararhabdodon_isonensis_-_Spain
+        Tsintaosaurus_spinorhinus_-_China
+        Canardia_garonnensis_-_France
+        Jaxartosaurus_aralensis_-_Kazakhstan
+        Aralosaurus_tuberiferus_-_Kazakhstan
+        Eotrachodon_orientalis_-_Appalachia
+        Hadrosaurus_foulkii_-_Appalachia
+        Jintasaurus_meniscus_-_China
+        Lophorhothon_atopus_-_Appalachia
+        Telmatosaurus_transsylvanicus_-_Romania
+        Tethyshadros_insularis_-_Italy
+        Claosaurus_agilis_-_Appalachia
+        Gilmoreosaurus_mongoliensis_-_China
+        Bactrosaurus_johnsoni_-_China
+        Levnesovia_transoxiana_-_Uzbekistan
+        Tanius_sinensis_-_China
+        Eolambia_caroljonesa_-_Laramidia
+        Protohadros_byrdi_-_Appalachia
+        Jeyawati_rugoculus_-_Laramidia
+        Probactrosaurus_gobiensis_-_China
+        Equijubus_normani_-_China
+        Iguanodon_bernissartensis_-_Belgium
+        Jinzhousaurus_yangi_-_China
+    ;
+END;
+
+BEGIN TREES;
+    TREE gates2021a_fig14 = [&R] (((((((((((((((((((((Edmontosaurus_annectens_-_Laramidia,Edmontosaurus_regalis_-_Laramidia),Shantungosaurus_giganteus_-_China),Kundurosaurus_nagornyi_-_China),Kerberosaurus_manakini_-_China),(((Saurolophus_osborni_-_Laramidia,Saurolophus_angustirostris_-_Mongolia),Saurolophus_morrisi_-_Laramidia),Prosaurolophus_maximus_-_Laramidia)),Sabinosaur_PASAC-1_-_Mexico),(((((Secernosaurus_koerneri_-_Argentina,Willinaqake_salitralensis_-_Argentina),Big_Bend_UTEP_37.7_-_Laramidia),((Gryposaurus_monumentensis_-_Laramidia,Gryposaurus_notabilis_-_Laramidia),Gryposaurus_latidens_-_Laramidia)),(Kritosaurus_horneri_-_Laramidia,Kritosaurus_navajovius_-_Laramidia)),Naashoibitosaurus_ostromi_-_Laramidia)),(Acristavus_gagslarsoni_-_Laramidia,Brachylophosaurus_canadensis_-_Laramidia,Maiasaura_peeblesorum_-_Laramidia)),((((((((((Arenysaurus_ardevoli_-_Spain,Blasisaurus_canudoi_-_Spain),Hypacrosaurus_altispinus_-_Laramidia,Olorotitan_ararhensis_-_China),((Sahaliyania_elunchunorum_-_China,Velafrons_coahuilensis_-_Mexico),Magnapaulia_laticaudus_-_Mexico)),Hypacrosaurus_stebingeri_-_Laramidia),(Corythosaurus_casuarius_-_Laramidia,Corythosaurus_intermedius_-_Laramidia)),(Lambeosaurus_lambei_-_Laramidia,Lambeosaurus_magnicristatus_-_Laramidia)),(((Parasaurolophus_walkeri_-_Laramidia,Parasaurolophus_tubicen_-_Laramidia),Parasaurolophus_cyrtocristatus_-_Laramidia),Charonosaurus_jiayinensis_-_China)),(Pararhabdodon_isonensis_-_Spain,Tsintaosaurus_spinorhinus_-_China)),Canardia_garonnensis_-_France,Jaxartosaurus_aralensis_-_Kazakhstan),Aralosaurus_tuberiferus_-_Kazakhstan)),Eotrachodon_orientalis_-_Appalachia),Hadrosaurus_foulkii_-_Appalachia),(Jintasaurus_meniscus_-_China,Lophorhothon_atopus_-_Appalachia)),(Telmatosaurus_transsylvanicus_-_Romania,Tethyshadros_insularis_-_Italy)),Claosaurus_agilis_-_Appalachia),Gilmoreosaurus_mongoliensis_-_China),(Bactrosaurus_johnsoni_-_China,Levnesovia_transoxiana_-_Uzbekistan)),Tanius_sinensis_-_China),((Eolambia_caroljonesa_-_Laramidia,Protohadros_byrdi_-_Appalachia),Jeyawati_rugoculus_-_Laramidia)),Probactrosaurus_gobiensis_-_China),Equijubus_normani_-_China),Iguanodon_bernissartensis_-_Belgium,Jinzhousaurus_yangi_-_China);
+END;

@@ -1,0 +1,79 @@
+#NEXUS
+
+[ magyar2026a_fig14: Hadrosauroid consensus, read by eye with the dense parts checked at 2x. The node numbers 1-8 and letters A-G are keys to the caption (1 Hadrosauriformes, 2 Hadrosauroidea, 3 Hadrosauromorpha, 4 Hadrosauridae, 5 Euhadrosauria, 6 Saurolophinae, 7 Lambeosaurinae, 8 Corythosauria, A Brachylophosaurini, B Kritosaurini, C Saurolophini, D Edmontosaurini, E Arenysaurini, F Parasaurolophini, G Lambeosaurini), not printed names, so no internal labels are encoded; Telmatosauridae is marked only by colour. Node F's stem enters at the height of Parasaurolophus cyrtocristatus, which is read as one of its three children, as in earlier batches. 66 tips, 4 polytomies (4, 3, 3, 3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=66;
+    TAXLABELS
+        Iguanodon_bernissartensis
+        Mantellisaurus_atherfieldensis
+        Ouranosaurus_nigeriensis
+        Jinzhosaurus_yangi
+        Equijubus_normani
+        Sirindhorna_khoratensis
+        Xuwulong_yuelini
+        Zouyonlong_huangi
+        Probactrosaurus_gobiensis
+        Eolambia_caroljonesa
+        Jintasaurus_meniscus
+        Yunganglong_datongensis
+        Levnesovia_transoxiana
+        Tanius_sinensis
+        Bactrosaurus_johnsoni
+        Gilmoreosaurus_mongoliensis
+        Gobihadros_mongoliensis
+        Nanningosaurus_dashiensis
+        Claosaurus_agilis
+        Qianjiangsaurus_changshengi
+        Plesiohadros_djadokhtaensis
+        Telmatosaurus_transsylvanicus
+        Kryptohadros_kallaiae
+        Tethyshadros_insularis
+        Eotrachodon_orientalis
+        Hadrosaurus_foulkii
+        Zhanghenglong_yangchengensis
+        Fylax_thyrakolasus
+        Aralosaurus_tuberiferus
+        Tsintaosaurus_spinorhinus
+        Pararhabdodon_isonensis
+        Jaxartosaurus_aralensis
+        Arenysaurus_ardevoli
+        Parasaurolophus_walkeri
+        Parasaurolophus_cyrtocristatus
+        Parasaurolophus_tubicen
+        Charonosaurus_jiayinensis
+        Olorotitan_arharensis
+        Amurosaurus_riabinini
+        Lambeosaurus_magnicristatus
+        Lambeosaurus_lambei
+        Magnapaulia_laticauda
+        Velafrons_coahuilensis
+        Hypacrosaurus_stebingeri
+        Hypacrosaurus_altispinus
+        Corythosaurus_intermedius
+        Corythosaurus_casuarius
+        Wulagasaurus_dongi
+        Acristavus_gagslarsoni
+        Maiasaura_peeblesorum
+        Probrachylophosaurus_bergei
+        Brachylophosaurus_canadensis
+        Kritosaurus_navajovius
+        Secernosaurus_koerneri
+        Rhinorex_condrupus
+        Gryposaurus_latidens
+        Gryposaurus_notabilis
+        Gryposaurus_monumentensis
+        Kerberosaurus_manakini
+        Shantungosaurus_giganteus
+        Edmontosaurus_regalis
+        Edmontosaurus_annectens
+        Lophorhothon_atopus
+        Prosaurolophus_maximus
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+    ;
+END;
+
+BEGIN TREES;
+    TREE magyar2026a_fig14 = [&R] (Iguanodon_bernissartensis,(Mantellisaurus_atherfieldensis,(Ouranosaurus_nigeriensis,(Jinzhosaurus_yangi,(Equijubus_normani,(Sirindhorna_khoratensis,(Xuwulong_yuelini,((Zouyonlong_huangi,Probactrosaurus_gobiensis),(Eolambia_caroljonesa,(Jintasaurus_meniscus,(Yunganglong_datongensis,(Levnesovia_transoxiana,(Tanius_sinensis,(Bactrosaurus_johnsoni,(Gilmoreosaurus_mongoliensis,(Gobihadros_mongoliensis,(Nanningosaurus_dashiensis,Claosaurus_agilis,(Qianjiangsaurus_changshengi,Plesiohadros_djadokhtaensis),((Telmatosaurus_transsylvanicus,(Kryptohadros_kallaiae,Tethyshadros_insularis)),(Eotrachodon_orientalis,(Hadrosaurus_foulkii,Zhanghenglong_yangchengensis,(Fylax_thyrakolasus,((Aralosaurus_tuberiferus,((Tsintaosaurus_spinorhinus,Pararhabdodon_isonensis),(Jaxartosaurus_aralensis,(Arenysaurus_ardevoli,((Parasaurolophus_walkeri,Parasaurolophus_cyrtocristatus,(Parasaurolophus_tubicen,Charonosaurus_jiayinensis)),(Olorotitan_arharensis,((Amurosaurus_riabinini,(Lambeosaurus_magnicristatus,Lambeosaurus_lambei)),(Magnapaulia_laticauda,(Velafrons_coahuilensis,((Hypacrosaurus_stebingeri,Hypacrosaurus_altispinus),(Corythosaurus_intermedius,Corythosaurus_casuarius))))))))))),((Wulagasaurus_dongi,Acristavus_gagslarsoni,(Maiasaura_peeblesorum,(Probrachylophosaurus_bergei,Brachylophosaurus_canadensis))),((Kritosaurus_navajovius,(Secernosaurus_koerneri,((Rhinorex_condrupus,Gryposaurus_latidens),(Gryposaurus_notabilis,Gryposaurus_monumentensis)))),((Kerberosaurus_manakini,(Shantungosaurus_giganteus,(Edmontosaurus_regalis,Edmontosaurus_annectens))),(Lophorhothon_atopus,(Prosaurolophus_maximus,(Saurolophus_osborni,Saurolophus_angustirostris))))))))))))))))))))))))))));
+END;

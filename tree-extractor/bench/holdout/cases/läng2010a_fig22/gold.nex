@@ -1,0 +1,52 @@
+#NEXUS
+
+[ läng2010a_fig22: Sauropod cladogram. The eight clade names joined by red arrows to numbered nodes (Sauropoda 1, Gravisauria 4, Eusauropoda 6, Neosauropoda 14, Diplodocoidea 15, Macronaria 20, Titanosauriformes 21, Titanosauria 23) are kept as internal labels; the node numbers themselves are not. Nodes 9 and 16 are entered at the height of a child line (Lapparentosaurus, Rayososaurus), read as that node's child, as in earlier batches. 39 tips, 3 polytomies (6, 3, 8 children); 8 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=39;
+    TAXLABELS
+        Herrerasaurus
+        Plateosaurus
+        Antetonitrus
+        Gongxianosaurus
+        Isanosaurus
+        Tazoudasaurus
+        Vulcanodon
+        Amygdalodon
+        Shunosaurus
+        Barapasaurus
+        Cetiosaurus_oxoniensis_Oxfordshire
+        Chebsaurus
+        Ferganasaurus
+        Lapparentosaurus
+        Cetiosaurus_mogrebiensis
+        Patagosaurus
+        Cetiosaurus_oxoniensis_Rutland
+        Mamenchisaurus
+        Omeisaurus
+        Nigersaurus
+        Rayososaurus
+        Rebbachisaurus
+        Apatosaurus
+        Diplodocus
+        Amargasaurus
+        Dicraeosaurus
+        Jobaria
+        Brachiosaurus
+        Sp._Calvados
+        Camarasaurus
+        Cedarosaurus
+        Euhelopus
+        Phuwiangosaurus
+        Atlasaurus
+        Haplocanthosaurus
+        Malawisaurus
+        Rapetosaurus
+        Opisthocoelicaudia
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'läng2010a_fig22' = [&R] (Herrerasaurus,(Plateosaurus,(Antetonitrus,(Gongxianosaurus,(Isanosaurus,((Tazoudasaurus,Vulcanodon),((Amygdalodon,Shunosaurus),(Barapasaurus,(Cetiosaurus_oxoniensis_Oxfordshire,Chebsaurus,Ferganasaurus,Lapparentosaurus,Cetiosaurus_mogrebiensis,(Patagosaurus,(Cetiosaurus_oxoniensis_Rutland,((Mamenchisaurus,Omeisaurus),(((Nigersaurus,Rayososaurus,Rebbachisaurus),((Apatosaurus,Diplodocus),(Amargasaurus,Dicraeosaurus)))Diplodocoidea,(Jobaria,(Brachiosaurus,Sp._Calvados,Camarasaurus,Cedarosaurus,Euhelopus,Phuwiangosaurus,(Atlasaurus,Haplocanthosaurus),(Malawisaurus,(Rapetosaurus,(Opisthocoelicaudia,Saltasaurus)))Titanosauria)Titanosauriformes)Macronaria)Neosauropoda))))))Eusauropoda)Gravisauria)))Sauropoda));
+END;

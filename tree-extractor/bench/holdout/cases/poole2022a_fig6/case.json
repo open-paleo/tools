@@ -1,0 +1,18 @@
+{
+  "image": "../../../../../../corpus/census/figures/poole2022a_fig6.png",
+  "names": "names.txt",
+  "source": "Poole 2022, Palaeontologia Electronica 25, Fig. 6 (left tree): parsimony strict consensus of 84 MPTs (six wildcards pruned), plotted against the Bayesian tree on the right; rectangular, root left, thick lines, jackknife above and Bremer below the nodes, node dots, coloured bands with clade names spanning both trees. Image: census figure (1964x1361 px), a 300 dpi render of the whole figure, re-made 2026-11-21 (the census had taken the page's one embedded raster, a strip of the rhabdodontid part).",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1040,
+    "y1": 1361
+  },
+  "region_note": "left tree (parsimony strict consensus); the right is the Bayesian tree",
+  "license": "CC BY 4.0",
+  "attribution": "Poole, K. E. (2022). Phylogeny of iguanodontian dinosaurs and the evolution of quadrupedality. Palaeontologia Electronica. https://doi.org/10.26879/702. Fig. 6. CC BY 4.0.",
+  "names_note": "no matrix held; list = the 68 printed tip names of the left tree, including the specimen tips 'Shishugou taxon', 'Kirkwood taxon', 'Barilium holotype', 'Mantellisaurus holotype' and 'RBINS R57'",
+  "gold": "gold.nex",
+  "gold_note": "Ornithopod parsimony consensus, left tree. Branches read from the PDF's vector lines (1.18 pt); the Talenkauen-Valdosaurus pair and the rhabdodontid subtree sit in an embedded raster patch, where the vector lines stop, and were read from the render at 3x. Tip names are vector outlines (no text layer), assigned in top-to-bottom order. Neornithischia, Clypeodonta, Iguanodontia, Dryomorpha and Rhabdodontidae, printed beside node dots, are kept as internal labels; the band names on the right (Thescelosauridae, Rhabdodontoidea, Ankylopollexia, ...) span both trees and are not encoded. The Trinisaura-Kangnasaurus node (checked at 4x) is a three-way split. 68 tips, 7 polytomies (3, 3, 4, 8, 5, 3, 3 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only.",
+  "gold_method": "pdf-vector"
+}

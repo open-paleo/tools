@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/zhou2026a_fig6.png",
+  "names": "names.txt",
+  "source": "Zhou et al. 2026, Annals of Carnegie Museum 92, Fig. 6A: strict consensus of dromaeosaurid relationships with Jian changmaensis (bold, silhouette); rectangular with rounded corners, root left. Panel B (another analysis, with support values) is excluded. Image: census figure (2020x1708 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1010,
+    "y1": 1708
+  },
+  "region_note": "panel A; panel B to its right repeats the taxa under another analysis",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "the census list of the paper's matrix taxa, plus the printed forms; every printed tip maps to one matrix taxon. 'Neuquenraptor argentinus' is printed with an asterisk keyed to '+ Unenlagia spp.' (the matrix's 'Neuquenraptor argentinus Unenlagia spp'), and is listed without the asterisk",
+  "gold": "gold.nex",
+  "gold_note": "Dromaeosaurid strict consensus, panel A. Two large fans: nine microraptorines leave one vertical (stem entering at Hesperonychus' height) and fourteen eudromaeosaurs another (stem at Velociraptor mongoliensis' height), each read as one node with the entered line as a child, as in earlier batches. No clade names are printed. 34 tips, 2 polytomies (9, 14 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

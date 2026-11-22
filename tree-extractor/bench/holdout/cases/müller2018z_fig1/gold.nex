@@ -1,0 +1,27 @@
+#NEXUS
+
+[ müller2018z_fig1: Early dinosaur summary tree. Ornithoscelida, Dinosauria, Saurischia and Sauropodomorpha, joined by red arrows to node dots, are kept as internal labels. Fully resolved. 14 tips, fully resolved; 4 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=14;
+    TAXLABELS
+        Saltopus
+        Ornithischia
+        Theropoda
+        Herrerasauridae
+        Saturnalia
+        Pampadromaeus
+        Pantydraco
+        Thecodontosaurus
+        Panphagia
+        Guaibasaurus
+        Chilesaurus
+        Efraasia
+        Plateosauridae
+        other_sauropodomorphs
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'müller2018z_fig1' = [&R] (Saltopus,((Ornithischia,Theropoda)Ornithoscelida,(Herrerasauridae,(Saturnalia,(Pampadromaeus,(Pantydraco,((Thecodontosaurus,(Panphagia,Guaibasaurus)),(Chilesaurus,(Efraasia,(Plateosauridae,other_sauropodomorphs)))))))Sauropodomorpha)Saurischia)Dinosauria);
+END;

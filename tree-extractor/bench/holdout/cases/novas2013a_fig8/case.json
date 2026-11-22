@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/novas2013a_fig8.png",
+  "names": "names.txt",
+  "source": "Novas et al. 2013, Cretaceous Research 45, Fig. 8: abelisauroid relationships with numbered anatomical features; vertical, root at the bottom, tip names written upwards, clade names in capitals beside the stems, bone drawings with numbered callouts and silhouettes. Image: census figure (2150x1971 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the higher-taxon tip Noasauridae",
+  "gold": "gold.nex",
+  "gold_note": "Abelisauroid summary cladogram, root at the bottom, fully resolved. ABELISAUROIDEA, ABELISAURIDAE and BRACHYROSTRA, each printed just right of the stem below the node it names, are kept as internal labels in their printed capitals. The thick bars and numbers point to anatomical drawings, not branches. 10 tips, fully resolved; 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,54 @@
+#NEXUS
+
+[ arbour2015a_fig12: Thyreophoran time tree, read by eye with the parts under continent icons and the close steps checked at 2x. Thyreophora, Ankylosauria, Ankylosauridae, Ankylosaurinae and Ankylosaurini, printed beside node dots, are kept as internal labels. The (Ankylosaurus, Anodontosaurus) and (Scolosaurus, Ziapelta) pairs are joined by dashed lines, which the caption gives as the maximum-agreement-subtree resolution; they are encoded as drawn, and without them those five taxa form one polytomy. Under the Asia icon the Donyangopelta node is entered at Sauroplites' height, and the seven-way nodosaurid node at Panoplosaurus' height; both read as children of the node entered, as in earlier batches. 41 tips, 5 polytomies (3, 7, 4, 4, 3 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=41;
+    TAXLABELS
+        Lesothosaurus
+        Scelidosaurus
+        Huayangosaurus
+        '"Minmi" sp.'
+        Mymoorapelta
+        Gargoyleosaurus
+        Donyangopelta
+        Sauroplites
+        Taohelong
+        Tatankacephalus
+        '"Antarctopelta"'
+        Argentinian_nodosaurid
+        Glyptodontopelta
+        Panoplosaurus
+        Pawpawsaurus
+        Sauropelta
+        Stegopelta
+        Gastonia
+        Ahshislepelta
+        Aletopelta
+        Liaoningosaurus
+        Cedarpelta
+        Chuanqilong
+        Gobisaurus
+        Shamosaurus
+        Crichtonpelta
+        Tsagantegia
+        '"Zhejiangosaurus"'
+        Pinacosaurus_grangeri
+        P._mephistocephalus
+        Saichania
+        Tarchia
+        Zaraapelta
+        Dyoplosaurus
+        Talarurus
+        Nodocephalosaurus
+        Ankylosaurus
+        Anodontosaurus
+        Euoplocephalus
+        Scolosaurus
+        Ziapelta
+    ;
+END;
+
+BEGIN TREES;
+    TREE arbour2015a_fig12 = [&R] (Lesothosaurus,(Scelidosaurus,(Huayangosaurus,('"Minmi" sp.',(Mymoorapelta,((Gargoyleosaurus,((Donyangopelta,Sauroplites,Taohelong),(Tatankacephalus,('"Antarctopelta"',Argentinian_nodosaurid,Glyptodontopelta,Panoplosaurus,Pawpawsaurus,Sauropelta,Stegopelta)))),((Gastonia,Ahshislepelta),(Aletopelta,Liaoningosaurus,(Cedarpelta,Chuanqilong),((Gobisaurus,Shamosaurus),(Crichtonpelta,(Tsagantegia,'"Zhejiangosaurus"',(Pinacosaurus_grangeri,P._mephistocephalus),((Saichania,(Tarchia,Zaraapelta)),(Dyoplosaurus,((Talarurus,Nodocephalosaurus),((Ankylosaurus,Anodontosaurus),Euoplocephalus,(Scolosaurus,Ziapelta))))Ankylosaurini)))Ankylosaurinae)))Ankylosauridae)))Ankylosauria))Thyreophora);
+END;
