@@ -41,7 +41,7 @@ import {
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
-import { assignLabels, readLabels, isCladeName, isHigherTaxonName } from "./labels.ts";
+import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeNames } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { recoverElbowTips } from "./elbows.ts";
@@ -1820,10 +1820,10 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     // the copy the segments are taken from, lets them run on.
     const nodeDiscs = parameters.nodeDiscs ? findNodeDiscs(textInk, lineInk, glyphHeight, thickness, createDarkMask(image, 230, false, parameters.maxChroma)) : [];
     const lineArt: Mask = { width: lineInk.width, height: lineInk.height, data: new Uint8Array(lineInk.data) };
-    paintCrosses(lineArt, nodeDiscs, thickness);
+    paintCrosses(lineArt, nodeDiscs, thickness, 1.2 * glyphHeight);
     // The extractor judges a run's thickness on the text ink around it, so the disc goes there too.
     const inkForRuns: Mask = nodeDiscs.length === 0 ? runInk : { width: runInk.width, height: runInk.height, data: new Uint8Array(runInk.data) };
-    paintCrosses(inkForRuns, nodeDiscs, thickness);
+    paintCrosses(inkForRuns, nodeDiscs, thickness, 1.2 * glyphHeight);
     const probe = extractSegments(lineArt, minHorizontalRun, Number.MAX_SAFE_INTEGER);
     const thicknesses = new Array<number>();
 
@@ -2202,6 +2202,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         // area, so the scale brings letters to about the target height and no further.
         const ocrScale = Math.min(parameters.ocrScale, Math.max(1, parameters.ocrGlyphTarget / glyphHeight));
         await readLabels(document, erased, options.ocr, ocrScale, names, knownNames, progress, knownClades);
+
+        const cladeNames = restoreCladeNames(document, names.length > 0);
+
+        if (cladeNames > 0)
+        {
+            document.qc.push({ severity: "info", code: "clade-names-restored", message: `${cladeNames} clade name(s) printed against a node, taken for tips, were given to their nodes`, subject: null });
+        }
+
         // A slanted figure's leader lines to bracketed numbers run the tips' way and read as
         // numbers; they are debris whatever their length.
         removeNumericDebrisTips(document, slantedTrace === null ? 3 * glyphHeight : Infinity, slantedTrace === null && parameters.dropDebris ? 3 * glyphHeight : 0);

@@ -1192,8 +1192,9 @@ function countSidesEntered(lineInk: Mask, box: Box, thickness: number): number
  * @param lineArt - Mask painted in place.
  * @param discs - Disc boxes.
  * @param thickness - Line thickness in pixels.
+ * @param largeDisc - Size from which a disc's arriving lines are carried on to the cross.
  */
-export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number): void
+export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number, largeDisc = Infinity): void
 {
     const half = Math.max(1, Math.round(thickness / 2));
 
@@ -1223,6 +1224,91 @@ export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number
             for (let x = Math.max(0, centerX - half); x < Math.min(lineArt.width, centerX + half); x++)
             {
                 lineArt.data[y * lineArt.width + x] = 1;
+            }
+        }
+
+        // A line need not make for the middle of the disc: a vertical that passes beside it,
+        // touching, or ends against its rim, was cleared with it and lies off the cross's
+        // arm. Each line that arrives at an edge is carried on to the arm it would meet
+        // (Rauhut 2012, a disc set on the step between two verticals).
+        // Only for a disc clearly larger than a letter: a smaller one is as often a blot of
+        // lettering against a line, whose own strokes would be carried in (Fonseca 2024).
+        if (Math.min(disc.x1 - disc.x0, disc.y1 - disc.y0) >= largeDisc)
+        {
+            carryLinesIn(lineArt, disc, centerX, centerY, thickness, true);
+            carryLinesIn(lineArt, disc, centerX, centerY, thickness, false);
+        }
+    }
+}
+
+/**
+ * Carries the lines that arrive at two facing edges of a cleared disc on to the middle: those
+ * at its top and bottom edges down or up to the row of the cross's horizontal arm, or those
+ * at its left and right edges across to the column of its vertical arm.
+ *
+ * @param lineArt - Mask painted in place.
+ * @param disc - Box of the disc.
+ * @param centerX - Column of the cross's vertical arm.
+ * @param centerY - Row of its horizontal arm.
+ * @param thickness - Line thickness in pixels.
+ * @param upright - Whether the lines at the top and bottom edges are meant; otherwise those
+ *   at the left and right.
+ */
+function carryLinesIn(lineArt: Mask, disc: Box, centerX: number, centerY: number, thickness: number, upright: boolean): void
+{
+    const { width, height, data } = lineArt;
+    const reach = Math.max(2, Math.round(thickness));
+    const widest = 2 * Math.round(thickness) + 2;
+    const from = upright ? disc.x0 : disc.y0;
+    const to = upright ? disc.x1 : disc.y1;
+
+    // Whether a line stands beyond the edge at one position along it.
+    function arrives(position: number, before: boolean): boolean
+    {
+        for (const step of [1, reach])
+        {
+            const x = upright ? position : (before ? disc.x0 - step : disc.x1 - 1 + step);
+            const y = upright ? (before ? disc.y0 - step : disc.y1 - 1 + step) : position;
+
+            if (x < 0 || y < 0 || x >= width || y >= height || data[y * width + x] !== 1)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    for (const before of [true, false])
+    {
+        let start = -1;
+
+        for (let position = from; position <= to; position++)
+        {
+            const on = position < to && arrives(position, before);
+
+            if (on && start < 0)
+            {
+                start = position;
+            }
+            else if (!on && start >= 0)
+            {
+                // A line, not the side of a box or a band the disc stands against.
+                if (position - start <= widest)
+                {
+                    for (let along = start; along < position; along++)
+                    {
+                        const first = upright ? (before ? disc.y0 : centerY) : (before ? disc.x0 : centerX);
+                        const last = upright ? (before ? centerY : disc.y1 - 1) : (before ? centerX : disc.x1 - 1);
+
+                        for (let across = first; across <= last; across++)
+                        {
+                            data[(upright ? across : along) * width + (upright ? along : across)] = 1;
+                        }
+                    }
+                }
+
+                start = -1;
             }
         }
     }

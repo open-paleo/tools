@@ -506,6 +506,66 @@ export function isHigherTaxonName(label: string): boolean
 }
 
 /**
+ * Turns a clade's name that was taken for a tip back into the name of its node. A name
+ * printed against a node's vertical, with no branch of its own, is read as a collapsed tip;
+ * where it is a family's or a higher name that the paper's own list does not have, and the
+ * node has other children enough, it names the node (Fiorillo 2012, "Ceratopsidae" beside
+ * the ring on its node).
+ *
+ * @param document - Extraction document, after its labels are read; changed in place.
+ * @param listed - Whether the paper's list of names was given.
+ * @returns How many tips became node names.
+ */
+export function restoreCladeNames(document: ExtractionDocument, listed: boolean): number
+{
+    if (!listed)
+    {
+        return 0;
+    }
+
+    const nodes = new Map<string, TreeNode>();
+
+    for (const node of document.nodes)
+    {
+        nodes.set(node.id, node);
+    }
+
+    let restored = 0;
+
+    for (let index = document.tips.length - 1; index >= 0; index--)
+    {
+        const tip = document.tips[index];
+        const node = tip.parent === null ? undefined : nodes.get(tip.parent);
+        const outsideList = tip.match !== null && tip.match.accepted && tip.match.source === "known";
+
+        if (node === undefined || tip.label === null || !outsideList || !isHigherTaxonName(tip.label))
+        {
+            continue;
+        }
+
+        // No branch of its own: the tip stands at its node's vertical.
+        if (tip.x - node.x > document.glyphHeight / 2 || node.children.length < 3 || node.label !== null)
+        {
+            continue;
+        }
+
+        const row = findTextLine(document, tip.textLine);
+        node.label = tip.label;
+        node.textLine = tip.textLine;
+        node.children.splice(node.children.indexOf(tip.id), 1);
+        document.tips.splice(index, 1);
+        restored++;
+
+        if (row !== undefined)
+        {
+            row.role = "node";
+        }
+    }
+
+    return restored;
+}
+
+/**
  * Whether a label is printed in capitals, which marks a clade name.
  *
  * @param label - Cleaned label text.

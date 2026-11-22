@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Lines that arrive at the edge of a numbered disc are carried on to the cross drawn through
+  it. A disc set on the step between two verticals, or beside a line it only touches, was
+  cleared with the parts of those lines beside it (Rauhut 2012 fig. 4 to an exact match;
+  Perez-Pueyo 2019, 6 of 15 splits to 13 and four wrong ones gone).
+- A family's or higher name printed against a node, with no branch of its own, names the
+  node where the paper's list does not have it, in place of standing as a tip (Fiorillo 2012
+  fig. 7 to an exact match).
+
 ## 0.8.0 (2026-11-21)
 
 - A branch may begin a little past the end of a riser that leans, where no upright one is in
