@@ -1251,6 +1251,179 @@ export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number
 }
 
 /**
+ * Where a line ends beside a box, coming from one side.
+ */
+type LineEnd = {
+    /**
+     * Column of the end, or of the line for one from above or below.
+     */
+    x: number;
+
+    /**
+     * Row of the end, or of the line for one from the left or right.
+     */
+    y: number;
+};
+
+/**
+ * Finds the line that ends against one side of a box: a run of ink of some length, leading
+ * straight away from that side, that stops within reach of it.
+ *
+ * @param ink - Line ink.
+ * @param box - The box.
+ * @param side - Which side.
+ * @param reach - How far from the side the line may stop.
+ * @param least - Shortest run that is a line.
+ * @returns The end, or null.
+ */
+function findLineEndAt(ink: Mask, box: Box, side: "left" | "right" | "top" | "bottom", reach: number, least: number): LineEnd | null
+{
+    const { width, height, data } = ink;
+    const upright = side === "top" || side === "bottom";
+    const step = side === "left" || side === "top" ? -1 : 1;
+    const from = upright ? box.x0 - 1 : box.y0 + 1;
+    const to = upright ? box.x1 + 1 : box.y1 - 1;
+    const edge = side === "left" ? box.x0 - 1 : side === "right" ? box.x1 : side === "top" ? box.y0 - 1 : box.y1;
+    let best: LineEnd | null = null;
+    let longest = 0;
+
+    function isInk(across: number, along: number): boolean
+    {
+        const x = upright ? across : along;
+        const y = upright ? along : across;
+
+        return x >= 0 && y >= 0 && x < width && y < height && data[y * width + x] === 1;
+    }
+
+    for (let across = from; across < to; across++)
+    {
+        let start = -1;
+
+        for (let offset = 0; offset <= reach && start < 0; offset++)
+        {
+            if (isInk(across, edge + step * offset))
+            {
+                start = edge + step * offset;
+            }
+        }
+
+        if (start < 0)
+        {
+            continue;
+        }
+
+        let length = 0;
+
+        while (length <= 4 * least && isInk(across, start + step * length))
+        {
+            length++;
+        }
+
+        if (length >= least && length > longest)
+        {
+            longest = length;
+            best = upright ? { x: across, y: start } : { x: start, y: across };
+        }
+    }
+
+    return best;
+}
+
+/**
+ * Joins the lines that end around a number set in a junction. A support value printed on a
+ * node, in a gap left in the lines for it, takes the node out of the line art: the branch
+ * that arrives stops before the number and the node's vertical is cut above and below it
+ * (Hwang 2004, whose tree came out in eight pieces). Where lines end against two or more
+ * sides of a small row of text, they are drawn on to where they meet.
+ *
+ * @param lineArt - Mask painted in place.
+ * @param ink - Line ink in which the ends are looked for.
+ * @param boxes - Boxes of the small rows.
+ * @param glyphHeight - Glyph height in pixels.
+ * @param thickness - Line thickness in pixels.
+ * @returns How many junctions were joined.
+ */
+export function joinThroughNumbers(lineArt: Mask, ink: Mask, boxes: Array<Box>, glyphHeight: number, thickness: number): number
+{
+    const reach = Math.max(3, Math.round(glyphHeight / 3));
+    const half = Math.max(1, Math.round(thickness / 2));
+
+    // The step to such a node can be short; what is looked for is line ink, which lettering
+    // is not, so half a glyph of it is a line.
+    const least = Math.max(3 * Math.round(thickness), Math.round(glyphHeight / 2));
+    let joined = 0;
+
+    function paint(x0: number, y0: number, x1: number, y1: number): void
+    {
+        for (let y = Math.max(0, Math.min(y0, y1) - half + 1); y < Math.min(lineArt.height, Math.max(y0, y1) + half); y++)
+        {
+            for (let x = Math.max(0, Math.min(x0, x1) - half + 1); x < Math.min(lineArt.width, Math.max(x0, x1) + half); x++)
+            {
+                lineArt.data[y * lineArt.width + x] = 1;
+            }
+        }
+    }
+
+    for (const box of boxes)
+    {
+        const left = findLineEndAt(ink, box, "left", reach, least);
+        const right = findLineEndAt(ink, box, "right", reach, least);
+        const top = findLineEndAt(ink, box, "top", reach, least);
+        const bottom = findLineEndAt(ink, box, "bottom", reach, least);
+        const level = left ?? right;
+        const standing = top ?? bottom;
+        const ends = (left === null ? 0 : 1) + (right === null ? 0 : 1) + (top === null ? 0 : 1) + (bottom === null ? 0 : 1);
+
+        // One line that stops at a number is a tip's branch at a label. Two that face each
+        // other, or meet at a corner, were one junction.
+        if (ends < 2)
+        {
+            continue;
+        }
+
+        // A vertical cut in two stands in one column, and a branch cut in two on one row.
+        if ((top !== null && bottom !== null && Math.abs(top.x - bottom.x) > thickness + 1) || (left !== null && right !== null && Math.abs(left.y - right.y) > thickness + 1))
+        {
+            continue;
+        }
+
+        const x = standing === null ? Math.round((box.x0 + box.x1) / 2) : standing.x;
+        const y = level === null ? Math.round((box.y0 + box.y1) / 2) : level.y;
+
+        // The lines meet under the number. A value printed beside a node has the node's lines
+        // pass it by, and where they would meet lies outside its box (Fonseca 2024).
+        if (x < box.x0 || x >= box.x1 || y < box.y0 || y >= box.y1)
+        {
+            continue;
+        }
+
+        if (left !== null)
+        {
+            paint(left.x, y, x, y);
+        }
+
+        if (right !== null)
+        {
+            paint(x, y, right.x, y);
+        }
+
+        if (top !== null)
+        {
+            paint(x, top.y, x, y);
+        }
+
+        if (bottom !== null)
+        {
+            paint(x, y, x, bottom.y);
+        }
+
+        joined++;
+    }
+
+    return joined;
+}
+
+/**
  * Carries the lines that arrive at two facing edges of a cleared disc on to the middle: those
  * at its top and bottom edges down or up to the row of the cross's horizontal arm, or those
  * at its left and right edges across to the column of its vertical arm.

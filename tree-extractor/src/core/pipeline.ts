@@ -15,7 +15,7 @@ import type { SlantedLabels } from "./slant.ts";
 import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
-import { bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
+import { bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import {
     applyHysteresis,
     closeMask,
@@ -1874,8 +1874,26 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const lineArt: Mask = { width: lineInk.width, height: lineInk.height, data: new Uint8Array(lineInk.data) };
     paintCrosses(lineArt, nodeDiscs, thickness, 1.2 * glyphHeight);
     // The extractor judges a run's thickness on the text ink around it, so the disc goes there too.
-    const inkForRuns: Mask = nodeDiscs.length === 0 ? runInk : { width: runInk.width, height: runInk.height, data: new Uint8Array(runInk.data) };
+    const inkForRuns: Mask = { width: runInk.width, height: runInk.height, data: new Uint8Array(runInk.data) };
     paintCrosses(inkForRuns, nodeDiscs, thickness, 1.2 * glyphHeight);
+
+    // A support value printed on a node, in a gap left in the lines, is joined through too.
+    const junctionNumbers = new Array<Box>();
+
+    for (const line of roughLines)
+    {
+        const width = line.box.x1 - line.box.x0;
+        const height = line.box.y1 - line.box.y0;
+
+        // A digit or three: not a sliver of a line that passed for a glyph.
+        if (line.glyphCount <= 3 && width <= 2.5 * glyphHeight && height <= 1.6 * glyphHeight && width >= 0.3 * glyphHeight && height >= 0.5 * glyphHeight)
+        {
+            junctionNumbers.push(line.box);
+        }
+    }
+
+    joinThroughNumbers(lineArt, lineInk, junctionNumbers, glyphHeight, thickness);
+    joinThroughNumbers(inkForRuns, lineInk, junctionNumbers, glyphHeight, thickness);
     const probe = extractSegments(lineArt, minHorizontalRun, Number.MAX_SAFE_INTEGER);
     const thicknesses = new Array<number>();
 

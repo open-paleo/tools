@@ -248,3 +248,4 @@ Run before any change was made for these figures.
 - Names: 448 of 665 (67%). Exact matches: 4 of 20 (díezdíaz2021a_fig12, peyredefabrègues2015a_fig7, rivera-sylva2024a_fig12, tan2021a_fig8). Every name right: 7 of 20.
 - Splits, among the tips named: 283 of 291 (97%), with 6 wrong splits.
 - Fourteen figures: 433 of 455 names (95%). The other six hold 85% of the loss: dai2022a_fig9 0 of 88, hwang2004a_fig12 9 of 55, prieto-márquez2013c_fig26 0 of 34 (no tree extracted), fiorillo2014a_fig6 0 of 11, arcucci2003a_fig4 3 of 12, qiu2025a_fig3 3 of 10.
+- dai2022a_fig9's census image had no tip names: they are PDF text over the raster. The corpus re-rendered it from the page with its text layer on 2026-11-21 (corpus 567e2415), after the baseline above; with that image, and no change to the tool, it names 80 of 88. Without it in the count the baseline is 448 of 577 (78%).
