@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- A clade's box in a color dark enough to be solid in the text ink is painted out as a
+  ground: the names printed on it could not be read (Poole 2022, 47 of 68 names to 62).
 - A dark gray ground is painted out as a deep-colored one is: a stratigraphic band in gray
   under the line threshold was one block of ink, and the names printed on it had no branch
   to end at (Scannella 2014, 10 of 23 names to 20).

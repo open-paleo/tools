@@ -42,9 +42,11 @@ const blackest = 80;
  * @param image - Image.
  * @param maxChroma - Largest channel spread still neutral.
  * @param darkest - Luminance below which a neutral pixel counts as line ink.
+ * @param darkText - Luminance below which a pixel of any color counts as text ink: a clade's
+ *   box in a color that dark is one block in the text ink, and the names on it are lost.
  * @returns The image with such grounds white, and how many there were.
  */
-export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: number): GroundResult
+export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: number, darkText: number): GroundResult
 {
     const { width, height, data } = image;
     const cleaned = new Uint8ClampedArray(data);
@@ -64,7 +66,7 @@ export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: n
             const strongest = Math.max(data[offset], data[offset + 1], data[offset + 2]);
             const chroma = strongest - Math.min(data[offset], data[offset + 1], data[offset + 2]);
             const luminance = 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2];
-            const deepColor = chroma > maxChroma && strongest <= darkestGround;
+            const deepColor = chroma > maxChroma && (strongest <= darkestGround || luminance < darkText);
             const darkGray = chroma <= maxChroma && luminance < darkest && strongest >= blackest;
 
             if (gray ? darkGray : deepColor)
