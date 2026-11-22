@@ -2,8 +2,8 @@
 
 Extracts phylogenetic trees from figure images and writes them as Newick and Nexus. Built for the
 [Open Paleo](https://github.com/open-paleo) project, where published cladograms are the only
-machine-unreadable source for many fossil groups, but general enough for any rectangular tree
-figure.
+machine-unreadable source for many fossil groups, but general enough for any tree figure drawn
+with straight branches.
 
 Everything runs in TypeScript with no native image library and no machine-learning model: the
 figure is reduced to dark pixels, its straight lines are traced into a graph, and labels are read with
@@ -17,15 +17,16 @@ Early, and measured. Three sets of figures say where it stands.
 
 **Benchmark** (`npm run bench`): twenty-five published figures with gold trees and fifteen
 synthetic ones. Thirteen of the published figures come out identical, tips, names and splits, among
-them a 75-tip staircase consensus with clade arrows, a 68-tip strict consensus with lettered
-clades, a 60-tip stegosaur consensus and a 28-tip centrosaurine time tree. Of the rest, most name
-nearly every tip and recover most splits: a 30-tip centrosaurine tree with node discs, range
-ovals and silhouettes names all 30 with all 19 scored splits, a 69-tip sauropodomorph time tree
-names 51 with all 33, a 52-tip paravian time tree names 50 with 31 of 47. The weakest are a
-15-tip slanted cladogram from a low-resolution 1990s scan, whose labels are too small to read,
-and two figures with thick range bars or pie-chart nodes. Twelve of the fifteen synthetic figures
-are identical. Eighteen of the published figures are openly licensed and ship with the benchmark;
-`bench/README.md` says how to supply the rest.
+them a 75-tip staircase consensus with clade arrows, a 74-tip and a 68-tip strict consensus, a
+60-tip stegosaur consensus and a 28-tip centrosaurine time tree. Of the rest, most name nearly
+every tip and recover most splits: a 69-tip sauropodomorph time tree names 66 with all 47
+scored splits, a 52-tip paravian time tree names 50 with 46 of 47, a 30-tip centrosaurine tree
+with node discs, range ovals and silhouettes names 29 with all 19. The weakest is a 15-tip
+slanted cladogram from a low-resolution 1990s scan, whose labels are too small to read. Twelve
+of the fifteen synthetic figures are identical. Nineteen of the published figures are openly
+licensed and ship with the benchmark; `bench/README.md` says how to supply the rest. The
+figures that must stay identical are listed in `bench/expectations.json` and checked on every
+change.
 
 **Gold sample** (`npm run bench:holdout`): 109 more figures with gold trees. A hundred of them
 were drawn at random from the census, in a sample of twenty and one of eighty, so that their
@@ -36,20 +37,34 @@ batches of twenty named 67 and 74 percent of their tips cold. Over all 134 figur
 trees the pipeline now names 4,267 of 4,598 tips, and 42 figures come out identical.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
-(`bench/holdout/census.md` gives the sampling), run cold with the batch runner. All 178 run
-without a crash, 168 give a tree of three tips or more, at a median of 3 seconds a figure;
-rectangular figures yield a median of 27 tips, slanted 11, vertical 12. On the 66 figures with
-a taxon list, 86 percent of the traced tips carry an accepted name. The class that still lags
-is the time-calibrated figure: 41 percent of its tips have no label read, against 10 percent
-elsewhere, mostly from thick or outlined range bars and node markers that stand between a tip
-and its label. The census itself lives in the private corpus archive, not here.
+(`bench/holdout/census.md` gives the sampling), run with the batch runner and not scored
+against gold trees. All 178 run without a crash and 174 give a tree of three tips or more, at
+a median of 3.6 seconds a figure; rectangular figures yield a median of 29 tips, slanted 15,
+vertical 18. On the 66 figures with a taxon list, 93 percent of the tips in the tree carry an
+accepted name. The class that still lags is the time-calibrated figure: 27 percent of the tips
+found on those have no label read, against 16 percent elsewhere, mostly from range bars and
+node markers that stand between a tip and its label. The census itself lives in the private
+corpus archive, not here; the gold sample above was drawn from it.
 
-**What it handles**: rectangular trees with the root on the left; vertical trees, which are
-turned a quarter, and their labels set on their side, read in a level frame; slanted trees,
-traced from the skeleton of their line art; polytomies; support values and node labels;
-filled and open node markers; stage charts, time axes and range bars, with ages assigned when
-an axis reads; silhouettes, legends, frames and callouts; multi-panel figures through a
-region. `docs/design.md` describes each step and its known gaps.
+**What it handles**
+
+- Layouts: rectangular trees with the root on the left; vertical trees, which are turned a
+  quarter, with their labels set on their side read in a level frame; slanted trees, traced
+  from the skeleton of their line art; trees drawn with forks or fans in place of verticals,
+  and with rounded corners; staircases whose nodes stand a few pixels apart.
+- Tree content: polytomies, also drawn as fans; support values and node labels, beside a node
+  or printed on it; clade names, told from tip names; filled, open and numbered node markers;
+  collapsed clades drawn as wedges or bars.
+- Time trees: stage charts, time axes and range bars, with ages assigned when an axis reads;
+  dotted guide lines; stage bands and clade boxes behind the tree, including ones as dark as
+  ink.
+- What stands around a tree: silhouettes, legends, frames, callouts and icons set on
+  branches; several trees in one figure, through a region.
+- Names: labels matched to a list of taxa, with the abbreviations of nomenclature ("sp.",
+  "cf.", "gen. et sp. nov.", "nom. dub.") left out of the match; names set apart from their
+  branch ends, beside a drawing of each taxon, paired in order.
+
+`docs/design.md` describes each step and its known gaps.
 
 ## Use
 
@@ -75,7 +90,8 @@ makes no request to any other host.
 `--crop x,y,w,h` restricts the analysis to one region of the image (for example to leave out a
 time scale or a second panel); results are still reported in full-image coordinates.
 `--exclude "x,y,w,h;x,y,w,h"` leaves areas out of the analysis, a legend, a pie chart or a
-silhouette beside the tree; each is painted out before the figure is read.
+silhouette beside the tree; each is painted out before the figure is read. `--no-rotation`
+takes the figure as drawn where the tool would turn a tree on its side.
 
 `--names` is a text file with one taxon name per line (for example the taxa of the paper's
 character matrix). OCR output is fuzzy-matched against it, which turns imperfect reads of small
@@ -89,11 +105,13 @@ skips the tier. Without any list the raw OCR text is kept and uncertain tips are
 The viewer runs the same pipeline on a dropped image, in a Web Worker so the page stays
 responsive, and draws what it found over the figure.
 Scroll to zoom, drag to pan (or use the view controls on the figure), and use *Select region*
-beside the extract button to mark where the tree is when the figure holds more than the tree. Clicking a tip or node on the canvas selects it in the lists and the
+beside the extract button to mark where the tree is when the figure holds more than the tree.
 *Exclude area* marks things to leave out, a legend, a pie chart or a silhouette beside the tree:
 drag a rectangle over each, and click one to take it away. They are painted out before the
 figure is read.
-other way round; labels are editable in place and the Newick updates. Missed or spurious
+
+Clicking a tip or node on the canvas selects it in the lists and the other way round; labels
+are editable in place and the Newick updates. Missed or spurious
 elements can be fixed by hand: *Add tip* then click a branch end, *Add node* then drag along the
 missing vertical connector (it takes over the branches it crosses), *Move* then drag a tip or
 node onto the node it should hang from (the parent it leaves collapses if only one child
@@ -183,12 +201,22 @@ browser test checks the page with axe at WCAG 2.2 AA in light and dark.
 ## Scope
 
 Trees drawn with straight branches: rectangular, with the root at the left, bottom or top,
-and slanted. Tip labels, support values at nodes, polytomies, collapsed clades drawn as
-wedges or bars. When a time axis with readable numbers is found, nodes and tips get ages and
-the Newick carries branch lengths in the axis's units; a phylogram with no readable axis, told
-by its tips not lining up, gets its branch lengths in pixels. Not yet: circular trees, labels
-set as PDF text over a raster (nothing is there to read), and a figure that holds several
-trees is read one region at a time.
+slanted, and drawn with forks, fans or rounded corners. Tip labels, support values at nodes,
+polytomies, collapsed clades drawn as wedges or bars. When a time axis with readable numbers
+is found, nodes and tips get ages and the Newick carries branch lengths in the axis's units; a
+phylogram with no readable axis, told by its tips not lining up, gets its branch lengths in
+pixels.
+
+Not yet, or not well:
+
+- Circular trees.
+- A figure that holds several trees is read one region at a time.
+- Labels that are PDF text laid over a picture are not in the picture: render the page with
+  its text and crop to the figure.
+- Small figures in small type, with letters under about ten pixels tall, where words blur into
+  bars.
+- Lettering as heavy as the branches and set against them.
+- A tree with the root on the right.
 
 ## Development
 
@@ -197,7 +225,7 @@ npm test                 # unit tests (node:test)
 npm run test:web         # drives the built viewer in headless Chromium through an editing session
 npm run bench            # benchmark against gold trees; see bench/README.md for supplying images
 npm run bench:strict     # the same, failing when a case expected identical is not
-npm run bench:holdout    # the held-out figures, cold
+npm run bench:holdout    # the gold sample: 109 more figures with gold trees
 npm run bench:census     # the corpus census, from a checkout named corpus beside this repository
 npm run bench:generate   # render synthetic figures in several styles for the benchmark
 npm run lint             # eslint, same style as the other Open Paleo repositories
