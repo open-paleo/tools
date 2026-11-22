@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/prieto-márquez2013c_fig26.png",
+  "names": "names.txt",
+  "source": "Prieto-Márquez 2013, Journal of Systematic Palaeontology 12, Fig. 26: hadrosaurid phylogeny with the two Kritosaurus species (bold) and a skull photograph; rectangular, root bottom left, bootstrap above and Bremer below the stems, a node dot for Hadrosauridae and stem symbols for Lambeosaurinae, Saurolophinae and Kritosaurini. Image: census figure (998x726 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "the census list of the paper's matrix taxa, plus the printed forms; every printed tip maps to one matrix taxon (the matrix's 'Sabinosaur PASAC-1' is printed 'Sabinas PASAC-1'), and the specimen tips 'Big Bend UTEP 37.7' and 'Sabinas PASAC-1' are scored as printed",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosaurid cladogram. Hadrosauridae (node dot) and Lambeosaurinae, Saurolophinae and Kritosaurini (stem symbols) kept as internal labels. The Kritosaurini and Saurolophus nodes were checked at 2x. 34 tips, fully resolved; 4 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/wilson2003b_fig21.png",
+  "names": "names.txt",
+  "source": "Wilson and Upchurch 2003, Journal of Systematic Palaeontology 1, Fig. 21: Adams consensus of titanosaur relationships from the six analyses in Fig. 20; slanted (diagonal) cladogram, root at the bottom, thick lines, an open node circle labelled TITANOSAURIA. Image: census figure (811x639 px), a page render (white on black in print, inverted on extraction).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only), with '\"Titanosaurus\"' in quotation marks as printed",
+  "gold": "gold.nex",
+  "gold_note": "Titanosaur Adams consensus. Where two branches meet the backbone together, each line was fitted from pixel rows away from the node and the crossings computed: Malawisaurus and Epachthosaurus cross each other and the backbone at the same point (within 1 px), and so do Alamosaurus and Opisthocoelicaudia (within 2 px), so both are three-way splits. TITANOSAURIA, printed beside the root's node circle, is kept as an internal label. Replacement for sereno1997a_fig6 (seed 20261118). 8 tips, 2 polytomies (3, 3 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/peyredefabrègues2015a_fig7.png",
+  "names": "names.txt",
+  "source": "Peyre de Fabrègues et al. 2015, Zoological Journal of the Linnean Society 175, Fig. 7A: strict consensus of the four MPTs from the compiled sauropodomorph dataset; rectangular ladder, root left, outgroups in grey, a grey box behind the shared part, node dots for Sauropodomorpha and Sauropoda. Panels B and C (other scorings) are excluded. Image: census figure (1128x1547 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 553,
+    "y1": 774
+  },
+  "region_note": "panel A",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph ladder, panel A, checked at 2x: Blikanasaurus and Camelotia leave one vertical, and so do Antetonitrus and Lessemsaurus, each with the next node, so both are three-way splits. Sauropoda (dot where its stem enters the Vulcanodon node) is kept as an internal label. Sauropodomorpha is not encoded: its dot sits where the root's stem enters the node that also carries the grey Eoraptor group, while the colour change marks the black clade below, so the figure does not fix which node it names. 28 tips, 3 polytomies (3, 3, 3 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/hwang2004a_fig12.png",
+  "names": "names.txt",
+  "source": "Hwang et al. 2004, Journal of Systematic Palaeontology 2, Fig. 12: coelurosaur phylogeny; rectangular, root left, Bremer values on the lines, three numbered node dots and two stem crosses with clade names in small capitals at the left, bracket lines with family names at the right. Image: census figure (2405x2387 px), a 300 dpi render of the page region (the running head and a download stamp in the margin are in the image).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including 'Liaoning ornithomimid', 'EK troodontid' and 'Ukhaa dromaeosaurid'; 'Archeopteryx' as printed",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur cladogram. Internal labels: Maniraptoriformes, Maniraptora and Deinonychosauria (node dots), Coelurosauria and Paraves (stem crosses), and the nine right-hand brackets, each spanning exactly one clade. The ornithomimid, alvarezsaurid, oviraptorosaur, troodontid and dromaeosaurid nodes and polytomies were checked at 2x; support values sit on the lines and do not hide any step. 55 tips, 8 polytomies (5, 3, 3, 3, 5, 3, 3, 9 children); 14 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

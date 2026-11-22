@@ -1,0 +1,101 @@
+#NEXUS
+
+[ dai2022a_fig9: Sauropod strict consensus. Branches read from the raster's lines with a run-length reader (connected at tolerance 6 px) and checked against the figure at the Neosauropoda backbone and the collinear stems in Macronaria; tip names from the PDF text layer, paired to the tips by height (all within 7 px). Sauropoda, Neosauropoda and Macronaria are printed beside node dots and kept as internal labels. 88 tips, 9 polytomies (4, 3, 5, 4, 3, 21, 6, 6, 3 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=88;
+    TAXLABELS
+        Plateosaurus_engelhardti
+        Chinshakiangosaurus_chunghoens
+        Mussaurus_patagonicus
+        Antetonitrus_ingenipes
+        Lessemsaurus_sauropoides
+        Gongxianosaurus_shibeiensis
+        Amygdalodon_patagonicus
+        Isanosaurus_attavipachi
+        Vulcanodon_karibaensis
+        Tazoudasaurus_naimi
+        Barapasaurus_tagorei
+        Shunosaurus_lii
+        Cetiosaurus_oxoniensis
+        Patagosaurus_gariasi
+        Mamenchisaurus
+        Omeisaurus
+        Turiasaurus_riodevensis
+        Losillasaurus_giganteus
+        Jobaria_tiguidensis
+        Haplocanthosaurus_priscus
+        Apatosaurus
+        Barosaurus_lentus
+        Diplodocus
+        Suuwassea_emiliae
+        Amargasaurus_cazaui
+        Brachytrachelopan_messai
+        Dicraeosaurus_hansemanni
+        Amazonsaurus_maranhensis
+        Histriasaurus_bocardeli
+        Zapalasaurus_bonapartei
+        Comahuesaurus_windhanseni
+        Lavocatisaurus_agrioensis
+        Limaysaurus_tessonei
+        Cathartesaurus_anaerobica
+        Katepensaurus_goicocheai
+        Nigersaurus_taqueti
+        Rebbachisaurus_garasbae
+        Demandasaurus_darwini
+        Tataouinea_hannibalis
+        Yuzhoulong_qurenensis
+        Bellusaurus_sui
+        Camarasaurus
+        Europasaurus_holgeri
+        Galvesaurus_herreroi
+        Padillasaurus_leivaensis
+        Ligabuesaurus_lenzai
+        Andesaurus_delgadoi
+        Ruyangosaurus_giganteus
+        Venenosaurus_dicrocei
+        Phuwiangosaurus_sirindhornae
+        Giraffatitan_brancai
+        Wintonotitan_wattsi
+        Chubutisaurus_insignis
+        Sauroposeidon_proteles
+        Euhelopus_zdanskyi
+        Erketu_ellisoni
+        Qiaowanlong_kangxii
+        Lusotitan_atalaiensis
+        Cedarosaurus_weiskopfe
+        Abydosaurus_mcintoshi
+        Brachiosaurus_altithorax
+        Tehuelchesaurus_benitezii
+        Tastavinsaurus_sanzi
+        Epachthosaurus_sciuttoi
+        Malawisaurus_dixeyi
+        Baurutitan_britoi
+        Dreadnoughtus
+        Neuquensaurus_australis
+        Saltasaurus_loricatus
+        Trigonosaurus_pricei
+        Opisthocoelicaudia_skarzynskii
+        Alamosaurus_sanjuanensis
+        Rapetosaurus_krausei
+        Isisaurus_colberti
+        Tapuiasaurus_macedoi
+        Rinconsaurus_caudamirus
+        Muyelensaurus_pecheni
+        Overosaurus_paradasorum
+        Aeolosaurus_maximus
+        Bonitasaura_salgadoi
+        Notocolossus_gonzalezparejasi
+        Mendozasaurus_neguyelap
+        Quetecsaurus_rusconii
+        Futalongkosaurus_dukei
+        Puertasaurus_reuili
+        Drusilasaura_deseadensis
+        Patagotitan_mayorum
+        Argentinosaurus_hunculensis
+    ;
+END;
+
+BEGIN TREES;
+    TREE dai2022a_fig9 = [&R] (Plateosaurus_engelhardti,(Chinshakiangosaurus_chunghoens,(Mussaurus_patagonicus,(Antetonitrus_ingenipes,(Lessemsaurus_sauropoides,(Gongxianosaurus_shibeiensis,Amygdalodon_patagonicus,Isanosaurus_attavipachi,(Vulcanodon_karibaensis,Tazoudasaurus_naimi,(Barapasaurus_tagorei,(Shunosaurus_lii,((Cetiosaurus_oxoniensis,Patagosaurus_gariasi),((Mamenchisaurus,Omeisaurus),((Turiasaurus_riodevensis,Losillasaurus_giganteus),((Jobaria_tiguidensis,(Haplocanthosaurus_priscus,(((Apatosaurus,(Barosaurus_lentus,Diplodocus)),(Suuwassea_emiliae,(Amargasaurus_cazaui,(Brachytrachelopan_messai,Dicraeosaurus_hansemanni)))),(Amazonsaurus_maranhensis,(Histriasaurus_bocardeli,Zapalasaurus_bonapartei,Comahuesaurus_windhanseni,Lavocatisaurus_agrioensis,((Limaysaurus_tessonei,Cathartesaurus_anaerobica),(Katepensaurus_goicocheai,(Nigersaurus_taqueti,Rebbachisaurus_garasbae,Demandasaurus_darwini,Tataouinea_hannibalis)))))))),(Yuzhoulong_qurenensis,(Bellusaurus_sui,Camarasaurus,(Europasaurus_holgeri,(Galvesaurus_herreroi,Padillasaurus_leivaensis,Ligabuesaurus_lenzai,Andesaurus_delgadoi,Ruyangosaurus_giganteus,Venenosaurus_dicrocei,Phuwiangosaurus_sirindhornae,Giraffatitan_brancai,Wintonotitan_wattsi,Chubutisaurus_insignis,Sauroposeidon_proteles,Euhelopus_zdanskyi,Erketu_ellisoni,Qiaowanlong_kangxii,Lusotitan_atalaiensis,Cedarosaurus_weiskopfe,Abydosaurus_mcintoshi,Brachiosaurus_altithorax,Tehuelchesaurus_benitezii,Tastavinsaurus_sanzi,(Epachthosaurus_sciuttoi,(Malawisaurus_dixeyi,Baurutitan_britoi,Dreadnoughtus,(Neuquensaurus_australis,Saltasaurus_loricatus,Trigonosaurus_pricei,Opisthocoelicaudia_skarzynskii,Alamosaurus_sanjuanensis,(Rapetosaurus_krausei,(Isisaurus_colberti,Tapuiasaurus_macedoi))),(Rinconsaurus_caudamirus,(Muyelensaurus_pecheni,(Overosaurus_paradasorum,Aeolosaurus_maximus))),(Bonitasaura_salgadoi,(Notocolossus_gonzalezparejasi,(Mendozasaurus_neguyelap,((Quetecsaurus_rusconii,Futalongkosaurus_dukei),(Puertasaurus_reuili,Drusilasaura_deseadensis,(Patagotitan_mayorum,Argentinosaurus_hunculensis))))))))))))Macronaria)Neosauropoda))))))Sauropoda))))));
+END;

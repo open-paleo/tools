@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/kuzmin2020a_fig20.png",
+  "names": "names.txt",
+  "source": "Kuzmin et al. 2020, Biological Communications 65, Fig. 20: simplified phylogeny of Nodosauridae sensu stricto; rectangular, root left, coloured branches, a node dot on the three-way North American node, two rounded boxes naming braincase characters. Image: census figure (1002x822 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Nodosaurid summary tree. The two rounded boxes name characters ('laterally directed POP', 'flange-like bt'), not clades, and are not encoded; Panoplosaurus, Edmontonia and Denversaurus leave the dotted node as a three-way split. 10 tips, 1 polytomies (3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

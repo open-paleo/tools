@@ -1,0 +1,35 @@
+#NEXUS
+
+[ csiki2010a_fig6: Sauropod majority-rule consensus, panel A. The node letters A-D are keys to the caption (A Neosauropoda, B Titanosauriformes, C Somphospondyli, D Titanosauria), not printed clade names, so no internal labels are encoded. The diplodocoid branch leaves the Haplocanthosaurus line, and Nigersaurus, Rebbachisaurus and Rayososaurus leave one point (checked at 2x). 22 tips, 1 polytomies (3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=22;
+    TAXLABELS
+        Jobaria
+        Haplocanthosaurus
+        Nigersaurus
+        Rebbachisaurus
+        Rayososaurus
+        Dicraeosaurus
+        Amargasaurus
+        Apatosaurus
+        Barosaurus
+        Diplodocus
+        Camarasaurus
+        Brachiosaurus
+        Euhelopus
+        Paludititan
+        Malawisaurus
+        Nemegtosaurus
+        Rapetosaurus
+        Isisaurus
+        Alamosaurus
+        Opisthocoelicaudia
+        Neuquensaurus
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE csiki2010a_fig6 = [&R] (Jobaria,((Haplocanthosaurus,((Nigersaurus,Rebbachisaurus,Rayososaurus),((Dicraeosaurus,Amargasaurus),(Apatosaurus,(Barosaurus,Diplodocus))))),(Camarasaurus,(Brachiosaurus,(Euhelopus,(Paludititan,(Malawisaurus,((Nemegtosaurus,Rapetosaurus),(Isisaurus,((Alamosaurus,Opisthocoelicaudia),(Neuquensaurus,Saltasaurus)))))))))));
+END;

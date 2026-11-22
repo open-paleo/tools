@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/meso2024a_fig6.png",
+  "names": "names.txt",
+  "source": "Meso et al. 2024, Cladistics 41, Fig. 6: time-calibrated reduced consensus of Alvarezsauria with branches coloured by forelimb evolutionary rate; rectangular, root left, a stage chart above, pale bands for rate shifts, open circles at five nodes, forelimb drawings in the lower left. Image: census figure (2057x1132 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Alvarezsaurian time tree. The parvicursorine ladder (steps 10-15 px, colour changing along the stems) was checked at 2x; Albinykus leaves the last node at the height where its stem enters, between Ondogurvel and Xixianykus, so that node is a three-way split. The open circles carry no names and the drawings are not part of the tree. Replacement for pol2022a_fig6 (seed 20261117). 23 tips, 1 polytomies (3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

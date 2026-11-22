@@ -1,0 +1,41 @@
+#NEXUS
+
+[ lerzo2021a_fig2: Titanosaur reduced consensus. The spoon symbols mark alternative positions of taxa (Ninjatitan pruned; Dzharatitanis under another scoring), not branches, and are not encoded. Lognkosauria, printed beside an open node circle, is kept as an internal label; the root's open circle carries no name. 28 tips, 2 polytomies (3, 7 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=28;
+    TAXLABELS
+        Andesaurus
+        Epachthosaurus
+        Rinconsaurus
+        Muyelensaurus
+        Aeolosaurus
+        Overosaurus_paradasorum
+        Bonitasaura_salgadoi
+        Notocolossus
+        Mendozasaurus
+        Dzharatitanis
+        Futalognkosaurus
+        Quetecsaurus
+        Drusilasaura
+        Puertasaurus
+        Argentinosaurus
+        Patagotitan
+        Dreadnoughtus
+        Malawisaurus
+        Baurutitan
+        Nemegtosaurus
+        Trigonosaurus
+        Alamosaurus
+        Opisthocoelicaudia
+        Saltasaurus
+        Neuquensaurus_australis
+        Rapetosaurus
+        Tapuiasaurus
+        Isisaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE lerzo2021a_fig2 = [&R] (Andesaurus,(Epachthosaurus,(((Rinconsaurus,(Muyelensaurus,(Aeolosaurus,Overosaurus_paradasorum))),(Bonitasaura_salgadoi,(Notocolossus,(Mendozasaurus,(Dzharatitanis,((Futalognkosaurus,Quetecsaurus),(Drusilasaura,Puertasaurus,(Argentinosaurus,Patagotitan)))))Lognkosauria))),(Dreadnoughtus,(Malawisaurus,(Baurutitan,(Nemegtosaurus,Trigonosaurus,Alamosaurus,Opisthocoelicaudia,Saltasaurus,Neuquensaurus_australis,(Rapetosaurus,(Tapuiasaurus,Isisaurus)))))))));
+END;

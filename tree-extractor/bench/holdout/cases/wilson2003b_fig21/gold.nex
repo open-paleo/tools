@@ -1,0 +1,21 @@
+#NEXUS
+
+[ wilson2003b_fig21: Titanosaur Adams consensus. Where two branches meet the backbone together, each line was fitted from pixel rows away from the node and the crossings computed: Malawisaurus and Epachthosaurus cross each other and the backbone at the same point (within 1 px), and so do Alamosaurus and Opisthocoelicaudia (within 2 px), so both are three-way splits. TITANOSAURIA, printed beside the root's node circle, is kept as an internal label. Replacement for sereno1997a_fig6 (seed 20261118). 8 tips, 2 polytomies (3, 3 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=8;
+    TAXLABELS
+        Andesaurus
+        Malawisaurus
+        Epachthosaurus
+        '"Titanosaurus"'
+        Alamosaurus
+        Opisthocoelicaudia
+        Neuquensaurus
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE wilson2003b_fig21 = [&R] (Andesaurus,(Malawisaurus,Epachthosaurus,('"Titanosaurus"',(Alamosaurus,Opisthocoelicaudia,(Neuquensaurus,Saltasaurus)))))TITANOSAURIA;
+END;

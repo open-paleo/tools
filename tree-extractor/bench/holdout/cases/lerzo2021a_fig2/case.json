@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/lerzo2021a_fig2.png",
+  "names": "names.txt",
+  "source": "Lerzo et al. 2021, Publicación Electrónica de la Asociación Paleontológica Argentina 21, Fig. 2: reduced consensus (Ninjatitan pruned) placing Dzharatitanis kingi when its vertebra is scored as an anterior caudal; rectangular with rounded elbows, root left, open node circles, black spoon symbols for Ninjatitan's possible positions and an open one for Dzharatitanis' alternative position, a key below. Image: census figure (971x1091 px), a page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (mostly genus only); three are printed with underscores (Overosaurus_paradasorum, Bonitasaura_salgadoi, Neuquensaurus_australis) and are listed in that form as well as with spaces",
+  "gold": "gold.nex",
+  "gold_note": "Titanosaur reduced consensus. The spoon symbols mark alternative positions of taxa (Ninjatitan pruned; Dzharatitanis under another scoring), not branches, and are not encoded. Lognkosauria, printed beside an open node circle, is kept as an internal label; the root's open circle carries no name. 28 tips, 2 polytomies (3, 7 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,47 @@
+#NEXUS
+
+[ prieto-márquez2013c_fig26: Hadrosaurid cladogram. Hadrosauridae (node dot) and Lambeosaurinae, Saurolophinae and Kritosaurini (stem symbols) kept as internal labels. The Kritosaurini and Saurolophus nodes were checked at 2x. 34 tips, fully resolved; 4 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=34;
+    TAXLABELS
+        Equijubus_normani
+        Probactrosaurus_gobiensis
+        Protohadros_byrdi
+        Tanius_sinensis
+        Bactrosaurus_johnsoni
+        Gilmoreosaurus_mongoliensis
+        Telmatosaurus_transsylvanicus
+        Lophorhothon_atopus
+        Hadrosaurus_foulkii
+        Lambeosaurus_lambei
+        Corythosaurus_casuarius
+        Parasaurolophus_walkeri
+        Kerberosaurus_manakini
+        Wulagasaurus_dongi
+        Sabinas_PASAC-1
+        Naashoibitosaurus_ostromi
+        Kritosaurus_navajovius
+        Kritosaurus_horneri
+        Gryposaurus_notabilis
+        Gryposaurus_monumentensis
+        Gryposaurus_latidens
+        Secernosaurus_koerneri
+        Willinaqake_salitralensis
+        Big_Bend_UTEP_37.7
+        Prosaurolophus_maximus
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+        Saurolophus_morrisi
+        Shantungosaurus_giganteus
+        Edmontosaurus_regalis
+        Edmontosaurus_annectens
+        Brachylophosaurus_canadensis
+        Maiasaura_peeblesorum
+        Acristavus_gagslarsoni
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'prieto-márquez2013c_fig26' = [&R] (Equijubus_normani,(Probactrosaurus_gobiensis,(Protohadros_byrdi,(Tanius_sinensis,(Bactrosaurus_johnsoni,(Gilmoreosaurus_mongoliensis,(Telmatosaurus_transsylvanicus,(Lophorhothon_atopus,(Hadrosaurus_foulkii,(((Lambeosaurus_lambei,Corythosaurus_casuarius),Parasaurolophus_walkeri)Lambeosaurinae,((Kerberosaurus_manakini,(Wulagasaurus_dongi,((Sabinas_PASAC-1,((Naashoibitosaurus_ostromi,((Kritosaurus_navajovius,Kritosaurus_horneri),(((Gryposaurus_notabilis,Gryposaurus_monumentensis),Gryposaurus_latidens),((Secernosaurus_koerneri,Willinaqake_salitralensis),Big_Bend_UTEP_37.7))))Kritosaurini,(Prosaurolophus_maximus,((Saurolophus_osborni,Saurolophus_angustirostris),Saurolophus_morrisi)))),(Shantungosaurus_giganteus,(Edmontosaurus_regalis,Edmontosaurus_annectens))))),((Brachylophosaurus_canadensis,Maiasaura_peeblesorum),Acristavus_gagslarsoni))Saurolophinae))Hadrosauridae))))))));
+END;

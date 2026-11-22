@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/sues2016a_fig26.png",
+  "names": "names.txt",
+  "source": "Sues and Averianov 2016, Cretaceous Research 59, Fig. 26: therizinosaur phylogeny; slanted (diagonal) cladogram, root left, thick lines, Bremer values at nodes, two clade names joined to their nodes by leader lines. Image: census figure (946x570 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including 'Bissekty therizinosauroids'",
+  "gold": "gold.nex",
+  "gold_note": "Therizinosaur cladogram. Therizinosauroidea and Therizinosauridae are joined to their nodes by leader lines and kept as internal labels; the nine Therizinosauridae branches leave one point and are encoded as a polytomy. 15 tips, 1 polytomies (9 children); 2 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

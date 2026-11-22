@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/díezdíaz2021a_fig12.png",
+  "names": "names.txt",
+  "source": "Díez Díaz et al. 2021, Historical Biology 33, Fig. 12: strict consensus of 10 MPTs placing Garrigatitan among titanosaurs, European taxa in bold; rectangular, root left, thick lines, node numbers 1-7 keyed in the caption. Image: census figure (1382x1697 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Titanosauriform strict consensus. The node numbers 1-7 are keys to the caption (Titanosauriformes, Opisthocoelicaudiinae, Saltasaurinae, Lirainosaurinae, Aeolosaurinae, Rinconsauria, Lognkosauria), not printed clade names, so no internal labels are encoded. Malarguesaurus and the Lirainosaurus clade leave their nodes at the same height as the node's own stem enters; each is a child of the node the stem enters, the only reading that connects that node. 30 tips, 4 polytomies (4, 3, 10, 3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

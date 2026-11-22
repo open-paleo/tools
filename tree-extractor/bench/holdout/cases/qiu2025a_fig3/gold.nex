@@ -1,0 +1,23 @@
+#NEXUS
+
+[ qiu2025a_fig3: Sinosauropterygid time tree, upper of the two trees in panel a. Sinosauropterygidae is written along its stem beside the node dot and kept as an internal label. Read from the PDF's vector branch lines with the tip names from the text layer. 10 tips, fully resolved; 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=10;
+    TAXLABELS
+        Tyrannosauroidea
+        Mirischia_asymmetrica
+        Huaxiagnathus_orientalis
+        Sinocalliopteryx_gigas
+        Juravenator_starki
+        Huadanosaurus_sinensis
+        Compsognathus_longipes
+        Sinosauropteryx_prima
+        Sinosauropteryx_lingyuanensis
+        Other_maniraptorifomes
+    ;
+END;
+
+BEGIN TREES;
+    TREE qiu2025a_fig3 = [&R] (Tyrannosauroidea,(((Mirischia_asymmetrica,(Huaxiagnathus_orientalis,Sinocalliopteryx_gigas)),(Juravenator_starki,(Huadanosaurus_sinensis,(Compsognathus_longipes,(Sinosauropteryx_prima,Sinosauropteryx_lingyuanensis)))))Sinosauropterygidae,Other_maniraptorifomes));
+END;

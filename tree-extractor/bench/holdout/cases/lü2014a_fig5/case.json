@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/lü2014a_fig5.png",
+  "names": "names.txt",
+  "source": "Lü et al. 2014, Nature Communications 5, Fig. 5 (the cladogram, lower part): strict consensus of the two MPTs, long-snouted tyrannosauroids; rectangular ladder, root left, Bremer/bootstrap pairs at nodes, two node dots with arrows to clade names, a brace with a skull silhouette for Alioramini. The skull-femur regression plot in the upper part of the figure is excluded. Image: census figure (1818x2380 px), rendered from the PDF's vector figure.",
+  "region": {
+    "x0": 250,
+    "y0": 1380,
+    "x1": 1818,
+    "y1": 2380
+  },
+  "region_note": "the cladogram in the lower part of the figure; the regression plot above it is excluded",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the higher-taxon tips Compsognathidae, Ornithomimosauria and Maniraptora",
+  "gold": "gold.nex",
+  "gold_note": "Tyrannosauroid strict consensus. Tyrannosauroidea and Tyrannosauridae are printed with arrows to node dots and Alioramini on a brace; all three kept as internal labels. Read from the PDF's vector branch lines with tip names from the text layer. 25 tips, 2 polytomies (3, 3 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only.",
+  "gold_method": "pdf-vector"
+}

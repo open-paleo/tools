@@ -1,0 +1,68 @@
+#NEXUS
+
+[ hwang2004a_fig12: Coelurosaur cladogram. Internal labels: Maniraptoriformes, Maniraptora and Deinonychosauria (node dots), Coelurosauria and Paraves (stem crosses), and the nine right-hand brackets, each spanning exactly one clade. The ornithomimid, alvarezsaurid, oviraptorosaur, troodontid and dromaeosaurid nodes and polytomies were checked at 2x; support values sit on the lines and do not hide any step. 55 tips, 8 polytomies (5, 3, 3, 3, 5, 3, 3, 9 children); 14 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=55;
+    TAXLABELS
+        Allosaurus_fragilis
+        Sinraptor_dongi
+        Tyrannosaurus_rex
+        Albertosaurus_libratus
+        Pelecanimimus_polyodon
+        Liaoning_ornithomimid
+        Harpymimus_okladnikovi
+        Garudimimus_brevipes
+        Struthiomimus_altus
+        Gallimimus_bullatus
+        Anserimimus_planinychus
+        Ornithomimus_edmonticus
+        Archaeornithomimus_asiaticus
+        Ornitholestes_hermanni
+        Huaxiagnathus_orientalis
+        Sinosauropteryx_prima
+        Compsognathus_longipes
+        Alvarezsaurus_calvoi
+        Patagonykus_puertai
+        Mononykus_olecranus
+        Shuuvuia_deserti
+        Segnosaurus_galbinensis
+        Erlikosaurus_andrewsi
+        Alxasaurus_elesitaiensis
+        Incisivosaurus_gauthieri
+        Caudipteryx_zoui
+        Chirostenotes_pergracilis
+        Microvenator_celer
+        Avimimus_portentosus
+        Ingenia_yanshini
+        Oviraptor_mongoliensis
+        Oviraptor_philoceratops
+        Conchoraptor_gracilis
+        Citipati_osmolskae
+        Rahonavis_ostromi
+        Archeopteryx_lithographica
+        Confuciusornis_sanctus
+        Sinovenator_changii
+        EK_troodontid
+        Byronosaurus_jaffei
+        Sinornithoides_youngi
+        Troodon_formosus
+        Saurornithoides_mongoliensis
+        Saurornithoides_junior
+        Microraptor_zhaoianus
+        Sinornithosaurus_milleni
+        Dromaeosaurus_albertensis
+        Deinonychus_antirrhopus
+        Velociraptor_mongoliensis
+        Unenlagia_comahuensis
+        Utahraptor_ostrommaysorum
+        Saurornitholestes_langstoni
+        Achillobator_giganticus
+        Ukhaa_dromaeosaurid
+        Adasaurus_mongoliensis
+    ;
+END;
+
+BEGIN TREES;
+    TREE hwang2004a_fig12 = [&R] (Allosaurus_fragilis,(Sinraptor_dongi,((Tyrannosaurus_rex,Albertosaurus_libratus)Tyrannosauridae,((Pelecanimimus_polyodon,(Liaoning_ornithomimid,(Harpymimus_okladnikovi,(Garudimimus_brevipes,(Struthiomimus_altus,Gallimimus_bullatus,Anserimimus_planinychus,Ornithomimus_edmonticus,Archaeornithomimus_asiaticus)))))Ornithomimidae,(Ornitholestes_hermanni,((Huaxiagnathus_orientalis,(Sinosauropteryx_prima,Compsognathus_longipes))Compsognathidae,((Alvarezsaurus_calvoi,(Patagonykus_puertai,(Mononykus_olecranus,Shuuvuia_deserti)))Alvarezsauridae,((Segnosaurus_galbinensis,Erlikosaurus_andrewsi,Alxasaurus_elesitaiensis)Therizinosauroidea,(Incisivosaurus_gauthieri,(Caudipteryx_zoui,((Chirostenotes_pergracilis,Microvenator_celer,Avimimus_portentosus),(Ingenia_yanshini,Oviraptor_mongoliensis,Oviraptor_philoceratops,Conchoraptor_gracilis,Citipati_osmolskae))))Oviraptorosauria),((Rahonavis_ostromi,(Archeopteryx_lithographica,Confuciusornis_sanctus))Avialae,((Sinovenator_changii,(EK_troodontid,(Byronosaurus_jaffei,Sinornithoides_youngi,(Troodon_formosus,(Saurornithoides_mongoliensis,Saurornithoides_junior)))))Troodontidae,(Microraptor_zhaoianus,Sinornithosaurus_milleni,(Dromaeosaurus_albertensis,Deinonychus_antirrhopus,Velociraptor_mongoliensis,Unenlagia_comahuensis,Utahraptor_ostrommaysorum,Saurornitholestes_langstoni,Achillobator_giganticus,Ukhaa_dromaeosaurid,Adasaurus_mongoliensis))Dromaeosauridae)Deinonychosauria)Paraves)))Maniraptora)Maniraptoriformes)Coelurosauria));
+END;

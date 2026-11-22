@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census/figures/rivera-sylva2024a_fig12.png",
+  "names": "names.txt",
+  "source": "Rivera-Sylva et al. 2024, Fossil Studies 2, Fig. 12: strict consensus of 2160 MPTs placing Labocania aguillonae in Teratophoneini; rectangular, root left, tips ending in coloured ellipses (range and region), a stage bar and Ma axis below, bracket lines with clade names at the right, two bold clade names under backbone stems, a colour legend and a silhouette. Image: census figure (2210x2232 px), rendered from the PDF's vector figure.",
+  "license": "CC BY 4.0",
+  "attribution": "Rivera-Sylva, H. E.; Longrich, N. R. (2024). A new tyrant dinosaur from the Late Campanian of Mexico reveals a tribe of southern tyrannosaurs. Fossil Studies. https://doi.org/10.3390/fossils2040012. Fig. 12. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names, including the unnamed specimens 'Aguja Fm. tyrannosaurine' and 'Two Medicine Fm. tyrannosaurine'",
+  "gold": "gold.nex",
+  "gold_note": "Tyrannosaurid strict consensus. Internal labels from the five right-hand brackets (Alioramini, Albertosaurinae, Daspletosaurini, Teratophoneini, Tyrannosaurini). 'Tyrannosauridae' and 'Tyrannosaurinae' are printed under the backbone between two candidate stems, so they are not encoded. Read from the PDF's vector branch lines; tip names from the text layer except Lythronax argestes, whose label is in another font and was read from the figure. 24 tips, 3 polytomies (3, 3, 4 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only.",
+  "gold_method": "pdf-vector"
+}

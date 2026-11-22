@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census/figures/fiorillo2014a_fig6.png",
+  "names": "names.txt",
+  "source": "Fiorillo and Tykoski 2014, PLoS ONE 9, Fig. 6: time-calibrated tyrannosaurid phylogeny with Nanuqsaurus (in red); vertical, root at the bottom, black range bars at the tips, Bremer values at nodes, dotted time lines with a stage column and Ma scales at both sides, a node symbol (open circle) for Tyrannosauridae and a stem symbol for Tyrannosaurinae. Image: census figure (1438x754 px), the embedded raster.",
+  "license": "CC BY 4.0",
+  "attribution": "Fiorillo, A. R.; Tykoski, R. S. (2014). A Diminutive New Tyrannosaur from the Top of the World. PLoS ONE. https://doi.org/10.1371/journal.pone.0091287. Fig. 6. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names (genus only), including 'Two Medicine taxon'",
+  "gold": "gold.nex",
+  "gold_note": "Tyrannosaurid time tree, root at the bottom. Tyrannosauridae (node circle at the root) and Tyrannosaurinae (stem symbol on the branch below the tyrannosaurine node) kept as internal labels. 11 tips, fully resolved; 2 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

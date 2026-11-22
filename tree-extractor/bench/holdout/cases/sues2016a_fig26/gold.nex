@@ -1,0 +1,28 @@
+#NEXUS
+
+[ sues2016a_fig26: Therizinosaur cladogram. Therizinosauroidea and Therizinosauridae are joined to their nodes by leader lines and kept as internal labels; the nine Therizinosauridae branches leave one point and are encoded as a polytomy. 15 tips, 1 polytomies (9 children); 2 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=15;
+    TAXLABELS
+        Falcarius_utahensis
+        Jianchangosaurus_yixianensis
+        Beipiaosaurus_inexpectus
+        Alxasaurus_elesitaiensis
+        Bissekty_therizinosauroids
+        Segnosaurus_galbinensis
+        Erlikosaurus_andrewsi
+        Neimongosaurus_yangi
+        Erliansaurus_bellamanus
+        Suzhousaurus_megatheroides
+        Enigmosaurus_mongoliensis
+        Nanshiungosaurus_brevispinus
+        Therizinosaurus_cheloniformis
+        Nothronychus_graffami
+        Nothronychus_mckinleyi
+    ;
+END;
+
+BEGIN TREES;
+    TREE sues2016a_fig26 = [&R] (Falcarius_utahensis,(Jianchangosaurus_yixianensis,(Beipiaosaurus_inexpectus,(Alxasaurus_elesitaiensis,(Bissekty_therizinosauroids,(Segnosaurus_galbinensis,Erlikosaurus_andrewsi,Neimongosaurus_yangi,Erliansaurus_bellamanus,Suzhousaurus_megatheroides,Enigmosaurus_mongoliensis,Nanshiungosaurus_brevispinus,Therizinosaurus_cheloniformis,(Nothronychus_graffami,Nothronychus_mckinleyi))Therizinosauridae)))Therizinosauroidea));
+END;

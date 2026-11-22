@@ -1,0 +1,23 @@
+#NEXUS
+
+[ kuzmin2020a_fig20: Nodosaurid summary tree. The two rounded boxes name characters ('laterally directed POP', 'flange-like bt'), not clades, and are not encoded; Panoplosaurus, Edmontonia and Denversaurus leave the dotted node as a three-way split. 10 tips, 1 polytomies (3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=10;
+    TAXLABELS
+        Tatankacephalus
+        Sauropelta
+        Panoplosaurus
+        Edmontonia
+        Denversaurus
+        Silvisaurus
+        Europelta
+        Hungarosaurus
+        Struthiosaurus
+        Pawpawsaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE kuzmin2020a_fig20 = [&R] ((Tatankacephalus,Sauropelta),((Panoplosaurus,Edmontonia,Denversaurus),(Silvisaurus,((Europelta,Hungarosaurus),(Struthiosaurus,Pawpawsaurus)))));
+END;

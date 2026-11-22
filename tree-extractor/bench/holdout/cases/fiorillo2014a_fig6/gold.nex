@@ -1,0 +1,24 @@
+#NEXUS
+
+[ fiorillo2014a_fig6: Tyrannosaurid time tree, root at the bottom. Tyrannosauridae (node circle at the root) and Tyrannosaurinae (stem symbol on the branch below the tyrannosaurine node) kept as internal labels. 11 tips, fully resolved; 2 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=11;
+    TAXLABELS
+        Albertosaurus
+        Gorgosaurus
+        Daspletosaurus
+        Two_Medicine_taxon
+        Teratophoneus
+        Bistahieversor
+        Lythronax
+        Nanuqsaurus
+        Zhuchengtyrannus
+        Tarbosaurus
+        Tyrannosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE fiorillo2014a_fig6 = [&R] ((Albertosaurus,Gorgosaurus),((Daspletosaurus,Two_Medicine_taxon),(Teratophoneus,(Bistahieversor,(Lythronax,(Nanuqsaurus,((Zhuchengtyrannus,Tarbosaurus),Tyrannosaurus))))))Tyrannosaurinae)Tyrannosauridae;
+END;

@@ -1,0 +1,43 @@
+#NEXUS
+
+[ díezdíaz2021a_fig12: Titanosauriform strict consensus. The node numbers 1-7 are keys to the caption (Titanosauriformes, Opisthocoelicaudiinae, Saltasaurinae, Lirainosaurinae, Aeolosaurinae, Rinconsauria, Lognkosauria), not printed clade names, so no internal labels are encoded. Malarguesaurus and the Lirainosaurus clade leave their nodes at the same height as the node's own stem enters; each is a child of the node the stem enters, the only reading that connects that node. 30 tips, 4 polytomies (4, 3, 10, 3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=30;
+    TAXLABELS
+        Camarasaurus
+        Brachiosaurus
+        Chubutisaurus
+        Ligabuesaurus
+        Malarguesaurus
+        Andesaurus
+        Normanniasaurus
+        Malawisaurus
+        Paludititan
+        Lohuecotitan
+        Bonatitan
+        Epachthosaurus
+        Alamosaurus
+        Opisthocoelicaudia
+        Neuquensaurus
+        Saltasaurus
+        Rocasaurus
+        Lirainosaurus
+        Atsinganosaurus
+        Ampelosaurus
+        Garrigatitan
+        Nemegtosaurus
+        Rapetosaurus
+        Aeolosaurus
+        Gondwanatitan
+        Rinconsaurus
+        Muyelensaurus
+        Bonitasaura
+        Futalognkosaurus
+        Mendozasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'díezdíaz2021a_fig12' = [&R] (Camarasaurus,(Brachiosaurus,(Chubutisaurus,(Ligabuesaurus,Malarguesaurus,Andesaurus,(Normanniasaurus,Malawisaurus,(Paludititan,Lohuecotitan,Bonatitan,Epachthosaurus,(Alamosaurus,Opisthocoelicaudia),(Neuquensaurus,Saltasaurus,Rocasaurus),(Lirainosaurus,(Atsinganosaurus,(Ampelosaurus,Garrigatitan))),(Nemegtosaurus,Rapetosaurus),(Aeolosaurus,Gondwanatitan),(Rinconsaurus,(Muyelensaurus,(Bonitasaura,(Futalognkosaurus,Mendozasaurus))))))))));
+END;

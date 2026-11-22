@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/novas2012a_fig7.png",
+  "names": "names.txt",
+  "source": "Novas et al. 2012, Revista del Museo Argentino de Ciencias Naturales 14, Fig. 7: simplified strict reduced consensus (Santanaraptor pruned) with Bicentenaria argentina (bold, open range bar); vertical, root at the bottom, black range bars against a Jurassic-Cretaceous stage column, Bremer values below nodes, abbreviated clade names beside stems, silhouettes for South American taxa. Image: census figure (851x1105 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the higher-taxon tips Ornithomimosauria, Therizinosauria, Oviraptorosauria, Alvarezsauridae, Dromaeosauridae, Troodontidae, Scansoriopterygidae and Aves",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur time tree, root at the bottom. The backbone nodes are 4-6 px apart along the foot of the figure; each was read from a listing of the horizontal line segments, as was the Dilong / Eotyrannus / (Tyrannosaurus, Gorgosaurus) step hidden behind the range bars. Internal labels as printed: COELUROSAURIA (leader line) and the abbreviations Allo., Tyrann., Comps. and Mani., each printed just right of the stem it names; Mani. therefore marks the node that includes Ornitholestes. 29 tips, 3 polytomies (3, 6, 4 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

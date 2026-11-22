@@ -1,0 +1,41 @@
+#NEXUS
+
+[ peyredefabrègues2015a_fig7: Sauropodomorph ladder, panel A, checked at 2x: Blikanasaurus and Camelotia leave one vertical, and so do Antetonitrus and Lessemsaurus, each with the next node, so both are three-way splits. Sauropoda (dot where its stem enters the Vulcanodon node) is kept as an internal label. Sauropodomorpha is not encoded: its dot sits where the root's stem enters the node that also carries the grey Eoraptor group, while the colour change marks the black clade below, so the figure does not fix which node it names. 28 tips, 3 polytomies (3, 3, 3 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=28;
+    TAXLABELS
+        Marasuchus
+        Heterodontosaurus
+        Lesothosaurus
+        Eoraptor
+        Herrerasaurus
+        Guaibasaurus
+        Coelophysis
+        Saturnalia
+        Thecodontosaurus
+        Efraasia
+        Riojasaurus
+        Plateosaurus
+        Coloradisaurus
+        Massospondylus
+        Lufengosaurus
+        Yunnanosaurus
+        Jingshanosaurus
+        Anchisaurus
+        Melanorosaurus
+        Blikanasaurus
+        Camelotia
+        Antetonitrus
+        Lessemsaurus
+        Vulcanodon
+        Shunosaurus
+        Barapasaurus
+        Omeisaurus
+        Camarasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'peyredefabrègues2015a_fig7' = [&R] (Marasuchus,(Heterodontosaurus,Lesothosaurus),((Eoraptor,(Herrerasaurus,(Guaibasaurus,Coelophysis))),(Saturnalia,(Thecodontosaurus,(Efraasia,(Riojasaurus,(Plateosaurus,(Coloradisaurus,(Massospondylus,(Lufengosaurus,(Yunnanosaurus,(Jingshanosaurus,(Anchisaurus,(Melanorosaurus,(Blikanasaurus,Camelotia,(Antetonitrus,Lessemsaurus,(Vulcanodon,(Shunosaurus,(Barapasaurus,(Omeisaurus,Camarasaurus))))Sauropoda))))))))))))))));
+END;

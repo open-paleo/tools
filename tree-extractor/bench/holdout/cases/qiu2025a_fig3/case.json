@@ -1,0 +1,18 @@
+{
+  "image": "../../../../../../corpus/census/figures/qiu2025a_fig3.png",
+  "names": "names.txt",
+  "source": "Qiu et al. 2025, National Science Review 12, Fig. 3a (upper tree): simplified time-calibrated phylogeny of sinosauropterygids, reduced strict consensus from the TWiG matrix; rectangular, root left, tips ending in black range boxes, a stage chart above, coloured stage columns, thick bars for the collapsed outgroups, a node dot with the clade name written on its stem. The lower tree (from the OSP matrix) and panels b-d (skull drawings) are excluded. Image: census figure (2204x1387 px), rendered from the PDF's vector figure.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1124,
+    "y1": 845
+  },
+  "region_note": "the upper tree of panel a (TWiG matrix), with the stage chart above it; the lower tree (OSP matrix) repeats the same tips and is excluded",
+  "license": "CC BY 4.0",
+  "attribution": "Qiu, R.; Wang, X.; Jiang, S.; Meng, J.; Zhou, Z. (2025). Two new compsognathid-like theropods show diversified predation strategies in theropod dinosaurs. National Science Review. https://doi.org/10.1093/nsr/nwaf068. Fig. 3a. CC BY 4.0.",
+  "names_note": "printed tip names (the tree collapses two outgroups into higher taxa, so the matrix list is not used), including 'Other maniraptorifomes' (sic) and Tyrannosauroidea, both drawn as thick bars with the name above the line",
+  "gold": "gold.nex",
+  "gold_note": "Sinosauropterygid time tree, upper of the two trees in panel a. Sinosauropterygidae is written along its stem beside the node dot and kept as an internal label. Read from the PDF's vector branch lines with the tip names from the text layer. 10 tips, fully resolved; 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only.",
+  "gold_method": "pdf-vector"
+}

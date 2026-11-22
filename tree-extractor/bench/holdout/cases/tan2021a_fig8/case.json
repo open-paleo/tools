@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/tan2021a_fig8.png",
+  "names": "names.txt",
+  "source": "Tan et al. 2021, Historical Biology 33, Fig. 8: sauropod phylogeny with Omeisaurus puxiani (bold, arrowed); rectangular, root left, thin lines, three clade names printed beside node dots. Image: census figure (1000x1834 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the 89 printed tip names as printed, including the misspellings 'Barossaurus', 'Diplodcus', 'Ligabuesaururs' and the cut-off 'Chinshakiangosaurus chunghoens', and the specimen tip S66",
+  "gold": "gold.nex",
+  "gold_note": "Sauropod cladogram. Branches read from the raster's lines with a run-length reader (identical at three threshold and tolerance settings) and checked against the figure at 3x in the rebbachisaurids and at the Sauropoda and Eusauropoda dots; tip names transcribed in order. Sauropoda, Eusauropoda and Mamenchisauridae are printed beside node dots and kept as internal labels. 89 tips, 10 polytomies (4, 3, 3, 3, 3, 3, 3, 12, 10, 6 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

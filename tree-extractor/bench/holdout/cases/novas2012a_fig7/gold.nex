@@ -1,0 +1,42 @@
+#NEXUS
+
+[ novas2012a_fig7: Coelurosaur time tree, root at the bottom. The backbone nodes are 4-6 px apart along the foot of the figure; each was read from a listing of the horizontal line segments, as was the Dilong / Eotyrannus / (Tyrannosaurus, Gorgosaurus) step hidden behind the range bars. Internal labels as printed: COELUROSAURIA (leader line) and the abbreviations Allo., Tyrann., Comps. and Mani., each printed just right of the stem it names; Mani. therefore marks the node that includes Ornitholestes. 29 tips, 3 polytomies (3, 6, 4 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Piatnitzkysaurus_floresi
+        Mapusaurus_roseae
+        Allosaurus_fragilis
+        Sinraptor_dongi
+        Tugulusaurus_faciles
+        Bicentenaria_argentina
+        Tanycolagreus_topwilsoni
+        Coelurus_fragilis
+        Dilong_paradoxus
+        Eotyrannus_lengi
+        Tyrannosaurus_rex
+        Gorgosaurus_libratus
+        Zuolong_salleei
+        Mirischia_asymmetrica
+        Huaxiagnathus_orientalis
+        Compsognathus_longipes
+        Sinosauropteryx_prima
+        Juravenator_starki
+        Nqwebasaurus_thwazi
+        Aniksosaurus_darwini
+        Ornithomimosauria
+        Ornitholestes_hermanni
+        Therizinosauria
+        Oviraptorosauria
+        Alvarezsauridae
+        Dromaeosauridae
+        Troodontidae
+        Scansoriopterygidae
+        Aves
+    ;
+END;
+
+BEGIN TREES;
+    TREE novas2012a_fig7 = [&R] (Piatnitzkysaurus_floresi,(Mapusaurus_roseae,(Allosaurus_fragilis,Sinraptor_dongi))Allo.,(Tugulusaurus_faciles,(Bicentenaria_argentina,(((Tanycolagreus_topwilsoni,Coelurus_fragilis),(Dilong_paradoxus,(Eotyrannus_lengi,(Tyrannosaurus_rex,Gorgosaurus_libratus))))Tyrann.,(Zuolong_salleei,((Mirischia_asymmetrica,Huaxiagnathus_orientalis,Compsognathus_longipes,Sinosauropteryx_prima,Juravenator_starki,Nqwebasaurus_thwazi)Comps.,(Aniksosaurus_darwini,(Ornithomimosauria,(Ornitholestes_hermanni,(Therizinosauria,Oviraptorosauria,Alvarezsauridae,((Dromaeosauridae,Troodontidae),(Scansoriopterygidae,Aves))))Mani.)))))))COELUROSAURIA);
+END;

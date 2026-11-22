@@ -427,6 +427,16 @@ for (const caseDir of caseDirs)
     if (newick === null)
     {
         console.log("no tree extracted");
+
+        // A figure that gives no tree at all is the worst result, not no result: it stands in
+        // the summary with none of its gold tips named.
+        if (goldText !== null)
+        {
+            const gold = parseNewick(goldText);
+            const itself = compareTrees(gold, gold);
+            summary.push({ name: caseName, tips: document.tips.length, goldTips: itself.sharedLeaves.length, named: 0, splits: 0, goldSplits: 0, extraSplits: 0, identical: false, profile: null });
+        }
+
         continue;
     }
 

@@ -1,0 +1,25 @@
+#NEXUS
+
+[ arcucci2003a_fig4: Theropod consensus, panel A. Checked at 3x: the coelophysoid stem, Ceratosaurus, Carnotaurus and the tetanuran backbone leave one point (a four-way split), and the five tetanuran branches leave one point. TETANURAE, printed beside a stem bracket, is kept as an internal label. 12 tips, 2 polytomies (4, 5 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=12;
+    TAXLABELS
+        SAUROPODOMORPHA
+        Herrerasaurus
+        Dilophosaurus
+        Coelophysis
+        Syntarsus
+        Ceratosaurus
+        Carnotaurus
+        Zupaysaurus
+        Sinraptor
+        Allosaurus
+        Giganotosaurus
+        TYRANNOSAURIDAE
+    ;
+END;
+
+BEGIN TREES;
+    TREE arcucci2003a_fig4 = [&R] (SAUROPODOMORPHA,(Herrerasaurus,((Dilophosaurus,(Coelophysis,Syntarsus)),Ceratosaurus,Carnotaurus,(Zupaysaurus,Sinraptor,Allosaurus,Giganotosaurus,TYRANNOSAURIDAE)TETANURAE)));
+END;

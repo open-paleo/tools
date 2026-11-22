@@ -1,0 +1,36 @@
+#NEXUS
+
+[ meso2024a_fig6: Alvarezsaurian time tree. The parvicursorine ladder (steps 10-15 px, colour changing along the stems) was checked at 2x; Albinykus leaves the last node at the height where its stem enters, between Ondogurvel and Xixianykus, so that node is a three-way split. The open circles carry no names and the drawings are not part of the tree. Replacement for pol2022a_fig6 (seed 20261117). 23 tips, 1 polytomies (3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=23;
+    TAXLABELS
+        Shishugounykus
+        Aorun
+        Haplocheirus
+        Bannykus
+        Xiyunykus
+        Tugulusaurus
+        Alnashetri
+        Bonapartenykus
+        Patagonykus
+        Achillesaurus
+        Alvarezsaurus
+        Ceratonykus
+        Khulsanurus
+        Qiupanykus
+        Dzharaonyx
+        Linhenykus
+        Parvicursor
+        Shuvuuia
+        Mononykus
+        Kol
+        Ondogurvel
+        Albinykus
+        Xixianykus
+    ;
+END;
+
+BEGIN TREES;
+    TREE meso2024a_fig6 = [&R] (Shishugounykus,(Aorun,(Haplocheirus,((Bannykus,(Xiyunykus,Tugulusaurus)),(Alnashetri,(((Bonapartenykus,Patagonykus),(Achillesaurus,Alvarezsaurus)),(Ceratonykus,(Khulsanurus,(Qiupanykus,(Dzharaonyx,((Linhenykus,Parvicursor),(Shuvuuia,(Mononykus,(Kol,(Ondogurvel,Albinykus,Xixianykus)))))))))))))));
+END;

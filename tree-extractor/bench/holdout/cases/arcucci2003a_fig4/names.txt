@@ -1,0 +1,12 @@
+SAUROPODOMORPHA
+Herrerasaurus
+Dilophosaurus
+Coelophysis
+Syntarsus
+Ceratosaurus
+Carnotaurus
+Zupaysaurus
+Sinraptor
+Allosaurus
+Giganotosaurus
+TYRANNOSAURIDAE

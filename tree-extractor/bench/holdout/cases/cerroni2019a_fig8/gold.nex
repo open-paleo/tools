@@ -1,0 +1,64 @@
+#NEXUS
+
+[ cerroni2019a_fig8: Theropod strict consensus, panel A. Branches read from the raster's lines with a run-length reader (identical at two threshold settings, ink threshold below the purple fill) and checked against the figure node by node; tip names transcribed in order. Ceratosauria, Coelurosauria and Tetanurae are joined to their nodes by leader lines and kept as internal labels. 51 tips, 8 polytomies (3, 6, 7, 3, 3, 3, 3, 4 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=51;
+    TAXLABELS
+        Eoraptor
+        Herrerasaurus
+        Coelophysis
+        Dilophosaurus
+        Cryolophosaurus
+        Elaphrosaurus
+        Ceratosaurus
+        Afromimus
+        Majungasaurus
+        Masiakasaurus
+        Chuandongocoelurus
+        Monolophosaurus
+        Compsognathus
+        Ornitholestes
+        Proceratosaurus
+        Marshosaurus
+        Condorraptor
+        Piatnitzkysaurus
+        Afrovenator
+        Dubreuillosaurus
+        Eustreptospondylus
+        Leshansaurus
+        Magnosaurus
+        Duriavenator
+        Megalosaurus
+        Torvosaurus
+        Baryonyx
+        Suchomimus
+        Angaturama
+        Irritator
+        Spinosaurus
+        Shidaisaurus
+        Yangchuanosaurus
+        Metriacanthosaurus
+        Siamotyrannus
+        Sinraptor
+        Allosaurus
+        Saurophaganax
+        Concavenator
+        Acrocanthosaurus
+        Shaochilong
+        Carcharodontosaurus
+        Giganotosaurus
+        Mapusaurus
+        Tyrannotitan
+        Neovenator
+        Chilantaisaurus
+        Aerosteon
+        Megaraptor
+        Australovenator
+        Fukuiraptor
+    ;
+END;
+
+BEGIN TREES;
+    TREE cerroni2019a_fig8 = [&R] (Eoraptor,(Herrerasaurus,((Coelophysis,Dilophosaurus),(Cryolophosaurus,((Elaphrosaurus,(Ceratosaurus,(Afromimus,Majungasaurus,Masiakasaurus)))Ceratosauria,(Chuandongocoelurus,Monolophosaurus,(Compsognathus,(Ornitholestes,Proceratosaurus))Coelurosauria,(Marshosaurus,(Condorraptor,Piatnitzkysaurus)),(Afrovenator,Dubreuillosaurus,Eustreptospondylus,Leshansaurus,Magnosaurus,(Duriavenator,(Megalosaurus,Torvosaurus)),((Baryonyx,Suchomimus),(Angaturama,Irritator,Spinosaurus))),((Shidaisaurus,Yangchuanosaurus,(Metriacanthosaurus,Siamotyrannus,Sinraptor)),((Allosaurus,Saurophaganax),(Concavenator,(Acrocanthosaurus,(Shaochilong,(Carcharodontosaurus,Giganotosaurus,Mapusaurus,Tyrannotitan))),(Neovenator,(Chilantaisaurus,((Aerosteon,Megaraptor),(Australovenator,Fukuiraptor))))))))Tetanurae)))));
+END;

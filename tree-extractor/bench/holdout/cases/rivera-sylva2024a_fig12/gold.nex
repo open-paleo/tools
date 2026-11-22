@@ -1,0 +1,37 @@
+#NEXUS
+
+[ rivera-sylva2024a_fig12: Tyrannosaurid strict consensus. Internal labels from the five right-hand brackets (Alioramini, Albertosaurinae, Daspletosaurini, Teratophoneini, Tyrannosaurini). 'Tyrannosauridae' and 'Tyrannosaurinae' are printed under the backbone between two candidate stems, so they are not encoded. Read from the PDF's vector branch lines; tip names from the text layer except Lythronax argestes, whose label is in another font and was read from the figure. 24 tips, 3 polytomies (3, 3, 4 children); 5 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Alioramus_remotus
+        Alioramus_altai
+        Qianzhousaurus_sinensis
+        Nanotyrannus_lancensis
+        Gorgosaurus_libratus
+        Albertosaurus_arctunguis
+        Asiatyrannus_xui
+        Thanatotheristes_degrootorum
+        Daspletosaurus_horneri
+        Daspletosaurus_torosus
+        Daspletosaurus_wilsoni
+        Lythronax_argestes
+        Dynamoterror_dynastes
+        Teratophoneus_curriei
+        Aguja_Fm._tyrannosaurine
+        Bistahieversor_sealeyi
+        Two_Medicine_Fm._tyrannosaurine
+        Labocania_anomala
+        Labocania_aguillonae
+        Nanuqsaurus_hoglundi
+        Tarbosaurus_baatar
+        Zhuchengtyrannus_magnus
+        Tyrannosaurus_mcraeensis
+        Tyrannosaurus_rex
+    ;
+END;
+
+BEGIN TREES;
+    TREE rivera-sylva2024a_fig12 = [&R] ((Alioramus_remotus,Alioramus_altai,Qianzhousaurus_sinensis)Alioramini,(Nanotyrannus_lancensis,((Gorgosaurus_libratus,Albertosaurus_arctunguis)Albertosaurinae,(Asiatyrannus_xui,((Thanatotheristes_degrootorum,(Daspletosaurus_horneri,(Daspletosaurus_torosus,Daspletosaurus_wilsoni)))Daspletosaurini,(Lythronax_argestes,((Dynamoterror_dynastes,Teratophoneus_curriei,(Aguja_Fm._tyrannosaurine,Bistahieversor_sealeyi,Two_Medicine_Fm._tyrannosaurine,(Labocania_anomala,Labocania_aguillonae)))Teratophoneini,(Nanuqsaurus_hoglundi,((Tarbosaurus_baatar,Zhuchengtyrannus_magnus),(Tyrannosaurus_mcraeensis,Tyrannosaurus_rex))Tyrannosaurini))))))));
+END;

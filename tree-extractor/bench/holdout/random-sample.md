@@ -200,3 +200,51 @@ Notes on batch 2:
 - penkalski2018a_fig16's tips are specimen numbers; the species names printed above groups of specimens are not encoded.
 - mocho2016a_fig22's caption key lists an 'L' node that is not printed on the figure; it is not encoded.
 - `image_tips_visible` / `image_tips_missing` (requested after batch 1): none of batch 2's census images is cropped; pu2017a_fig6 (batch 1) now carries them (31 of 37).
+
+## Batch 3 (20 cases, two skips replaced)
+
+| Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
+|---|---|---|---:|---|---:|---|---|---|
+| qiu2025a_fig3 | rectangular | yes | 10 | - | 1 | printed | pdf-vector | yes |
+| rivera-sylva2024a_fig12 | rectangular | yes | 24 | 3, 3, 4 | 5 | printed | pdf-vector | yes |
+| fiorillo2014a_fig6 | vertical | yes | 11 | - | 2 | printed | image-transcription | yes |
+| sues2016a_fig26 | slanted | no | 15 | 9 | 2 | printed | image-transcription | ? |
+| csiki2010a_fig6 | slanted | no | 22 | 3 | - | printed | image-transcription | ? |
+| prieto-márquez2013c_fig26 | rectangular | no | 34 | - | 4 | matrix | image-transcription | ? |
+| hwang2004a_fig12 | rectangular | no | 55 | 5, 3, 3, 3, 5, 3, 3, 9 | 14 | printed | image-transcription | ? |
+| díezdíaz2021a_fig12 | rectangular | no | 30 | 4, 3, 10, 3 | - | printed | image-transcription | ? |
+| dai2022a_fig9 | rectangular | no | 88 | 4, 3, 5, 4, 3, 21, 6, 6, 3 | 3 | matrix | image-transcription | yes |
+| tan2021a_fig8 | rectangular | no | 89 | 4, 3, 3, 3, 3, 3, 3, 12, 10, 6 | 3 | printed | image-transcription | ? |
+| meso2024a_fig6 | rectangular | yes | 23 | 3 | - | printed | image-transcription | ? |
+| kuzmin2020a_fig20 | rectangular | no | 10 | 3 | - | printed | image-transcription | ? |
+| wilson2003b_fig21 | slanted | no | 8 | 3, 3 | 1 | printed | image-transcription | ? |
+| yu2020a_fig3 | rectangular | yes | 73 | 7, 3, 11, 3 | - | printed | pdf-vector | yes |
+| cerroni2019a_fig8 | rectangular | no | 51 | 3, 6, 7, 3, 3, 3, 3, 4 | 3 | printed | image-transcription | ? |
+| peyredefabrègues2015a_fig7 | rectangular | no | 28 | 3, 3, 3 | 1 | printed | image-transcription | ? |
+| lü2014a_fig5 | rectangular | no | 25 | 3, 3 | 3 | printed | pdf-vector | ? |
+| novas2012a_fig7 | vertical | yes | 29 | 3, 6, 4 | 5 | printed | image-transcription | ? |
+| arcucci2003a_fig4 | slanted | no | 12 | 4, 5 | 1 | printed | image-transcription | ? |
+| lerzo2021a_fig2 | rectangular | no | 28 | 3, 7 | 1 | printed | image-transcription | ? |
+
+Skips (replacements drawn as in the script's skip rule, from the same stratum's remaining pool, excluding all 80 drawn figures and the earlier replacements):
+
+- `pol2022a_fig6` (rectangular, time axis): a reduced strict consensus in which the pruned wildcard Volkheimeria is drawn twice, at two alternative positions on dashed branches, so the figure does not show one tree containing it. Replaced by seed 20261117: `meso2024a_fig6`.
+- `sereno1997a_fig6` (slanted, no time axis): the grades "basal iguanodontians", "basal pachycephalosaurs", "basal neoceratopsians" and "basal neotheropods" are drawn as unlabelled bundles of three to five thin lines, and the body-size dots cover the nodes where they leave the stem, so the number and order of branches there cannot be read. Replaced by seed 20261118: `wilson2003b_fig21`.
+
+Notes on batch 3:
+
+- Following the two corrections found in batch 2 (rauhut2019a_fig4, fonseca2024a_fig2), every place where nodes are a few pixels apart or a step could hide under a support value or range bar was checked at 2-3x or measured: the hwang2004a_fig12 polytomies, the novas2012a_fig7 backbone (nodes 4-6 px apart, read from a listing of the horizontal line segments, as was the Dilong / Eotyrannus / (Tyrannosaurus, Gorgosaurus) step behind the range bars), the peyredefabrègues2015a_fig7 and meso2024a_fig6 ladders, and the two fans in each of arcucci2003a_fig4 and wilson2003b_fig21 (for wilson2003b the lines were fitted from pixel rows away from the node and their crossings computed; both pairs cross at the backbone).
+- dai2022a_fig9, tan2021a_fig8 and cerroni2019a_fig8 were read with a run-length line reader (the "listing of node lines taken from the pixels" above) at two or three threshold and tolerance settings, which agreed, and checked against the figure where nodes are close. dai2022a_fig9's tip names are PDF text over the raster (census flag `labels_not_in_raster`), so they come from the text layer, paired to the tips by height.
+- yu2020a_fig3's branches are vector lines (identical at snapping tolerances 0.4-1.5 pt), but its labels sit too close together to match line by line, so the 73 names were assigned in top-to-bottom order.
+- Names are scored as printed, misspellings and cut-off names included (dai2022a_fig9 'Chinshakiangosaurus chunghoens', 'Cedarosaurus weiskopfe'; tan2021a_fig8 'Barossaurus', 'Diplodcus', 'Ligabuesaururs'; lerzo2021a_fig2 prints three names with underscores). Matrix lists are used only where every printed tip maps to one list taxon (prieto-márquez2013c_fig26, dai2022a_fig9); qiu2025a_fig3 collapses two outgroups into higher taxa and uses the printed names.
+- Node numbers or letters that are keys to the caption (csiki2010a_fig6 A-D, díezdíaz2021a_fig12 1-7) are not encoded as clade labels; each gold_note gives the key. peyredefabrègues2015a_fig7's Sauropodomorpha is not encoded because its dot and its colour change point to different nodes. novas2012a_fig7's abbreviations (Allo., Tyrann., Comps., Mani.) are kept as printed.
+- Cropped panels: qiu2025a_fig3 (upper tree of panel a), lü2014a_fig5 (the cladogram below the regression plot), csiki2010a_fig6, cerroni2019a_fig8, peyredefabrègues2015a_fig7 and arcucci2003a_fig4 (panel A) carry a `region`. None of batch 3's census images cuts off tips, so no `image_tips_visible` fields.
+- The draw was re-derived from the script above after the working copy of draw.json was lost; it reproduces batches 1 and 2 exactly.
+
+### Batch 3 baseline (tree extractor 0.8.1, run cold on 2026-11-21)
+
+Run before any change was made for these figures.
+
+- Names: 448 of 665 (67%). Exact matches: 4 of 20 (díezdíaz2021a_fig12, peyredefabrègues2015a_fig7, rivera-sylva2024a_fig12, tan2021a_fig8). Every name right: 7 of 20.
+- Splits, among the tips named: 283 of 291 (97%), with 6 wrong splits.
+- Fourteen figures: 433 of 455 names (95%). The other six hold 85% of the loss: dai2022a_fig9 0 of 88, hwang2004a_fig12 9 of 55, prieto-márquez2013c_fig26 0 of 34 (no tree extracted), fiorillo2014a_fig6 0 of 11, arcucci2003a_fig4 3 of 12, qiu2025a_fig3 3 of 10.

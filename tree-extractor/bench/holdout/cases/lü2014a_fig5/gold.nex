@@ -1,0 +1,38 @@
+#NEXUS
+
+[ lü2014a_fig5: Tyrannosauroid strict consensus. Tyrannosauroidea and Tyrannosauridae are printed with arrows to node dots and Alioramini on a brace; all three kept as internal labels. Read from the PDF's vector branch lines with tip names from the text layer. 25 tips, 2 polytomies (3, 3 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=25;
+    TAXLABELS
+        Allosaurus
+        Compsognathidae
+        Ornithomimosauria
+        Maniraptora
+        Kileskus
+        Sinotyrannus
+        Proceratosaurus
+        Guanlong
+        Dilong
+        Juratyrant
+        Eotyrannus
+        Xiongguanlong
+        Dryptosaurus
+        Raptorex
+        Appalachiosaurus
+        Bistahieversor
+        Gorgosaurus
+        Albertosaurus
+        Qianzhousaurus
+        Alioramus_altai
+        Alioramus_remotus
+        Teratophoneus
+        Daspletosaurus
+        Tyrannosaurus
+        Tarbosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'lü2014a_fig5' = [&R] (Allosaurus,((Compsognathidae,(Ornithomimosauria,Maniraptora)),((Kileskus,(Sinotyrannus,Proceratosaurus,Guanlong)),(Dilong,((Juratyrant,Eotyrannus),(Xiongguanlong,(Dryptosaurus,(Raptorex,(Appalachiosaurus,(Bistahieversor,((Gorgosaurus,Albertosaurus),((Qianzhousaurus,Alioramus_altai,Alioramus_remotus)Alioramini,(Teratophoneus,(Daspletosaurus,(Tyrannosaurus,Tarbosaurus)))))Tyrannosauridae))))))))Tyrannosauroidea));
+END;

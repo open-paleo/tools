@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/csiki2010a_fig6.png",
+  "names": "names.txt",
+  "source": "Csiki et al. 2010, Neues Jahrbuch für Geologie und Paläontologie - Abhandlungen 258, Fig. 6A: 50% majority-rule consensus from the Wilson (2002) dataset, Paludititan (boxed) within Sauropoda; slanted (diagonal) cladogram, root left, dot-marked nodes lettered A-D with majority-rule and bootstrap values. Panel B (Upchurch et al. 2004 dataset) is excluded. Image: census figure (1891x1188 px), a page render.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 927,
+    "y1": 1188
+  },
+  "region_note": "panel A (majority rule, white on black in print)",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Sauropod majority-rule consensus, panel A. The node letters A-D are keys to the caption (A Neosauropoda, B Titanosauriformes, C Somphospondyli, D Titanosauria), not printed clade names, so no internal labels are encoded. The diplodocoid branch leaves the Haplocanthosaurus line, and Nigersaurus, Rebbachisaurus and Rayososaurus leave one point (checked at 2x). 22 tips, 1 polytomies (3 children). Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

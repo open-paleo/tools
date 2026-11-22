@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/arcucci2003a_fig4.png",
+  "names": "names.txt",
+  "source": "Arcucci and Coria 2003, Ameghiniana 40, Fig. 4A: Nelsen consensus of 12 MPTs from the authors' matrix, Zupaysaurus within Tetanurae; slanted (diagonal) cladogram, root lower left, thick lines, higher taxa in capitals, a stem bracket for Tetanurae. Panels B and C (the Sereno et al. 1994 and Currie and Carpenter 2000 matrices) are excluded. Image: census figure (1902x2623 px), a page render.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1902,
+    "y1": 892
+  },
+  "region_note": "panel A",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A, including the higher-taxon tips SAUROPODOMORPHA and TYRANNOSAURIDAE as printed",
+  "gold": "gold.nex",
+  "gold_note": "Theropod consensus, panel A. Checked at 3x: the coelophysoid stem, Ceratosaurus, Carnotaurus and the tetanuran backbone leave one point (a four-way split), and the five tetanuran branches leave one point. TETANURAE, printed beside a stem bracket, is kept as an internal label. 12 tips, 2 polytomies (4, 5 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

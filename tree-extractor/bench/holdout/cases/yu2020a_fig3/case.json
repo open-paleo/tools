@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census/figures/yu2020a_fig3.png",
+  "names": "names.txt",
+  "source": "Yu et al. 2020, Communications Biology 3, Fig. 3: strict consensus of Ornithischia showing the position of Beg tse, time-scaled with strap; rectangular, root left, thick range bars at the tips, bootstrap values below nodes, arrows and notes for character changes, a full geological time scale below. Image: census figure (1953x1540 px), rendered from the PDF's vector figure.",
+  "license": "CC BY 4.0",
+  "attribution": "Yu, C.; Prieto-Márquez, A.; Chinzorig, T.; Badamkhatan, Z.; Norell, M. (2020). A neoceratopsian dinosaur from the Early Cretaceous of Mongolia and the early evolution of Ceratopsia. Communications Biology. https://doi.org/10.1038/s42003-020-01222-7. Fig. 3. CC BY 4.0.",
+  "names_note": "no matrix held; list = the 73 printed tip names (genus and species), in figure order",
+  "gold": "gold.nex",
+  "gold_note": "Ornithischian strict consensus, time-scaled. Branch topology read from the PDF's vector branch lines (identical at snapping tolerances 0.4-1.5 pt; the Jeholosaurus branch is drawn twice and counted once); tip names assigned in top-to-bottom order from the printed labels, which sit too close together for line-by-line text matching. No clade names printed. 73 tips, 4 polytomies (7, 3, 11, 3 children). Random-sample case (seed 20261114). Topology read from the PDF's own vector branch lines and checked against the figure; topology only.",
+  "gold_method": "pdf-vector"
+}

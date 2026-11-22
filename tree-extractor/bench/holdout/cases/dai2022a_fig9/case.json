@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census/figures/dai2022a_fig9.png",
+  "names": "names.txt",
+  "source": "Dai et al. 2022, Royal Society Open Science 9, Fig. 9: strict consensus of the EWP analysis of the Carballido et al. matrix with Yuzhoulong (in red); rectangular, root left, small node dots, three clade names printed beside node dots, tip names set as PDF text to the right of the raster. Image: census figure (1389x1948 px), a page render of the image area; the tip names are not in the image (census flag labels_not_in_raster).",
+  "license": "CC BY 4.0",
+  "attribution": "Dai, H.; Tan, C.; Xiong, C.; Ma, Q.; Li, N.; Yu, H.; Wei, Z.; Wang, P.; Yi, J.; Wei, G.; You, H.; Ren, X. (2022). New macronarian from the Middle Jurassic of Chongqing, China: phylogenetic and biogeographic implications for neosauropod dinosaur evolution. Royal Society Open Science. https://doi.org/10.1098/rsos.220794. Fig. 9. CC BY 4.0.",
+  "names_note": "the census list of the matrix taxa (Dryad subsidiary matrix 2), plus the 88 tip names as printed; 'Chinshakiangosaurus chunghoens' and 'Cedarosaurus weiskopfe' are cut off in print, and 'Patagosaurus gariasi', 'Suuwassea emiliae' and 'Cathartesaurus anaerobica' are spelled as printed. Nemegtosaurus mongoliensis is in the matrix but not on the tree",
+  "gold": "gold.nex",
+  "gold_note": "Sauropod strict consensus. Branches read from the raster's lines with a run-length reader (connected at tolerance 6 px) and checked against the figure at the Neosauropoda backbone and the collinear stems in Macronaria; tip names from the PDF text layer, paired to the tips by height (all within 7 px). Sauropoda, Neosauropoda and Macronaria are printed beside node dots and kept as internal labels. 88 tips, 9 polytomies (4, 3, 5, 4, 3, 21, 6, 6, 3 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261114). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}
