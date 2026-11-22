@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.8.1 (2026-11-21)
 
 - Trees drawn with fans are read: where several risers leave one node and the steeper ones
   come out as a single leaning line, the fork found there adds its branches to that node
