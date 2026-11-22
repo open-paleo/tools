@@ -1118,7 +1118,12 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
         const share = hole.area / Math.max(1, width * height);
         const touchesEdge = hole.box.x0 === 0 || hole.box.y0 === 0 || hole.box.x1 === textInk.width || hole.box.y1 === textInk.height;
 
-        if (touchesEdge || size < glyphHeight || size > 3 * glyphHeight || Math.abs(width - height) > 0.1 * size + 1 || share < 0.575 || share > 0.88)
+        // A ring may be drawn as an oval, up to twice as long as it is broad (Xu 2018, upright
+        // ovals on two nodes, which cut the node's vertical in two).
+        const round = Math.abs(width - height) <= 0.1 * size + 1;
+        const oval = !round && Math.max(width, height) <= 2.2 * Math.min(width, height) && Math.min(width, height) >= 0.4 * glyphHeight;
+
+        if (touchesEdge || size < glyphHeight || size > 3 * glyphHeight || !(round || oval) || share < 0.575 || share > 0.88)
         {
             continue;
         }

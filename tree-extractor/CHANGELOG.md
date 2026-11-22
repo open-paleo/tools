@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- A ring on a node may be an oval. An upright oval was not taken for a node's ring, not being
+  round, and cut the node's vertical in two (Xu 2018, 9 of 19 names to 15).
 - A reading that is not to be relied on says so. The quality checks begin with a warning,
   `reading-doubtful`, when the tree has under four tips, when under three quarters of its tips
   match a name (or have a label, where no list was given), when under seven tenths of the
