@@ -44,6 +44,7 @@ import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeNames } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
+import { eraseDottedLines } from "./dots.ts";
 import { recoverElbowTips } from "./elbows.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
@@ -1768,7 +1769,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const inverted = isDrawnOnDark(givenImage);
     const excluded = options.exclude ?? [];
     const readable = inverted ? invertImage(givenImage) : givenImage;
-    const sourceImage = excluded.length === 0 ? readable : blankAreas(readable, excluded);
+    const blanked = excluded.length === 0 ? readable : blankAreas(readable, excluded);
+    // Dotted guide lines go first of all: their dots pass for letters, hundreds of them, and
+    // a figure's letter height is then the height of a dot (Fiorillo 2014).
+    const undotted = eraseDottedLines(blanked);
+    const sourceImage = undotted.image;
     const sourceRegion = options.region === undefined || options.region === null ? null : clampBox(options.region, sourceImage.width, sourceImage.height);
 
     if (sourceRegion !== null && (sourceRegion.x1 - sourceRegion.x0 < 1 || sourceRegion.y1 - sourceRegion.y0 < 1))
@@ -1789,6 +1794,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
     const image = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (undotted.lines > 0)
+    {
+        orientationIssues.unshift({ severity: "info", code: "dotted-lines-erased", message: `${undotted.lines} dotted line(s) ruled across the figure were left out`, subject: null });
+    }
 
     if (excluded.length > 0)
     {
