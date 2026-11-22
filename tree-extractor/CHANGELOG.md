@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A clade's name standing near its node with no branch drawn to it is no tip, whether printed
+  against the node or set off on a leader line, and though it has lost its first letter
+  (Gomez 2024 to an exact match; Han 2024 loses its extra tip).
 - Lines that arrive at the edge of a numbered disc are carried on to the cross drawn through
   it. A disc set on the step between two verticals, or beside a line it only touches, was
   cleared with the parts of those lines beside it (Rauhut 2012 fig. 4 to an exact match;

@@ -506,11 +506,39 @@ export function isHigherTaxonName(label: string): boolean
 }
 
 /**
- * Turns a clade's name that was taken for a tip back into the name of its node. A name
- * printed against a node's vertical, with no branch of its own, is read as a collapsed tip;
- * where it is a family's or a higher name that the paper's own list does not have, and the
- * node has other children enough, it names the node (Fiorillo 2012, "Ceratopsidae" beside
- * the ring on its node).
+ * Whether a branch is drawn from a node to a tip: a horizontal at the tip's height over at
+ * least half the way.
+ *
+ * @param document - Extraction document.
+ * @param tip - The tip.
+ * @param node - Its parent.
+ * @returns True when one is.
+ */
+function hasOwnBranch(document: ExtractionDocument, tip: Tip, node: TreeNode): boolean
+{
+    const reach = document.glyphHeight / 2;
+
+    for (const horizontal of document.horizontals)
+    {
+        const { box } = horizontal;
+        const covered = Math.min(box.x1, tip.x) - Math.max(box.x0, node.x);
+
+        if (box.y0 <= tip.y + reach && box.y1 >= tip.y - reach && covered >= Math.max(reach, (tip.x - node.x) / 2))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Takes out the tips that are a clade's name. A name printed beside a node, with no branch
+ * drawn to it, is read as a collapsed tip; where it is a family's or a higher name that the
+ * paper's own list does not have, and the node has other children enough, it is no tip. Set
+ * against the node's vertical it names that node (Fiorillo 2012, "Ceratopsidae" beside the
+ * ring on its node); set off from it, on a leader line, it is left unassigned (Gomez 2024,
+ * "Diplodocoidea").
  *
  * @param document - Extraction document, after its labels are read; changed in place.
  * @param listed - Whether the paper's list of names was given.
@@ -536,29 +564,43 @@ export function restoreCladeNames(document: ExtractionDocument, listed: boolean)
     {
         const tip = document.tips[index];
         const node = tip.parent === null ? undefined : nodes.get(tip.parent);
-        const outsideList = tip.match !== null && tip.match.accepted && tip.match.source === "known";
+        const fromList = tip.match !== null && tip.match.accepted && tip.match.source === "list";
 
-        if (node === undefined || tip.label === null || !outsideList || !isHigherTaxonName(tip.label))
+        // The name may have lost its first letter to the line beside it.
+        if (node === undefined || tip.label === null || fromList || !/^\p{L}{4,}(idae|inae|oidea|iformes|sauria|morpha)$/u.test(tip.label))
         {
             continue;
         }
 
-        // No branch of its own: the tip stands at its node's vertical.
-        if (tip.x - node.x > document.glyphHeight / 2 || node.children.length < 3 || node.label !== null)
+        // A clade's name stands by its node. One out among the tips' names is a collapsed
+        // clade, a tip in its own right (Upchurch 2015, "Diplodocoidea").
+        const near = tip.x - node.x <= 6 * document.glyphHeight;
+
+        if (!near || node.children.length < 3 || hasOwnBranch(document, tip, node))
         {
             continue;
         }
 
         const row = findTextLine(document, tip.textLine);
-        node.label = tip.label;
-        node.textLine = tip.textLine;
         node.children.splice(node.children.indexOf(tip.id), 1);
         document.tips.splice(index, 1);
         restored++;
 
-        if (row !== undefined)
+        // Printed against the node's own vertical, the name is that node's; set further off,
+        // on a leader line perhaps, it may be another's and is left unassigned.
+        if (tip.x - node.x <= document.glyphHeight / 2 && node.label === null)
         {
-            row.role = "node";
+            node.label = tip.match !== null && tip.match.accepted ? tip.match.name : tip.label;
+            node.textLine = tip.textLine;
+
+            if (row !== undefined)
+            {
+                row.role = "node";
+            }
+        }
+        else if (row !== undefined)
+        {
+            row.role = "unassigned";
         }
     }
 
