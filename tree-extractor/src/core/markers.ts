@@ -145,9 +145,12 @@ export function keepColoredLines(thin: Mask, minRun: number): Mask
  * @param dark - Neutral dark ink.
  * @param shapes - The colored shapes that were kept out of the line ink.
  * @param reach - How near to an edge the dark ink must stand.
+ * @param run - Length of line the ink beyond each edge must make, straight on from the
+ *   stretch carried across; 0 asks for no more than ink at the edge. A shape with lettering
+ *   beside it has ink at its edge and no line.
  * @returns Mask of the stretches carried across.
  */
-export function bridgeUnderShapes(dark: Mask, shapes: Mask, reach: number): Mask
+export function bridgeUnderShapes(dark: Mask, shapes: Mask, reach: number, run = 0): Mask
 {
     const { width, height } = dark;
     const data = new Uint8Array(width * height);
@@ -169,6 +172,31 @@ export function bridgeUnderShapes(dark: Mask, shapes: Mask, reach: number): Mask
         return false;
     }
 
+    // Whether a straight line of ink leaves a point, along a row or a column.
+    function hasLine(x: number, y: number, stepX: number, stepY: number): boolean
+    {
+        for (let offset = 0; offset < reach && run > 0; offset++)
+        {
+            let length = 0;
+            let atX = x + stepX * offset;
+            let atY = y + stepY * offset;
+
+            while (atX >= 0 && atY >= 0 && atX < width && atY < height && dark.data[atY * width + atX] === 1 && length < run)
+            {
+                length++;
+                atX += stepX;
+                atY += stepY;
+            }
+
+            if (length >= run)
+            {
+                return true;
+            }
+        }
+
+        return run === 0;
+    }
+
     for (let index = 0; index < components.length; index++)
     {
         const { box } = components[index];
@@ -188,7 +216,7 @@ export function bridgeUnderShapes(dark: Mask, shapes: Mask, reach: number): Mask
                 }
             }
 
-            if (first >= 0 && hasDark(first - reach, first - 1, y, y) && hasDark(last + 1, last + reach, y, y))
+            if (first >= 0 && hasDark(first - reach, first - 1, y, y) && hasDark(last + 1, last + reach, y, y) && hasLine(first - 1, y, -1, 0) && hasLine(last + 1, y, 1, 0))
             {
                 data.fill(1, y * width + first, y * width + last + 1);
             }
@@ -208,7 +236,7 @@ export function bridgeUnderShapes(dark: Mask, shapes: Mask, reach: number): Mask
                 }
             }
 
-            if (first >= 0 && hasDark(x, x, first - reach, first - 1) && hasDark(x, x, last + 1, last + reach))
+            if (first >= 0 && hasDark(x, x, first - reach, first - 1) && hasDark(x, x, last + 1, last + reach) && hasLine(x, first - 1, 0, -1) && hasLine(x, last + 1, 0, 1))
             {
                 for (let y = first; y <= last; y++)
                 {

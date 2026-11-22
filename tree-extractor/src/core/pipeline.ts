@@ -446,7 +446,13 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // thicker still.
     const filled = markerRadius === parameters.markerRadius ? roughMarkers : unionMask(colored.fat, findFatShapes(createColoredMask(image, 235, 30), markerRadius));
     const offColorLines = subtractMask(offColorStrokes, keepComponentsTouching(offColorStrokes, dilate(filled, 2)));
-    const strongInk = unionMask(unionMask(unionMask(darkInk, coloredLines), offColorLines), bridgeUnderShapes(darkInk, subtractMask(colored.thin, coloredLines), 2));
+    // A small filled shape set on a branch, an icon that says where a clade lived, hides the
+    // branch for its own width; the branch is carried under it as under an arrowhead (Arbour
+    // 2015, a continent on each of two stems). Shapes up to a twelfth of the image's shorter
+    // side: a larger one is a clade's box or a drawing.
+    const icons = keepSmallShapes(unionMask(colored.fat, paleMarkers), Infinity, Math.round(Math.min(image.width, image.height) / 12));
+    const underShapes = unionMask(bridgeUnderShapes(darkInk, subtractMask(colored.thin, coloredLines), 2), bridgeUnderShapes(darkInk, icons, 3, 6 * markerRadius));
+    const strongInk = unionMask(unionMask(unionMask(darkInk, coloredLines), offColorLines), underShapes);
 
     // A rough text pass learns the glyph size and finds glyph pixels to keep out of the line art.
     // The runs stripped as line art must be longer than a letter stroke, so when the first pass

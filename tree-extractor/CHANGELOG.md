@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A branch is carried under a small colored shape set on it, an icon that says where a clade
+  lived, where a line of ink arrives at the shape on both sides (Arbour 2015 fig. 12, 32 of
+  41 names to 37, two detached groups joined).
 - A clade's box in a color dark enough to be solid in the text ink is painted out as a
   ground: the names printed on it could not be read (Poole 2022, 47 of 68 names to 62).
 - A dark gray ground is painted out as a deep-colored one is: a stratigraphic band in gray
