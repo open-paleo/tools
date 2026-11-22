@@ -325,6 +325,17 @@ function countSet(mask: Mask): number
 }
 
 /**
+ * Share of a figure's line art in long runs below which its lines are taken to slant.
+ */
+const slantedCoverage = 0.24;
+
+/**
+ * Gain in that share, from counting runs a glyph height long, that says a figure's branches
+ * are short for its type.
+ */
+const shortBranchGain = 0.25;
+
+/**
  * Decides which way a figure stands from where its branches end and what lies past the free
  * ends. Vertical runs are counted on the transposed masks, where they are horizontal, so a
  * forward end there is a bottom end and a backward end a top end.
@@ -353,8 +364,26 @@ export function detectOrientation(image: RgbaImage, inkThreshold: number, lineTh
     // so letter strokes are not runs.
     const long = Math.max(12, Math.round(2 * glyphHeight));
     const lineArt = keepLineArt(lineInk, 4 * glyphHeight);
-    const horizontalRuns = createDirectionalRunMask(lineArt, long, true);
-    const verticalRuns = createDirectionalRunMask(lineArt, long, false);
+    const lineArtPixels = countSet(lineArt);
+    const longHorizontal = createDirectionalRunMask(lineArt, long, true);
+    const longVertical = createDirectionalRunMask(lineArt, long, false);
+    const runCoverage = lineArtPixels === 0 ? 1 : countSet(unionMask(longHorizontal, longVertical)) / lineArtPixels;
+    // Slanted lines make no runs. The slanted figures of the gold set have runs over 18% of
+    // their line art at most; a rectangular tree of hairlines with colored arrows and numbers
+    // about it has them over 29% (Lang 2010, which was read as slanted and gave no tree).
+    const slanted = runCoverage < slantedCoverage;
+    // A tree set in type large for its branches has tip branches shorter than two glyph
+    // heights. They are no runs, so the branch ends counted are those of the verticals alone
+    // and the figure is turned on its side (Zhou 2026, one end with a label to its right and
+    // eight with one above). Where runs a glyph height long cover much more of the line art
+    // than the long ones, the ends are counted on those.
+    const short = Math.max(12, Math.round(glyphHeight));
+    const shortHorizontal = slanted ? longHorizontal : createDirectionalRunMask(lineArt, short, true);
+    const shortVertical = slanted ? longVertical : createDirectionalRunMask(lineArt, short, false);
+    const shortCoverage = lineArtPixels === 0 ? 1 : countSet(unionMask(shortHorizontal, shortVertical)) / lineArtPixels;
+    const shortBranches = !slanted && shortCoverage - runCoverage >= shortBranchGain;
+    const horizontalRuns = shortBranches ? shortHorizontal : longHorizontal;
+    const verticalRuns = shortBranches ? shortVertical : longVertical;
     // Anything darker than the background and not a long run: labels, but also the range bars
     // and silhouettes a label can sit beyond. The background is usually white, but a figure
     // on a colored ground (a yellow panel, say) would otherwise have ink past every end.
@@ -363,8 +392,6 @@ export function detectOrientation(image: RgbaImage, inkThreshold: number, lineTh
     const loose = subtractMask(anyInk, dilate(runs, 1));
     const alongRows = countLabelledEnds(horizontalRuns, verticalRuns, loose, glyphHeight);
     const alongColumns = countLabelledEnds(transposeMask(verticalRuns), transposeMask(horizontalRuns), transposeMask(loose), glyphHeight);
-    const lineArtPixels = countSet(lineArt);
-    const runCoverage = lineArtPixels === 0 ? 1 : countSet(runs) / lineArtPixels;
     const rightEnds = alongRows.forward;
     const topEnds = alongColumns.backward;
     const bottomEnds = alongColumns.forward;
@@ -375,7 +402,6 @@ export function detectOrientation(image: RgbaImage, inkThreshold: number, lineTh
     // on its side than level, as a vertical tree with rotated labels and a level axis has.
     const levelLabelGlyphs = text.sidewaysGlyphs > text.uprightGlyphs ? 0 : countLevelLabelGlyphs(textInk, horizontalRuns, glyphHeight);
     let orientation: Orientation = "unknown";
-    const slanted = runCoverage < 0.3;
 
     if (slanted)
     {

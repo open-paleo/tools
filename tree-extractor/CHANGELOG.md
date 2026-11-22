@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- A tree set in type large for its branches is no longer turned on its side. Tip branches
+  shorter than two letter heights were not counted as branches, so only the verticals' ends
+  were; where much more of the line art lies in runs one letter height long, the ends are
+  counted on those (Zhou 2026, no names to 30 of 34).
+- A rectangular tree of hairlines among colored arrows and numbers is no longer taken for a
+  slanted one: lines are taken to slant where under 24% of the line art lies in long runs,
+  not 30% (Lang 2010, no tree to 38 of 39 names).
 - Trees drawn with rounded corners are read. Where each branch leaves its node through a
   small curve, the node's vertical is carried to the branch's row and the branch back to the
   vertical, on figures that have such a corner at nearly every node (Lerzo 2021, four wrong
