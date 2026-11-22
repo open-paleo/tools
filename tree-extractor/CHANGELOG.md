@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Branches drawn in a light color are read where a figure draws its branches in thick color:
+  straight strokes in yellow, pink or light green, as thick as the colored lines and joined
+  to the tree, were too light to count as ink (Motta 2025, 20 of 29 names to an exact match).
 - A ring on a node may be an oval. An upright oval was not taken for a node's ring, not being
   round, and cut the node's vertical in two (Xu 2018, 9 of 19 names to 15).
 - A reading that is not to be relied on says so. The quality checks begin with a warning,
