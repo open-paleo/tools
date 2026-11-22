@@ -12,7 +12,7 @@
 
 import type { Box, Mask, Point, QcIssue, Tip, TreeNode } from "./types.ts";
 import type { TraceResult } from "./tracer.ts";
-import { closeMask } from "./raster.ts";
+import { closeMask, compareNumbers } from "./raster.ts";
 
 /**
  * A junction or end of the skeleton.
@@ -825,6 +825,173 @@ function measureExtent(graph: SkeletonGraph, group: Array<number>): number
 }
 
 /**
+ * Measures how broad the ink is at a point: the side of the largest square of ink centered
+ * on it, up to a limit.
+ *
+ * @param ink - Line ink.
+ * @param x - Column.
+ * @param y - Row.
+ * @param limit - Largest half side tried.
+ * @returns The side in pixels.
+ */
+function measureBreadth(ink: Mask, x: number, y: number, limit: number): number
+{
+    const { width, height, data } = ink;
+    let half = 0;
+
+    while (half < limit)
+    {
+        const next = half + 1;
+
+        if (x - next < 0 || y - next < 0 || x + next >= width || y + next >= height)
+        {
+            break;
+        }
+
+        let filled = true;
+
+        for (let offset = -next; offset <= next && filled; offset++)
+        {
+            filled = data[(y - next) * width + x + offset] === 1
+                && data[(y + next) * width + x + offset] === 1
+                && data[(y + offset) * width + x - next] === 1
+                && data[(y + offset) * width + x + next] === 1;
+        }
+
+        if (!filled)
+        {
+            break;
+        }
+
+        half = next;
+    }
+
+    return 2 * half + 1;
+}
+
+/**
+ * Contracts the forks inside a wedge. A polytomy drawn as a fan has its lines run together
+ * into one black wedge at the node, and the skeleton of a wedge forks wherever a line parts
+ * from the rest: several forks along its length, a glyph or more apart, where the figure has
+ * one node (Upchurch 2015). An edge between two forks that runs through ink much broader than
+ * a line lies inside such a wedge, and its ends are one node.
+ *
+ * @param graph - Graph changed in place.
+ * @param ink - The ink the skeleton was thinned from, with its small gaps closed.
+ * @param drawn - The ink as drawn.
+ * @param thickness - Line thickness in pixels.
+ * @returns Wedges contracted.
+ */
+function contractWedges(graph: SkeletonGraph, ink: Mask, drawn: Mask, thickness: number): number
+{
+    const groupOf = new Int32Array(graph.points.length).fill(-1);
+    const groups = new Array<Array<number>>();
+    const limit = Math.ceil(3 * thickness);
+
+    function measureAlong(edge: GraphEdge, mask: Mask = ink): Array<number>
+    {
+        const breadths = new Array<number>();
+
+        for (let index = 0; index < edge.path.length; index += 2)
+        {
+            breadths.push(measureBreadth(mask, Math.round(edge.path[index].x), Math.round(edge.path[index].y), limit));
+        }
+
+        return breadths;
+    }
+
+    // What a plain line measures here: the square within a slanted line is narrower than the
+    // line is thick, so the figure's own edges say, most of which are single lines.
+    const typical = new Array<number>();
+
+    for (const edge of graph.edges)
+    {
+        if (edge.alive && edge.path.length >= 6)
+        {
+            const breadths = measureAlong(edge).sort(compareNumbers);
+            typical.push(breadths[Math.floor(breadths.length / 2)]);
+        }
+    }
+
+    typical.sort(compareNumbers);
+    const line = typical.length === 0 ? thickness : typical[Math.floor(typical.length / 2)];
+
+    function liesInWedge(edge: GraphEdge): boolean
+    {
+        const breadths = measureAlong(edge);
+
+        if (breadths.length < 3)
+        {
+            return false;
+        }
+
+        // The wedge's own length, from the node out to where its first line parts, tapers:
+        // a line's breadth at the node and several lines' at the far end.
+        const third = Math.max(1, Math.floor(breadths.length / 3));
+        const first = breadths.slice(0, third).sort(compareNumbers)[Math.floor(third / 2)];
+        const last = breadths.slice(breadths.length - third).sort(compareNumbers)[Math.floor(third / 2)];
+        const tapers = Math.max(first, last) >= 3.5 * line && Math.max(first, last) >= 2 * Math.min(first, last);
+
+        breadths.sort(compareNumbers);
+
+        // An edge between two partings is broad all along, and runs through solid ink or
+        // along the sliver between two of the fan's lines, which was closed. One line of
+        // several drawn close and closed into a band, a backbone's among its branches, is
+        // broad as well, but runs down its own line.
+        const asDrawn = measureAlong(edge, drawn).sort(compareNumbers);
+        const sliver = asDrawn[Math.floor(asDrawn.length / 2)] < 0.6 * line;
+        const quarter = breadths[Math.floor(breadths.length / 4)];
+
+        // A short thick stem from a backbone to a fan is broad too, by two lines or so; the
+        // wedge itself is broader than that.
+        return tapers || (sliver && quarter >= 1.8 * line) || quarter >= 4 * line;
+    }
+
+    for (const point of graph.points)
+    {
+        if (!point.alive || groupOf[point.id] >= 0 || listLiveEdges(graph, point).length < 3)
+        {
+            continue;
+        }
+
+        const group = [point.id];
+        groupOf[point.id] = groups.length;
+
+        for (let cursor = 0; cursor < group.length; cursor++)
+        {
+            const current = graph.points[group[cursor]];
+
+            for (const index of listLiveEdges(graph, current))
+            {
+                const edge = graph.edges[index];
+                const other = graph.points[otherEnd(edge, current.id)];
+
+                if (other.alive && groupOf[other.id] < 0 && listLiveEdges(graph, other).length >= 3 && liesInWedge(edge))
+                {
+                    groupOf[other.id] = groups.length;
+                    group.push(other.id);
+                }
+            }
+        }
+
+        groups.push(group);
+    }
+
+    let contracted = 0;
+
+    for (const group of groups)
+    {
+        if (group.length >= 2)
+        {
+            mergePoints(graph, group);
+            contracted++;
+        }
+    }
+
+    return contracted;
+}
+
+/**
  * Contracts chains: junction points joined by edges shorter than a glyph, which is one thick
  * junction thinned into two or three, or the first forks of a fan.
  *
@@ -1624,7 +1791,8 @@ export function traceSlantedTree(lineInk: Mask, thickness: number, glyphHeight: 
     // A branch that leaves a node circle, or a line broken by a crossing label, can stop a
     // pixel or two short of what it meets; a small closing mends that without merging the
     // close parallel lines of a dense figure.
-    const skeleton = thinMask(closeMask(lineInk, Math.max(1, Math.min(3, Math.ceil(thickness / 4)))));
+    const closed = closeMask(lineInk, Math.max(1, Math.min(3, Math.ceil(thickness / 4))));
+    const skeleton = thinMask(closed);
     removeRedundantPixels(skeleton);
     const graph = buildGraph(skeleton);
     // A spur the thinning leaves at a thick line's end is under a line thickness long; a real
@@ -1634,6 +1802,9 @@ export function traceSlantedTree(lineInk: Mask, thickness: number, glyphHeight: 
     // A thick junction thinned into two or three close forks contracts to one, and so does a
     // ring drawn around a node.
     const chains = contractChains(graph, 1.2 * glyphHeight, 3 * glyphHeight);
+    // The breadth is taken in the closed ink the skeleton came from: where two lines of a fan
+    // part, the sliver between them is closed and the skeleton runs along it.
+    contractWedges(graph, closed, lineInk, thickness);
     const rings = contractRings(graph, 2.5 * glyphHeight, 2.5 * glyphHeight);
     // Contraction can leave pass-through points and new short spurs.
     pruneSpurs(graph, maxSpur, markers);

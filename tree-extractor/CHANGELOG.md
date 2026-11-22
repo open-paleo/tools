@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- In a slanted tree, the forks inside a fan's wedge are one node. A polytomy drawn as a fan
+  has its lines run together into a black wedge at the node, and the skeleton forked wherever
+  a line parted from the rest (Upchurch 2015, six wrong splits to two; Gallina 2014, four to
+  none).
 - A clade's name standing near its node with no branch drawn to it is no tip, whether printed
   against the node or set off on a leader line, and though it has lost its first letter
   (Gomez 2024 to an exact match; Han 2024 loses its extra tip).
