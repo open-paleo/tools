@@ -1775,7 +1775,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     // a figure's letter height is then the height of a dot (Fiorillo 2014).
     const undotted = eraseDottedLines(blanked);
     // So does a ground as dark as ink, which would be one solid block of it.
-    const cleared = clearDarkGrounds(undotted.image, parameters.maxChroma);
+    const cleared = clearDarkGrounds(undotted.image, parameters.maxChroma, parameters.lineThreshold);
     const sourceImage = cleared.image;
     const sourceRegion = options.region === undefined || options.region === null ? null : clampBox(options.region, sourceImage.width, sourceImage.height);
 
@@ -1800,7 +1800,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     if (cleared.grounds > 0)
     {
-        orientationIssues.unshift({ severity: "info", code: "dark-grounds-cleared", message: `${cleared.grounds} dark colored area(s) behind the tree were left out as its ground`, subject: null });
+        orientationIssues.unshift({ severity: "info", code: "dark-grounds-cleared", message: `${cleared.grounds} dark area(s) behind the tree were left out as its ground`, subject: null });
     }
 
     if (undotted.lines > 0)

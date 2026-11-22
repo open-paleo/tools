@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A dark gray ground is painted out as a deep-colored one is: a stratigraphic band in gray
+  under the line threshold was one block of ink, and the names printed on it had no branch
+  to end at (Scannella 2014, 10 of 23 names to 20).
 - A tree set in type large for its branches is no longer turned on its side. Tip branches
   shorter than two letter heights were not counted as branches, so only the verticals' ends
   were; where much more of the line art lies in runs one letter height long, the ends are
