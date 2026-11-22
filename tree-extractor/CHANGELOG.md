@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Trees drawn with rounded corners are read. Where each branch leaves its node through a
+  small curve, the node's vertical is carried to the branch's row and the branch back to the
+  vertical, on figures that have such a corner at nearly every node (Lerzo 2021, four wrong
+  splits to none and all 18 splits right).
 - A ground as dark as ink behind the tree, a stage of the time scale in deep green, is
   painted out before the figure is measured; it was read as one solid block of ink and the
   branches crossing it were lost (Qiu 2025, 3 of 10 names to 8).

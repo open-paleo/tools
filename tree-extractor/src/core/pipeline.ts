@@ -39,7 +39,7 @@ import {
     findConnectedComponents,
 } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
+import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeNames } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -2106,6 +2106,13 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     // A stem run together with the bar of a tip beyond its node is two branches.
     if (!slantedFigure)
     {
+        const corners = squareRoundedCorners(verticals, horizontals, textInk, Math.round(1.2 * glyphHeight));
+
+        if (corners > 0)
+        {
+            frameIssues.push({ severity: "info", code: "corners-squared", message: `${corners} rounded corner(s) between a node and its branch were squared`, subject: null });
+        }
+
         partAtCrossings(horizontals, verticals, lineInk, tolerance);
     }
 

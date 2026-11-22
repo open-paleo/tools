@@ -1514,6 +1514,124 @@ export function dropInsets(horizontals: Array<Segment>, verticals: Array<Segment
 }
 
 /**
+ * A rounded corner between a vertical's end and the branch that leaves it.
+ */
+type RoundedCorner = {
+    /**
+     * The node's vertical.
+     */
+    vertical: Segment;
+
+    /**
+     * The branch.
+     */
+    horizontal: Segment;
+
+    /**
+     * Whether the corner is at the vertical's top end.
+     */
+    atTop: boolean;
+};
+
+/**
+ * Squares rounded corners. Some figures draw each branch out of its node through a small
+ * curve: the node's vertical then stops short of its children's rows, and each child's
+ * branch begins a little to the right of it, with a quarter turn of ink between. The trace
+ * joins a branch to a vertical it starts at, level with it, and here guessed across the
+ * gaps (Lerzo 2021, four wrong splits). Where a branch begins diagonally beyond a vertical's
+ * end and ink turns the corner between them, the vertical is carried to the branch's row and
+ * the branch back to the vertical.
+ *
+ * @param verticals - Vertical segments; changed in place.
+ * @param horizontals - Horizontal segments; changed in place.
+ * @param ink - All dark ink: the turn of a corner is as small as a letter and may have been
+ *   sorted with the lettering.
+ * @param reach - Largest radius of a corner.
+ * @returns How many corners were squared.
+ */
+export function squareRoundedCorners(verticals: Array<Segment>, horizontals: Array<Segment>, ink: Mask, reach: number): number
+{
+    const { width, height, data } = ink;
+    let squared = 0;
+
+    // Whether ink lies near a point: the curve passes close to the middle of the chord.
+    function hasInkNear(x: number, y: number): boolean
+    {
+        for (let row = Math.max(0, y - 3); row <= Math.min(height - 1, y + 3); row++)
+        {
+            for (let column = Math.max(0, x - 3); column <= Math.min(width - 1, x + 3); column++)
+            {
+                if (data[row * width + column] === 1)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    const corners = new Array<RoundedCorner>();
+
+    for (const vertical of verticals)
+    {
+        for (const horizontal of horizontals)
+        {
+            const middle = Math.round((horizontal.box.y0 + horizontal.box.y1) / 2);
+            const across = horizontal.box.x0 - vertical.box.x1;
+
+            // A corner has a radius: the branch begins some way off, and off the end too.
+            if (across < 3 || across > reach)
+            {
+                continue;
+            }
+
+            const above = vertical.box.y0 - middle;
+            const below = middle - vertical.box.y1;
+            const beyond = Math.max(above, below);
+
+            if (beyond < 2 || beyond > reach)
+            {
+                continue;
+            }
+
+            const end = above > below ? vertical.box.y0 : vertical.box.y1;
+            const center = Math.round((vertical.box.x0 + vertical.box.x1) / 2);
+
+            if (hasInkNear(Math.round((center + horizontal.box.x0) / 2), Math.round((end + middle) / 2)))
+            {
+                corners.push({ vertical, horizontal, atTop: above > below });
+            }
+        }
+    }
+
+    // A figure drawn this way has a corner at every end of every vertical. A figure drawn
+    // square has a branch here and there that begins near a vertical's end with a letter
+    // between, and is left as it is.
+    if (corners.length < 6 || corners.length < verticals.length)
+    {
+        return 0;
+    }
+
+    for (const corner of corners)
+    {
+        if (corner.atTop)
+        {
+            corner.vertical.box.y0 = Math.min(corner.vertical.box.y0, corner.horizontal.box.y0);
+        }
+        else
+        {
+            corner.vertical.box.y1 = Math.max(corner.vertical.box.y1, corner.horizontal.box.y1);
+        }
+
+        corner.horizontal.box.x0 = corner.vertical.box.x0;
+        squared++;
+    }
+
+    return squared;
+}
+
+/**
  * Measures the rows a stretch of a horizontal's ink fills: the rows inked over most of the
  * stretch.
  *
