@@ -60,6 +60,11 @@ export type ResultElements = {
     redrawLengths: HTMLInputElement;
 
     /**
+     * Notice shown above the results when the reading is not to be relied on.
+     */
+    doubt: HTMLElement;
+
+    /**
      * Download buttons, enabled when there is a tree.
      */
     downloadButtons: Array<HTMLButtonElement>;
@@ -131,6 +136,30 @@ export function updateNewick(elements: ResultElements, extraction: ExtractionDoc
 }
 
 /**
+ * Shows or hides the notice that a reading is not to be relied on.
+ *
+ * @param elements - Panel elements.
+ * @param extraction - Current document, or null.
+ */
+function showDoubt(elements: ResultElements, extraction: ExtractionDocument | null): void
+{
+    let doubt: string | null = null;
+
+    for (const issue of extraction === null ? [] : extraction.qc)
+    {
+        if (issue.code === "reading-doubtful")
+        {
+            doubt = issue.message;
+        }
+    }
+
+    elements.doubt.hidden = doubt === null;
+
+    // The judgment is of the figure as extracted; what the user mends since does not change it.
+    elements.doubt.textContent = doubt === null ? "" : `As extracted, ${doubt}. Check it against the figure; marking where the tree is with Select region, or what to leave out with Exclude area, often helps.`;
+}
+
+/**
  * Rebuilds the tips list, nodes list, quality-check list and tree text.
  *
  * @param elements - Panel elements.
@@ -142,6 +171,7 @@ export function renderResults(elements: ResultElements, extraction: ExtractionDo
     elements.nodesList.replaceChildren();
     elements.qcList.replaceChildren();
     elements.profileList.replaceChildren();
+    showDoubt(elements, extraction);
     updateNewick(elements, extraction);
     elements.tipsCount.textContent = extraction === null ? "" : `(${extraction.tips.length})`;
     elements.nodesCount.textContent = extraction === null ? "" : `(${extraction.nodes.length})`;

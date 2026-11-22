@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- A reading that is not to be relied on says so. The quality checks begin with a warning,
+  `reading-doubtful`, when the tree has under four tips, when under three quarters of its tips
+  match a name (or have a label, where no list was given), when under seven tenths of the
+  tips found are joined to it, or when rows that look like labels and belong to no tip
+  outnumber what a sound reading leaves. The viewer shows it as a notice above the results,
+  and the command line marks such a figure in a folder's summary. Over the 134 gold figures
+  it marks 12 of the 13 readings that named under 70 percent of their tips, 2 of the 99 that
+  named 90 percent or more, and none of the 42 that are exact.
+
 ## 0.9.0 (2026-11-21)
 
 - A branch is carried under a small colored shape set on it, an icon that says where a clade

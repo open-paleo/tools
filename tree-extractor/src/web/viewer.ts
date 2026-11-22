@@ -194,6 +194,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         newickOutput: getElement<HTMLTextAreaElement>("#te-newick"),
         redraw: getElement<HTMLElement>("#te-redraw"),
         redrawLengths: getElement<HTMLInputElement>("#te-redraw-lengths"),
+        doubt: getElement<HTMLElement>("#te-doubt"),
         downloadButtons: [downloadNewick, downloadNexus, downloadJson, downloadSvg],
     };
 

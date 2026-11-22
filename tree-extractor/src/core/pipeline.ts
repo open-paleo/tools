@@ -44,6 +44,7 @@ import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeNames } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
+import { assessReading } from "./assess.ts";
 import { eraseDottedLines } from "./dots.ts";
 import { recoverElbowTips } from "./elbows.ts";
 import { clearDarkGrounds } from "./grounds.ts";
@@ -2357,6 +2358,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     // The checks about loose pieces are made again now that every step has had its say.
     refreshDisconnectedIssues(document);
+
+    // And the reading as a whole is judged, first in the list.
+    const doubt = assessReading(document, names.length > 0, options.ocr !== undefined && options.ocr !== null);
+
+    if (doubt !== null)
+    {
+        document.qc.unshift(doubt);
+    }
 
     if (region !== null)
     {

@@ -83,6 +83,7 @@ export const viewerMarkup = `
         </div>
     </section>
     <section class="results">
+        <p id="te-doubt" class="doubt" role="alert" hidden></p>
         <div id="te-move-row" class="move-row" hidden>
             <label for="te-move-target">Move the selection under</label>
             <select id="te-move-target" disabled></select>

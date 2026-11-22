@@ -109,6 +109,7 @@
 .tree-extractor button.tool.active { border-color: var(--_accent); color: var(--_accent); background: var(--_surface); }
 
 .tree-extractor .status { color: var(--_muted); min-height: 1.4em; }
+.tree-extractor .doubt { margin: 0 0 8px; padding: 8px 10px; border: 1px solid var(--_caution); border-left-width: 4px; border-radius: var(--_radius); background: var(--_surface); color: var(--_ink); }
 .tree-extractor .mode-hint {
     margin: 0 0 8px;
     padding: 6px 10px;

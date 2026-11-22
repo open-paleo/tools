@@ -66,6 +66,14 @@ corpus archive, not here; the gold sample above was drawn from it.
 
 `docs/design.md` describes each step and its known gaps.
 
+**When it fails, it says so.** Most figures are read nearly whole and a few hardly at all, so
+every reading is judged by what it shows of itself: how many tips the tree has, how many were
+named, how many of the tips found are joined to it, and how many rows that look like labels
+were left over. A reading that fails one of these begins its quality checks with the warning
+`reading-doubtful` and the reason; the viewer shows it above the results. Over the gold
+figures the warning marks 12 of the 13 readings that named under 70 percent of their tips and
+2 of the 99 that named 90 percent or more.
+
 ## Use
 
 Requires Node 24 or later.

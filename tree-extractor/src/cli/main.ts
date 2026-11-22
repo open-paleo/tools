@@ -383,7 +383,15 @@ async function extractOne(imagePath: string, job: ExtractJob): Promise<number>
             }
         }
 
-        console.log(`${path.basename(imagePath).padEnd(40)} ${String(inTree).padStart(3)} tips ${String(named).padStart(3)} named ${String(warnings).padStart(3)} warning(s) ${String(errors).padStart(2)} error(s)`);
+        // In a folder's one line per figure, a reading not to be relied on is marked as such.
+        let doubtful = false;
+
+        for (const issue of document.qc)
+        {
+            doubtful = doubtful || issue.code === "reading-doubtful";
+        }
+
+        console.log(`${path.basename(imagePath).padEnd(40)} ${String(inTree).padStart(3)} tips ${String(named).padStart(3)} named ${String(warnings).padStart(3)} warning(s) ${String(errors).padStart(2)} error(s)${doubtful ? "  DOUBTFUL" : ""}`);
     }
 
     return errors;
