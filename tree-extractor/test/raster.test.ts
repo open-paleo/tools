@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { Mask } from "../src/core/types.ts";
-import { dilate, erode, measureThinInkLuminance } from "../src/core/raster.ts";
+import { dilate, erode, measureThinInkLuminance, reduceRgba } from "../src/core/raster.ts";
 
 /**
  * The square-neighborhood definition, written the slow way, as the reference.
@@ -106,4 +106,25 @@ test("measureThinInkLuminance finds the gray of a figure drawn in gray and the b
     assert.equal(measureThinInkLuminance(createImage(172)).mode, 160);
     assert.ok(measureThinInkLuminance(createImage(172)).share > 0.9);
     assert.equal(measureThinInkLuminance(createImage(20)).mode, 16);
+});
+
+test("reduceRgba averages the source pixels each pixel covers", function testReduceRgba()
+{
+    const data = new Uint8ClampedArray(4 * 4 * 4);
+
+    // The left half black, the right half white.
+    for (let y = 0; y < 4; y++)
+    {
+        for (let x = 0; x < 4; x++)
+        {
+            const value = x < 2 ? 0 : 255;
+            data.set([value, value, value, 255], (y * 4 + x) * 4);
+        }
+    }
+
+    const reduced = reduceRgba({ width: 4, height: 4, data }, 2);
+
+    assert.equal(reduced.width, 2);
+    assert.equal(reduced.height, 2);
+    assert.deepEqual(Array.from(reduced.data.subarray(0, 8)), [0, 0, 0, 255, 255, 255, 255, 255]);
 });

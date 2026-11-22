@@ -607,22 +607,38 @@ function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizo
     }
 
     // A column cut by labels in several places is a rule drawn across the labels, a boundary
-    // or a bracket, and not a branch with a name on it; only a column cut once is mended.
-    let joined = 0;
+    // or a bracket, and not a branch with a name on it; a column cut once is mended. So is one
+    // cut several times when branches leave both its topmost and its lowest piece: the stem
+    // of a tree's backbone with the names of its clades set on it one below the other (Bajpai
+    // 2023, four names on three columns, which left the tree in three pieces).
+    const mended = new Array<boolean>(uppers.length);
 
     for (let index = 0; index < uppers.length; index++)
     {
         let cuts = 0;
+        let top = uppers[index];
+        let bottom = lowers[index];
 
         for (let other = 0; other < uppers.length; other++)
         {
             if (Math.min(uppers[index].x1, uppers[other].x1) > Math.max(uppers[index].x0, uppers[other].x0))
             {
                 cuts++;
+                top = uppers[other].y0 < top.y0 ? uppers[other] : top;
+                bottom = lowers[other].y1 > bottom.y1 ? lowers[other] : bottom;
             }
         }
 
-        if (cuts === 1)
+        mended[index] = cuts === 1 || (hasBranchAlong(top, horizontals) && hasBranchAlong(bottom, horizontals));
+    }
+
+    let joined = 0;
+
+    // From the lowest cut up, so that a piece joined from below is whole when the piece above
+    // takes it in.
+    for (let index = uppers.length - 1; index >= 0; index--)
+    {
+        if (mended[index])
         {
             uppers[index].x0 = Math.min(uppers[index].x0, lowers[index].x0);
             uppers[index].x1 = Math.max(uppers[index].x1, lowers[index].x1);
@@ -633,6 +649,28 @@ function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizo
     }
 
     return joined;
+}
+
+/**
+ * Whether a horizontal meets a vertical anywhere along it.
+ *
+ * @param vertical - Vertical box.
+ * @param horizontals - Horizontal boxes.
+ * @returns True when a branch arrives at or leaves from the vertical.
+ */
+function hasBranchAlong(vertical: Box, horizontals: Array<Box>): boolean
+{
+    const reach = 2 * (vertical.x1 - vertical.x0) + 2;
+
+    for (const horizontal of horizontals)
+    {
+        if (horizontal.x0 <= vertical.x1 + reach && horizontal.x1 >= vertical.x0 - reach && horizontal.y1 >= vertical.y0 - reach && horizontal.y0 <= vertical.y1 + reach)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**

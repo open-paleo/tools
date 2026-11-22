@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- A figure with very large type is read. Letters taller than 60 pixels were not taken for
+  letters at all; a figure whose letters are 56 pixels tall or more is now read at the size
+  that brings them to 28, and the reading is put back in the figure's own coordinates, with
+  a note `figure-reduced` (Vickaryous 2002, 0 of 12 names to an exact match).
+- A stem with several clade names printed across it stays in one piece. A vertical cut by
+  one name was mended already; one cut by two or three was taken for a rule across the
+  labels. It is mended now when branches leave its top and bottom pieces (Bajpai 2023, 18 of
+  37 names to an exact match).
 - Branches drawn in a light color are read where a figure draws its branches in thick color:
   straight strokes in yellow, pink or light green, as thick as the colored lines and joined
   to the tree, were too light to count as ink (Motta 2025, 20 of 29 names to an exact match).

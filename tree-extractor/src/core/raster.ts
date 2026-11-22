@@ -832,6 +832,57 @@ export function transposeMask(mask: Mask): Mask
 }
 
 /**
+ * Reduces an image by a factor, each pixel the mean of the source pixels it covers.
+ *
+ * @param image - Source image.
+ * @param factor - How many source pixels go to one, each way; above 1.
+ * @returns The reduced image.
+ */
+export function reduceRgba(image: RgbaImage, factor: number): RgbaImage
+{
+    const width = Math.max(1, Math.round(image.width / factor));
+    const height = Math.max(1, Math.round(image.height / factor));
+    const data = new Uint8ClampedArray(width * height * 4);
+
+    for (let y = 0; y < height; y++)
+    {
+        const fromY = Math.min(image.height - 1, Math.floor(y * factor));
+        const toY = Math.min(image.height, Math.max(fromY + 1, Math.floor((y + 1) * factor)));
+
+        for (let x = 0; x < width; x++)
+        {
+            const fromX = Math.min(image.width - 1, Math.floor(x * factor));
+            const toX = Math.min(image.width, Math.max(fromX + 1, Math.floor((x + 1) * factor)));
+            let red = 0;
+            let green = 0;
+            let blue = 0;
+            let alpha = 0;
+
+            for (let sourceY = fromY; sourceY < toY; sourceY++)
+            {
+                for (let sourceX = fromX; sourceX < toX; sourceX++)
+                {
+                    const source = (sourceY * image.width + sourceX) * 4;
+                    red += image.data[source];
+                    green += image.data[source + 1];
+                    blue += image.data[source + 2];
+                    alpha += image.data[source + 3];
+                }
+            }
+
+            const count = (toY - fromY) * (toX - fromX);
+            const target = (y * width + x) * 4;
+            data[target] = red / count;
+            data[target + 1] = green / count;
+            data[target + 2] = blue / count;
+            data[target + 3] = alpha / count;
+        }
+    }
+
+    return { width, height, data };
+}
+
+/**
  * Turns an RGBA image a quarter turn.
  *
  * @param image - Source image.

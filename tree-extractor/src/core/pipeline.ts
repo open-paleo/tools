@@ -16,7 +16,7 @@ import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
 import { bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
-import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents } from "./raster.ts";
+import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
@@ -30,7 +30,7 @@ import { clearDarkGrounds } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
-import { clampBox, cropImage, rotateBox, translateDocument } from "./geometry.ts";
+import { clampBox, cropImage, rotateBox, scaleDocument, translateDocument } from "./geometry.ts";
 import { deleteTip } from "./edit.ts";
 
 /**
@@ -1674,6 +1674,104 @@ function invertImage(image: RgbaImage): RgbaImage
  * @returns The extraction document.
  */
 export async function extractTree(givenImage: RgbaImage, options: Partial<ExtractOptions> = {}): Promise<ExtractionDocument>
+{
+    const parameters = { ...defaultParameters, ...options.parameters };
+    const typeHeight = measureTypeHeight(givenImage, options.region ?? null, parameters);
+
+    // The steps that tell letters from lines take a letter for at most 60 pixels tall. A
+    // figure enlarged past that is read at the size where its letters are of ordinary height,
+    // and the reading put back in the figure's own coordinates (Vickaryous 2002, a small
+    // cladogram at 1,900 pixels across with letters 70 to 125 tall).
+    if (typeHeight < largeTypeHeight)
+    {
+        return extractTreeAtSize(givenImage, options);
+    }
+
+    const factor = typeHeight / ordinaryTypeHeight;
+    const document = await extractTreeAtSize(reduceRgba(givenImage, factor), {
+        ...options,
+        region: options.region === undefined || options.region === null ? null : reduceBox(options.region, factor),
+        exclude: options.exclude === undefined ? undefined : options.exclude.map(function reduceArea(area: Box): Box
+        {
+            return reduceBox(area, factor);
+        }),
+    });
+
+    scaleDocument(document, factor, givenImage.width, givenImage.height);
+    document.qc.push({ severity: "info", code: "figure-reduced", message: `the figure's letters are about ${typeHeight} px tall, so it was read at 1/${factor.toFixed(1)} of its size; pixel positions in these messages are at that size`, subject: null });
+
+    return document;
+}
+
+/**
+ * Median letter height in pixels from which a figure is read reduced.
+ */
+const largeTypeHeight = 56;
+
+/**
+ * Median letter height in pixels a reduced figure is brought to.
+ */
+const ordinaryTypeHeight = 28;
+
+/**
+ * Reduces a box by a factor.
+ *
+ * @param box - Box in the full image.
+ * @param factor - Factor the image is reduced by.
+ * @returns The box in the reduced image.
+ */
+function reduceBox(box: Box, factor: number): Box
+{
+    return { x0: Math.round(box.x0 / factor), y0: Math.round(box.y0 / factor), x1: Math.round(box.x1 / factor), y1: Math.round(box.y1 / factor) };
+}
+
+/**
+ * Measures the median height of the letters of a figure: of the pieces of ink that are
+ * neither specks nor long, flat or hollow, and no taller than a fifth of the figure's shorter
+ * side.
+ *
+ * @param image - Image.
+ * @param region - Region to be read, or null for the whole image.
+ * @param parameters - Thresholds.
+ * @returns The median height, or 0 with under twenty such pieces.
+ */
+function measureTypeHeight(image: RgbaImage, region: Box | null, parameters: Parameters): number
+{
+    const area = region === null ? null : clampBox(region, image.width, image.height);
+    const read = area === null || area.x1 - area.x0 < 1 || area.y1 - area.y0 < 1 ? image : cropImage(image, area);
+    const { components } = findConnectedComponents(createDarkMask(read, parameters.inkThreshold, false, parameters.maxChroma));
+    const tallest = Math.min(read.width, read.height) / 5;
+    const heights = new Array<number>();
+
+    for (const component of components)
+    {
+        const width = component.box.x1 - component.box.x0;
+        const height = component.box.y1 - component.box.y0;
+
+        if (height >= 6 && height <= tallest && width <= 2.5 * height && 6 * width >= height && component.area >= 0.12 * width * height)
+        {
+            heights.push(height);
+        }
+    }
+
+    if (heights.length < 20)
+    {
+        return 0;
+    }
+
+    heights.sort(compareNumbers);
+
+    return heights[heights.length >> 1];
+}
+
+/**
+ * Runs the full pipeline on one image at the size given.
+ *
+ * @param givenImage - Decoded RGBA image, as drawn.
+ * @param options - OCR engine, name list, region and threshold overrides.
+ * @returns The extraction document.
+ */
+async function extractTreeAtSize(givenImage: RgbaImage, options: Partial<ExtractOptions> = {}): Promise<ExtractionDocument>
 {
     const first = await extractTreeOnce(givenImage, options);
     const find = first.orientationFind;

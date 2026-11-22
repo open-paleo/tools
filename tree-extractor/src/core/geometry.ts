@@ -131,6 +131,132 @@ export function translateDocument(document: ExtractionDocument, dx: number, dy: 
 }
 
 /**
+ * Enlarges a box in place.
+ *
+ * @param box - Box to enlarge.
+ * @param factor - Factor.
+ */
+function scaleBox(box: Box, factor: number): void
+{
+    box.x0 = Math.round(box.x0 * factor);
+    box.x1 = Math.round(box.x1 * factor);
+    box.y0 = Math.round(box.y0 * factor);
+    box.y1 = Math.round(box.y1 * factor);
+}
+
+/**
+ * Multiplies every pixel measure in a document, for results computed on a reduced image that
+ * should be expressed in the full image's coordinates. The pixel positions quoted in the
+ * messages of the checks stay those of the reduced image.
+ *
+ * @param document - Document modified in place.
+ * @param factor - Factor the image was reduced by.
+ * @param width - Width of the full image.
+ * @param height - Height of the full image.
+ */
+export function scaleDocument(document: ExtractionDocument, factor: number, width: number, height: number): void
+{
+    const pixelLengths = document.profile.timeScaled.calibration === null;
+
+    for (const segment of document.horizontals)
+    {
+        scaleBox(segment.box, factor);
+    }
+
+    for (const segment of document.verticals)
+    {
+        scaleBox(segment.box, factor);
+    }
+
+    for (const line of document.textLines)
+    {
+        scaleBox(line.box, factor);
+
+        if (line.frame !== undefined)
+        {
+            line.frame.sourceCenterX *= factor;
+            line.frame.sourceCenterY *= factor;
+            line.frame.centerX *= factor;
+            line.frame.centerY *= factor;
+            line.frame.width = Math.round(line.frame.width * factor);
+            line.frame.height = Math.round(line.frame.height * factor);
+        }
+    }
+
+    for (const node of document.nodes)
+    {
+        node.x *= factor;
+        node.y0 *= factor;
+        node.y1 *= factor;
+
+        if (node.attachY !== null)
+        {
+            node.attachY *= factor;
+        }
+
+        if (pixelLengths && node.length !== undefined)
+        {
+            node.length *= factor;
+        }
+    }
+
+    for (const tip of document.tips)
+    {
+        tip.x *= factor;
+        tip.y *= factor;
+
+        if (tip.extendedFrom !== undefined)
+        {
+            tip.extendedFrom *= factor;
+        }
+
+        if (pixelLengths && tip.length !== undefined)
+        {
+            tip.length *= factor;
+        }
+    }
+
+    if (document.profile.timeScaled.axis !== null)
+    {
+        scaleBox(document.profile.timeScaled.axis, factor);
+    }
+
+    for (const panel of document.profile.panels)
+    {
+        scaleBox(panel, factor);
+    }
+
+    if (document.profile.tipAlignment.x !== null)
+    {
+        document.profile.tipAlignment.x *= factor;
+    }
+
+    if (document.profile.timeScaled.calibration !== null)
+    {
+        document.profile.timeScaled.calibration.originX *= factor;
+        document.profile.timeScaled.calibration.pixelsPerUnit *= factor;
+    }
+
+    for (const branch of document.branches)
+    {
+        branch.x0 *= factor;
+        branch.x1 *= factor;
+        branch.y *= factor;
+    }
+
+    if (document.image.region !== null)
+    {
+        scaleBox(document.image.region, factor);
+    }
+
+    document.image.width = width;
+    document.image.height = height;
+    document.glyphHeight = Math.round(document.glyphHeight * factor);
+    document.profile.lineThickness = Math.round(document.profile.lineThickness * factor);
+    document.profile.font.strokeWidth = Math.round(document.profile.font.strokeWidth * factor);
+}
+
+/**
  * Maps a box from an image's coordinates to those of the same image turned by a number of
  * clockwise quarter turns.
  *
