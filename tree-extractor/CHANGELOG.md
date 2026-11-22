@@ -7,7 +7,8 @@
   (Fiorillo 2014 fig. 6, no names to all 11).
 - A support value printed on a node, in a gap left in the lines for it, no longer breaks the
   tree there: the lines that end around a small number are drawn on to where they meet under
-  it (Hwang 2004, 9 of 55 names to 26; Brusatte 2010 to an exact match).
+  it, also where a mark set on the branch runs it on into the number's row (Hwang 2004, 9 of
+  55 names to 48; Brusatte 2010 to an exact match).
 - A small figure in small type is no longer taken for a slanted tree. Its branches, shorter
   than what counts as a line when the letter height is first estimated, ran together with
   the labels, the height came out several times too large, and no branch was then long

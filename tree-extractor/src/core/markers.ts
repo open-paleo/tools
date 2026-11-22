@@ -1281,9 +1281,13 @@ function findLineEndAt(ink: Mask, box: Box, side: "left" | "right" | "top" | "bo
     const { width, height, data } = ink;
     const upright = side === "top" || side === "bottom";
     const step = side === "left" || side === "top" ? -1 : 1;
-    const from = upright ? box.x0 - 1 : box.y0 + 1;
-    const to = upright ? box.x1 + 1 : box.y1 - 1;
-    const edge = side === "left" ? box.x0 - 1 : side === "right" ? box.x1 : side === "top" ? box.y0 - 1 : box.y1;
+    // Only lines that make for the box itself: one that runs along its edge is a neighbor's.
+    const from = upright ? box.x0 + 1 : box.y0 + 1;
+    const to = upright ? box.x1 - 1 : box.y1 - 1;
+    // The line may run on into the box, under a mark set on it, so its end is looked for
+    // from the middle of the box outward.
+    const edge = upright ? Math.round((box.y0 + box.y1) / 2) : Math.round((box.x0 + box.x1) / 2);
+    const span = (upright ? box.y1 - box.y0 : box.x1 - box.x0) / 2 + reach;
     let best: LineEnd | null = null;
     let longest = 0;
 
@@ -1299,7 +1303,7 @@ function findLineEndAt(ink: Mask, box: Box, side: "left" | "right" | "top" | "bo
     {
         let start = -1;
 
-        for (let offset = 0; offset <= reach && start < 0; offset++)
+        for (let offset = 0; offset <= span && start < 0; offset++)
         {
             if (isInk(across, edge + step * offset))
             {

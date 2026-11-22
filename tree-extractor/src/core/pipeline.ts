@@ -1896,7 +1896,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         const height = line.box.y1 - line.box.y0;
 
         // A digit or three: not a sliver of a line that passed for a glyph.
-        if (line.glyphCount <= 3 && width <= 2.5 * glyphHeight && height <= 1.6 * glyphHeight && width >= 0.3 * glyphHeight && height >= 0.5 * glyphHeight)
+        if (line.glyphCount <= 3 && width <= 3 * glyphHeight && height <= 1.6 * glyphHeight && width >= 0.3 * glyphHeight && height >= 0.5 * glyphHeight)
         {
             junctionNumbers.push(line.box);
         }
