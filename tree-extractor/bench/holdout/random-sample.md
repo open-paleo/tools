@@ -408,3 +408,76 @@ Run before any change was made for these figures.
 - Four figures named under 70% of their tips: gauthier1986a_fig8 0 of 8 (no tree), hendrickx2024a_fig16 9 of 27, xu2018c_fig3 9 of 19, motta2025a_fig5 20 of 29.
 - The `reading-doubtful` warning, whose thresholds were set on the earlier 134 figures, marked 3 of those 4 (not motta2025a_fig5), none of the 3 between 70 and 90 percent, and 1 of the 13 at 90 percent or more (baiano2020a_fig8, an exact match with six stray branch ends beside the tree).
 - Cold results of the earlier batches, for comparison: batch 3 67% (78% without the figure whose image had no labels), batch 4 74%.
+
+# Sample 4 (second census draw)
+
+Drawn from census 2, a second random draw of tree figures kept in the corpus at `census2/` (manifest, figures, scripts and README there). Case images point to `../../../../../../corpus/census2/figures/{id}.png`: same depth as before, folder `census2` instead of `census`.
+
+## Census 2, in brief
+
+- **Population:** census 1's script was not kept, so its caption rule was rebuilt (`census2/scripts/population.py`) and widened until it re-finds census 1's figures: tree terms anywhere in the first 600 characters of a "Fig./Figure N" caption. On today's corpus: 1,638 captions in 1,080 papers (benchmark papers excluded); it finds all of census 1's 200 except the 18 in papers that are now benchmark cases. Minus census 1's figures: 1,456.
+- **Draw:** `random.Random(20261130).shuffle` of the sorted ids, taken in order until 60 located trees: 81 draws. Losses 17 (9 no caption block in the text layer, 6 chapter-numbered figures in theses and books, 2 no figure ink at the caption); 4 located figures were not trees; 60 trees.
+- **Layout:** rectangular 46 (77%), vertical 10 (17%), slanted 4 (7%), circular and root-right 0 (census 1: 72 / 13 / 13 / 1 / <1%). Time axis 23 as first recorded, 25 (42%) after two corrections (census 1: 34%); support values 20, silhouettes 17, multi-tree 11, clade boxes 9, labels as PDF text beside the images 4.
+- Images: the embedded image unchanged where it alone is the figure (36), otherwise a page render of the figure box at 300 dpi or the embedded image's resolution (24), labels and vector parts beside the image included; nothing is blanked. Four crops that missed vector parts were re-rendered, found by an audit of all 64 for ink just outside the box (see census2/README.md).
+
+## How the gold sample was drawn
+
+Stratified by layout and time axis in proportion to census 2's 60 trees (flags as first recorded), largest remainder, `random.Random(20261201)`, `rng.sample` per stratum; skip rule as before, replacements `random.Random(20261201 + k)` from the stratum's remaining pool. Allocation: rectangular 5 + 10, slanted 0 + 1, vertical 3 + 1 (with + without time axis). Script: `census2/scripts/gold_draw.py`; picks, pools and replacements: `census2/scripts/gold_draw_result.json`.
+
+Pools:
+
+- rectangular, time axis (15): apaldetti2018a_fig3 carr2010a_fig4 csiki2010b_fig3 dieudonné2020a_fig1 hattori2023a_fig9 jasinski2026a_fig5 mcphee2018a_fig2 morrison2026a_fig5 morrison2026a_fig6 müller2018a_fig2 prieto-márquez2012b_fig23 rotatori2023a_fig8 sánchez-fenollosa2026a_fig11 tortosa2014a_fig7 zanno2009a_fig2
+- rectangular, no time axis (31): averianov2021c_fig8 bajpai2023a_fig6 brusatte2014a_fig1 carr2020a_fig1 cau2018a_fig6 chapelle2018a_fig54 dai2022a_fig7 delcourt2018a_fig1 evans2007a_fig9 fanti2012a_fig8 gallina2015a_fig7 göhlich2006a_fig4 ksepka2010a_fig4 lee2019a_fig8 mcdonald2017a_fig14 müller2018b_fig39 nesbitt2020a_fig1 pei2020a_fig2 pond2023a_fig27 rozadilla2021a_fig14 ryan2005a_fig10 saegusa2014a_fig23 samathi2019a_fig1 sen2025a_fig5 srivastava2026a_fig20 sánchez-hernández2014a_fig12 turner2012a_fig69 turner2012a_fig79 vickaryous2002a_fig1 xu2000c_fig5 zhang2008a_fig3
+- slanted, no time axis (4): brusatte2008b_fig6 schweitzer1999a_fig7 thompson2011a_fig1 turner2012a_fig5
+- vertical, time axis (8): lamanna2014a_fig7 li2011a_fig2 longrich2013a_fig14 longrich2024b_fig17 morschhauser2018a_fig11 pol2012a_fig2 ramírez-velasco2022a_fig4 vanderlinden2025a_fig1
+- vertical, no time axis (2): norman2011a_fig41 senter2012b_fig12
+
+Drawn: csiki2010b_fig3 dieudonné2020a_fig1 zanno2009a_fig2 tortosa2014a_fig7 rotatori2023a_fig8 | chapelle2018a_fig54 brusatte2014a_fig1 vickaryous2002a_fig1 xu2000c_fig5 delcourt2018a_fig1 cau2018a_fig6 gallina2015a_fig7 bajpai2023a_fig6 mcdonald2017a_fig14 zhang2008a_fig3 | brusatte2008b_fig6 | morschhauser2018a_fig11 ramírez-velasco2022a_fig4 li2011a_fig2 | senter2012b_fig12
+
+## Sample 4 (20 cases, two skips replaced)
+
+| Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
+|---|---|---|---:|---|---:|---|---|---|
+| csiki2010b_fig3 | rectangular | yes | 18 | 3, 3, 4, 4 | - | printed | image-transcription | ? |
+| dieudonné2020a_fig1 | rectangular | yes | 33 | 4 | - | printed | pdf-vector | ? |
+| zanno2009a_fig2 | rectangular | yes | 11 | - | 2 | printed | image-transcription | ? |
+| tortosa2014a_fig7 | rectangular | yes | 40 | 7, 8, 6, 5 | - | printed | image-transcription | ? |
+| rotatori2023a_fig8 | rectangular | yes | 73 | - | - | printed | image-transcription | ? |
+| chapelle2018a_fig54 | rectangular | no | 54 | 6, 4, 5, 4, 5 | - | printed | image-transcription | yes |
+| brusatte2014a_fig1 | rectangular | no | 55 | 4, 3, 3, 3, 4, 6, 6, 3, 3, 3, 4 | 9 | printed | image-transcription | ? |
+| vickaryous2002a_fig1 | rectangular | no | 12 | 3 | - | printed | image-transcription | ? |
+| xu2000c_fig5 | rectangular | no | 13 | 3 | 1 | printed | image-transcription | ? |
+| delcourt2018a_fig1 | rectangular | no | 44 | 5, 3 | 9 | printed | image-transcription | ? |
+| göhlich2006a_fig4 | rectangular | no | 28 | 3, 4 | 1 | printed | image-transcription | ? |
+| gallina2015a_fig7 | rectangular | no | 25 | 9 | 5 | printed | image-transcription | ? |
+| bajpai2023a_fig6 | rectangular | no | 37 | 3, 4, 3, 3 | 8 | printed | image-transcription | yes |
+| mcdonald2017a_fig14 | rectangular | no | 47 | 23, 12, 5 | - | printed | image-transcription | yes |
+| zhang2008a_fig3 | rectangular | no | 20 | 3 | 4 | printed | image-transcription | ? |
+| brusatte2008b_fig6 | slanted | no | 8 | 4 | - | printed | image-transcription | no |
+| morschhauser2018a_fig11 | vertical | yes | 30 | - | 6 | printed | image-transcription | ? |
+| longrich2013a_fig14 | vertical | yes | 23 | 3, 3, 4 | 2 | printed | image-transcription | ? |
+| li2011a_fig2 | vertical | yes | 13 | 3 | 5 | printed | image-transcription | ? |
+| senter2012b_fig12 | vertical | no | 15 | 3 | 5 | printed | image-transcription | yes |
+
+Skips:
+
+- `cau2018a_fig6` (rectangular, drawn as no time axis; it has a Mya scale, added to the census flags afterwards): **not a skip under the rule.** Its joints can be read at native resolution (checked at 4x near the root), but it has about 120 tips in 9-10 px type with node-age labels over the joints, and was set aside for size in this pass. Replaced by seed 20261202: `göhlich2006a_fig4`. It can be transcribed later and swapped back in, or kept as a separate large case.
+- `ramírez-velasco2022a_fig4` (vertical, time axis): in the lambeosaurin cluster the orange and red backbones run over each other with nodes about 2 px apart, so the branching order of Lambeosaurus, Corythosaurus and Hypacrosaurus cannot be decided. Replaced by seed 20261203: `longrich2013a_fig14`.
+
+Notes on sample 4:
+
+- Census images checked first: delcourt2018a_fig1 (labels as PDF text and a vector backbone beside the raster) was re-rendered before transcription; it is the one case here with labels_from_text_layer. No prose is blanked in census 2, so nothing was erased.
+- Methods: dieudonné2020a_fig1 from the PDF's vector lines, which drop two lines, read by eye; the rest by eye from crops at native resolution or 2-3x.
+- Labels: node numbers and circled keys are not encoded (dieudonné2020a 1-7, tortosa2014a 1-10, vickaryous2002a 1-4, göhlich2006a 1-24). göhlich2006a's COELUROSAURIA box does not span one clade (node 3 also holds the Allosaurus pair) and is not encoded; its MANIRAPTORA box is. On vertical trees (morschhauser2018a, li2011a, longrich2013a, senter2012b) names printed beside a node's horizontal or written up its stem are put on that node; longrich2013a's AVIMIMIDAE labels a single tip's line and is not encoded.
+- Names as printed: li2011a 'Volcanodon', 'Omcisaurus', 'Titanosarus' (the text layer agrees); zhang2008a 'Therizinosauriodea'; abbreviations such as 'P. mongoliensis' and 'Protoceratops hellink.' kept.
+- None of these census images cuts off tips, so no image_tips_visible fields.
+
+### Sample 4 baseline (tree extractor at commit 36321f2, run cold on 2026-11-22)
+
+Run before any change was made for these figures.
+
+- Names: 460 of 599 (77%). Exact matches: 4 of 20 (csiki2010b_fig3, gallina2015a_fig7, mcdonald2017a_fig14, morschhauser2018a_fig11). Every name right: 6 of 20.
+- Splits, among the tips named: 300 of 313 (96%), with 5 wrong splits.
+- Seven figures named under 70% of their tips: vickaryous2002a_fig1 0 of 12, li2011a_fig2 2 of 13, tortosa2014a_fig7 10 of 40, brusatte2008b_fig6 3 of 8, dieudonné2020a_fig1 14 of 33, bajpai2023a_fig6 18 of 37, senter2012b_fig12 10 of 15.
+- The `reading-doubtful` warning marked 6 of those 7 (not dieudonné2020a_fig1), 1 of the 5 between 70 and 90 percent (zanno2009a_fig2), and none of the 8 at 90 percent or more.
+- Cold results of the earlier batches, for comparison: batch 3 67% (78% without the figure whose image had no labels), batch 4 74%, sample 3 89%.

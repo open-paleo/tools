@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/vickaryous2002a_fig1.png",
+  "names": "names.txt",
+  "source": "Vickaryous and Russell 2002, Zoological Journal of the Linnean Society 137, Fig. 1: ankylosaur cladogram; rectangular, root at the bottom left, very thick lines, large type, numbered black node circles. Image: census 2 figure (1900x1788 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Ankylosaur cladogram. The numbered circles 1-4 are keys, not printed names, so no internal labels are encoded. One three-way node: Saichania, Pinacosaurus and Tarchia, stem entering at Pinacosaurus' height. Several stems enter their nodes away from the middle (node 3's stem enters the Gobisaurus line; nodes 1-3 sit on one vertical); each is read by where the horizontal lines meet. 12 tips, 1 polytomies (3 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

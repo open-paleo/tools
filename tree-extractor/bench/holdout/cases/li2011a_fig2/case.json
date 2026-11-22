@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/li2011a_fig2.png",
+  "names": "names.txt",
+  "source": "Li et al. 2011, None, Fig. 2: time-calibrated sauropod phylogeny with Tonganosaurus; vertical, root at the bottom, black and grey range bars, dashed branches, tip dots, tip names written upwards, a Ma scale at both sides, clade names printed beside nodes. Image: census 2 figure (1775x1872 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed: 'Volcanodon', 'Omcisaurus' and 'Titanosarus' (the PDF's text layer has the same spellings), and the collapsed tip PROSAUROPODA",
+  "gold": "gold.nex",
+  "gold_note": "Sauropod time tree, root at the bottom. Each clade name is printed just right of the stem (or under the horizontal) of the node it names: SAUROPODA, EUSAUROPODA, NEOSAUROPODA, MACRONARIA and TITANOSAURIFORMES are kept as internal labels; TITANOSAURIFORMES sits between the Camarasaurus and Brachiosaurus nodes and is placed on the latter, since Camarasaurus is outside it in the drawing. One three-way node: Tonganosaurus, Omcisaurus and Mamenchisaurus, stem entering at Omcisaurus. 13 tips, 1 polytomies (3 children); 5 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

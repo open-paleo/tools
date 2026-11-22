@@ -1,0 +1,11 @@
+Allosauroidea
+Compsognathidae
+Tyrannosauroidea
+Ornithomimosauria
+Ornitholestes
+Therizinosauria
+Alvarezsauridae
+Oviraptorosauria
+Avialae
+Troodontidae
+Dromaeosauridae

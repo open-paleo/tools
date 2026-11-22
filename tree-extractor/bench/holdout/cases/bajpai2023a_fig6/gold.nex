@@ -1,0 +1,50 @@
+#NEXUS
+
+[ bajpai2023a_fig6: Sauropod cladogram. Eight clade names are kept as internal labels: Sauropoda, Macronaria, Neosauropoda, Rebbachisauridae, Diplodocoidea, Diplodocidae (leader line) and Flagellicaudata, each printed beside a node dot, and Dicraeosauridae (a shaded box spanning one clade). Polytomies: the brachiosaur-titanosaur node (Tendaguria and two pairs), four rebbachisaurid stems, Rebbachisaurus-Rayososaurus-limaysaurines, and Pilmatueia-Amargatitanis-the rest. 37 tips, 4 polytomies (3, 4, 3, 3 children); 8 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=37;
+    TAXLABELS
+        Shunosaurus_lii
+        Barapasaurus_tagorei
+        Cetiosaurus_oxoniensis
+        Mamenchisaurus
+        Omeisaurus
+        Haplocanthosaurus_priscus
+        Jobaria_tiguidensis
+        Bellusaurus_sui
+        Camarasaurus
+        Tendaguria_tanzaniensis
+        Giraffatitan_brancai
+        Brachiosaurus_altithorax
+        Argentinosaurus_hunculensis
+        Isisaurus_colberti
+        Rapetosaurus_krausei
+        Histriasaurus_bocardeli
+        Zapalasaurus_bonapartei
+        Amazonsaurus_maranhensis
+        Comahuesaurus_windhanseni
+        Nigersaurus_taqueti
+        Demandasaurus_darwini
+        Rebbachisaurus_garasbae
+        Rayososaurus_agrioensis
+        Limaysaurus_tessonei
+        Cathartesaura_anaerobica
+        Apatosaurus
+        Barosaurus_lentus
+        Diplodocus
+        Suuwassea_emiliae
+        Lingwulong
+        Bajadasaurus
+        Tharosaurus_indicus
+        Pilmatueia
+        Amargatitanis
+        Brachytrachelopan_messai
+        Dicraeosaurus_hansemanni
+        Amargasaurus_cazaui
+    ;
+END;
+
+BEGIN TREES;
+    TREE bajpai2023a_fig6 = [&R] (Shunosaurus_lii,(Barapasaurus_tagorei,(Cetiosaurus_oxoniensis,((Mamenchisaurus,Omeisaurus),((Haplocanthosaurus_priscus,Jobaria_tiguidensis),(((Bellusaurus_sui,Camarasaurus),(Tendaguria_tanzaniensis,(Giraffatitan_brancai,Brachiosaurus_altithorax),(Argentinosaurus_hunculensis,(Isisaurus_colberti,Rapetosaurus_krausei))))Macronaria,((Histriasaurus_bocardeli,Zapalasaurus_bonapartei,Amazonsaurus_maranhensis,(Comahuesaurus_windhanseni,((Nigersaurus_taqueti,Demandasaurus_darwini),(Rebbachisaurus_garasbae,Rayososaurus_agrioensis,(Limaysaurus_tessonei,Cathartesaura_anaerobica)))))Rebbachisauridae,((Apatosaurus,(Barosaurus_lentus,Diplodocus))Diplodocidae,(Suuwassea_emiliae,(Lingwulong,(Bajadasaurus,(Tharosaurus_indicus,(Pilmatueia,Amargatitanis,(Brachytrachelopan_messai,(Dicraeosaurus_hansemanni,Amargasaurus_cazaui)))))))Dicraeosauridae)Flagellicaudata)Diplodocoidea)Neosauropoda)))))Sauropoda;
+END;

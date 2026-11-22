@@ -1,0 +1,24 @@
+#NEXUS
+
+[ zanno2009a_fig2: Coelurosaur summary ladder, fully resolved, read from a 2x crop. Coelurosauria and Paraves, printed beside node dots, are kept as internal labels; the patterned dots at the other two nodes carry no name. The arrows and boxes at the right mark character changes, not branches. 11 tips, fully resolved; 2 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=11;
+    TAXLABELS
+        Allosauroidea
+        Compsognathidae
+        Tyrannosauroidea
+        Ornithomimosauria
+        Ornitholestes
+        Therizinosauria
+        Alvarezsauridae
+        Oviraptorosauria
+        Avialae
+        Troodontidae
+        Dromaeosauridae
+    ;
+END;
+
+BEGIN TREES;
+    TREE zanno2009a_fig2 = [&R] (Allosauroidea,((Compsognathidae,Tyrannosauroidea),(Ornithomimosauria,(Ornitholestes,(Therizinosauria,(Alvarezsauridae,(Oviraptorosauria,(Avialae,(Troodontidae,Dromaeosauridae))Paraves))))))Coelurosauria);
+END;

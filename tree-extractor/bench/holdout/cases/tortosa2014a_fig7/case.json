@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/tortosa2014a_fig7.png",
+  "names": "names.txt",
+  "source": "Tortosa et al. 2014, Annales de Paléontologie 100, Fig. 7: time-calibrated ceratosaur phylogeny with biogeography, Arcovenator (bold); rectangular, root left, range bars against a period scale with dashed time lines, dashed ghost lineages, numbered node dots with support pairs, palaeomaps and region brackets. Image: census 2 figure (1550x1368 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the specimen tips 'MCF-PVPH-237 abelisaurid', 'La Boucharde abelisaurid' and 'Pourcieux abelisaurid'",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur time tree, read by eye with nodes 7-10 checked at 3x. Dashed lines are ghost lineages of the tip branches, read as ordinary branches. The node numbers 1-10 and the region letters are keys, not printed clade names, so no internal labels are encoded. Multi-way nodes: node 5's inner node (seven tips, stem entering at Austrocheirus), node 6 (seven tips and node 7), node 8 (six) and node 10 (five). 40 tips, 4 polytomies (7, 8, 6, 5 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

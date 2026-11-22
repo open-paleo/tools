@@ -1,0 +1,28 @@
+#NEXUS
+
+[ senter2012b_fig12: Coelurosaur summary tree, root at the bottom. Coelurosauria, Paraves, Deinonychosauria, Dromaeosauridae and Eudromaeosauria (printed hyphenated over two lines, 'Eudromae-osauria'), each beside its node, are kept as internal labels. One three-way node: Achillobator, Utahraptor and Yurgovuchia. The symbols on branches are characters, not nodes. 15 tips, 1 polytomies (3 children); 5 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=15;
+    TAXLABELS
+        Tyrannosauridae
+        Compsognathidae
+        Ornithomimosauria
+        Therizinosauroidea
+        Oviraptorosauria
+        Avialae
+        Troodontidae
+        Unenlagiinae
+        Microraptoria
+        Bambiraptor
+        Velociraptorinae
+        Deinonychus
+        Achillobator
+        Utahraptor
+        Yurgovuchia
+    ;
+END;
+
+BEGIN TREES;
+    TREE senter2012b_fig12 = [&R] (Tyrannosauridae,(Compsognathidae,(Ornithomimosauria,(Therizinosauroidea,(Oviraptorosauria,(Avialae,(Troodontidae,(Unenlagiinae,(Microraptoria,(Bambiraptor,(Velociraptorinae,(Deinonychus,(Achillobator,Utahraptor,Yurgovuchia))))Eudromaeosauria))Dromaeosauridae)Deinonychosauria)Paraves)))))Coelurosauria;
+END;

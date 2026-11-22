@@ -1,0 +1,60 @@
+#NEXUS
+
+[ mcdonald2017a_fig14: Strict consensus with two large fans: a 24-way node (19 tips, two pairs, Gongpoquansaurus and the hadrosauroid node, stem entering at Proa's height) and a 12-way hadrosauroid node (11 tips and the Tanius node). Further: a five-way node (four tips and Hadrosauridae's sister group). No clade names are printed. 47 tips, 3 polytomies (23, 12, 5 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=47;
+    TAXLABELS
+        Camptosaurus_dispar
+        Iguanacolossus_fortis
+        Hippodraco_scutodens
+        Theiophytalia_kerri
+        Dakotadon_lakotaensis
+        Delapparentia_turolensis
+        Lurdusaurus_arenatus
+        Lanzhousaurus_magnidens
+        Barilium_dawsoni
+        Hypselospinus_fittoni
+        Fukuisaurus_tetoriensis
+        Iguanodon_bernissartensis
+        Mantellisaurus_atherfieldensis
+        Ouranosaurus_nigeriensis
+        Altirhinus_kurzanovi
+        Morelladon_beltrani
+        Proa_valdearinnoensis
+        Batyrosaurus_rozhdestvenskyi
+        Sirindhorna_khoratensis
+        Koshisaurus_katsuyama
+        Jinzhousaurus_yangi
+        Bolong_yixianensis
+        Equijubus_normani
+        Xuwulong_yueluni
+        Gongpoquansaurus_mazongshanensis
+        Probactrosaurus_gobiensis
+        Jintasaurus_meniscus
+        Eolambia_caroljonesa
+        Protohadros_byrdi
+        Jeyawati_rugoculus
+        Nanningosaurus_dashiensis
+        Nanyangosaurus_zhugeii
+        Yunganglong_datongensis
+        Gilmoreosaurus_mongoliensis
+        Levnesovia_transoxiana
+        Bactrosaurus_johnsoni
+        Tanius_sinensis
+        Huehuecanauhtlus_tiquichensis
+        Zhanghenglong_yangchengensis
+        Plesiohadros_djadokhtaensis
+        Shuangmiaosaurus_gilmorei
+        Telmatosaurus_transsylvanicus
+        Tethyshadros_insularis
+        Claosaurus_agilis
+        Hadrosaurus_foulkii
+        Edmontosaurus_annectens
+        Corythosaurus_casuarius
+    ;
+END;
+
+BEGIN TREES;
+    TREE mcdonald2017a_fig14 = [&R] (Camptosaurus_dispar,(Iguanacolossus_fortis,Hippodraco_scutodens,Theiophytalia_kerri,Dakotadon_lakotaensis,Delapparentia_turolensis,Lurdusaurus_arenatus,Lanzhousaurus_magnidens,Barilium_dawsoni,Hypselospinus_fittoni,Fukuisaurus_tetoriensis,Iguanodon_bernissartensis,Mantellisaurus_atherfieldensis,Ouranosaurus_nigeriensis,Altirhinus_kurzanovi,Morelladon_beltrani,Proa_valdearinnoensis,Batyrosaurus_rozhdestvenskyi,Sirindhorna_khoratensis,Koshisaurus_katsuyama,(Jinzhousaurus_yangi,Bolong_yixianensis),(Equijubus_normani,Xuwulong_yueluni),Gongpoquansaurus_mazongshanensis,(Probactrosaurus_gobiensis,Jintasaurus_meniscus,Eolambia_caroljonesa,Protohadros_byrdi,Jeyawati_rugoculus,Nanningosaurus_dashiensis,Nanyangosaurus_zhugeii,Yunganglong_datongensis,Gilmoreosaurus_mongoliensis,Levnesovia_transoxiana,Bactrosaurus_johnsoni,(Tanius_sinensis,(Huehuecanauhtlus_tiquichensis,Zhanghenglong_yangchengensis,Plesiohadros_djadokhtaensis,Shuangmiaosaurus_gilmorei,((Telmatosaurus_transsylvanicus,Tethyshadros_insularis),(Claosaurus_agilis,(Hadrosaurus_foulkii,(Edmontosaurus_annectens,Corythosaurus_casuarius)))))))));
+END;

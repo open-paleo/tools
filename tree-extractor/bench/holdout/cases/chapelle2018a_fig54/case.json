@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/chapelle2018a_fig54.png",
+  "names": "names.txt",
+  "source": "Chapelle and Choiniere 2018, PeerJ 6, Fig. 54: sauropodomorph cladogram with two Massospondylus carinatus specimens in colour and a star at the massospondylid node; rectangular, root left, thick lines. Image: census 2 figure (1639x2191 px), a 300 dpi page render (tip names as PDF text beside the image).",
+  "license": "CC BY 4.0",
+  "attribution": "Chapelle, K. E. J.; Choiniere, J. N. (2018). A revised cranial description of Massospondylus carinatus Owen (Dinosauria: Sauropodomorpha) based on computed tomographic scans and a review of cranial characters for basal Sauropodomorpha. PeerJ. https://doi.org/10.7717/peerj.4224. Fig. 54. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names, including the specimen tips 'Massospondylus carinatus BP/1/4934' and 'Massospondylus carinatus BP/1/5241'",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph cladogram, read by eye. Multi-way nodes: six plateosaurids; Aardonyx, Mussaurus, the Eucnemesaurus pair and the rest; Camelotia, Leonerasaurus, Melanorosaurus, the Antetonitrus-Lessemsaurus pair and the rest; Isanosaurus, Tazoudasaurus, Vulcanodon and the rest; five eusauropods. The star marks a node and carries no name. 54 tips, 5 polytomies (6, 4, 5, 4, 5 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

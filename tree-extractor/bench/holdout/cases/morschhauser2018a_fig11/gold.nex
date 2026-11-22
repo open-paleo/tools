@@ -1,0 +1,43 @@
+#NEXUS
+
+[ morschhauser2018a_fig11: Ceratopsian time tree, root at the bottom, fully resolved. Each clade name is printed just beside the horizontal line of the node it names: Ceratopsia, Neoceratopsia, Coronosauria, Leptoceratopsidae and Ceratopsoidea, plus Ceratopsidae by an arrow; all six are kept as internal labels. 30 tips, fully resolved; 6 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=30;
+    TAXLABELS
+        Lesothosaurus
+        Hypsilophodon
+        Stegoceras
+        P._mongoliensis
+        P._sinensis
+        Yinlong
+        Chaoyangsaurus
+        Xuanhuaceratops
+        Liaoceratops
+        Archaeoceratops
+        Auroraceratops
+        ZPAL_MgD_I156
+        Asiaceratops
+        Yamaceratops
+        Mosaiceratops
+        Helioceratops
+        Leptoceratops
+        Ischioceratops
+        Montanoceratops
+        Koreaceratops
+        Magnirostris
+        Protoceratops_hellink.
+        Protoceratops_andrewsi
+        Ajkaceratops
+        Zuniceratops
+        Turanoceratops
+        Centrosaurus
+        Styracosaurus
+        Chasmosaurus
+        Triceratops
+    ;
+END;
+
+BEGIN TREES;
+    TREE morschhauser2018a_fig11 = [&R] (Lesothosaurus,((Hypsilophodon,Stegoceras),((P._mongoliensis,P._sinensis),((Yinlong,(Chaoyangsaurus,Xuanhuaceratops)),(Liaoceratops,(Archaeoceratops,((Auroraceratops,ZPAL_MgD_I156),((Asiaceratops,(Yamaceratops,Mosaiceratops)),((Helioceratops,(Leptoceratops,(Ischioceratops,(Montanoceratops,Koreaceratops))))Leptoceratopsidae,((Magnirostris,(Protoceratops_hellink.,Protoceratops_andrewsi)),(Ajkaceratops,(Zuniceratops,(Turanoceratops,((Centrosaurus,Styracosaurus),(Chasmosaurus,Triceratops))Ceratopsidae))))Ceratopsoidea)Coronosauria)))))Neoceratopsia)Ceratopsia));
+END;

@@ -1,0 +1,25 @@
+#NEXUS
+
+[ vickaryous2002a_fig1: Ankylosaur cladogram. The numbered circles 1-4 are keys, not printed names, so no internal labels are encoded. One three-way node: Saichania, Pinacosaurus and Tarchia, stem entering at Pinacosaurus' height. Several stems enter their nodes away from the middle (node 3's stem enters the Gobisaurus line; nodes 1-3 sit on one vertical); each is read by where the horizontal lines meet. 12 tips, 1 polytomies (3 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=12;
+    TAXLABELS
+        Lesothosaurus
+        Huayangosaurus
+        Edmontonia
+        Pawpawsaurus
+        Gargoyleosaurus
+        Gobisaurus
+        Euoplocephalus
+        Ankylosaurus
+        Saichania
+        Pinacosaurus
+        Tarchia
+        Tsagantegia
+    ;
+END;
+
+BEGIN TREES;
+    TREE vickaryous2002a_fig1 = [&R] (Lesothosaurus,(Huayangosaurus,((Edmontonia,Pawpawsaurus),(Gargoyleosaurus,(Gobisaurus,((Euoplocephalus,Ankylosaurus),((Saichania,Pinacosaurus,Tarchia),Tsagantegia)))))));
+END;

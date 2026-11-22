@@ -1,0 +1,21 @@
+#NEXUS
+
+[ brusatte2008b_fig6: Carcharodontosaurid slanted cladogram. The Carcharodontosaurus line, Acrocanthosaurus, Tyrannotitan and Eocarcharia meet the backbone at one point, a four-way node. 'Without Neovenator' is the figure's title, not a clade name. 8 tips, 1 polytomies (4 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=8;
+    TAXLABELS
+        Sinraptor
+        Allosaurus
+        Carcharodontosaurus
+        Mapusaurus
+        Giganotosaurus
+        Acrocanthosaurus
+        Tyrannotitan
+        Eocarcharia
+    ;
+END;
+
+BEGIN TREES;
+    TREE brusatte2008b_fig6 = [&R] (Sinraptor,(Allosaurus,((Carcharodontosaurus,(Mapusaurus,Giganotosaurus)),Acrocanthosaurus,Tyrannotitan,Eocarcharia)));
+END;

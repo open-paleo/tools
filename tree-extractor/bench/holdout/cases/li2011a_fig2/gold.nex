@@ -1,0 +1,26 @@
+#NEXUS
+
+[ li2011a_fig2: Sauropod time tree, root at the bottom. Each clade name is printed just right of the stem (or under the horizontal) of the node it names: SAUROPODA, EUSAUROPODA, NEOSAUROPODA, MACRONARIA and TITANOSAURIFORMES are kept as internal labels; TITANOSAURIFORMES sits between the Camarasaurus and Brachiosaurus nodes and is placed on the latter, since Camarasaurus is outside it in the drawing. One three-way node: Tonganosaurus, Omcisaurus and Mamenchisaurus, stem entering at Omcisaurus. 13 tips, 1 polytomies (3 children); 5 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=13;
+    TAXLABELS
+        PROSAUROPODA
+        Volcanodon
+        Shunosaurus
+        Barapasaurus
+        Tonganosaurus
+        Omcisaurus
+        Mamenchisaurus
+        Diplodocus
+        Haplocanthosaurus
+        Camarasaurus
+        Brachiosaurus
+        Euhelopus
+        Titanosarus
+    ;
+END;
+
+BEGIN TREES;
+    TREE li2011a_fig2 = [&R] (PROSAUROPODA,(Volcanodon,(Shunosaurus,(Barapasaurus,((Tonganosaurus,Omcisaurus,Mamenchisaurus),(Diplodocus,(Haplocanthosaurus,(Camarasaurus,(Brachiosaurus,(Euhelopus,Titanosarus))TITANOSAURIFORMES))MACRONARIA)NEOSAUROPODA)))EUSAUROPODA)SAUROPODA);
+END;

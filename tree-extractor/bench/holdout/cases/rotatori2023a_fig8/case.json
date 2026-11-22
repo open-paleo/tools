@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/rotatori2023a_fig8.png",
+  "names": "names.txt",
+  "source": "Rotatori et al. 2023, Journal of Vertebrate Paleontology 43, Fig. 8: time-calibrated ornithischian tree with branches coloured by evolutionary rate and node ages, ML 2700 (bold); rectangular, root left, colour-graded lines, period bands above, a rate legend and a silhouette. Image: census 2 figure (2030x2597 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the collapsed tips Ankylosauria and Stegosauria and the specimen tips 'ML 2700', 'Vegagete ornithopod' and 'Rhabdodon sp1'",
+  "gold": "gold.nex",
+  "gold_note": "Ornithischian time tree, read by eye, fully resolved. The numbers at nodes are node ages (Ma), not support or names; no clade names are printed. 73 tips, fully resolved. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

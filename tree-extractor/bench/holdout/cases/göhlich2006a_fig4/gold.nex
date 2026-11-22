@@ -1,0 +1,41 @@
+#NEXUS
+
+[ göhlich2006a_fig4: Theropod cladogram. The numbered circles 1-24 are keys, not names. MANIRAPTORA's box spans exactly one clade (node 7, Ornitholestes to Confuciusornis) and is kept as an internal label; COELUROSAURIA's box covers the Albertosaurus-Tyrannosaurus pair and node 5, which are not one clade (node 3 also holds the Allosaurus-Sinraptor pair), so it is not encoded. Polytomies: node 3 (the Allosaurus pair, the tyrannosaurid pair and node 5) and node 12 (four compsognathids). Replacement for cau2018a_fig6 (seed 20261202). 28 tips, 2 polytomies (3, 4 children); 1 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=28;
+    TAXLABELS
+        Coelophysis
+        Dilophosaurus
+        Allosaurus
+        Sinraptor
+        Albertosaurus
+        Tyrannosaurus
+        Compsognathus
+        Sinosauropteryx
+        Huaxiagnathus
+        Juravenator
+        Shenzhousaurus
+        Gallimimus
+        Ornithomimus
+        Ornitholestes
+        Patagonykus
+        Shuvuuia
+        Mononykus
+        Caudipteryx
+        Conchoraptor
+        Citipati
+        Sinovenator
+        Troodon
+        Saurornithoides
+        Microraptor
+        Velociraptor
+        Sinornithosaurus
+        Archaeopteryx
+        Confuciusornis
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'göhlich2006a_fig4' = [&R] (Coelophysis,(Dilophosaurus,((Allosaurus,Sinraptor),(Albertosaurus,Tyrannosaurus),((Compsognathus,Sinosauropteryx,Huaxiagnathus,Juravenator),((Shenzhousaurus,(Gallimimus,Ornithomimus)),(Ornitholestes,((Patagonykus,(Shuvuuia,Mononykus)),((Caudipteryx,(Conchoraptor,Citipati)),(((Sinovenator,(Troodon,Saurornithoides)),(Microraptor,(Velociraptor,Sinornithosaurus))),(Archaeopteryx,Confuciusornis)))))Maniraptora)))));
+END;

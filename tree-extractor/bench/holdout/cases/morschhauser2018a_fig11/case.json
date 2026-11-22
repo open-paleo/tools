@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/morschhauser2018a_fig11.png",
+  "names": "names.txt",
+  "source": "Morschhauser et al. 2018, Journal of Vertebrate Paleontology 38, Fig. 11: time-calibrated ceratopsian phylogeny; vertical, root at the bottom, thin lines, range bars, tip names written upwards, a full stage chart at the left, grey stage bands, clade names beside nodes and one arrow. Image: census 2 figure (1400x1421 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including the abbreviations 'P. mongoliensis', 'P. sinensis', 'Protoceratops hellink.' and the specimen tip 'ZPAL MgD I156'",
+  "gold": "gold.nex",
+  "gold_note": "Ceratopsian time tree, root at the bottom, fully resolved. Each clade name is printed just beside the horizontal line of the node it names: Ceratopsia, Neoceratopsia, Coronosauria, Leptoceratopsidae and Ceratopsoidea, plus Ceratopsidae by an arrow; all six are kept as internal labels. 30 tips, fully resolved; 6 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

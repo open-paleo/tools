@@ -1,0 +1,38 @@
+#NEXUS
+
+[ gallina2015a_fig7: Titanosauriform cladogram. Titanosauriformes, Somphospondili (as printed) and Titanosauria, joined to nodes by leader lines, and Aeolosaurini and Saltasaurini, coloured boxes each spanning one clade, are kept as internal labels. Titanosauria is a nine-way node (six tips, the Rapetosaurus clade, the Opisthocoelicaudia-Alamosaurus pair and Saltasaurini). 25 tips, 1 polytomies (9 children); 5 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=25;
+    TAXLABELS
+        Camarasaurus
+        Giraffatitan
+        Chubutisaurus
+        Andesaurus
+        Malawisaurus
+        Ligabuesaurus
+        Epachthosaurus
+        Lirainosaurus
+        Bonatitan
+        Rapetosaurus
+        Rinconsaurus
+        Muyelensaurus
+        Bonitasaura
+        Mendozasaurus
+        Futalognkosaurus
+        Laplatasaurus
+        Uberabatitan
+        Overosaurus
+        Gondwanatitan
+        Aeolosaurus
+        Opisthocoelicaudia
+        Alamosaurus
+        Neuquensaurus
+        Rocasaurus
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE gallina2015a_fig7 = [&R] (Camarasaurus,(Giraffatitan,(Chubutisaurus,(Andesaurus,Malawisaurus,Ligabuesaurus,Epachthosaurus,Lirainosaurus,Bonatitan,(Rapetosaurus,((Rinconsaurus,(Muyelensaurus,((Bonitasaura,(Mendozasaurus,Futalognkosaurus)),(Laplatasaurus,Uberabatitan)))),(Overosaurus,(Gondwanatitan,Aeolosaurus)Aeolosaurini))),(Opisthocoelicaudia,Alamosaurus),(Neuquensaurus,(Rocasaurus,Saltasaurus))Saltasaurini)Titanosauria)Somphospondili)Titanosauriformes);
+END;

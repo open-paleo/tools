@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/gallina2015a_fig7.png",
+  "names": "names.txt",
+  "source": "Gallina and Otero 2015, Ameghiniana 52, Fig. 7: titanosauriform phylogeny placing Laplatasaurus (bold); rectangular, root left, thin lines, three clade names with leader lines to nodes and support triplets, two coloured boxes naming Aeolosaurini and Saltasaurini. Image: census 2 figure (2676x1933 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Titanosauriform cladogram. Titanosauriformes, Somphospondili (as printed) and Titanosauria, joined to nodes by leader lines, and Aeolosaurini and Saltasaurini, coloured boxes each spanning one clade, are kept as internal labels. Titanosauria is a nine-way node (six tips, the Rapetosaurus clade, the Opisthocoelicaudia-Alamosaurus pair and Saltasaurini). 25 tips, 1 polytomies (9 children); 5 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

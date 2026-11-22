@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/zanno2009a_fig2.png",
+  "names": "names.txt",
+  "source": "Zanno et al. 2009, Proceedings of the Royal Society B: Biological Sciences 276, Fig. 2: time-calibrated coelurosaur summary with diet mapped as branch patterns; rectangular, root left, patterned branch bars, a stage chart above, character notes with arrows, a legend, a grey box. Image: census 2 figure (1958x1177 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, all higher taxa except Ornitholestes",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur summary ladder, fully resolved, read from a 2x crop. Coelurosauria and Paraves, printed beside node dots, are kept as internal labels; the patterned dots at the other two nodes carry no name. The arrows and boxes at the right mark character changes, not branches. 11 tips, fully resolved; 2 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

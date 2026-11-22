@@ -1,0 +1,36 @@
+#NEXUS
+
+[ longrich2013a_fig14: Oviraptorosaur time tree, root at the bottom. OVIRAPTORIDAE and CAENAGNATHIDAE, written up the stems of their nodes, are kept as internal labels; AVIMIMIDAE is written up Avimimus' own line (a single tip) and is not encoded. Multi-way nodes, where a tip line meets the node's horizontal at the stem: Ingenia-Nemegtomaia-Heyuannia, Caenagnathasia-Elmisaurus-the rest, and Leptorhynchos elegans, L. gaddisi, Hagryphus and the Chirostenotes node. Replacement for ramírez-velasco2022a_fig4 (seed 20261203). 23 tips, 3 polytomies (3, 3, 4 children); 2 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=23;
+    TAXLABELS
+        Incisivosaurus
+        Caudipteryx
+        Avimimus
+        Oviraptor
+        Rinchenia
+        Citipati
+        Zamyn_Khondt
+        Khaan
+        Conchoraptor
+        Machairasaurus
+        Ingenia
+        Nemegtomaia
+        Heyuannia
+        Microvenator
+        Gigantoraptor
+        Caenagnathasia
+        Elmisaurus
+        Leptorhynchos_elegans
+        Leptorhynchos_gaddisi
+        Hagryphus
+        Chirostenotes
+        Caenagnathus_collinsi
+        Caenagnathus_sp.
+    ;
+END;
+
+BEGIN TREES;
+    TREE longrich2013a_fig14 = [&R] (Incisivosaurus,(Caudipteryx,(Avimimus,(((Oviraptor,(Rinchenia,(Citipati,Zamyn_Khondt))),(Khaan,(Conchoraptor,(Machairasaurus,(Ingenia,Nemegtomaia,Heyuannia)))))OVIRAPTORIDAE,(Microvenator,(Gigantoraptor,(Caenagnathasia,Elmisaurus,(Leptorhynchos_elegans,Leptorhynchos_gaddisi,Hagryphus,(Chirostenotes,(Caenagnathus_collinsi,Caenagnathus_sp.))))))CAENAGNATHIDAE))));
+END;

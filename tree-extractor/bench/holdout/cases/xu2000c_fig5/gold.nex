@@ -1,0 +1,26 @@
+#NEXUS
+
+[ xu2000c_fig5: Coelurosaur ladder. Dromaeosauridae, joined to a node dot by a leader line, is kept as an internal label. One three-way node: Velociraptorinae (drawn as a slanted line), Dromaeosaurus and Sinornithosaurus leave one vertical. 13 tips, 1 polytomies (3 children); 1 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=13;
+    TAXLABELS
+        Allosaurus
+        Compsognathus
+        Ornithomimidae
+        Oviraptoridae
+        Caudipteryx
+        Protarchaeopteryx
+        Troodontidae
+        Rahonavis
+        Archaeopteryx
+        Velociraptorinae
+        Dromaeosaurus
+        Sinornithosaurus
+        Microraptor
+    ;
+END;
+
+BEGIN TREES;
+    TREE xu2000c_fig5 = [&R] (Allosaurus,(Compsognathus,(Ornithomimidae,(Oviraptoridae,(Caudipteryx,(Protarchaeopteryx,(Troodontidae,((Rahonavis,Archaeopteryx),((Velociraptorinae,Dromaeosaurus,Sinornithosaurus),Microraptor)Dromaeosauridae))))))));
+END;

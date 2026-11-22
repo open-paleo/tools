@@ -1,0 +1,53 @@
+#NEXUS
+
+[ tortosa2014a_fig7: Ceratosaur time tree, read by eye with nodes 7-10 checked at 3x. Dashed lines are ghost lineages of the tip branches, read as ordinary branches. The node numbers 1-10 and the region letters are keys, not printed clade names, so no internal labels are encoded. Multi-way nodes: node 5's inner node (seven tips, stem entering at Austrocheirus), node 6 (seven tips and node 7), node 8 (six) and node 10 (five). 40 tips, 4 polytomies (7, 8, 6, 5 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=40;
+    TAXLABELS
+        Herrerasaurus
+        Coelophysis
+        Allosaurus
+        Spinostropheus
+        Elaphrosaurus
+        Limusaurus
+        Caramillasaurus
+        Genyodectes
+        Ceratosaurus
+        Berberosaurus
+        Eoabelisaurus
+        Dahalokely
+        Ligabueno
+        Deltadromeus
+        Velocisaurus
+        Austrocheirus
+        Noasaurus
+        Masiakasaurus
+        Laevisuchus
+        Kryptops
+        Rugops
+        Genusaurus
+        MCF-PVPH-237_abelisaurid
+        Xenotarsosaurus
+        Tarascosaurus
+        La_Boucharde_abelisaurid
+        Pourcieux_abelisaurid
+        Arcovenator
+        Majungasaurus
+        Indosaurus
+        Rahiolisaurus
+        Rajasaurus
+        Ilokelesia
+        Ekrixinatosaurus
+        Skorpiovenator
+        Abelisaurus
+        Aucasaurus
+        Pycnonemosaurus
+        Quilmesaurus
+        Carnotaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE tortosa2014a_fig7 = [&R] (Herrerasaurus,(Coelophysis,(Allosaurus,((Spinostropheus,(Elaphrosaurus,Limusaurus)),(Caramillasaurus,((Genyodectes,Ceratosaurus),(Berberosaurus,(Eoabelisaurus,((Dahalokely,(Ligabueno,Deltadromeus,Velocisaurus,Austrocheirus,Noasaurus,Masiakasaurus,Laevisuchus)),(Kryptops,Rugops,Genusaurus,MCF-PVPH-237_abelisaurid,Xenotarsosaurus,Tarascosaurus,La_Boucharde_abelisaurid,((Pourcieux_abelisaurid,Arcovenator,Majungasaurus,Indosaurus,Rahiolisaurus,Rajasaurus),(Ilokelesia,(Ekrixinatosaurus,(Skorpiovenator,(Abelisaurus,Aucasaurus,Pycnonemosaurus,Quilmesaurus,Carnotaurus)))))))))))))));
+END;

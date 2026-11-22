@@ -1,0 +1,33 @@
+#NEXUS
+
+[ zhang2008a_fig3: Theropod cladogram. Each dot sits on a stem just before the node it names; Maniraptora, Avialae, Aves and Scansoriopterygidae (curved arrow) are kept on those nodes. One three-way node: Alvarezsauridae, Oviraptorosauria and the paravian node. 20 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=20;
+    TAXLABELS
+        Allosaurus
+        Sinraptor
+        Tyrannosauroidea
+        Compsognathidae
+        Ornithomimosauria
+        Ornitholestes
+        Therizinosauriodea
+        Alvarezsauridae
+        Oviraptorosauria
+        Troodontidae
+        Dromaeosaurinae
+        Epidendrosaurus
+        Epidexipteryx
+        Archaeopteryx
+        Wellnhoferia
+        Jeholornis
+        Sapeornis
+        Confuciusornis
+        Protopteryx
+        Yanornis
+    ;
+END;
+
+BEGIN TREES;
+    TREE zhang2008a_fig3 = [&R] (Allosaurus,(Sinraptor,(Tyrannosauroidea,(Compsognathidae,(Ornithomimosauria,(Ornitholestes,(Therizinosauriodea,(Alvarezsauridae,Oviraptorosauria,((Troodontidae,Dromaeosaurinae),((Epidendrosaurus,Epidexipteryx)Scansoriopterygidae,((Archaeopteryx,Wellnhoferia),(Jeholornis,(Sapeornis,(Confuciusornis,(Protopteryx,Yanornis)))))Aves)Avialae)))Maniraptora))))));
+END;

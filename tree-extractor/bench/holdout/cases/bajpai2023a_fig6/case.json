@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/bajpai2023a_fig6.png",
+  "names": "names.txt",
+  "source": "Bajpai et al. 2023, Scientific Reports 13, Fig. 6: sauropod phylogeny placing Tharosaurus indicus (bold); rectangular, root left, thin lines, Bremer/bootstrap values, node dots with bold clade names, a shaded box for Dicraeosauridae. Image: census 2 figure (1772x1826 px), the embedded raster.",
+  "license": "CC BY (Creative Commons Attribution, as stated in the text)",
+  "names_note": "no matrix held; list = the printed tip names, genus and species as printed",
+  "gold": "gold.nex",
+  "gold_note": "Sauropod cladogram. Eight clade names are kept as internal labels: Sauropoda, Macronaria, Neosauropoda, Rebbachisauridae, Diplodocoidea, Diplodocidae (leader line) and Flagellicaudata, each printed beside a node dot, and Dicraeosauridae (a shaded box spanning one clade). Polytomies: the brachiosaur-titanosaur node (Tendaguria and two pairs), four rebbachisaurid stems, Rebbachisaurus-Rayososaurus-limaysaurines, and Pilmatueia-Amargatitanis-the rest. 37 tips, 4 polytomies (3, 4, 3, 3 children); 8 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

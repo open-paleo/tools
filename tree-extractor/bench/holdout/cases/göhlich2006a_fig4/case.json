@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/göhlich2006a_fig4.png",
+  "names": "names.txt",
+  "source": "Göhlich and Chiappe 2006, Nature 440, Fig. 4: theropod cladogram placing Juravenator (bold), with numbered black node circles and feather drawings; rectangular, root left, two nested grey boxes labelled COELUROSAURIA and MANIRAPTORA. Image: census 2 figure (1054x925 px), a 300 dpi page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Theropod cladogram. The numbered circles 1-24 are keys, not names. MANIRAPTORA's box spans exactly one clade (node 7, Ornitholestes to Confuciusornis) and is kept as an internal label; COELUROSAURIA's box covers the Albertosaurus-Tyrannosaurus pair and node 5, which are not one clade (node 3 also holds the Allosaurus-Sinraptor pair), so it is not encoded. Polytomies: node 3 (the Allosaurus pair, the tyrannosaurid pair and node 5) and node 12 (four compsognathids). Replacement for cau2018a_fig6 (seed 20261202). 28 tips, 2 polytomies (3, 4 children); 1 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

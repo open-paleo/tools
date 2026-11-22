@@ -1,0 +1,67 @@
+#NEXUS
+
+[ chapelle2018a_fig54: Sauropodomorph cladogram, read by eye. Multi-way nodes: six plateosaurids; Aardonyx, Mussaurus, the Eucnemesaurus pair and the rest; Camelotia, Leonerasaurus, Melanorosaurus, the Antetonitrus-Lessemsaurus pair and the rest; Isanosaurus, Tazoudasaurus, Vulcanodon and the rest; five eusauropods. The star marks a node and carries no name. 54 tips, 5 polytomies (6, 4, 5, 4, 5 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=54;
+    TAXLABELS
+        Euparkeria
+        Marasuchus
+        Silesaurus
+        Herrerasaurus
+        Staurikosaurus
+        Chindesaurus
+        Chromogisaurus
+        Saturnalia
+        Panphagia
+        Eoraptor
+        Guaibasaurus
+        Agnosphitys
+        Pantydraco
+        Efraasia
+        Plateosaurus_engelhardti
+        Plateosaurus_gracilis
+        Plateosaurus_ingens
+        Plateosaurus_erlenbergiensis
+        Plateosauravus
+        Ruehleia
+        Anchisaurus
+        Jingshanosaurus
+        Seitaad
+        Lufengosaurus_huenei
+        Coloradisaurus
+        Massospondylus_kaalae
+        'Massospondylus carinatus BP/1/4934'
+        Adeopapposaurus
+        Leyesaurus
+        'Massospondylus carinatus BP/1/5241'
+        Ignavusaurus
+        Sarahsaurus_aurifontanalis
+        Yunnanosaurus
+        Aardonyx
+        Mussaurus
+        Eucnemesaurus_fortis
+        Eucnemesaurus_entaxonis
+        Camelotia
+        Leonerasaurus
+        Melanorosaurus
+        Antetonitrus
+        Lessemsaurus
+        Gongxianosaurus
+        Pulanesaura
+        Isanosaurus
+        Tazoudasaurus
+        Vulcanodon
+        Spinophorosaurus
+        Barapasaurus
+        Cetiosaurus
+        Patagosaurus
+        Shunosaurus
+        Mamenchisaurus
+        Omeisaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE chapelle2018a_fig54 = [&R] (Euparkeria,(Marasuchus,(Silesaurus,((Herrerasaurus,Staurikosaurus),(Chindesaurus,((Chromogisaurus,Saturnalia),(Panphagia,(Eoraptor,(Guaibasaurus,(Agnosphitys,(Pantydraco,(Efraasia,((Plateosaurus_engelhardti,Plateosaurus_gracilis,Plateosaurus_ingens,Plateosaurus_erlenbergiensis,Plateosauravus,Ruehleia),(Anchisaurus,((Jingshanosaurus,Seitaad),(((Lufengosaurus_huenei,(Coloradisaurus,Massospondylus_kaalae)),('Massospondylus carinatus BP/1/4934',((Adeopapposaurus,Leyesaurus),('Massospondylus carinatus BP/1/5241',(Ignavusaurus,Sarahsaurus_aurifontanalis))))),(Yunnanosaurus,(Aardonyx,Mussaurus,(Eucnemesaurus_fortis,Eucnemesaurus_entaxonis),(Camelotia,Leonerasaurus,Melanorosaurus,(Antetonitrus,Lessemsaurus),(Gongxianosaurus,(Pulanesaura,(Isanosaurus,Tazoudasaurus,Vulcanodon,(Spinophorosaurus,(Barapasaurus,Cetiosaurus,Patagosaurus,Shunosaurus,(Mamenchisaurus,Omeisaurus)))))))))))))))))))))))));
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/xu2000c_fig5.png",
+  "names": "names.txt",
+  "source": "Xu et al. 2000, Nature 408, Fig. 5: cladogram placing Microraptor among coelurosaurs; rectangular, root left, thin lines, one node dot joined by a curved leader line to 'Dromaeosauridae'. Image: census 2 figure (863x668 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the higher-taxon tips Velociraptorinae, Troodontidae, Oviraptoridae and Ornithomimidae",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur ladder. Dromaeosauridae, joined to a node dot by a leader line, is kept as an internal label. One three-way node: Velociraptorinae (drawn as a slanted line), Dromaeosaurus and Sinornithosaurus leave one vertical. 13 tips, 1 polytomies (3 children); 1 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

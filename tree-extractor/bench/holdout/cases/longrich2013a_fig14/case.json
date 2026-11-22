@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/longrich2013a_fig14.png",
+  "names": "names.txt",
+  "source": "Longrich et al. 2013, Bulletin of the Peabody Museum of Natural History 54, Fig. 14: time-calibrated oviraptorosaur phylogeny; vertical, root at the bottom, thin lines, tip dots at first appearance, tip names written upwards, a stage chart at the left, family names written up the stems. Image: census 2 figure (1065x673 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including 'Zamyn Khondt' and 'Caenagnathus sp.'",
+  "gold": "gold.nex",
+  "gold_note": "Oviraptorosaur time tree, root at the bottom. OVIRAPTORIDAE and CAENAGNATHIDAE, written up the stems of their nodes, are kept as internal labels; AVIMIMIDAE is written up Avimimus' own line (a single tip) and is not encoded. Multi-way nodes, where a tip line meets the node's horizontal at the stem: Ingenia-Nemegtomaia-Heyuannia, Caenagnathasia-Elmisaurus-the rest, and Leptorhynchos elegans, L. gaddisi, Hagryphus and the Chirostenotes node. Replacement for ramírez-velasco2022a_fig4 (seed 20261203). 23 tips, 3 polytomies (3, 3, 4 children); 2 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

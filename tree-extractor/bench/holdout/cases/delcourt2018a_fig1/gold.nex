@@ -1,0 +1,57 @@
+#NEXUS
+
+[ delcourt2018a_fig1: Theropod summary consensus. Nine clade names are kept as internal labels: THEROPODA, NEOTHEROPODA, TETANURAE and COELUROSAURIA (beside node dots) and the five band names, each band spanning one clade (COELOPHYSOIDEA, ABELISAUROIDEA, ALLOSAUROIDEA, TYRANNOSAUROIDEA, COMPSOGNATHIDAE). Multi-way nodes: five tyrannosauroids (Santanaraptor, Stokesosaurus, Daspletosaurus, Albertosaurus libratus and the rest) and Tyrannosaurus bataar, T. rex and Timimus. 44 tips, 2 polytomies (5, 3 children); 9 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=44;
+    TAXLABELS
+        Eoraptor
+        Herrerasaurus
+        Tawa
+        Dilophosaurus
+        Syntarsus
+        Coelophysis
+        Cryolophosaurus
+        Masiakasaurus
+        Limusaurus
+        Ceratosaurus
+        Majungasaurus
+        Carnotaurus
+        Sinraptor
+        Allosaurus
+        Neovenator
+        Acrocanthosaurus
+        Mapusaurus
+        Giganotosaurus
+        Piatnitzkysaurus
+        Suchomimus
+        Monolophosaurus
+        Afrovenator
+        Megalosaurus
+        Torvosaurus
+        Eustreptospondylus
+        Zuolong
+        Tanycolagreus
+        Proceratosaurus
+        Guanlong
+        Dilong
+        Santanaraptor
+        Stokesosaurus
+        Daspletosaurus
+        Albertosaurus_libratus
+        Albertosaurus_sarcophagus
+        Tyrannosaurus_bataar
+        Tyrannosaurus_rex
+        Timimus
+        Ornitholestes
+        Sinosauropteryx
+        Huaxiagnathus
+        Compsognathus
+        ORNITHOMIMOSAURIA
+        MANIRAPTORA
+    ;
+END;
+
+BEGIN TREES;
+    TREE delcourt2018a_fig1 = [&R] (Eoraptor,(Herrerasaurus,(Tawa,((Dilophosaurus,(Syntarsus,Coelophysis))COELOPHYSOIDEA,(Cryolophosaurus,(((Masiakasaurus,Limusaurus),(Ceratosaurus,(Majungasaurus,Carnotaurus)))ABELISAUROIDEA,((((Sinraptor,Allosaurus),(Neovenator,(Acrocanthosaurus,(Mapusaurus,Giganotosaurus)))),(Piatnitzkysaurus,(Suchomimus,(Monolophosaurus,(Afrovenator,(Megalosaurus,(Torvosaurus,Eustreptospondylus)))))))ALLOSAUROIDEA,(Zuolong,(Tanycolagreus,((Proceratosaurus,(Guanlong,(Dilong,(Santanaraptor,Stokesosaurus,Daspletosaurus,Albertosaurus_libratus,(Albertosaurus_sarcophagus,(Tyrannosaurus_bataar,Tyrannosaurus_rex,Timimus))))))TYRANNOSAUROIDEA,(Ornitholestes,((Sinosauropteryx,(Huaxiagnathus,Compsognathus))COMPSOGNATHIDAE,(ORNITHOMIMOSAURIA,MANIRAPTORA))))))COELUROSAURIA)))TETANURAE)NEOTHEROPODA)))THEROPODA;
+END;

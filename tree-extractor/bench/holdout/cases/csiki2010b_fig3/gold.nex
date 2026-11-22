@@ -1,0 +1,31 @@
+#NEXUS
+
+[ csiki2010b_fig3: Dromaeosaurid time tree. Multi-way nodes: Sinornithosaurus, the Graciliraptor-Microraptor node and the unenlagiine node; Graciliraptor with the two Microraptor species (stem entering at M. zhaoianus' height); Shanag, Neuquenraptor, Buitreraptor and Rahonavis; Achillobator, Adasaurus, Utahraptor and Dromaeosaurus. No clade names are printed. 18 tips, 4 polytomies (3, 3, 4, 4 children). Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=18;
+    TAXLABELS
+        Mahakala
+        Sinornithosaurus
+        Graciliraptor
+        Microraptor_zhaoianus
+        Microraptor_gui
+        Shanag
+        Neuquenraptor
+        Buitreraptor
+        Rahonavis
+        Achillobator
+        Adasaurus
+        Utahraptor
+        Dromaeosaurus
+        Tsaagan
+        Saurornitholestes
+        Deinonychus
+        Velociraptor
+        Balaur
+    ;
+END;
+
+BEGIN TREES;
+    TREE csiki2010b_fig3 = [&R] (Mahakala,((Sinornithosaurus,(Graciliraptor,Microraptor_zhaoianus,Microraptor_gui),(Shanag,Neuquenraptor,Buitreraptor,Rahonavis)),((Achillobator,Adasaurus,Utahraptor,Dromaeosaurus),(Tsaagan,(Saurornitholestes,(Deinonychus,(Velociraptor,Balaur)))))));
+END;

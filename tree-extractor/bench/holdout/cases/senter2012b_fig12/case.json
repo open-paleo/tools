@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/senter2012b_fig12.png",
+  "names": "names.txt",
+  "source": "Senter et al. 2012, PLoS ONE 7, Fig. 12: coelurosaur summary with caudal characters mapped as symbols; vertical, root at the bottom, thin lines, tip names written upwards over silhouettes, clade names beside nodes, two legend boxes and notes. Image: census 2 figure (1219x1317 px), the embedded raster.",
+  "license": "CC BY (Creative Commons Attribution License, as stated in the text)",
+  "names_note": "no matrix held; list = the printed tip names, mostly higher taxa",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur summary tree, root at the bottom. Coelurosauria, Paraves, Deinonychosauria, Dromaeosauridae and Eudromaeosauria (printed hyphenated over two lines, 'Eudromae-osauria'), each beside its node, are kept as internal labels. One three-way node: Achillobator, Utahraptor and Yurgovuchia. The symbols on branches are characters, not nodes. 15 tips, 1 polytomies (3 children); 5 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

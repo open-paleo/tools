@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/brusatte2014a_fig1.png",
+  "names": "names.txt",
+  "source": "Brusatte et al. 2014, Current Biology 24, Fig. 1: summary coelurosaur phylogeny; rectangular, root left, collapsed clades as black wedges with names, node dots with clade names written along the stems, coloured silhouettes. Image: census 2 figure (1345x2523 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including 'Allosaurus-Outgroup' and the wedge tips Tyrannosauridae, Therizinosauroidea, Alvarezsauroidea, Oviraptorosauria, 'Other Troodontidae', Dromaeosauridae and 'Other Avialae'",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur summary tree, read by eye with the tyrannosauroid part at 1.5x. Nine clade names are kept as internal labels: Coelurosauria (the dot where Bicentenaria and the rest meet), Tyrannosauroidea, Maniraptoriformes, Maniraptora, Paraves and Avialae (written along the stems of dotted nodes), Troodontidae (arrow to a dot), and Compsognathidae and Ornithomimosauria (printed beside the silhouettes of dotted nodes). Multi-way nodes: Zuolong, Tugulusaurus, Tyrannosauroidea and Maniraptoriformes; Maniraptoriformes (four); Maniraptora (three); Paraves (three); and several inside Tyrannosauroidea, Compsognathidae and Ornithomimosauria. 55 tips, 11 polytomies (4, 3, 3, 3, 4, 6, 6, 3, 3, 3, 4 children); 9 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

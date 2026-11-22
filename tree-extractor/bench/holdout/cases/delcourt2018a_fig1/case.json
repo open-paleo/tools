@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/delcourt2018a_fig1.png",
+  "names": "names.txt",
+  "source": "Delcourt and Grillo 2018, Palaeogeography, Palaeoclimatology, Palaeoecology 511, Fig. 1: simplified strict consensus with Santanaraptor and Timimus (bold) among theropods; rectangular, root left, grey and coloured lines, Bremer values at nodes, node dots with clade names, coloured bands with group names and silhouettes, the vector backbone and labels set beside an embedded raster. Image: census 2 figure (1679x1304 px), a 300 dpi page render re-made to include the backbone the first crop missed.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including 'Albertosaurus libratus', 'Tyrannosaurus bataar' and the collapsed tips ORNITHOMIMOSAURIA and MANIRAPTORA",
+  "gold": "gold.nex",
+  "gold_note": "Theropod summary consensus. Nine clade names are kept as internal labels: THEROPODA, NEOTHEROPODA, TETANURAE and COELUROSAURIA (beside node dots) and the five band names, each band spanning one clade (COELOPHYSOIDEA, ABELISAUROIDEA, ALLOSAUROIDEA, TYRANNOSAUROIDEA, COMPSOGNATHIDAE). Multi-way nodes: five tyrannosauroids (Santanaraptor, Stokesosaurus, Daspletosaurus, Albertosaurus libratus and the rest) and Tyrannosaurus bataar, T. rex and Timimus. 44 tips, 2 polytomies (5, 3 children); 9 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

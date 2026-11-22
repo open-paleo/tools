@@ -1,0 +1,68 @@
+#NEXUS
+
+[ brusatte2014a_fig1: Coelurosaur summary tree, read by eye with the tyrannosauroid part at 1.5x. Nine clade names are kept as internal labels: Coelurosauria (the dot where Bicentenaria and the rest meet), Tyrannosauroidea, Maniraptoriformes, Maniraptora, Paraves and Avialae (written along the stems of dotted nodes), Troodontidae (arrow to a dot), and Compsognathidae and Ornithomimosauria (printed beside the silhouettes of dotted nodes). Multi-way nodes: Zuolong, Tugulusaurus, Tyrannosauroidea and Maniraptoriformes; Maniraptoriformes (four); Maniraptora (three); Paraves (three); and several inside Tyrannosauroidea, Compsognathidae and Ornithomimosauria. 55 tips, 11 polytomies (4, 3, 3, 3, 4, 6, 6, 3, 3, 3, 4 children); 9 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=55;
+    TAXLABELS
+        Allosaurus-Outgroup
+        Bicentenaria
+        Zuolong
+        Tugulusaurus
+        Tanycolagreus
+        Coelurus
+        Dilong
+        Kileskus
+        Proceratosaurus
+        Sinotyrannus
+        Guanlong
+        Juratyrant
+        Eotyrannus
+        Xiongguanlong
+        Dryptosaurus
+        Appalachiosaurus
+        Bistahieversor
+        Tyrannosauridae
+        Ornitholestes
+        Mirischia
+        Sinocalliopteryx
+        Juravenator
+        Compsognathus
+        Sinosauropteryx
+        Huaxiagnathus
+        Nqwebasaurus
+        Pelecanimimus
+        Shenzhousaurus
+        Sinornithomimus
+        Beishanlong
+        Harpymimus
+        Garudimimus
+        Archaeornithomimus
+        Gallimimus
+        Anserimimus
+        Qiupalong
+        Struthiomimus
+        Ornithomimus
+        Therizinosauroidea
+        Alvarezsauroidea
+        Epidexipteryx
+        Pedopenna
+        Oviraptorosauria
+        Eosinopteryx
+        Aurornis
+        Xiaotingia
+        Anchiornis
+        Other_Troodontidae
+        Dromaeosauridae
+        Archaeopteryx
+        Sapeornis
+        Jeholornis
+        Jixiangornis
+        Confuciusornis
+        Other_Avialae
+    ;
+END;
+
+BEGIN TREES;
+    TREE brusatte2014a_fig1 = [&R] (Allosaurus-Outgroup,(Bicentenaria,(Zuolong,Tugulusaurus,((Tanycolagreus,Coelurus),(Dilong,(Kileskus,(Proceratosaurus,Sinotyrannus,Guanlong)),(Juratyrant,Eotyrannus,(Xiongguanlong,(Dryptosaurus,(Appalachiosaurus,(Bistahieversor,Tyrannosauridae)))))))Tyrannosauroidea,(Ornitholestes,(Mirischia,Sinocalliopteryx,Juravenator,Compsognathus,Sinosauropteryx,Huaxiagnathus)Compsognathidae,(Nqwebasaurus,(Pelecanimimus,(Shenzhousaurus,(Sinornithomimus,Beishanlong,Harpymimus,Garudimimus,Archaeornithomimus,((Gallimimus,Anserimimus),(Qiupalong,Struthiomimus,Ornithomimus))))))Ornithomimosauria,(Therizinosauroidea,Alvarezsauroidea,(((Epidexipteryx,Pedopenna),Oviraptorosauria),(((Eosinopteryx,Aurornis,Xiaotingia,Anchiornis),Other_Troodontidae)Troodontidae,Dromaeosauridae,(Archaeopteryx,(Sapeornis,(Jeholornis,(Jixiangornis,(Confuciusornis,Other_Avialae)))))Avialae)Paraves))Maniraptora)Maniraptoriformes))Coelurosauria);
+END;

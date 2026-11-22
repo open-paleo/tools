@@ -1,0 +1,86 @@
+#NEXUS
+
+[ rotatori2023a_fig8: Ornithischian time tree, read by eye, fully resolved. The numbers at nodes are node ages (Ma), not support or names; no clade names are printed. 73 tips, fully resolved. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=73;
+    TAXLABELS
+        Herrerasaurus_ischigualastensis
+        Chilesaurus_diegosuarezi
+        Eocursor_parvus
+        Lesothosaurus_diagnosticus
+        Laquintasaura_venezuelae
+        Scutellosaurus_lawleri
+        Emausaurus_ernstii
+        Scelidosaurus_harrisonii
+        Ankylosauria
+        Isaberrysaura_mollensis
+        Stegosauria
+        Abrictosaurus_consors
+        Heterodontosaurus_tucki
+        Lycorhinus_angustidens
+        Tianyulong_confuciusi
+        Fruitadens_haagarorum
+        Echinodon_becklesii
+        Homalocephale_calathocercos
+        Wannanosaurus_yansiensis
+        Goyocephale_lattimorei
+        Prenocephale_prenes
+        Pachycephalosaurus_wyomingensis
+        Stegoceras_validum
+        Agilisaurus_louderbacki
+        Stenopelix_valdensis
+        Yinlong_downsi
+        Archaeoceratops_oshimai
+        Liaoceratops_yanzigouensis
+        Chaoyangsaurus_youngi
+        Psittacosaurus_mongoliensis
+        Psittacosaurus_major
+        Hexinlusaurus_multidens
+        Kulindadromeus_zabaikalicus
+        Yandusaurus_hongheensis
+        Nanosaurus_agilis
+        Hypsilophodon_foxii
+        Gasparinisaura_cincosaltensis
+        Parksosaurus_warreni
+        Haya_griva
+        Changchunsaurus_parvus
+        Jeholosaurus_shangyuanensis
+        Zephyrosaurus_schaffi
+        Koreanosaurus_boseongensis
+        Orodromeus_makelai
+        Convolosaurus_marri
+        Yueosaurus_tiantaiensis
+        Thescelosaurus_neglectus
+        Thescelosaurus_assiniboiensis
+        Fostoria_dhimbangunmal
+        Muttaburrasaurus_langdoni
+        Vegagete_ornithopod
+        Mochlodon_suessi
+        Mochlodon_vorosi
+        Rhabdodon_sp1
+        Rhabdodon_priscus
+        Zalmoxes_robustus
+        Zalmoxes_shqiperorum
+        Tenontosaurus_dossi
+        Tenontosaurus_tilletti
+        Talenkauen_santacrucensis
+        Macrogryphosaurus_gondwanicus
+        Anabisetia_saldiviai
+        Mahuidacursor_lipanglef
+        Kangnasaurus_coetzeei
+        Morrosaurus_antarcticus
+        Uteodon_aphanoecetes
+        Camptosaurus_dispar
+        Iguanodon_bernissartensis
+        ML_2700
+        Dryosaurus
+        Eousdryosaurus_nanohallucis
+        Dysalotosaurus_lettowvorbecki
+        Valdosaurus_canaliculatus
+    ;
+END;
+
+BEGIN TREES;
+    TREE rotatori2023a_fig8 = [&R] (Herrerasaurus_ischigualastensis,(Chilesaurus_diegosuarezi,((Eocursor_parvus,((Lesothosaurus_diagnosticus,Laquintasaura_venezuelae),(Scutellosaurus_lawleri,(Emausaurus_ernstii,(Scelidosaurus_harrisonii,(Ankylosauria,(Isaberrysaura_mollensis,Stegosauria))))))),(((Abrictosaurus_consors,Heterodontosaurus_tucki),(Lycorhinus_angustidens,(Tianyulong_confuciusi,(Fruitadens_haagarorum,(Echinodon_becklesii,((Homalocephale_calathocercos,Wannanosaurus_yansiensis),((Goyocephale_lattimorei,Prenocephale_prenes),(Pachycephalosaurus_wyomingensis,Stegoceras_validum)))))))),(Agilisaurus_louderbacki,(((Stenopelix_valdensis,Yinlong_downsi),((Archaeoceratops_oshimai,Liaoceratops_yanzigouensis),(Chaoyangsaurus_youngi,(Psittacosaurus_mongoliensis,Psittacosaurus_major)))),((Hexinlusaurus_multidens,Kulindadromeus_zabaikalicus),(Yandusaurus_hongheensis,((Nanosaurus_agilis,((Hypsilophodon_foxii,(Gasparinisaura_cincosaltensis,Parksosaurus_warreni)),((Haya_griva,(Changchunsaurus_parvus,Jeholosaurus_shangyuanensis)),(Zephyrosaurus_schaffi,(Koreanosaurus_boseongensis,Orodromeus_makelai))))),((((Convolosaurus_marri,Yueosaurus_tiantaiensis),(Thescelosaurus_neglectus,Thescelosaurus_assiniboiensis)),((Fostoria_dhimbangunmal,Muttaburrasaurus_langdoni),(Vegagete_ornithopod,((Mochlodon_suessi,Mochlodon_vorosi),((Rhabdodon_sp1,Rhabdodon_priscus),(Zalmoxes_robustus,Zalmoxes_shqiperorum)))))),(((Tenontosaurus_dossi,Tenontosaurus_tilletti),(Talenkauen_santacrucensis,(Macrogryphosaurus_gondwanicus,(Anabisetia_saldiviai,(Mahuidacursor_lipanglef,(Kangnasaurus_coetzeei,Morrosaurus_antarcticus)))))),((Uteodon_aphanoecetes,(Camptosaurus_dispar,Iguanodon_bernissartensis)),(ML_2700,(Dryosaurus,(Eousdryosaurus_nanohallucis,(Dysalotosaurus_lettowvorbecki,Valdosaurus_canaliculatus))))))))))))))));
+END;

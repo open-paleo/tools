@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/dieudonné2020a_fig1.png",
+  "names": "names.txt",
+  "source": "Dieudonné et al. 2020, Historical Biology 33, Fig. 1: strict consensus of non-ornithopodan ornithischians calibrated against a stage chart; rectangular, root left, coloured lines by clade, range bars, Bremer/bootstrap values, circled node numbers 1-7 keyed in the caption. Image: census 2 figure (1521x1647 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the collapsed tips Ankylosauria, Stegosauria and ORNITHOPODA",
+  "gold": "gold.nex",
+  "gold_note": "Ornithischian time tree. Branches read from the PDF's vector lines (1.0 pt), which drop the Abrictosaurus and one pachycephalosaur line; those parts were read by eye from a crop. The circled numbers 1-7 are caption keys (Ornithischia, Thyreophora, Cerapoda, Marginocephalia, Ceratopsia, Pachycephalosauria, Ornithopoda), not printed names, so no internal labels are encoded; ORNITHOPODA, printed at a line's end, is a tip. One four-way node: Prenocephale, Homalocephale, Stegoceras and Pachycephalosaurus. 33 tips, 1 polytomies (4 children). Sample 4 case (census 2, seed 20261201). Topology read from the PDF's own vector branch lines and checked against the figure; topology only.",
+  "gold_method": "pdf-vector"
+}

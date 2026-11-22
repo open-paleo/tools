@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/zhang2008a_fig3.png",
+  "names": "names.txt",
+  "source": "Zhang et al. 2008, Nature 455, Fig. 3: cladogram placing Epidexipteryx (bold); rectangular, root left, thin lines, node dots on stems with bold clade names (one by a curved arrow). Image: census 2 figure (734x861 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including higher-taxon tips and 'Therizinosauriodea' as printed",
+  "gold": "gold.nex",
+  "gold_note": "Theropod cladogram. Each dot sits on a stem just before the node it names; Maniraptora, Avialae, Aves and Scansoriopterygidae (curved arrow) are kept on those nodes. One three-way node: Alvarezsauridae, Oviraptorosauria and the paravian node. 20 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Sample 4 case (census 2, seed 20261201). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}
