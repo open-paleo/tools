@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.9.0 (2026-11-21)
 
 - A branch is carried under a small colored shape set on it, an icon that says where a clade
   lived, where a line of ink arrives at the shape on both sides (Arbour 2015 fig. 12, 32 of

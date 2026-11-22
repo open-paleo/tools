@@ -16,7 +16,7 @@ the batch command line give identical results.
 Early, and measured. Three sets of figures say where it stands.
 
 **Benchmark** (`npm run bench`): twenty-five published figures with gold trees and fifteen
-synthetic ones. Eleven of the published figures come out identical, tips, names and splits, among
+synthetic ones. Thirteen of the published figures come out identical, tips, names and splits, among
 them a 75-tip staircase consensus with clade arrows, a 68-tip strict consensus with lettered
 clades, a 60-tip stegosaur consensus and a 28-tip centrosaurine time tree. Of the rest, most name
 nearly every tip and recover most splits: a 30-tip centrosaurine tree with node discs, range
@@ -27,7 +27,13 @@ and two figures with thick range bars or pie-chart nodes. Twelve of the fifteen 
 are identical. Eighteen of the published figures are openly licensed and ship with the benchmark;
 `bench/README.md` says how to supply the rest.
 
-**Held out** (`npm run bench:holdout`): nine figures the pipeline is never tuned on, run cold.
+**Gold sample** (`npm run bench:holdout`): 109 more figures with gold trees. A hundred of them
+were drawn at random from the census, in a sample of twenty and one of eighty, so that their
+scores estimate accuracy on the typical figure and not on figures picked for being hard. Each
+batch was first run cold, before any change was made for it, and only then worked on;
+`bench/holdout/random-sample.md` gives the draws and each batch's cold result. The last two
+batches of twenty named 67 and 74 percent of their tips cold. Over all 134 figures with gold
+trees the pipeline now names 4,267 of 4,598 tips, and 42 figures come out identical.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
 (`bench/holdout/census.md` gives the sampling), run cold with the batch runner. All 178 run
