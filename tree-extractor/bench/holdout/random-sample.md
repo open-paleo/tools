@@ -434,7 +434,7 @@ Pools:
 
 Drawn: csiki2010b_fig3 dieudonné2020a_fig1 zanno2009a_fig2 tortosa2014a_fig7 rotatori2023a_fig8 | chapelle2018a_fig54 brusatte2014a_fig1 vickaryous2002a_fig1 xu2000c_fig5 delcourt2018a_fig1 cau2018a_fig6 gallina2015a_fig7 bajpai2023a_fig6 mcdonald2017a_fig14 zhang2008a_fig3 | brusatte2008b_fig6 | morschhauser2018a_fig11 ramírez-velasco2022a_fig4 li2011a_fig2 | senter2012b_fig12
 
-## Sample 4 (20 cases, two skips replaced)
+## Sample 4 (20 cases, one skip replaced)
 
 | Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
 |---|---|---|---:|---|---:|---|---|---|
@@ -448,7 +448,7 @@ Drawn: csiki2010b_fig3 dieudonné2020a_fig1 zanno2009a_fig2 tortosa2014a_fig7 ro
 | vickaryous2002a_fig1 | rectangular | no | 12 | 3 | - | printed | image-transcription | ? |
 | xu2000c_fig5 | rectangular | no | 13 | 3 | 1 | printed | image-transcription | ? |
 | delcourt2018a_fig1 | rectangular | no | 44 | 5, 3 | 9 | printed | image-transcription | ? |
-| göhlich2006a_fig4 | rectangular | no | 28 | 3, 4 | 1 | printed | image-transcription | ? |
+| cau2018a_fig6 | rectangular | no | 132 | 3 | 39 | printed | image-transcription | ? |
 | gallina2015a_fig7 | rectangular | no | 25 | 9 | 5 | printed | image-transcription | ? |
 | bajpai2023a_fig6 | rectangular | no | 37 | 3, 4, 3, 3 | 8 | printed | image-transcription | yes |
 | mcdonald2017a_fig14 | rectangular | no | 47 | 23, 12, 5 | - | printed | image-transcription | yes |
@@ -459,9 +459,11 @@ Drawn: csiki2010b_fig3 dieudonné2020a_fig1 zanno2009a_fig2 tortosa2014a_fig7 ro
 | li2011a_fig2 | vertical | yes | 13 | 3 | 5 | printed | image-transcription | ? |
 | senter2012b_fig12 | vertical | no | 15 | 3 | 5 | printed | image-transcription | yes |
 
+
+cau2018a_fig6 is the drawn figure. It was first set aside for its size (about 130 tips) and replaced by seed 20261202 with `göhlich2006a_fig4`; at Sarah's decision the draw is kept strict, so cau2018a was transcribed (2026-11-22) and stands in the sample. `göhlich2006a_fig4` stays as an additional gold case outside the sample (its row, for reference: rectangular, no time axis, 28 tips, polytomies 3, 4, 1 clade label, printed names, image-transcription, licence unverified). cau2018a's time axis (a Mya scale) was missed in the census classification and added afterwards; the draw used the flags as first recorded, so it sits in the no-time-axis stratum.
+
 Skips:
 
-- `cau2018a_fig6` (rectangular, drawn as no time axis; it has a Mya scale, added to the census flags afterwards): **not a skip under the rule.** Its joints can be read at native resolution (checked at 4x near the root), but it has about 120 tips in 9-10 px type with node-age labels over the joints, and was set aside for size in this pass. Replaced by seed 20261202: `göhlich2006a_fig4`. It can be transcribed later and swapped back in, or kept as a separate large case.
 - `ramírez-velasco2022a_fig4` (vertical, time axis): in the lambeosaurin cluster the orange and red backbones run over each other with nodes about 2 px apart, so the branching order of Lambeosaurus, Corythosaurus and Hypacrosaurus cannot be decided. Replaced by seed 20261203: `longrich2013a_fig14`.
 
 Notes on sample 4:
@@ -481,3 +483,12 @@ Run before any change was made for these figures.
 - Seven figures named under 70% of their tips: vickaryous2002a_fig1 0 of 12, li2011a_fig2 2 of 13, tortosa2014a_fig7 10 of 40, brusatte2008b_fig6 3 of 8, dieudonné2020a_fig1 14 of 33, bajpai2023a_fig6 18 of 37, senter2012b_fig12 10 of 15.
 - The `reading-doubtful` warning marked 6 of those 7 (not dieudonné2020a_fig1), 1 of the 5 between 70 and 90 percent (zanno2009a_fig2), and none of the 8 at 90 percent or more.
 - Cold results of the earlier batches, for comparison: batch 3 67% (78% without the figure whose image had no labels), batch 4 74%, sample 3 89%.
+
+### Sample 4 baseline restated with cau2018a_fig6 (run cold on 2026-11-22, commit d635574)
+
+cau2018a_fig6 was the figure drawn; it was transcribed afterwards and takes the place of göhlich2006a_fig4, which stays as a gold case outside the sample. Cold, it named 43 of its 132 tips, with 38 of 39 scored splits, and the `reading-doubtful` warning marked it.
+
+Over the twenty figures as drawn:
+
+- Names: 479 of 703 (68%). Exact matches: 4 of 20. Every name right: 6 of 20.
+- Eight figures named under 70% of their tips; the warning marked 7 of them.
