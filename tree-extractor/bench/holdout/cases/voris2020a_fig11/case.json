@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/voris2020a_fig11.png",
+  "names": "names.txt",
+  "source": "Voris et al. 2020, Cretaceous Research 110, Fig. 11: single most parsimonious tree of Eutyrannosauria with Thanatotheristes (bold); rectangular, root left, thick lines, range ellipses coloured by region against a stage chart (not time-calibrated), Bremer/bootstrap values, six numbered black circles keyed in the caption. Image: census figure (2155x1114 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only mostly)",
+  "gold": "gold.nex",
+  "gold_note": "Eutyrannosaur MPT. The numbered circles 1-6 are keys to the caption (1 Eutyrannosauria, 2 Tyrannosauridae, 3 Albertosaurinae, 4 Tyrannosaurinae, 5 Alioramini, 6 Daspletosaurini; some stem-based), not printed names, so no internal labels are encoded. One three-way node: Lythronax, Dynamoterror and Teratophoneus, stem entering at Dynamoterror's height. 18 tips, 1 polytomies (3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

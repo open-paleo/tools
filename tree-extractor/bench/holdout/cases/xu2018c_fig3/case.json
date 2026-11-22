@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/xu2018c_fig3.png",
+  "names": "names.txt",
+  "source": "Xu et al. 2018, Current Biology 28, Fig. 3: time-calibrated alvarezsaurian phylogeny; rectangular, root left, thin lines, black range bars against a stage chart, Bremer values on the stems, open node circles and a stem line with clade names, forelimb drawings at the right, a grey box. Image: census figure (1743x938 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "printed tip names (genus only), including the collapsed outgroup Tyrannosauroidea",
+  "gold": "gold.nex",
+  "gold_note": "Alvarezsaurian time tree. Alvarezsauria (leader line to the stem below its node), Alvarezsauridae and Parvicursorinae (leader lines to open node circles) are kept as internal labels. Two multi-way nodes: Kol, Albertonykus, the Xixianykus-Albinykus pair and Parvicursorinae; and the five parvicursorines, stem entering at Mononykus' height. 19 tips, 2 polytomies (4, 5 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

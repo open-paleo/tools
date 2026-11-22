@@ -299,3 +299,112 @@ Run before any change was made for these figures.
 - Names: 537 of 729 (74%). Exact matches: 3 of 20 (hu2017z_fig9, lefèvre2014a_fig10, ren2020b_fig6). Every name right: 8 of 20.
 - Splits, among the tips named: 387 of 400 (97%), with 3 wrong splits.
 - Thirteen figures: 494 of 520 names (95%). The other seven hold 86% of the loss: pretto2018a_fig11 0 of 44, läng2010a_fig22 0 of 39, zhou2026a_fig6 0 of 34, poole2022a_fig6 47 of 68, vila2022a_fig3 3 of 21, scannella2014a_fig3 10 of 23, arbour2015a_fig12 32 of 41.
+
+# Random gold sample 3
+
+## How the sample was drawn
+
+- **Population:** census rows with `is_tree: true`, minus every figure with a folder in `bench/cases/` or `bench/holdout/cases/` on 2026-11-22 (ids compared with accents folded): 52 rows, 49 of them in the six layout strata. Left out: schott2016a_fig28 (rectangular-root-right), ma2026a_fig4 and foth2025a_fig16 (circular).
+- **Strata and allocation:** as in sample 2 (layout by time axis, largest remainder): rectangular 4 + 11, slanted 0 + 2, vertical 2 + 1 (with + without time axis), from pools of 9, 28, 0, 6, 4 and 2.
+- **Draw:** `random.Random(20261122)`, `rng.sample` per stratum in the order above. **Skip rule:** as before, a figure whose topology cannot be decided is skipped and replaced from its stratum's remaining pool (excluding all drawn figures, earlier replacements and every figure already recorded as unreadable) by `random.Random(20261122 + k)`.
+
+Pools, as drawn:
+
+- rectangular, time axis: barrett2026a_fig28 hendrickx2024a_fig16 mocho2024a_fig3 müller2020b_fig1 pol2020a_fig3 pol2022a_fig6 voris2020a_fig11 xu2018c_fig3 yao2026a_fig9
+- rectangular, no time axis: agnolín2023a_fig11 averianov2010a_fig9 brown2011a_fig23 cau2021a_fig6 coria2016a_fig30 dyer2023a_fig20 han2014a_fig11 han2014b_fig5 han2018a_fig16 isasmendi2024a_fig9 longrich2009a_fig3 mocho2023a_fig24 motta2025a_fig5 müller2018b_fig40 penkalski2026a_fig14 rauhut2024a_fig26 senter2007a_fig4 tschopp2015a_fig115 tschopp2015a_fig119 turner2012a_fig65 turner2012a_fig68 turner2012a_fig70 turner2012a_fig72 turner2012a_fig75 varricchio2007a_fig5 wang2024a_fig6 yates2003a_fig4 you2009a_fig3
+- slanted, no time axis: barrett2007a_fig10 dallavecchia2006a_fig20 gauthier1986a_fig8 mannion2011b_fig12 sereno1997a_fig6 sereno2012a_fig104
+- vertical, time axis: augustin2023a_fig3 baiano2020a_fig8 morschhauser2018a_fig13 pol2021a_fig3
+- vertical, no time axis: bell2015b_fig5 wang2016b_fig4
+
+Drawn: yao2026a_fig9 müller2020b_fig1 pol2022a_fig6 xu2018c_fig3 | turner2012a_fig70 turner2012a_fig65 averianov2010a_fig9 wang2024a_fig6 turner2012a_fig68 motta2025a_fig5 agnolín2023a_fig11 dyer2023a_fig20 müller2018b_fig40 rauhut2024a_fig26 tschopp2015a_fig119 | dallavecchia2006a_fig20 gauthier1986a_fig8 | morschhauser2018a_fig13 baiano2020a_fig8 | wang2016b_fig4
+
+The script, as run:
+
+```python
+"""Random gold sample 3, 2026-11-22: 20 further census trees, stratified by layout and time axis."""
+import json, random, unicodedata, collections
+from pathlib import Path
+CENSUS = Path.home() / "GitHub/open-paleo/corpus/census/manifest.json"
+TE = Path.home() / "GitHub/open-paleo/tree-extractor/tree-extractor/bench"
+SEED = 20261122
+N = 20
+fold = lambda s: unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
+have = {fold(p.name) for d in (TE / "cases", TE / "holdout/cases") for p in d.iterdir() if p.is_dir()}
+rows = [r for r in json.loads(CENSUS.read_text()) if r.get("is_tree") and fold(r["id"]) not in have]
+strata = collections.defaultdict(list)
+for r in rows:
+    if r["layout"] in ("rectangular", "slanted", "vertical"):
+        strata[(r["layout"], "time_axis" in r["flags"])].append(r)
+total = sum(len(v) for v in strata.values())
+print("population", len(rows), "in strata", total, "outside:", [(r["id"], r["layout"]) for r in rows if r["layout"] not in ("rectangular", "slanted", "vertical")])
+alloc = {k: N * len(v) / total for k, v in strata.items()}
+plan = {k: int(a) for k, a in alloc.items()}
+for k in sorted(alloc, key=lambda k: alloc[k] - plan[k], reverse=True)[: N - sum(plan.values())]: plan[k] += 1
+rng = random.Random(SEED)
+order = [("rectangular", True), ("rectangular", False), ("slanted", True), ("slanted", False), ("vertical", True), ("vertical", False)]
+picks = []
+for k in order:
+    pool = sorted(strata.get(k, []), key=lambda r: r["id"])
+    n = min(plan.get(k, 0), len(pool))
+    pick = rng.sample(pool, n) if n else []
+    print(f"{k[0]:12} time={k[1]!s:5} pool={len(pool):3} drawn={n:2}  " + " ".join(r["id"] for r in pick))
+    print("      pool:", " ".join(r["id"] for r in pool))
+    picks += [(k, r["id"]) for r in pick]
+json.dump({"picks": picks, "strata": {f"{a}|{b}": [r["id"] for r in sorted(v, key=lambda r: r["id"])] for (a, b), v in strata.items()}, "replacements": []}, open(Path(__file__).with_name("draw3.json"), "w"), ensure_ascii=False, indent=1)
+def replace(k, exclude, j):
+    pool = sorted((r for r in strata[k] if r["id"] not in exclude), key=lambda r: r["id"])
+    return random.Random(SEED + j).choice(pool)["id"]
+```
+
+## Sample 3 (20 cases, four skips replaced)
+
+| Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
+|---|---|---|---:|---|---:|---|---|---|
+| hendrickx2024a_fig16 | rectangular | yes | 27 | 3, 4, 5, 5 | 9 | printed | image-transcription | ? |
+| pol2020a_fig3 | rectangular | yes | 46 | 3, 3, 6, 3, 3, 3, 3 | 2 | printed | image-transcription | ? |
+| voris2020a_fig11 | rectangular | yes | 18 | 3 | - | printed | image-transcription | ? |
+| xu2018c_fig3 | rectangular | yes | 19 | 4, 5 | 3 | printed | image-transcription | ? |
+| turner2012a_fig70 | rectangular | no | 66 | 8, 11, 4, 4 | - | printed | image-transcription | ? |
+| turner2012a_fig65 | rectangular | no | 29 | 4, 3 | 8 | printed | image-transcription | ? |
+| averianov2010a_fig9 | rectangular | no | 15 | - | 3 | printed | image-transcription | ? |
+| wang2024a_fig6 | rectangular | no | 75 | 4, 3, 3, 3, 3, 3, 3, 4, 4, 3 | - | printed | image-transcription | ? |
+| turner2012a_fig68 | rectangular | no | 65 | 4, 3, 5, 4, 4 | - | printed | image-transcription | ? |
+| motta2025a_fig5 | rectangular | no | 29 | 14, 7 | 4 | printed | image-transcription | ? |
+| agnolín2023a_fig11 | rectangular | no | 15 | 3 | 4 | printed | image-transcription | ? |
+| dyer2023a_fig20 | rectangular | no | 18 | 4, 10, 3 | - | printed | image-transcription | yes |
+| müller2018b_fig40 | rectangular | no | 83 | 5, 4, 5, 15 | 10 | printed | image-transcription | ? |
+| rauhut2024a_fig26 | rectangular | no | 61 | 3, 4, 3 | 14 | printed | image-transcription | no (NC) |
+| tschopp2015a_fig119 | rectangular | no | 16 | 3, 4 | - | printed | image-transcription | yes |
+| dallavecchia2006a_fig20 | slanted | no | 19 | 3, 3 | 4 | printed | image-transcription | ? |
+| gauthier1986a_fig8 | slanted | no | 8 | - | 6 | printed | image-transcription | ? |
+| augustin2023a_fig3 | vertical | yes | 8 | 3 | 1 | printed | image-transcription | yes |
+| baiano2020a_fig8 | vertical | yes | 11 | 6 | - | printed | image-transcription | ? |
+| wang2016b_fig4 | vertical | no | 16 | 5, 3 | - | printed | image-transcription | ? |
+
+Skips (replacements drawn by the skip rule):
+
+- `pol2022a_fig6` (rectangular, time axis): drawn again; skipped for its recorded reason (Volkheimeria drawn twice on dashed alternative branches). Replaced by seed 20261123: `voris2020a_fig11`.
+- `morschhauser2018a_fig13` (vertical, time axis): drawn again; skipped for its recorded reason (ghost-lineage curves through the nodes). Replaced by seed 20261124: `augustin2023a_fig3`.
+- `yao2026a_fig9` (rectangular, time axis): ancestral-area pie charts sit on every node; in the lambeosaurin part (nodes 10 onward) they cover the joints, so whether Lambeosaurus magnicristatus/L. lambei and Magnapaulia form one clade or two successive branches cannot be decided. Replaced by seed 20261125: `hendrickx2024a_fig16`.
+- `müller2020b_fig1` (rectangular, time axis): the node area is a stack of near-touching vertical lines about 2 px apart in several colours, with Bremer badges over the joints; the line reader breaks on them and at 4x the joints of the lagerpetid and dinosauriform backbones (which line enters which) cannot be decided. Replaced by seed 20261126: `pol2020a_fig3`.
+
+Notes on sample 3:
+
+- Census images were checked first: none of the 20 carries labels_from_text_layer, and the three turner2012a vector renders lost nothing to the prose blanking (checked against the page render, 0 differing pixels).
+- Regions: hendrickx2024a_fig16 (panel B), pol2020a_fig3 (the tree panel a), and the census regions of averianov2010a_fig9, wang2024a_fig6, motta2025a_fig5 (tree 1), dyer2023a_fig20 (panel A), tschopp2015a_fig119 (the Upchurch et al. 2004b tree), dallavecchia2006a_fig20 (upper tree), gauthier1986a_fig8 (Fig. 8, the lower cladogram on the page) and wang2016b_fig4 (panel A).
+- Labels: numeral, letter or colour keys are not encoded (voris2020a 1-6, dyer2023a 1&2/3 with a legend in the figure, wang2024a I-XVII with a legend in the figure, wang2016b's coloured circles). Printed abbreviations on the tree are kept as printed (motta2025a PA, EUM, DR, UNEN; agnolín2023a 'Rin'), as are box names spanning one clade and names joined to a node. On slanted trees (dallavecchia2006a, gauthier1986a) names printed under the backbone or as dots on a stem are put on the node that stem leads to.
+- wang2016b_fig4 has one tip with no printed name, a black wedge for a collapsed clade; it is in the tree as 'unlabelled collapsed clade (placeholder)', which has no printed form to score.
+- turner2012a_fig68: the line reader shifted the troodontid tips by one, so it was read by eye; the reader agreed on the rest.
+- Licence: rauhut2024a states CC BY-NC (not open for reuse); dyer2023a, tschopp2015a and augustin2023a state CC BY.
+
+What is left: 29 census trees in the strata have no gold. Seven of them are recorded as unreadable (barrett2026a_fig28, müller2020b_fig1, pol2022a_fig6, yao2026a_fig9, morschhauser2018a_fig13, sereno1997a_fig6, senter2007a_fig4), leaving 22: sixteen rectangular without time axis, one rectangular with (mocho2024a_fig3), three slanted (barrett2007a_fig10, mannion2011b_fig12, sereno2012a_fig104) and two vertical (pol2021a_fig3, bell2015b_fig5).
+
+### Sample 3 baseline (tree extractor 0.9.0 plus the reliability warning, commit 8436ce0, run cold on 2026-11-22)
+
+Run before any change was made for these figures.
+
+- Names: 573 of 644 (89%). Exact matches: 5 of 20 (agnolín2023a_fig11, baiano2020a_fig8, dyer2023a_fig20, turner2012a_fig68, turner2012a_fig70). Every name right: 9 of 20.
+- Splits, among the tips named: 387 of 400 (97%), with 4 wrong splits.
+- Four figures named under 70% of their tips: gauthier1986a_fig8 0 of 8 (no tree), hendrickx2024a_fig16 9 of 27, xu2018c_fig3 9 of 19, motta2025a_fig5 20 of 29.
+- The `reading-doubtful` warning, whose thresholds were set on the earlier 134 figures, marked 3 of those 4 (not motta2025a_fig5), none of the 3 between 70 and 90 percent, and 1 of the 13 at 90 percent or more (baiano2020a_fig8, an exact match with six stray branch ends beside the tree).
+- Cold results of the earlier batches, for comparison: batch 3 67% (78% without the figure whose image had no labels), batch 4 74%.

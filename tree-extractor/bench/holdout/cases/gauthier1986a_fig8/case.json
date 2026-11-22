@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/gauthier1986a_fig8.png",
+  "names": "names.txt",
+  "source": "Gauthier 1986, Memoirs of the California Academy of Sciences 8, Fig. 8 (the lower cladogram on p. 54): dinosaur relationships; slanted (diagonal), root lower left, thin lines, tip names written upwards, clade names under the backbone. Fig. 7 above it on the same page (Archosauria) is excluded. Image: census figure (2552x2794 px), a 300 dpi region of a page scan.",
+  "region": {
+    "x0": 0,
+    "y0": 1676,
+    "x1": 2552,
+    "y1": 2794
+  },
+  "region_note": "the lower cladogram (Fig. 8); the upper one is Fig. 7",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, all higher taxa; 'Herrerasauridae*' is listed without its asterisk (a footnote mark)",
+  "gold": "gold.nex",
+  "gold_note": "Dinosaur summary cladogram, fully resolved. Each clade name is printed under the backbone just past a node and names the clade the following segment leads to (Dinosauria excludes Herrerasauridae here); Dinosauria, Saurischia, Theropoda, Tetanurae, Coelurosauria and Maniraptora are kept as internal labels on those nodes. 8 tips, fully resolved; 6 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

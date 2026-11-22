@@ -1,0 +1,40 @@
+#NEXUS
+
+[ hendrickx2024a_fig16: Ceratosaur time tree, panel B, read from crops. Ten clade names printed at node dots or circles, or along a stem (Abelisauridae), are kept as internal labels. Polytomies: Noasauridae (MNN Tig6, Elaphrosaurinae, Noasaurinae), Noasaurinae (four), Majungasaurinae (five, stem entering at Rahiolisaurus' height) and Carnotaurinae (five, stem at Ekrixinatosaurus' height), each read as one node, as in earlier batches. Replacement for yao2026a_fig9 (seed 20261125). 27 tips, 4 polytomies (3, 4, 5, 5 children); 9 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=27;
+    TAXLABELS
+        Dilophosaurus_wetherilli
+        Non-avian_tetanurans
+        Dilophosaurus_sinensis
+        MNN_Tig6
+        Limusaurus
+        Elaphrosaurus
+        Vespersaurus
+        Berthasaura
+        Velocisaurus
+        Noasaurus
+        Masiakasaurus
+        Laevisuchus
+        Eoabelisaurus
+        Genyodectes
+        Ceratosaurus
+        Abelisaurus
+        Rugops
+        Dahalokely
+        Rajasaurus
+        Rahiolisaurus
+        Indosaurus
+        Majungasaurus
+        Quilmesaurus
+        Pycnonemosaurus
+        Ekrixinatosaurus
+        Carnotaurus
+        Aucasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE hendrickx2024a_fig16 = [&R] (Dilophosaurus_wetherilli,(Non-avian_tetanurans,(Dilophosaurus_sinensis,((MNN_Tig6,((Limusaurus,Elaphrosaurus),(Vespersaurus,Berthasaura))Elaphrosaurinae,(Velocisaurus,Noasaurus,Masiakasaurus,Laevisuchus)Noasaurinae)Noasauridae,(Eoabelisaurus,((Genyodectes,Ceratosaurus)Ceratosauridae,(Abelisaurus,(Rugops,((Dahalokely,Rajasaurus,Rahiolisaurus,Indosaurus,Majungasaurus)Majungasaurinae,(Quilmesaurus,Pycnonemosaurus,Ekrixinatosaurus,Carnotaurus,Aucasaurus)Carnotaurinae)))Abelisauridae)Neoceratosauria)))Ceratosauria));
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/agnolín2023a_fig11.png",
+  "names": "names.txt",
+  "source": "Agnolín et al. 2023, Cretaceous Research 146, Fig. 11: simplified cladogram placing Chucarosaurus diripienda (bold, green band); rectangular, root left, node dots with clade names, a skeletal silhouette. Image: census figure (2138x1763 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed ('Notocolosus gonzalesparejasi', 'Futalongkosaurus dukei'), including the tip 'Other Titanosauria'",
+  "gold": "gold.nex",
+  "gold_note": "Colossosaur summary cladogram. Titanosauria, Colossosauria, 'Rin' (printed abbreviation, kept as printed) and 'Longkosauria' (as printed), each beside a node dot, are kept as internal labels. One three-way node: Puertasaurus, Drusilasaura and the Argentinosaurus-Patagotitan pair, stem entering at Drusilasaura's height. 15 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

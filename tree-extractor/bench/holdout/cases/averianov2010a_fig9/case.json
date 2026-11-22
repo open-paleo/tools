@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/averianov2010a_fig9.png",
+  "names": "names.txt",
+  "source": "Averianov et al. 2010, Proceedings of the Zoological Institute RAS 314, Fig. 9A: summary cladogram of theropods placing Tyrannosauroidea (star); rectangular, root left, thick lines, arrows from three clade names to nodes. Panel B (tyrannosauroid characters on branches) is excluded. Image: census figure (969x1054 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 969,
+    "y1": 653
+  },
+  "region_note": "panel A; panel B below is a character-mapped tree of five taxa",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, mostly higher taxa, as printed: 'Zupayasaurus', '“Dilophosauridae”' with its quotation marks, and the combined tips 'Ceratosauridae + Abelisauridae' and 'Coeluridae + Comspognathidae' (sic)",
+  "gold": "gold.nex",
+  "gold_note": "Theropod summary ladder, fully resolved. Tetanurae, Coelurosauria and Maniraptora, joined by arrows to nodes, are kept as internal labels. 15 tips, fully resolved; 3 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

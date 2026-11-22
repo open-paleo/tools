@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/wang2016b_fig4.png",
+  "names": "names.txt",
+  "source": "Wang et al. 2016, Current Biology 27, Fig. 4A: strict consensus of ceratosaurs from subadult and adult scorings of Limusaurus (red); vertical, root at the bottom, tip names written upwards, coloured node circles keyed in the caption, an unlabelled black wedge for a collapsed clade. Panel B (juvenile scorings) is excluded. Image: census figure (985x1485 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 985,
+    "y1": 742
+  },
+  "region_note": "panel A; panel B below repeats the taxa under juvenile scorings",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, with '‘Dilophosaurus’ sinensis' in quotation marks as printed and the specimen tip 'MB R 3621'. The black wedge at the right is a collapsed clade with no printed name (the caption says only that a clade was collapsed for clarity); it is in the tree as 'unlabelled collapsed clade (placeholder)', a placeholder that has no printed form to score",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur strict consensus, panel A, root at the bottom. The coloured node circles are keyed by colour in the caption (Abelisauroidea red, Noasauridae yellow, Elaphrosaurinae purple, Noasaurinae green, Abelisauridae orange, Ceratosauridae blue), not printed names, so no internal labels are encoded. Two polytomies: five noasaurines leave one horizontal line (stem entering at Noasaurus), and Ceratosaurus, Genyodectes and MB R 3621 leave another. 16 tips, 2 polytomies (5, 3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

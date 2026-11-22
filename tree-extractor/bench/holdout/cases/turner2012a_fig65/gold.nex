@@ -1,0 +1,42 @@
+#NEXUS
+
+[ turner2012a_fig65: Avialan reduced consensus, read by eye. The arrow at the root stands for the rest of the tree and is not a tip. All nine clade names are kept as internal labels: Pygostylia, Ornithurae, Aves and Neognathae at node circles, and Paraves, Avialae, Enantiornithes and Euornithes at arcs on the stems leading to their nodes (each label is put on the node its stem leads to). Ornithurae (entered between Iaceornis and the hesperornithiform pair) and Aves (entered at the Neognathae line) are multi-way. 29 tips, 2 polytomies (4, 3 children); 8 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Deinonychosauria
+        Archaeopteryx_lithographica
+        Sapeornis_chaoyangensis
+        Jeholornis_prima
+        Jixiangornis_orientalis
+        Confuciusornis_sanctus
+        Vorona_berivotraensis
+        Liaoningornis_longidigitus
+        Gobipteryx_minuta
+        Pengornis_houi
+        Neuquenornis_volans
+        Cathayornis_yandica
+        Concornis_lacustris
+        Patagopteryx_deferrariisi
+        Hongshanornis_longicresta
+        Yixianornis_grabaui
+        Songlingornis_linghensis
+        Yanornis_martini
+        Apsaravis_uhkaana
+        Ichthyornis_dispar
+        Iaceornis_marshi
+        Hesperornis_regalis
+        Baptornis_advenus
+        Crypturellus_undullatus
+        Lithornis
+        Gallus_gallus
+        Crax
+        Anas_platyrhynchos
+        Chauna_torquata
+    ;
+END;
+
+BEGIN TREES;
+    TREE turner2012a_fig65 = [&R] (Deinonychosauria,(Archaeopteryx_lithographica,(Sapeornis_chaoyangensis,(Jeholornis_prima,(Jixiangornis_orientalis,(Confuciusornis_sanctus,(((Vorona_berivotraensis,Liaoningornis_longidigitus),(Gobipteryx_minuta,(Pengornis_houi,(Neuquenornis_volans,(Cathayornis_yandica,Concornis_lacustris)))))Enantiornithes,(Patagopteryx_deferrariisi,(Hongshanornis_longicresta,(Yixianornis_grabaui,(Songlingornis_linghensis,(Yanornis_martini,(Apsaravis_uhkaana,(Ichthyornis_dispar,Iaceornis_marshi,(Hesperornis_regalis,Baptornis_advenus),(Crypturellus_undullatus,Lithornis,((Gallus_gallus,Crax),(Anas_platyrhynchos,Chauna_torquata))Neognathae)Aves)Ornithurae))))))Euornithes))Pygostylia))))Avialae)Paraves;
+END;

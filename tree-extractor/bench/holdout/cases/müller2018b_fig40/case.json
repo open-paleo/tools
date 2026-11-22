@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/müller2018b_fig40.png",
+  "names": "names.txt",
+  "source": "Müller et al. 2018, Zoological Journal of the Linnean Society 184, Fig. 40: early dinosauromorph phylogeny with Buriolestes (red); rectangular, root left, thin lines, Bremer values in red circles, coloured bands with clade names at the right, arrows from four clade names to stems, silhouettes. Image: census figure (3208x4806 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Lewisuchus/Pseudolagosuchus' as one tip and 'Elaphyosaurus', 'Laguintasaura', 'Crylophosaurus' and 'Dracotaptor' as printed",
+  "gold": "gold.nex",
+  "gold_note": "Dinosauromorph cladogram, read from the full image and crops. Ten clade names are kept as internal labels: Dinosauromorpha, Dinosauriformes, Dinosauria and Saurischia (arrows to the stems below their nodes), and Lagerpetidae, Silesauridae, Ornithischia, Herrerasauridae, Theropoda and Sauropodomorpha (coloured bands, each spanning one clade). Polytomies: five silesaurids, five theropods (stem entering at Panguraptor's height), a four-way saurischian node (Agnosphitys, Eodromaeus, Daemonosaurus and the rest) and a fifteen-way sauropodomorph node. 83 tips, 4 polytomies (5, 4, 5, 15 children); 10 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

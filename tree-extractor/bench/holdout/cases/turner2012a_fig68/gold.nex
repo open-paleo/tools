@@ -1,0 +1,78 @@
+#NEXUS
+
+[ turner2012a_fig68: Paravian jackknife consensus, read by eye; the run-length line reader agreed on the dromaeosaurid half but shifted the troodontid tips by one, so it was used only as a check. Multi-way nodes: the ornithurine node (Iaceornis, Ichthyornis, the hesperornithiform pair and the crown), the crown node (Crypturellus, Lithornis, Neognathae), the five microraptorines, four dromaeosaurines and four velociraptorines. No clade names are printed; the numbers are GC values. 65 tips, 5 polytomies (4, 3, 5, 4, 4 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=65;
+    TAXLABELS
+        Epidexipteryx
+        Archaeopteryx_lithographica
+        Sapeornis_chaoyangensis
+        Jeholornis_prima
+        Jixiangornis_orientalis
+        Confuciusornis_sanctus
+        Liaoningornis_longidigitus
+        Vorona_berivotraensis
+        Gobipteryx_minuta
+        Pengornis_houi
+        Neuquenornis_volans
+        Concornis_lacutris
+        Cathayornis_yandica
+        Patagopteryx_deferrariisi
+        Hongshanornis_longicresta
+        Yixianornis_grabaui
+        Songlingornis_linghensis
+        Yanornis_martini
+        Apsaravis_ukhaana
+        Iaceornis_marshi
+        Ichthyornis_dispar
+        Hesperornis_regalis
+        Baptornis_advenus
+        Crypturellus_undullatus
+        Lithornis
+        Chauna_torquata
+        Anas_platyrhychus
+        Crax
+        Gallus_gallus
+        Xiaotingia_zhengi
+        Anchiornis_huxleyi
+        'IGM 100/1323'
+        'IGM 100/1126'
+        Jingfengopteryx_elegans
+        Mei_long
+        Sinovenator_changii
+        Xixiasaurus_henanensis
+        'IGM 100/44'
+        Byronosaurus_jaffei
+        Sinornithoides_youngi
+        Troodon_formosus
+        Zanabazar_junior
+        Saurornithoides_mongoliensis
+        Mahakala_omnogovae
+        Rahonavis_ostromi
+        Buitreraptor_gonzalezorum
+        Austroraptor_cabazai
+        Unenlagia
+        Shanag_ashile
+        Hesperonychus_elizabethae
+        Graciliraptor_lujiatunensis
+        Microraptor_zhaoianus
+        Sinornithosaurus_millenii
+        Tianyuraptor_ostromi
+        Achillobator_giganticus
+        Utahraptor_ostrommaysorum
+        Atrociraptor_marshalli
+        Dromaeosaurus_albertensis
+        Bambiraptor_feinbergorum
+        Tsaagan_mangas
+        Saurornitholestes_langstoni
+        Adasaurus_mongoliensis
+        Balaur_bondoc
+        Velociraptor_mongoliensis
+        Deinonychus_antirrhopus
+    ;
+END;
+
+BEGIN TREES;
+    TREE turner2012a_fig68 = [&R] (Epidexipteryx,((Archaeopteryx_lithographica,(Sapeornis_chaoyangensis,(Jeholornis_prima,(Jixiangornis_orientalis,(Confuciusornis_sanctus,(((Liaoningornis_longidigitus,Vorona_berivotraensis),(Gobipteryx_minuta,(Pengornis_houi,(Neuquenornis_volans,(Concornis_lacutris,Cathayornis_yandica))))),(Patagopteryx_deferrariisi,(Hongshanornis_longicresta,(Yixianornis_grabaui,(Songlingornis_linghensis,(Yanornis_martini,(Apsaravis_ukhaana,(Iaceornis_marshi,Ichthyornis_dispar,(Hesperornis_regalis,Baptornis_advenus),(Crypturellus_undullatus,Lithornis,((Chauna_torquata,Anas_platyrhychus),(Crax,Gallus_gallus)))))))))))))))),(((Xiaotingia_zhengi,Anchiornis_huxleyi),(('IGM 100/1323',('IGM 100/1126',Jingfengopteryx_elegans)),((Mei_long,(Sinovenator_changii,Xixiasaurus_henanensis)),('IGM 100/44',(Byronosaurus_jaffei,(Sinornithoides_youngi,(Troodon_formosus,(Zanabazar_junior,Saurornithoides_mongoliensis)))))))),(Mahakala_omnogovae,((Rahonavis_ostromi,(Buitreraptor_gonzalezorum,(Austroraptor_cabazai,Unenlagia))),(Shanag_ashile,((Hesperonychus_elizabethae,Graciliraptor_lujiatunensis,Microraptor_zhaoianus,Sinornithosaurus_millenii,Tianyuraptor_ostromi),((Achillobator_giganticus,Utahraptor_ostrommaysorum,Atrociraptor_marshalli,Dromaeosaurus_albertensis),(Bambiraptor_feinbergorum,(Tsaagan_mangas,(Saurornitholestes_langstoni,(Adasaurus_mongoliensis,Balaur_bondoc,Velociraptor_mongoliensis,Deinonychus_antirrhopus))))))))))));
+END;

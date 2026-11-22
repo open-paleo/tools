@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/turner2012a_fig68.png",
+  "names": "names.txt",
+  "source": "Turner et al. 2012, Bulletin of the American Museum of Natural History 371, Fig. 68: jackknife analysis, reduced strict consensus of paravians, GC frequencies below the nodes; rectangular, root left, thin lines. Image: census figure (1584x2195 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "printed tip names as printed ('Concornis lacutris', 'Apsaravis ukhaana', 'Anas platyrhychus', 'Crypturellus undullatus'), including the specimen tips 'IGM 100/1323', 'IGM 100/1126' and 'IGM 100/44' and the genus-only tips Epidexipteryx, Lithornis, Crax and Unenlagia",
+  "gold": "gold.nex",
+  "gold_note": "Paravian jackknife consensus, read by eye; the run-length line reader agreed on the dromaeosaurid half but shifted the troodontid tips by one, so it was used only as a check. Multi-way nodes: the ornithurine node (Iaceornis, Ichthyornis, the hesperornithiform pair and the crown), the crown node (Crypturellus, Lithornis, Neognathae), the five microraptorines, four dromaeosaurines and four velociraptorines. No clade names are printed; the numbers are GC values. 65 tips, 5 polytomies (4, 3, 5, 4, 4 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

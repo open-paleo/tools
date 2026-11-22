@@ -1,0 +1,18 @@
+{
+  "image": "../../../../../../corpus/census/figures/dyer2023a_fig20.png",
+  "names": "names.txt",
+  "source": "Dyer et al. 2023, Vertebrate Anatomy Morphology Palaeontology 11, Fig. 20A: pachycephalosaur strict consensus; rectangular, root left, thick lines, bootstrap values, numbered black node circles keyed in a legend printed in the figure. Panel B (mirrored, another analysis) and panel C are excluded. Image: census figure (1521x1462 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 44,
+    "x1": 1065,
+    "y1": 1038
+  },
+  "region_note": "panel A (left tree); panel B shares the tip column, mirrored to the right, and panel C is below",
+  "license": "CC BY 4.0",
+  "attribution": "Dyer, A. D.; Powers, M. J.; Currie, P. J. (2023). Problematic putative pachycephalosaurids: synchrotron microCT imaging shines new light on the anatomy and taxonomic validity of Gravitholus albertae from the Belly River Group (Campanian) of Alberta, Canada. Vertebrate Anatomy Morphology Palaeontology. https://doi.org/10.18435/vamp29388. Fig. 20A. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names as printed ('Amtocephale gobienses')",
+  "gold": "gold.nex",
+  "gold_note": "Pachycephalosaur strict consensus, panel A. The node circles '1&2' and '3' are keys to a legend printed in the figure (1 Pachycephalosauria, 2 Pachycephalosauridae, 3 Pachycephalosaurinae), so, as with caption keys, they are not encoded. Polytomies: a four-way node (Wannanosaurus, Colepiocephale, Stegoceras, Pachycephalosaurinae), a ten-way pachycephalosaurine node and a three-way node whose stem enters at Sphaerotholus goodwini's height. 18 tips, 3 polytomies (4, 10, 3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

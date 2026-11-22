@@ -1,0 +1,21 @@
+#NEXUS
+
+[ augustin2023a_fig3: Rhabdodontid time tree, root at the bottom. Rhabdodontidae, printed below the root's node dot, is kept as the root label. One three-way node: Transylvanosaurus, Pareisactus and the Rhabdodon pair leave one horizontal line. 8 tips, 1 polytomies (3 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=8;
+    TAXLABELS
+        Mochlodon_vorosi
+        Mochlodon_suessi
+        Zalmoxes_shqiperorum
+        Zalmoxes_robustus
+        Transylvanosaurus_platycephalus
+        Pareisactus_evrostos
+        Rhabdodon_priscus
+        Rhabdodon_septimanicus
+    ;
+END;
+
+BEGIN TREES;
+    TREE augustin2023a_fig3 = [&R] (((Mochlodon_vorosi,Mochlodon_suessi),(Zalmoxes_shqiperorum,Zalmoxes_robustus)),(Transylvanosaurus_platycephalus,Pareisactus_evrostos,(Rhabdodon_priscus,Rhabdodon_septimanicus)))Rhabdodontidae;
+END;

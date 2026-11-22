@@ -1,0 +1,21 @@
+#NEXUS
+
+[ gauthier1986a_fig8: Dinosaur summary cladogram, fully resolved. Each clade name is printed under the backbone just past a node and names the clade the following segment leads to (Dinosauria excludes Herrerasauridae here); Dinosauria, Saurischia, Theropoda, Tetanurae, Coelurosauria and Maniraptora are kept as internal labels on those nodes. 8 tips, fully resolved; 6 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=8;
+    TAXLABELS
+        Herrerasauridae
+        Ornithischia
+        Sauropodomorpha
+        Ceratosauria
+        Carnosauria
+        Ornithomimidae
+        Deinonychosauria
+        Avialae
+    ;
+END;
+
+BEGIN TREES;
+    TREE gauthier1986a_fig8 = [&R] (Herrerasauridae,(Ornithischia,(Sauropodomorpha,(Ceratosauria,(Carnosauria,(Ornithomimidae,(Deinonychosauria,Avialae)Maniraptora)Coelurosauria)Tetanurae)Theropoda)Saurischia)Dinosauria);
+END;

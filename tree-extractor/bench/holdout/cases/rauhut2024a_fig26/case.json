@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/rauhut2024a_fig26.png",
+  "names": "names.txt",
+  "source": "Rauhut et al. 2024, Zoological Journal of the Linnean Society 201, Fig. 26: simplified theropod phylogeny with Alpkarakush (bold); rectangular, root left, thick lines, nested coloured boxes with clade names (horizontal and vertical), higher-taxon tips in capitals, Tetanurae and Carnosauria printed beside their nodes. Image: census figure (3152x3900 px), the embedded raster.",
+  "license": "CC BY-NC (Creative Commons Attribution-NonCommercial License, as stated in the text)",
+  "names_note": "no matrix held; list = the printed tip names as printed, including the higher-taxon tips in capitals (NOASAURIDAE, CERATOSAURIDAE, ABELISAURIDAE, TYRANNOSAURIDAE, MANIRAPTORIFORMES), '\"Dilophosaurus\" sinensis' and '\"Szechuanosaurus\" zigongensis' with their quotation marks, and 'Y. hepingensis', 'Y. shangyouensis'",
+  "gold": "gold.nex",
+  "gold_note": "Theropod summary tree, read by eye. Fourteen clade names kept as internal labels: Tetanurae and Carnosauria (printed beside their nodes) and twelve box names, each box spanning one clade (Ceratosauria, Coelurosauria, Tyrannosauroidea, Megaraptora, Megalosauroidea, Piatnitzkysauridae, Megalosauridae, Spinosauridae, Allosauroidea, Metriacanthosauridae, Allosauridae, Carcharodontosauria). Polytomies: Australovenator-Megaraptor-Murusraptor, Metriacanthosaurus-Siamotyrannus-Sinraptor, and a four-way spinosaurid node (Irritator, Vallibonavenatrix and two pairs). 61 tips, 3 polytomies (3, 4, 3 children); 14 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

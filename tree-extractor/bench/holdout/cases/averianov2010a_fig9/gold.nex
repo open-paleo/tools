@@ -1,0 +1,28 @@
+#NEXUS
+
+[ averianov2010a_fig9: Theropod summary ladder, fully resolved. Tetanurae, Coelurosauria and Maniraptora, joined by arrows to nodes, are kept as internal labels. 15 tips, fully resolved; 3 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=15;
+    TAXLABELS
+        Prosauropoda
+        Coelophysidae
+        Zupayasaurus
+        '“Dilophosauridae”'
+        'Ceratosauridae + Abelisauridae'
+        Piatnitzkysaurus
+        Condorraptor
+        Spinosauroidea
+        Monolophosaurus
+        Allosauroidea
+        Tyrannosauroidea
+        'Coeluridae + Comspognathidae'
+        Ornithomimidae
+        Ornitholestes
+        Paraves
+    ;
+END;
+
+BEGIN TREES;
+    TREE averianov2010a_fig9 = [&R] (Prosauropoda,(Coelophysidae,(Zupayasaurus,('“Dilophosauridae”',('Ceratosauridae + Abelisauridae',((Piatnitzkysaurus,Condorraptor),(Spinosauroidea,(Monolophosaurus,(Allosauroidea,(Tyrannosauroidea,('Coeluridae + Comspognathidae',(Ornithomimidae,(Ornitholestes,Paraves)Maniraptora)))Coelurosauria))))Tetanurae)))));
+END;

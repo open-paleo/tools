@@ -1,0 +1,32 @@
+#NEXUS
+
+[ dallavecchia2006a_fig20: Hadrosaurid slanted cladogram, read from a 3x crop. Each dot sits on the stem just below the node it names; Hadrosauridae, Euhadrosauria, Hadrosaurinae and Lambeosaurinae are kept on those nodes. Two three-way nodes: Naashoibitosaurus, Saurolophus and '“Kritosaurus” australis'; and Corythosaurus, Hypacrosaurus and Lambeosaurus (Hypacrosaurus' short line and Lambeosaurus' line meet Corythosaurus' line at one point). 19 tips, 2 polytomies (3, 3 children); 4 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=19;
+    TAXLABELS
+        Iguanodon
+        Probactrosaurus
+        Protohadros
+        Eolambia
+        Telmatosaurus
+        Lophorhothon
+        Naashoibitosaurus
+        Saurolophus
+        '“Kritosaurus” australis'
+        Prosaurolophus
+        Gryposaurus
+        Edmontosaurus
+        Maiasaura
+        Brachylophosaurus
+        Corythosaurus
+        Hypacrosaurus
+        Lambeosaurus
+        Parasaurolophus
+        Tsintaosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE dallavecchia2006a_fig20 = [&R] (Iguanodon,(Probactrosaurus,((Protohadros,Eolambia),(Telmatosaurus,((Lophorhothon,((Naashoibitosaurus,Saurolophus,'“Kritosaurus” australis'),(Prosaurolophus,(Gryposaurus,(Edmontosaurus,(Maiasaura,Brachylophosaurus))))))Hadrosaurinae,(((Corythosaurus,Hypacrosaurus,Lambeosaurus),Parasaurolophus),Tsintaosaurus)Lambeosaurinae)Euhadrosauria)Hadrosauridae)));
+END;

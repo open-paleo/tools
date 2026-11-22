@@ -1,0 +1,29 @@
+#NEXUS
+
+[ wang2016b_fig4: Ceratosaur strict consensus, panel A, root at the bottom. The coloured node circles are keyed by colour in the caption (Abelisauroidea red, Noasauridae yellow, Elaphrosaurinae purple, Noasaurinae green, Abelisauridae orange, Ceratosauridae blue), not printed names, so no internal labels are encoded. Two polytomies: five noasaurines leave one horizontal line (stem entering at Noasaurus), and Ceratosaurus, Genyodectes and MB R 3621 leave another. 16 tips, 2 polytomies (5, 3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=16;
+    TAXLABELS
+        '‘Dilophosaurus’ sinensis'
+        Spinostropheus
+        Elaphrosaurus
+        Limusaurus
+        Deltadromeus
+        Laevisuchus
+        Genusaurus
+        Noasaurus
+        Velocisaurus
+        Masiakasaurus
+        Berberosaurus
+        Eoabelisaurus
+        Ceratosaurus
+        Genyodectes
+        MB_R_3621
+        'unlabelled collapsed clade (placeholder)'
+    ;
+END;
+
+BEGIN TREES;
+    TREE wang2016b_fig4 = [&R] ('‘Dilophosaurus’ sinensis',((Spinostropheus,((Elaphrosaurus,Limusaurus),(Deltadromeus,(Laevisuchus,Genusaurus,Noasaurus,Velocisaurus,Masiakasaurus)))),(Berberosaurus,((Eoabelisaurus,(Ceratosaurus,Genyodectes,MB_R_3621)),'unlabelled collapsed clade (placeholder)'))));
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/turner2012a_fig70.png",
+  "names": "names.txt",
+  "source": "Turner et al. 2012, Bulletin of the American Museum of Natural History 371, Fig. 70: reduced strict consensus of paravians with Bremer support below the nodes; rectangular, root left, thin lines. Image: census figure (1426x2226 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "printed tip names as printed ('Concornis lacutris', 'Apsaravis ukhaana', 'Anas platyrhychus', 'Crypturellus undullatus'), including the specimen tips 'IGM 100/1323', 'IGM 100/1126' and 'IGM 100/44' and the genus-only tips Epidexipteryx, Lithornis, Crax and Unenlagia",
+  "gold": "gold.nex",
+  "gold_note": "Paravian reduced consensus, read by eye. Two large fans: the ornithurine node (seven tips and the neognath clade) and the dromaeosaurid node (nine tips, the Austroraptor-Unenlagia pair and the eudromaeosaurs, entered at Buitreraptor's height). Further multi-way nodes: four dromaeosaurines and four velociraptorines. No clade names are printed; the numbers are Bremer values. 66 tips, 4 polytomies (8, 11, 4, 4 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

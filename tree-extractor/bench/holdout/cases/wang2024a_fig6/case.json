@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/wang2024a_fig6.png",
+  "names": "names.txt",
+  "source": "Wang et al. 2024, Cladistics 41, Fig. 6 (left tree): paravian strict consensus with Urbacodon norelli (red star); rectangular, root left, support values at nodes, Roman numerals I-XVII beside the stems keyed to clade names in a printed legend. The small tree at the right (with its red part) is excluded. Image: census figure (1405x2067 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1068,
+    "y1": 2067
+  },
+  "region_note": "the left tree; the small unlabelled tree at the right is a second version",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the 75 printed tip names as printed, including specimen tips ('LH PV39', 'MPC-D100/1126+D100/3500', the Archaeopteryx specimens such as 'Eicstäatt Archaeopteryx' and 'ArchaeopteryxI'), 'Neuquenraptor Unenlagia' as one tip, and 'Buitreraptor gonzalozorum', 'Vorona berivotrensis', 'Liaoningornis longidigitris' as printed",
+  "gold": "gold.nex",
+  "gold_note": "Paravian consensus, read from crops. The Roman numerals I-XVII are keys to a legend printed in the figure (I Paraves ... XVII Galliformes), not names on the tree, so, as with caption keys, they are not encoded. Multi-way nodes: Anchiornithinae, the Archaeopteryx specimen node and its three-specimen node, a four-way troodontid node (Almas, Papiliovenator, the Philovenator clade and the rest), the first two microraptorine nodes, Euenantiornithes, the Songlingornis-Yixianornis-Yanornis node, Ornithurae (XIV, four-way) and Aves (XV). 75 tips, 10 polytomies (4, 3, 3, 3, 3, 3, 3, 4, 4, 3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

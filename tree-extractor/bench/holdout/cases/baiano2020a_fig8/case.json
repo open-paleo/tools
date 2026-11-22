@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/baiano2020a_fig8.png",
+  "names": "names.txt",
+  "source": "Baiano et al. 2020, Cretaceous Research 110, Fig. 8: time-calibrated noasaurid relationships with Huinculsaurus (red); vertical, root at the bottom, thin lines, tip dots at first appearance, tip names written upwards, a Jurassic-Cretaceous stage chart at the left. Image: census figure (1033x1349 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Noasaurid time tree, root at the bottom. One six-way node: Genusaurus, Afromimus, Velocisaurus, Masiakasaurus, Noasaurus and Laevisuchus leave one horizontal line. No clade names are printed. 11 tips, 1 polytomies (6 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

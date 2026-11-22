@@ -1,0 +1,79 @@
+#NEXUS
+
+[ turner2012a_fig70: Paravian reduced consensus, read by eye. Two large fans: the ornithurine node (seven tips and the neognath clade) and the dromaeosaurid node (nine tips, the Austroraptor-Unenlagia pair and the eudromaeosaurs, entered at Buitreraptor's height). Further multi-way nodes: four dromaeosaurines and four velociraptorines. No clade names are printed; the numbers are Bremer values. 66 tips, 4 polytomies (8, 11, 4, 4 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=66;
+    TAXLABELS
+        Epidexipteryx
+        Archaeopteryx_lithographica
+        Sapeornis_chaoyangensis
+        Jeholornis_prima
+        Jixiangornis_orientalis
+        Confuciusornis_sanctus
+        Liaoningornis_longidigitus
+        Vorona_berivotraensis
+        Gobipteryx_minuta
+        Pengornis_houi
+        Neuquenornis_volans
+        Concornis_lacutris
+        Cathayornis_yandica
+        Patagopteryx_deferrariisi
+        Hongshanornis_longicresta
+        Yixianornis_grabaui
+        Songlingornis_linghensis
+        Yanornis_martini
+        Apsaravis_ukhaana
+        Lithornis
+        Crypturellus_undullatus
+        Limenavis_patagonica
+        Iaceornis_marshi
+        Ichthyornis_dispar
+        Baptornis_advenus
+        Hesperornis_regalis
+        Chauna_torquata
+        Anas_platyrhychus
+        Crax
+        Gallus_gallus
+        Xiaotingia_zhengi
+        Anchiornis_huxleyi
+        'IGM 100/1323'
+        'IGM 100/1126'
+        Jingfengopteryx_elegans
+        Mei_long
+        Sinovenator_changii
+        Xixiasaurus_henanensis
+        'IGM 100/44'
+        Byronosaurus_jaffei
+        Sinornithoides_youngi
+        Troodon_formosus
+        Zanabazar_junior
+        Saurornithoides_mongoliensis
+        Mahakala_omnogovae
+        Rahonavis_ostromi
+        Hesperonychus_elizabethae
+        Graciliraptor_lujiatunensis
+        Microraptor_zhaoianus
+        Sinornithosaurus_millenii
+        Tianyuraptor_ostromi
+        Buitreraptor_gonzalezorum
+        Shanag_ashile
+        Austroraptor_cabazai
+        Unenlagia
+        Achillobator_giganticus
+        Utahraptor_ostrommaysorum
+        Atrociraptor_marshalli
+        Dromaeosaurus_albertensis
+        Bambiraptor_feinbergorum
+        Tsaagan_mangas
+        Saurornitholestes_langstoni
+        Adasaurus_mongoliensis
+        Balaur_bondoc
+        Velociraptor_mongoliensis
+        Deinonychus_antirrhopus
+    ;
+END;
+
+BEGIN TREES;
+    TREE turner2012a_fig70 = [&R] (Epidexipteryx,((Archaeopteryx_lithographica,(Sapeornis_chaoyangensis,(Jeholornis_prima,(Jixiangornis_orientalis,(Confuciusornis_sanctus,(((Liaoningornis_longidigitus,Vorona_berivotraensis),(Gobipteryx_minuta,(Pengornis_houi,(Neuquenornis_volans,(Concornis_lacutris,Cathayornis_yandica))))),(Patagopteryx_deferrariisi,(Hongshanornis_longicresta,(Yixianornis_grabaui,(Songlingornis_linghensis,(Yanornis_martini,(Apsaravis_ukhaana,(Lithornis,Crypturellus_undullatus,Limenavis_patagonica,Iaceornis_marshi,Ichthyornis_dispar,Baptornis_advenus,Hesperornis_regalis,((Chauna_torquata,Anas_platyrhychus),(Crax,Gallus_gallus))))))))))))))),(((Xiaotingia_zhengi,Anchiornis_huxleyi),(('IGM 100/1323',('IGM 100/1126',Jingfengopteryx_elegans)),((Mei_long,(Sinovenator_changii,Xixiasaurus_henanensis)),('IGM 100/44',(Byronosaurus_jaffei,(Sinornithoides_youngi,(Troodon_formosus,(Zanabazar_junior,Saurornithoides_mongoliensis)))))))),(Mahakala_omnogovae,Rahonavis_ostromi,Hesperonychus_elizabethae,Graciliraptor_lujiatunensis,Microraptor_zhaoianus,Sinornithosaurus_millenii,Tianyuraptor_ostromi,Buitreraptor_gonzalezorum,Shanag_ashile,(Austroraptor_cabazai,Unenlagia),((Achillobator_giganticus,Utahraptor_ostrommaysorum,Atrociraptor_marshalli,Dromaeosaurus_albertensis),(Bambiraptor_feinbergorum,(Tsaagan_mangas,(Saurornitholestes_langstoni,(Adasaurus_mongoliensis,Balaur_bondoc,Velociraptor_mongoliensis,Deinonychus_antirrhopus)))))))));
+END;

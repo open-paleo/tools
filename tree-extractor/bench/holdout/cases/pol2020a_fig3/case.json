@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/pol2020a_fig3.png",
+  "names": "names.txt",
+  "source": "Pol et al. 2020, Proceedings of the Royal Society B: Biological Sciences 287, Fig. 3a: calibrated phylogeny of Sauropodomorpha (Late Triassic-Late Jurassic) with Bagualia (bold); rectangular, root left, thin closely spaced lines, coloured range bars by continent, a stage chart above, a shaded time slice, two node dots with names, two grey taxa with dashed uncertain-age arrows. Panels b-d below (phylodiversity, fauna, body mass) are excluded. Image: census figure (1167x1594 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1167,
+    "y1": 938
+  },
+  "region_note": "panel a, the tree with its stage chart; the panels below are not trees",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only), including the specimen tip 'NHMUK PV R36834' and the summary tips Diplodocoid and Macronaria",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph time tree, read by eye from 3-6x crops (the lines are 2-3 px apart, too close for the line reader). The grey NHMUK PV R36834 and Barapasaurus are attached by short black stems to a node inside Eusauropoda; their dashed arrows show age uncertainty, not branches. Gravisauria and Eusauropoda, printed beside node dots, are kept as internal labels. Multi-way nodes: the Glacialisaurus-Coloradisaurus-Lufengosaurus node (entered at Coloradisaurus' height), the Massospondylus node, a six-way node (Melanorosaurus, Sefapanosaurus, Leonerasaurus, Aardonyx, the Lessemsaurus clade and the rest), the Lessemsaurus node, the Amygdalodon-Gongxianosaurus node, the NHMUK-Barapasaurus node and the Cetiosaurus node. Replacement for müller2020b_fig1 (seed 20261126). 46 tips, 7 polytomies (3, 3, 6, 3, 3, 3, 3 children); 2 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

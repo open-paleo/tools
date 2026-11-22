@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/motta2025a_fig5.png",
+  "names": "names.txt",
+  "source": "Motta et al. 2025, Ameghiniana 62, Fig. 5 (1), 'Consensus EW': reduced consensus with Imperobator antarcticus (green box); rectangular, root left, thick lines coloured by group, clade abbreviations beside nodes. Trees 2-4 (other weightings and pruned consensuses) are excluded. Image: census figure (2571x3478 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1286,
+    "y1": 1739
+  },
+  "region_note": "tree 1 (Consensus EW, top left); trees 2-4 are other analyses of the same taxa",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of tree 1, including the higher-taxon tips (Scansoriopterygidae, Oviraptorosauria, Troodontidae, Microraptora, Eudromaeosauridae, Anchiornithidae, Enantiornithes, Euornithes), the eight Archaeopteryx specimens and 'Neuquenraptor - Unenlagia' as one tip",
+  "gold": "gold.nex",
+  "gold_note": "Paravian reduced consensus, tree 1. The Eumaniraptora node is one continuous vertical (checked at 1.7x; the blue upper part and the black lower part share it), so it is a 14-way polytomy; the unenlagiid node is 7-way. The node abbreviations PA, EUM, DR and UNEN are printed on the tree and expanded in the caption (Paraves, Eumaniraptora, Dromaeosauridae, Unenlagiidae); they are kept as printed internal labels, unlike numeral or letter keys. 29 tips, 2 polytomies (14, 7 children); 4 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

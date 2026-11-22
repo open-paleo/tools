@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/hendrickx2024a_fig16.png",
+  "names": "names.txt",
+  "source": "Hendrickx et al. 2024, Zoological Journal of the Linnean Society 202, Fig. 16B: time-calibrated ceratosaur tree; rectangular, root left, coloured range bars by continent, body-size circles, node dots and circles with clade names, continent maps and silhouettes, a stage chart at the top. Panel A (another ceratosaur tree) is excluded. Image: census figure (3894x5000 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 2960,
+    "x1": 3894,
+    "y1": 5000
+  },
+  "region_note": "panel B (the lower tree); panel A above repeats most taxa under another analysis, and the stage chart at the top serves both",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel B (genus only mostly), including 'Non-avian tetanurans' and the specimen tip 'MNN Tig6'",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur time tree, panel B, read from crops. Ten clade names printed at node dots or circles, or along a stem (Abelisauridae), are kept as internal labels. Polytomies: Noasauridae (MNN Tig6, Elaphrosaurinae, Noasaurinae), Noasaurinae (four), Majungasaurinae (five, stem entering at Rahiolisaurus' height) and Carnotaurinae (five, stem at Ekrixinatosaurus' height), each read as one node, as in earlier batches. Replacement for yao2026a_fig9 (seed 20261125). 27 tips, 4 polytomies (3, 4, 5, 5 children); 9 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

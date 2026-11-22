@@ -1,0 +1,29 @@
+#NEXUS
+
+[ tschopp2015a_fig119: Redrawn Upchurch et al. (2004b) tree. Slanted: each tip line runs down-left to the backbone, which is the CMNH 3378 line extended; the junctions were read from a 2x crop by following each line's slope. Polytomies: NSMT-PV 20375, YPM 1860 and YPM 1840 meet the AMNH 460 line at one point (four-way with the AMNH 460-YPM 1861 pair), and the UWGM 15556-'Elosaurus' pair and YPM 1980 meet it at another (three-way). The red outline marks a taxon group and carries no name. 16 tips, matching the printed 'T: 16'. 16 tips, 2 polytomies (3, 4 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=16;
+    TAXLABELS
+        Omeisaurus
+        Camarasaurus
+        Limaysaurus
+        Dicraeosaurus
+        Diplodocus
+        FMNH_P25112
+        UWGM_15556
+        '"Elosaurus"'
+        YPM_1980
+        NSMT-PV_20375
+        YPM_1860
+        YPM_1840
+        AMNH_460
+        YPM_1861
+        CMNH_3018
+        CMNH_3378
+    ;
+END;
+
+BEGIN TREES;
+    TREE tschopp2015a_fig119 = [&R] (Omeisaurus,(Camarasaurus,(Limaysaurus,(Dicraeosaurus,(Diplodocus,((FMNH_P25112,((UWGM_15556,'"Elosaurus"'),YPM_1980,(NSMT-PV_20375,YPM_1860,YPM_1840,(AMNH_460,YPM_1861)))),(CMNH_3018,CMNH_3378)))))));
+END;

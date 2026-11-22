@@ -1,0 +1,96 @@
+#NEXUS
+
+[ müller2018b_fig40: Dinosauromorph cladogram, read from the full image and crops. Ten clade names are kept as internal labels: Dinosauromorpha, Dinosauriformes, Dinosauria and Saurischia (arrows to the stems below their nodes), and Lagerpetidae, Silesauridae, Ornithischia, Herrerasauridae, Theropoda and Sauropodomorpha (coloured bands, each spanning one clade). Polytomies: five silesaurids, five theropods (stem entering at Panguraptor's height), a four-way saurischian node (Agnosphitys, Eodromaeus, Daemonosaurus and the rest) and a fifteen-way sauropodomorph node. 83 tips, 4 polytomies (5, 4, 5, 15 children); 10 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=83;
+    TAXLABELS
+        Euparkeria
+        Postosuchus
+        Ixalerpeton
+        Lagerpeton
+        Dromomeron_romeri
+        Dromomeron_gigas
+        Dromomeron_gregorii
+        Marasuchus
+        Saltopus
+        'Lewisuchus/Pseudolagosuchus'
+        Eucoelophysis
+        Asilisaurus
+        Ignotosaurus
+        Sacisaurus
+        Diodorus
+        Lutungutali
+        Silesaurus
+        Pisanosaurus
+        Heterodontosaurus
+        Manidens
+        Tianyulong
+        Abrictosaurus
+        Fruitadens
+        Eocursor
+        Lesothosaurus
+        Agilisaurus
+        Jeholosaurus
+        Hexinlusaurus
+        Emausaurus
+        Scelidosaurus
+        Scutellosaurus
+        Laguintasaura
+        Staurikosaurus
+        Sanjuansaurus
+        Herrerasaurus
+        Agnosphitys
+        Eodromaeus
+        Daemonosaurus
+        Guaibasaurus
+        Tawa
+        Chindesaurus
+        Dracovenator
+        Zupaysaurus
+        Panguraptor
+        Syntarsus_kayentakatae
+        Dracotaptor
+        Procompsognathus
+        Coelophysis
+        Scarosaurus
+        Liliensternus
+        Lophostropheus
+        Dilophosaurus
+        Sinosaurus
+        Crylophosaurus
+        Allosaurus
+        Piatnitzkysaurus
+        Elaphyosaurus
+        Eoabelisaurus
+        Ceratosaurus
+        Eoraptor
+        Buriolestes
+        Panphagia
+        Pampadromaeus
+        Saturnalia
+        Pantydraco
+        Thecodontosaurus
+        Efraasia
+        Gongxianosaurus
+        Pulanesaura
+        Lufengosaurus
+        Coloradisaurus
+        Riojasaurus
+        Yunnanosaurus
+        Aardonyx
+        Unaysaurus
+        Plateosaurus
+        Antetonitrus
+        Leyesaurus
+        Massospondylus_kaalae
+        Massospondylus_carinatus
+        Nyasaurus
+        Vulcanodon
+        Tazoudasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'müller2018b_fig40' = [&R] (Euparkeria,(Postosuchus,(((Ixalerpeton,Lagerpeton),(Dromomeron_romeri,(Dromomeron_gigas,Dromomeron_gregorii)))Lagerpetidae,((Marasuchus,Saltopus),(('Lewisuchus/Pseudolagosuchus',(Eucoelophysis,(Asilisaurus,(Ignotosaurus,Sacisaurus,Diodorus,Lutungutali,Silesaurus))))Silesauridae,((Pisanosaurus,(((Heterodontosaurus,Manidens),(Tianyulong,(Abrictosaurus,Fruitadens))),(Eocursor,((Lesothosaurus,(Agilisaurus,(Jeholosaurus,Hexinlusaurus))),((Emausaurus,Scelidosaurus),(Scutellosaurus,Laguintasaura))))))Ornithischia,((Staurikosaurus,(Sanjuansaurus,Herrerasaurus))Herrerasauridae,(Agnosphitys,Eodromaeus,Daemonosaurus,((Guaibasaurus,(Tawa,(Chindesaurus,Dracovenator,Zupaysaurus,Panguraptor,((Syntarsus_kayentakatae,Dracotaptor),((Procompsognathus,Coelophysis),(Scarosaurus,((Liliensternus,Lophostropheus),(Dilophosaurus,(Sinosaurus,(Crylophosaurus,((Allosaurus,Piatnitzkysaurus),(Elaphyosaurus,(Eoabelisaurus,Ceratosaurus)))))))))))))Theropoda,((Eoraptor,(Buriolestes,(Panphagia,(Pampadromaeus,Saturnalia)))),(Pantydraco,(Thecodontosaurus,(Efraasia,(Gongxianosaurus,Pulanesaura,Lufengosaurus,Coloradisaurus,Riojasaurus,Yunnanosaurus,Aardonyx,Unaysaurus,Plateosaurus,Antetonitrus,Leyesaurus,Massospondylus_kaalae,Massospondylus_carinatus,Nyasaurus,(Vulcanodon,Tazoudasaurus))))))Sauropodomorpha)))Saurischia)Dinosauria))Dinosauriformes)Dinosauromorpha));
+END;

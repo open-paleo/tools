@@ -1,0 +1,88 @@
+#NEXUS
+
+[ wang2024a_fig6: Paravian consensus, read from crops. The Roman numerals I-XVII are keys to a legend printed in the figure (I Paraves ... XVII Galliformes), not names on the tree, so, as with caption keys, they are not encoded. Multi-way nodes: Anchiornithinae, the Archaeopteryx specimen node and its three-specimen node, a four-way troodontid node (Almas, Papiliovenator, the Philovenator clade and the rest), the first two microraptorine nodes, Euenantiornithes, the Songlingornis-Yixianornis-Yanornis node, Ornithurae (XIV, four-way) and Aves (XV). 75 tips, 10 polytomies (4, 3, 3, 3, 3, 3, 3, 4, 4, 3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=75;
+    TAXLABELS
+        Sinovenator_changii
+        Mei_long
+        LH_PV39
+        Sinornithoides_youngi
+        'MPC-D100/1126+D100/3500'
+        Almas_ukhaa
+        Papiliovenator_neimengguensis
+        Philovenator_curriei
+        Talos_sampsoni
+        Gobivenator_mongoliensis
+        Linhevenator_tani
+        Troodon_formosus
+        Zanabazar_junior
+        Urbacodon_itemirensis
+        Urbacodon_norelli
+        Mahakala_omnogovae
+        Rahonavis_ostromi
+        Buitreraptor_gonzalozorum
+        Neuquenraptor_Unenlagia
+        Austroraptor
+        Shanag_ashile
+        Zhenyuanlong_suni
+        Tianyuraptor_ostromi
+        Changyuraptor_yangi
+        Sinornithosaurus_millenii
+        Hesperonychus_elizabethae
+        Microraptor_zhaoianus
+        Saurornitholestes_langstoni
+        Bambiraptor_feinbergorum
+        Dromaeosaurus_albertensis
+        Achillobator_giganticus
+        Atrociraptor_marshalli
+        Linheraptor_exquisitus
+        Tsaagan_mangas
+        Deinonychus_antirrhopus
+        Velociraptor_mongoliensis
+        Adasaurus_mongoliensis
+        Xiaotingia_zhengi
+        Aurornis_xui
+        Eosinopteryx_brevipenna
+        Anchiornis_huxleyi
+        'Eicstäatt Archaeopteryx'
+        ArchaeopteryxI
+        Berlin_Archaeopteryx
+        London_Archaeopteryx
+        11th_Archaeopteryx
+        Munich_Archaeopteryx
+        Solnhofen_Archaeopteryx
+        Sapeornis_chaoyangensis
+        Jeholornis_prima
+        Jixiangornis_orientalis
+        Confuciusornis_sanctus
+        Liaoningornis_longidigitris
+        Vorona_berivotrensis
+        Pengornis_houi
+        Gobipteryx_minuta
+        Neuquenornis_volans
+        Concornis_lacustris
+        Cathayornis_yandica
+        Patagopteryx_deferrariisi
+        Hongshanornis_longicresta
+        Songlingornis_linghensis
+        Yixianornis_grabaui
+        Yanornis_martini
+        Apsaravis_ukhaana
+        Iaceornis_marshii
+        Ichthyornis
+        Baptornis_advenus
+        Hesperornis
+        Crypturellus_undulatus
+        Lithornis
+        Chauna_torquata
+        Anas_platyrhynchus
+        Crax_pauxi
+        Gallus_gallus
+    ;
+END;
+
+BEGIN TREES;
+    TREE wang2024a_fig6 = [&R] ((((Sinovenator_changii,Mei_long),((LH_PV39,Sinornithoides_youngi),('MPC-D100/1126+D100/3500',(Almas_ukhaa,Papiliovenator_neimengguensis,(Philovenator_curriei,(Talos_sampsoni,Gobivenator_mongoliensis)),((Linhevenator_tani,Troodon_formosus),(Zanabazar_junior,(Urbacodon_itemirensis,Urbacodon_norelli))))))),(Mahakala_omnogovae,((Rahonavis_ostromi,(Buitreraptor_gonzalozorum,(Neuquenraptor_Unenlagia,Austroraptor))),(Shanag_ashile,((Zhenyuanlong_suni,Tianyuraptor_ostromi,(Changyuraptor_yangi,Sinornithosaurus_millenii,(Hesperonychus_elizabethae,Microraptor_zhaoianus))),(Saurornitholestes_langstoni,(Bambiraptor_feinbergorum,((Dromaeosaurus_albertensis,(Achillobator_giganticus,Atrociraptor_marshalli)),((Linheraptor_exquisitus,Tsaagan_mangas),(Deinonychus_antirrhopus,(Velociraptor_mongoliensis,Adasaurus_mongoliensis))))))))))),((Xiaotingia_zhengi,(Aurornis_xui,Eosinopteryx_brevipenna,Anchiornis_huxleyi)),(('Eicstäatt Archaeopteryx',(ArchaeopteryxI,Berlin_Archaeopteryx),(London_Archaeopteryx,11th_Archaeopteryx,Munich_Archaeopteryx)),(Solnhofen_Archaeopteryx,(Sapeornis_chaoyangensis,(Jeholornis_prima,(Jixiangornis_orientalis,(Confuciusornis_sanctus,(((Liaoningornis_longidigitris,Vorona_berivotrensis),(Pengornis_houi,Gobipteryx_minuta,(Neuquenornis_volans,(Concornis_lacustris,Cathayornis_yandica)))),(Patagopteryx_deferrariisi,(Hongshanornis_longicresta,(Songlingornis_linghensis,Yixianornis_grabaui,Yanornis_martini,(Apsaravis_ukhaana,(Iaceornis_marshii,Ichthyornis,(Baptornis_advenus,Hesperornis),(Crypturellus_undulatus,Lithornis,((Chauna_torquata,Anas_platyrhynchus),(Crax_pauxi,Gallus_gallus)))))))))))))))));
+END;

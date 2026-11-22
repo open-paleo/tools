@@ -1,0 +1,42 @@
+#NEXUS
+
+[ motta2025a_fig5: Paravian reduced consensus, tree 1. The Eumaniraptora node is one continuous vertical (checked at 1.7x; the blue upper part and the black lower part share it), so it is a 14-way polytomy; the unenlagiid node is 7-way. The node abbreviations PA, EUM, DR and UNEN are printed on the tree and expanded in the caption (Paraves, Eumaniraptora, Dromaeosauridae, Unenlagiidae); they are kept as printed internal labels, unlike numeral or letter keys. 29 tips, 2 polytomies (14, 7 children); 4 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Scansoriopterygidae
+        Oviraptorosauria
+        Troodontidae
+        Archaeopteryx_London
+        Archaeopteryx_Berlin
+        Archaeopteryx_Thermopolis
+        Archaeopteryx_Munich
+        Archaeopteryx_Harlem
+        Archaeopteryx_11th
+        Archaeopteryx_Solnhofen
+        Archaeopteryx_Eichstatt
+        Microraptora
+        Eudromaeosauridae
+        Mahakala_omnogovae
+        Halszkaraptor_escuilliei
+        Rahonavis_ostromi
+        Buitreraptor_gonzalezorum
+        Austroraptor_cabazai
+        Neuquenraptor_-_Unenlagia
+        Overoraptor_chimentoi
+        Imperobator_antarcticus
+        Pamparaptor_micros
+        Anchiornithidae
+        Sapeornis_chaoyangensis
+        Jeholornis_prima
+        Jixiangornis_orientalis
+        Confuciusornis_sanctus
+        Enantiornithes
+        Euornithes
+    ;
+END;
+
+BEGIN TREES;
+    TREE motta2025a_fig5 = [&R] ((Scansoriopterygidae,Oviraptorosauria),(Troodontidae,(Archaeopteryx_London,Archaeopteryx_Berlin,Archaeopteryx_Thermopolis,Archaeopteryx_Munich,Archaeopteryx_Harlem,Archaeopteryx_11th,Archaeopteryx_Solnhofen,Archaeopteryx_Eichstatt,(Microraptora,Eudromaeosauridae)DR,Mahakala_omnogovae,Halszkaraptor_escuilliei,(Rahonavis_ostromi,Buitreraptor_gonzalezorum,Austroraptor_cabazai,Neuquenraptor_-_Unenlagia,Overoraptor_chimentoi,Imperobator_antarcticus,Pamparaptor_micros)UNEN,Anchiornithidae,(Sapeornis_chaoyangensis,(Jeholornis_prima,(Jixiangornis_orientalis,(Confuciusornis_sanctus,(Enantiornithes,Euornithes))))))EUM)PA);
+END;

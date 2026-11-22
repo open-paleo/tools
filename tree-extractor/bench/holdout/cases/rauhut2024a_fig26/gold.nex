@@ -1,0 +1,74 @@
+#NEXUS
+
+[ rauhut2024a_fig26: Theropod summary tree, read by eye. Fourteen clade names kept as internal labels: Tetanurae and Carnosauria (printed beside their nodes) and twelve box names, each box spanning one clade (Ceratosauria, Coelurosauria, Tyrannosauroidea, Megaraptora, Megalosauroidea, Piatnitzkysauridae, Megalosauridae, Spinosauridae, Allosauroidea, Metriacanthosauridae, Allosauridae, Carcharodontosauria). Polytomies: Australovenator-Megaraptor-Murusraptor, Metriacanthosaurus-Siamotyrannus-Sinraptor, and a four-way spinosaurid node (Irritator, Vallibonavenatrix and two pairs). 61 tips, 3 polytomies (3, 4, 3 children); 14 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=61;
+    TAXLABELS
+        Cryolophosaurus
+        '"Dilophosaurus" sinensis'
+        NOASAURIDAE
+        CERATOSAURIDAE
+        ABELISAURIDAE
+        '"Szechuanosaurus" zigongensis'
+        Shaochilong
+        Orkoraptor
+        Aerosteon
+        Fukuiraptor
+        Australovenator
+        Megaraptor
+        Murusraptor
+        TYRANNOSAURIDAE
+        MANIRAPTORIFORMES
+        Yunyangosaurus
+        Marshosaurus
+        Piatnitzkysaurus
+        Condorraptor
+        Xuanhanosaurus
+        Lourinhanosaurus
+        Afrovenator
+        Megalosaurus
+        Dubreuillosaurus
+        Duriavenator
+        Eustreptospondylus
+        Streptospondylus
+        Torvosaurus
+        Wiehenvenator
+        Monolophosaurus
+        Leshansaurus
+        Magnosaurus
+        Irritator
+        Vallibonavenatrix
+        Baryonyx
+        Suchomimus
+        Ichthyovenator
+        Spinosaurus
+        Shidaisaurus
+        Y._hepingensis
+        Y._shangyouensis
+        Alpkarakush
+        Metriacanthosaurus
+        Siamotyrannus
+        Sinraptor
+        Allosaurus
+        Asfaltovenator
+        Chilantaisaurus
+        Neovenator
+        Lusovenator
+        Concavenator
+        Poekilopleuron
+        Siamraptor
+        Siats
+        Acrocanthosaurus
+        Pivetausaurus
+        Carcharodontosaurus
+        Meraxes
+        Tyrannotitan
+        Giganotosaurus
+        Mapusaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE rauhut2024a_fig26 = [&R] (Cryolophosaurus,('"Dilophosaurus" sinensis',((NOASAURIDAE,(CERATOSAURIDAE,ABELISAURIDAE))Ceratosauria,('"Szechuanosaurus" zigongensis',(((Shaochilong,((Orkoraptor,((Aerosteon,Fukuiraptor),(Australovenator,Megaraptor,Murusraptor)))Megaraptora,TYRANNOSAURIDAE))Tyrannosauroidea,MANIRAPTORIFORMES)Coelurosauria,(((Yunyangosaurus,(Marshosaurus,(Piatnitzkysaurus,(Condorraptor,Xuanhanosaurus))))Piatnitzkysauridae,((Lourinhanosaurus,((Afrovenator,Megalosaurus),((Dubreuillosaurus,Duriavenator),((Eustreptospondylus,Streptospondylus),(Torvosaurus,Wiehenvenator)))))Megalosauridae,(Monolophosaurus,((Leshansaurus,Magnosaurus),(Irritator,Vallibonavenatrix,(Baryonyx,Suchomimus),(Ichthyovenator,Spinosaurus))))Spinosauridae))Megalosauroidea,((Shidaisaurus,((Y._hepingensis,Y._shangyouensis),(Alpkarakush,(Metriacanthosaurus,Siamotyrannus,Sinraptor))))Metriacanthosauridae,((Allosaurus,Asfaltovenator)Allosauridae,((Chilantaisaurus,Neovenator),(Lusovenator,((Concavenator,Poekilopleuron),(Siamraptor,(Siats,(Acrocanthosaurus,(Pivetausaurus,((Carcharodontosaurus,Meraxes),(Tyrannotitan,(Giganotosaurus,Mapusaurus))))))))))Carcharodontosauria))Allosauroidea)Carnosauria))Tetanurae)));
+END;

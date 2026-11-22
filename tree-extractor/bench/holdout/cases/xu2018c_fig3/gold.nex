@@ -1,0 +1,32 @@
+#NEXUS
+
+[ xu2018c_fig3: Alvarezsaurian time tree. Alvarezsauria (leader line to the stem below its node), Alvarezsauridae and Parvicursorinae (leader lines to open node circles) are kept as internal labels. Two multi-way nodes: Kol, Albertonykus, the Xixianykus-Albinykus pair and Parvicursorinae; and the five parvicursorines, stem entering at Mononykus' height. 19 tips, 2 polytomies (4, 5 children); 3 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=19;
+    TAXLABELS
+        Tyrannosauroidea
+        Aorun
+        Haplocheirus
+        Xiyunykus
+        Tugulusaurus
+        Bannykus
+        Bonapartenykus
+        Patagonykus
+        Achillesaurus
+        Alvarezsaurus
+        Kol
+        Albertonykus
+        Xixianykus
+        Albinykus
+        Shuvuuia
+        Parvicursor
+        Mononykus
+        Linhenykus
+        Ceratonykus
+    ;
+END;
+
+BEGIN TREES;
+    TREE xu2018c_fig3 = [&R] (Tyrannosauroidea,(Aorun,(Haplocheirus,((Xiyunykus,Tugulusaurus),(Bannykus,(Bonapartenykus,(Patagonykus,(Achillesaurus,(Alvarezsaurus,(Kol,Albertonykus,(Xixianykus,Albinykus),(Shuvuuia,Parvicursor,Mononykus,Linhenykus,Ceratonykus)Parvicursorinae))Alvarezsauridae)))))))Alvarezsauria);
+END;

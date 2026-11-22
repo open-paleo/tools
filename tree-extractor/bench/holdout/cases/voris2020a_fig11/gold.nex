@@ -1,0 +1,31 @@
+#NEXUS
+
+[ voris2020a_fig11: Eutyrannosaur MPT. The numbered circles 1-6 are keys to the caption (1 Eutyrannosauria, 2 Tyrannosauridae, 3 Albertosaurinae, 4 Tyrannosaurinae, 5 Alioramini, 6 Daspletosaurini; some stem-based), not printed names, so no internal labels are encoded. One three-way node: Lythronax, Dynamoterror and Teratophoneus, stem entering at Dynamoterror's height. 18 tips, 1 polytomies (3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=18;
+    TAXLABELS
+        Dryptosaurus
+        Appalachiosaurus
+        Bistahieversor
+        Gorgosaurus
+        Albertosaurus
+        Qianzhousaurus
+        Alioramus_altai
+        Alioramus_remotus
+        Lythronax
+        Dynamoterror
+        Teratophoneus
+        Nanuqsaurus
+        Thanatotheristes
+        Daspletosaurus_torosus
+        Daspletosaurus_horneri
+        Zhuchengtyrannus
+        Tarbosaurus
+        Tyrannosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE voris2020a_fig11 = [&R] (Dryptosaurus,(Appalachiosaurus,(Bistahieversor,((Gorgosaurus,Albertosaurus),((Qianzhousaurus,(Alioramus_altai,Alioramus_remotus)),((Lythronax,Dynamoterror,Teratophoneus),(Nanuqsaurus,((Thanatotheristes,(Daspletosaurus_torosus,Daspletosaurus_horneri)),(Zhuchengtyrannus,(Tarbosaurus,Tyrannosaurus))))))))));
+END;

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/dallavecchia2006a_fig20.png",
+  "names": "names.txt",
+  "source": "Dalla Vecchia 2006, Natura Nascosta 32, Fig. 20, upper tree: hadrosauroid relationships with Telmatosaurus (bold); slanted (diagonal) cladogram, root at the bottom, tip names written upwards, node dots on the stems with clade names. The lower tree (Iguanodontia) is excluded. Image: census figure (490x682 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 490,
+    "y1": 361
+  },
+  "region_note": "the upper tree; the lower tree is an iguanodontian tree with different taxa",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only), with '“Kritosaurus” australis' in quotation marks as printed",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosaurid slanted cladogram, read from a 3x crop. Each dot sits on the stem just below the node it names; Hadrosauridae, Euhadrosauria, Hadrosaurinae and Lambeosaurinae are kept on those nodes. Two three-way nodes: Naashoibitosaurus, Saurolophus and '“Kritosaurus” australis'; and Corythosaurus, Hypacrosaurus and Lambeosaurus (Hypacrosaurus' short line and Lambeosaurus' line meet Corythosaurus' line at one point). 19 tips, 2 polytomies (3, 3 children); 4 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,31 @@
+#NEXUS
+
+[ dyer2023a_fig20: Pachycephalosaur strict consensus, panel A. The node circles '1&2' and '3' are keys to a legend printed in the figure (1 Pachycephalosauria, 2 Pachycephalosauridae, 3 Pachycephalosaurinae), so, as with caption keys, they are not encoded. Polytomies: a four-way node (Wannanosaurus, Colepiocephale, Stegoceras, Pachycephalosaurinae), a ten-way pachycephalosaurine node and a three-way node whose stem enters at Sphaerotholus goodwini's height. 18 tips, 3 polytomies (4, 10, 3 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=18;
+    TAXLABELS
+        Psittacosaurus_mongoliensis
+        Yinlong_downsi
+        Wannanosaurus_yansiensis
+        Colepiocephale_lambei
+        Stegoceras_validum
+        Goyocephale_lattimorei
+        Homalocephale_calathocercos
+        Tylocephale_gilmorei
+        Foraminacephale_brevis
+        Alaskacephale_gangloffi
+        Sphaerotholus_buchholtzae
+        Sphaerotholus_edmontonensis
+        Amtocephale_gobienses
+        Sinocephale_bexelli
+        Pachycephalosaurus_wyomingensis
+        Sphaerotholus_goodwini
+        Acrotholus_audeti
+        Prenocephale_prenes
+    ;
+END;
+
+BEGIN TREES;
+    TREE dyer2023a_fig20 = [&R] (Psittacosaurus_mongoliensis,(Yinlong_downsi,(Wannanosaurus_yansiensis,Colepiocephale_lambei,Stegoceras_validum,(Goyocephale_lattimorei,Homalocephale_calathocercos,Tylocephale_gilmorei,Foraminacephale_brevis,Alaskacephale_gangloffi,Sphaerotholus_buchholtzae,Sphaerotholus_edmontonensis,Amtocephale_gobienses,Sinocephale_bexelli,(Pachycephalosaurus_wyomingensis,Sphaerotholus_goodwini,(Acrotholus_audeti,Prenocephale_prenes))))));
+END;

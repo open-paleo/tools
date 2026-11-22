@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/augustin2023a_fig3.png",
+  "names": "names.txt",
+  "source": "Augustin et al. 2023, Fossil Record 26, Fig. 3: time-calibrated rhabdodontid phylogeny; vertical, root at the bottom, tip names written upwards, range bars coloured by region, a stage chart at the left, the K-Pg line, four unplaced taxa at the right drawn as range boxes without branches. Image: census figure (951x1275 px), the embedded raster.",
+  "license": "CC BY (Creative Commons Attribution License, as stated in the text)",
+  "names_note": "no matrix held; list = the eight tip names on the tree. The four taxa at the right ('Zalmoxes sp. (Petresti-Arini)', 'Matheronodon provincialis', 'Rhabdodon sp. (Vitrolles-la-Plaine)', 'Rhabdodon sp. (Villeveyrac)') have no branches and are not in the tree or the list",
+  "gold": "gold.nex",
+  "gold_note": "Rhabdodontid time tree, root at the bottom. Rhabdodontidae, printed below the root's node dot, is kept as the root label. One three-way node: Transylvanosaurus, Pareisactus and the Rhabdodon pair leave one horizontal line. 8 tips, 1 polytomies (3 children); 1 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

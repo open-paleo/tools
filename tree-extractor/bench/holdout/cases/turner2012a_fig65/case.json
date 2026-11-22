@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/turner2012a_fig65.png",
+  "names": "names.txt",
+  "source": "Turner et al. 2012, Bulletin of the American Museum of Natural History 371, Fig. 65: reduced strict consensus of avialans ignoring the alternative positions of Limenavis; rectangular, root at the top left with an arrow to the rest of the tree, Deinonychosauria collapsed to a triangle, grey node circles for node-based and arcs for stem-based clade names. Image: census figure (1528x2211 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "printed tip names as printed ('Crypturellus undullatus', 'Apsaravis uhkaana'), including the collapsed tip Deinonychosauria; the census matrix list is not used because the figure collapses Deinonychosauria",
+  "gold": "gold.nex",
+  "gold_note": "Avialan reduced consensus, read by eye. The arrow at the root stands for the rest of the tree and is not a tip. All nine clade names are kept as internal labels: Pygostylia, Ornithurae, Aves and Neognathae at node circles, and Paraves, Avialae, Enantiornithes and Euornithes at arcs on the stems leading to their nodes (each label is put on the node its stem leads to). Ornithurae (entered between Iaceornis and the hesperornithiform pair) and Aves (entered at the Neognathae line) are multi-way. 29 tips, 2 polytomies (4, 3 children); 8 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

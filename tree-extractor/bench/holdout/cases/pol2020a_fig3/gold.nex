@@ -1,0 +1,59 @@
+#NEXUS
+
+[ pol2020a_fig3: Sauropodomorph time tree, read by eye from 3-6x crops (the lines are 2-3 px apart, too close for the line reader). The grey NHMUK PV R36834 and Barapasaurus are attached by short black stems to a node inside Eusauropoda; their dashed arrows show age uncertainty, not branches. Gravisauria and Eusauropoda, printed beside node dots, are kept as internal labels. Multi-way nodes: the Glacialisaurus-Coloradisaurus-Lufengosaurus node (entered at Coloradisaurus' height), the Massospondylus node, a six-way node (Melanorosaurus, Sefapanosaurus, Leonerasaurus, Aardonyx, the Lessemsaurus clade and the rest), the Lessemsaurus node, the Amygdalodon-Gongxianosaurus node, the NHMUK-Barapasaurus node and the Cetiosaurus node. Replacement for müller2020b_fig1 (seed 20261126). 46 tips, 7 polytomies (3, 3, 6, 3, 3, 3, 3 children); 2 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=46;
+    TAXLABELS
+        Plateosaurus
+        Riojasaurus
+        Sarahsaurus
+        Yizhousaurus
+        Jingshanosaurus
+        Xingxiulong
+        Yunnanosaurus
+        Massospondylus
+        Leyesaurus
+        Adeopapposaurus
+        Glacialisaurus
+        Coloradisaurus
+        Lufengosaurus
+        Seitaad
+        Mussaurus
+        Melanorosaurus
+        Sefapanosaurus
+        Leonerasaurus
+        Aardonyx
+        Lessemsaurus
+        Antetonitrus
+        Ledumahadi
+        Ingentia
+        Amygdalodon
+        Gongxianosaurus
+        Pulanesaura
+        Isanosaurus
+        Sanpasaurus
+        Vulcanodon
+        Tazoudasaurus
+        Archaeodontosaurus
+        Shunosaurus
+        NHMUK_PV_R36834
+        Barapasaurus
+        Mamenchisaurus
+        Omeisaurus
+        Cetiosaurus
+        Bagualia
+        Spinophorosaurus
+        Nebulasaurus
+        Patagosaurus
+        Losillasaurus
+        Turiasaurus
+        Jobaria
+        Diplodocoid
+        Macronaria
+    ;
+END;
+
+BEGIN TREES;
+    TREE pol2020a_fig3 = [&R] (Plateosaurus,(Riojasaurus,(Sarahsaurus,(((Yizhousaurus,Jingshanosaurus),(Xingxiulong,(Yunnanosaurus,(Massospondylus,(Leyesaurus,Adeopapposaurus),(Glacialisaurus,Coloradisaurus,Lufengosaurus))))),(Seitaad,(Mussaurus,(Melanorosaurus,Sefapanosaurus,Leonerasaurus,Aardonyx,(Lessemsaurus,Antetonitrus,(Ledumahadi,Ingentia)),(Amygdalodon,Gongxianosaurus,(Pulanesaura,(Isanosaurus,((Sanpasaurus,(Vulcanodon,Tazoudasaurus)),(Archaeodontosaurus,(Shunosaurus,(NHMUK_PV_R36834,Barapasaurus,((Mamenchisaurus,Omeisaurus),(Cetiosaurus,((Bagualia,(Spinophorosaurus,Nebulasaurus)),Patagosaurus),((Losillasaurus,Turiasaurus),(Jobaria,(Diplodocoid,Macronaria)))))))Eusauropoda))Gravisauria))))))))));
+END;

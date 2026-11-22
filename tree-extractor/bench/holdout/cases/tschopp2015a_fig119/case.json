@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census/figures/tschopp2015a_fig119.png",
+  "names": "names.txt",
+  "source": "Tschopp et al. 2015, PeerJ 3, Fig. 119, first tree: Upchurch et al. (2004b) as redrawn in a comparison of nine published diplodocid trees; slanted (diagonal) cladogram drawn as a rectangular-style ladder, root at the bottom, tip names written upwards, a red outline around the Apatosaurus specimens, 'T: 16 (12) / C 32 (17)' beside it. The other eight trees are excluded. Image: census figure (3000x1642 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 990,
+    "y1": 575
+  },
+  "region_note": "the first tree (Upchurch et al. 2004b, top left)",
+  "license": "CC BY (Creative Commons CC-BY, as stated in the text)",
+  "names_note": "no matrix held; list = the 16 printed tip names, mostly specimen numbers, with '\"Elosaurus\"' in quotation marks as printed",
+  "gold": "gold.nex",
+  "gold_note": "Redrawn Upchurch et al. (2004b) tree. Slanted: each tip line runs down-left to the backbone, which is the CMNH 3378 line extended; the junctions were read from a 2x crop by following each line's slope. Polytomies: NSMT-PV 20375, YPM 1860 and YPM 1840 meet the AMNH 460 line at one point (four-way with the AMNH 460-YPM 1861 pair), and the UWGM 15556-'Elosaurus' pair and YPM 1980 meet it at another (three-way). The red outline marks a taxon group and carries no name. 16 tips, matching the printed 'T: 16'. 16 tips, 2 polytomies (3, 4 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

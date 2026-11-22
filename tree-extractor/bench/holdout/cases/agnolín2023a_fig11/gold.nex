@@ -1,0 +1,28 @@
+#NEXUS
+
+[ agnolín2023a_fig11: Colossosaur summary cladogram. Titanosauria, Colossosauria, 'Rin' (printed abbreviation, kept as printed) and 'Longkosauria' (as printed), each beside a node dot, are kept as internal labels. One three-way node: Puertasaurus, Drusilasaura and the Argentinosaurus-Patagotitan pair, stem entering at Drusilasaura's height. 15 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=15;
+    TAXLABELS
+        Other_Titanosauria
+        Rinconsaurus_caudamirus
+        Muyelensaurus_pecheni
+        Overosaurus_paradasorum
+        Arrudatitan_maximus
+        Bonitasaura_salgadoi
+        Chucarosaurus_diripienda
+        Notocolosus_gonzalesparejasi
+        Mendozasaurus_neguyelap
+        Quetecsaurus_rusconii
+        Futalongkosaurus_dukei
+        Puertasaurus_reuili
+        Drusilasaura_deseadensis
+        Argentinosaurus_huinculensis
+        Patagotitan_mayorum
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'agnolín2023a_fig11' = [&R] (Other_Titanosauria,((Rinconsaurus_caudamirus,(Muyelensaurus_pecheni,(Overosaurus_paradasorum,Arrudatitan_maximus)))Rin,(Bonitasaura_salgadoi,(Chucarosaurus_diripienda,(Notocolosus_gonzalesparejasi,(Mendozasaurus_neguyelap,((Quetecsaurus_rusconii,Futalongkosaurus_dukei),(Puertasaurus_reuili,Drusilasaura_deseadensis,(Argentinosaurus_huinculensis,Patagotitan_mayorum))))Longkosauria))))Colossosauria)Titanosauria;
+END;

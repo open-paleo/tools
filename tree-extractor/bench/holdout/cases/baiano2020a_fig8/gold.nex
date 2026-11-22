@@ -1,0 +1,24 @@
+#NEXUS
+
+[ baiano2020a_fig8: Noasaurid time tree, root at the bottom. One six-way node: Genusaurus, Afromimus, Velocisaurus, Masiakasaurus, Noasaurus and Laevisuchus leave one horizontal line. No clade names are printed. 11 tips, 1 polytomies (6 children). Random-sample case (seed 20261122). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=11;
+    TAXLABELS
+        Spinostropheus
+        Limusaurus
+        Elaphrosaurus
+        Huinculsaurus
+        Deltadromeus
+        Genusaurus
+        Afromimus
+        Velocisaurus
+        Masiakasaurus
+        Noasaurus
+        Laevisuchus
+    ;
+END;
+
+BEGIN TREES;
+    TREE baiano2020a_fig8 = [&R] (Spinostropheus,((Limusaurus,(Elaphrosaurus,Huinculsaurus)),(Deltadromeus,(Genusaurus,Afromimus,Velocisaurus,Masiakasaurus,Noasaurus,Laevisuchus))));
+END;
