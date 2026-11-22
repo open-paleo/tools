@@ -46,6 +46,7 @@ import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { eraseDottedLines } from "./dots.ts";
 import { recoverElbowTips } from "./elbows.ts";
+import { clearDarkGrounds } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
@@ -1773,7 +1774,9 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     // Dotted guide lines go first of all: their dots pass for letters, hundreds of them, and
     // a figure's letter height is then the height of a dot (Fiorillo 2014).
     const undotted = eraseDottedLines(blanked);
-    const sourceImage = undotted.image;
+    // So does a ground as dark as ink, which would be one solid block of it.
+    const cleared = clearDarkGrounds(undotted.image, parameters.maxChroma);
+    const sourceImage = cleared.image;
     const sourceRegion = options.region === undefined || options.region === null ? null : clampBox(options.region, sourceImage.width, sourceImage.height);
 
     if (sourceRegion !== null && (sourceRegion.x1 - sourceRegion.x0 < 1 || sourceRegion.y1 - sourceRegion.y0 < 1))
@@ -1794,6 +1797,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
     const image = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (cleared.grounds > 0)
+    {
+        orientationIssues.unshift({ severity: "info", code: "dark-grounds-cleared", message: `${cleared.grounds} dark colored area(s) behind the tree were left out as its ground`, subject: null });
+    }
 
     if (undotted.lines > 0)
     {

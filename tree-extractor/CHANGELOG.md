@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A ground as dark as ink behind the tree, a stage of the time scale in deep green, is
+  painted out before the figure is measured; it was read as one solid block of ink and the
+  branches crossing it were lost (Qiu 2025, 3 of 10 names to 8).
 - Dotted guide lines are erased before a figure is measured. The dots of a time scale's grid
   passed for letters, hundreds of them, and the figure's letter height became a dot's
   (Fiorillo 2014 fig. 6, no names to all 11).
