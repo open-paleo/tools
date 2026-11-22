@@ -1,6 +1,7 @@
 {
     "_comment": "Cases the benchmark must still report as identical. Add a case here once it is identical; removing one needs a reason in the pull request.",
     "identical": [
+        "averianov2021b_fig4",
         "dieudonne2026b_fig13",
         "fowler2020a_fig9",
         "hattori2026a_fig8",

@@ -265,7 +265,10 @@ export function straightenForks(ink: Mask, lineInk: Mask, horizontals: Array<Seg
             inFork = inFork || liesInFork(vertical, fork);
         }
 
-        upright += inFork ? 0 : 1;
+        // A steep riser of a fan comes out as a vertical too, in a box several lines broad;
+        // an upright line's box is as broad as the line.
+        const leaning = vertical.box.x1 - vertical.box.x0 > 2 * thickness + 2;
+        upright += inFork || leaning ? 0 : 1;
     }
 
     if (forks.length < fewestForks || 2 * upright > forks.length)
@@ -293,6 +296,24 @@ export function straightenForks(ink: Mask, lineInk: Mask, horizontals: Array<Seg
         let top = fork.apex.y;
         let bottom = fork.apex.y;
 
+        // The node may be a fan, whose steeper risers came out as one leaning vertical through
+        // it with their branches along it. The fork's branches are then more children of that
+        // node, not a node of their own beside it (Sues 2014).
+        let fan: Segment | null = null;
+
+        for (const vertical of verticals)
+        {
+            const { box } = vertical;
+            const through = fork.apex.x >= box.x0 - reach && fork.apex.x <= box.x1 + reach && fork.apex.y >= box.y0 - reach && fork.apex.y <= box.y1 + reach;
+
+            if (through && !liesInFork(vertical, fork) && box.y1 - box.y0 > (fan === null ? 0 : fan.box.y1 - fan.box.y0))
+            {
+                fan = vertical;
+            }
+        }
+
+        const column = fork.apex.x;
+
         for (const end of fork.ends)
         {
             top = Math.min(top, end.y);
@@ -304,7 +325,7 @@ export function straightenForks(ink: Mask, lineInk: Mask, horizontals: Array<Seg
             {
                 if (leadsOn(horizontal, fork.apex, end))
                 {
-                    horizontal.box.x0 = fork.apex.x;
+                    horizontal.box.x0 = column;
                     carried = true;
                 }
             }
@@ -312,7 +333,7 @@ export function straightenForks(ink: Mask, lineInk: Mask, horizontals: Array<Seg
             if (!carried)
             {
                 highestHorizontal++;
-                horizontals.push({ id: `h${highestHorizontal}`, orientation: "horizontal", box: { x0: fork.apex.x, y0: end.y - half, x1: end.x + 1, y1: end.y + half + 1 } });
+                horizontals.push({ id: `h${highestHorizontal}`, orientation: "horizontal", box: { x0: column, y0: end.y - half, x1: end.x + 1, y1: end.y + half + 1 } });
             }
         }
 
@@ -323,6 +344,25 @@ export function straightenForks(ink: Mask, lineInk: Mask, horizontals: Array<Seg
             {
                 verticals.splice(index, 1);
             }
+        }
+
+        // The fan's vertical is stood at the node's column, where its own branch arrives.
+        if (fan !== null)
+        {
+            fan.box = { x0: fork.apex.x, y0: Math.min(fan.box.y0, top - half), x1: fork.apex.x + Math.max(2, Math.round(thickness)), y1: Math.max(fan.box.y1, bottom + half + 1) };
+
+            for (const horizontal of horizontals)
+            {
+                const middle = (horizontal.box.y0 + horizontal.box.y1) / 2;
+
+                // Its steeper risers' branches begin along its lean; they too start at the node.
+                if (middle >= fan.box.y0 - reach && middle <= fan.box.y1 + reach && horizontal.box.x0 > fork.apex.x && horizontal.box.x0 <= fork.apex.x + (bottom - top) && horizontal.box.x1 > horizontal.box.x0 + reach)
+                {
+                    horizontal.box.x0 = fork.apex.x;
+                }
+            }
+
+            continue;
         }
 
         highestVertical++;

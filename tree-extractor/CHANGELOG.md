@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Trees drawn with fans are read: where several risers leave one node and the steeper ones
+  come out as a single leaning line, the fork found there adds its branches to that node
+  (Averianov 2021 fig. 4 to an exact match; Sues 2014, 6 of 8 splits to 7 and its extra tip
+  gone).
 - More abbreviations of nomenclature are left out when a label is matched to a name: "tax.",
   "fam.", "comb.", "stat.", "nom. dub.", "nom. nud.", "incertae sedis", "spp.", "ssp.",
   "subsp.", "var." and "sensu lato" join "sp.", "cf.", "aff.", "gen." and "nov.".
