@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { compareNames, computeLevenshtein, matchKnownName, matchName, normalizeName } from "../src/core/matching.ts";
-import { cleanSupportText, cleanTaxonText, isNameText, chooseMatch, isBoxedCladeName, matchCladeName } from "../src/core/labels.ts";
+import { cleanSupportText, cleanTaxonText, dropRankNote, isNameText, chooseMatch, isBoxedCladeName, matchCladeName } from "../src/core/labels.ts";
 
 const names = ["Cumnoria_prestwichii", "Uteodon_aphanoecetes", "Fostoria_dhimbangunmal", "Rhabdodon_sp1", "Rhabdodon_priscus", "Dryosaurus"];
 
@@ -165,4 +165,24 @@ test("a clade's name is mended from the known clades and keeps its capitals", ()
     // A tip that is a collapsed clade is mended too, and a genus is never taken for a clade.
     assert.equal(chooseMatch("HADROSAURIDAF", [], ["Hadrosaurus"], clades)?.name, "HADROSAURIDAE");
     assert.equal(chooseMatch("Dryosaurus", [], ["Dryosaurus"], clades)?.name, "Dryosaurus");
+});
+
+test("abbreviations of nomenclature are no part of a name", () =>
+{
+    const list = ["Riojasaurus", "Aus bus", "Aus eus", "Cus dus"];
+
+    assert.equal(dropRankNote("Riojasauridae tax. nov."), "Riojasauridae");
+    assert.equal(dropRankNote("Aus bus gen. et sp. nov."), "Aus bus");
+    assert.equal(dropRankNote("Neosauropoda clade nov."), "Neosauropoda");
+    assert.equal(dropRankNote("Aus sp."), "Aus sp.");
+    assert.equal(dropRankNote("Tawa hallae"), "Tawa hallae");
+
+    // A family named for a genus of the list is not that genus, with or without its note.
+    assert.notEqual(chooseMatch("Riojasauridae tax. nov.", list, [])?.name, "Riojasaurus");
+
+    for (const label of ["Aus bus gen. et sp. nov.", "Aus bus comb. nov.", "Aus bus nom. dub.", "Aus bus stat. nov."])
+    {
+        const match = chooseMatch(label, list, []);
+        assert.ok(match !== null && match.accepted && match.name === "Aus bus", label);
+    }
 });

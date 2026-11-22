@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- More abbreviations of nomenclature are left out when a label is matched to a name: "tax.",
+  "fam.", "comb.", "stat.", "nom. dub.", "nom. nud.", "incertae sedis", "spp.", "ssp.",
+  "subsp.", "var." and "sensu lato" join "sp.", "cf.", "aff.", "gen." and "nov.".
+- A clade's name followed by a note of status is still a clade's name: "Riojasauridae tax.
+  nov." was matched to the genus Riojasaurus of the list (Yates 2007 to an exact match).
 - A name of the paper's own list read at a node is a tip of that node. Where a node's branch
   runs straight on into its middle child's, the tip's stretch is too short to be a line, and
   the name was kept as the node's label (Poropat 2014, 33 of 36 names to 35; Fonseca 2024;

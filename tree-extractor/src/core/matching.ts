@@ -90,9 +90,18 @@ export function compareNames(left: string, right: string): number
 }
 
 /**
- * Words that say nothing about which name it is.
+ * Abbreviations of nomenclature that mark a name as new, or say how it stands: "tax. nov.",
+ * "gen. et sp. nov.", "comb. nov.", "nom. dub.", "incertae sedis". They follow a name of any
+ * rank and are no part of it.
  */
-const fillerTokens = new Set(["sp", "cf", "aff", "nov", "gen", "indet", "et", "al"]);
+export const statusTokens = new Set(["nov", "gen", "tax", "fam", "comb", "stat", "nom", "nud", "dub", "inc", "sed", "incertae", "sedis", "ined"]);
+
+/**
+ * Words that say nothing about which name it is: the abbreviations of status, those of open
+ * nomenclature and of rank below the genus ("sp.", "spp.", "ssp.", "subsp.", "var.", "cf.",
+ * "aff.", "indet.", "sensu lato"), and "et al.".
+ */
+const fillerTokens = new Set([...statusTokens, "sp", "spp", "ssp", "subsp", "var", "cf", "aff", "indet", "sensu", "lato", "stricto", "et", "al"]);
 
 /**
  * Words of a normalized name that carry it: "sp" and its kin are left out, and so is OCR

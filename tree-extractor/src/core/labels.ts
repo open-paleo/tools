@@ -8,7 +8,7 @@ import { compareNumbers, computeMedian, cropAndScale } from "./raster.ts";
 import { createId, sortChildren } from "./edit.ts";
 import { mapPointToFrame } from "./geometry.ts";
 import { rotateGrayToFrame } from "./slant.ts";
-import { matchKnownName, matchName, normalizeName } from "./matching.ts";
+import { matchKnownName, matchName, normalizeName, statusTokens } from "./matching.ts";
 
 /**
  * A candidate assignment of a text line to a tip or node.
@@ -379,11 +379,14 @@ export function chooseMatch(label: string | null, names: Array<string>, knownNam
     // So is a single word with the ending of a family, subfamily, tribe, superfamily or order
     // (Ornithomimosauria, Confuciusornithidae): the list's Ornithomimus is not its name,
     // however well the stem matches. The known clades may still mend its spelling.
-    if (isHigherTaxonName(label))
-    {
-        const exact = names.length === 0 ? null : matchName(label, names);
+    // A note of rank after the name leaves it a clade's name ("Riojasauridae tax. nov.").
+    const bare = dropRankNote(label);
 
-        return exact !== null && exact.similarity >= 0.9 ? exact : matchCladeName(label, knownClades);
+    if (isHigherTaxonName(bare))
+    {
+        const exact = names.length === 0 ? null : matchName(bare, names);
+
+        return exact !== null && exact.similarity >= 0.9 ? exact : matchCladeName(bare, knownClades);
     }
 
     const own = names.length === 0 ? null : matchName(label, names);
@@ -507,6 +510,38 @@ export function isHigherTaxonName(label: string): boolean
 }
 
 /**
+ * Drops the note of status that follows a name: "tax. nov.", "gen. nov.", "clade nov.",
+ * "new", "nom. dub.". What is left is the name.
+ *
+ * @param label - Label as read.
+ * @returns The label without the note.
+ */
+export function dropRankNote(label: string): string
+{
+    const words = label.trim().split(/\s+/);
+    let dropped = 0;
+
+    while (words.length > 1)
+    {
+        const word = words[words.length - 1].toLowerCase().replace(/\./g, "");
+
+        // "sp." goes only as part of a note ("gen. et sp. nov."); alone it is an indeterminate
+        // species, and part of the name as printed.
+        const inNote = dropped > 0 && (word === "sp" || word === "et");
+
+        if (!statusTokens.has(word) && word !== "clade" && word !== "new" && word !== "n" && !inNote)
+        {
+            break;
+        }
+
+        words.pop();
+        dropped++;
+    }
+
+    return words.join(" ");
+}
+
+/**
  * Whether a tip already has a name.
  *
  * @param document - Extraction document.
@@ -590,7 +625,7 @@ export function restoreCladeNames(document: ExtractionDocument, listed: boolean)
         const fromList = tip.match !== null && tip.match.accepted && tip.match.source === "list";
 
         // The name may have lost its first letter to the line beside it.
-        if (node === undefined || tip.label === null || fromList || !/^\p{L}{4,}(idae|inae|oidea|iformes|sauria|morpha)$/u.test(tip.label))
+        if (node === undefined || tip.label === null || fromList || !/^\p{L}{4,}(idae|inae|oidea|iformes|sauria|morpha)$/u.test(dropRankNote(tip.label)))
         {
             continue;
         }
