@@ -120,13 +120,57 @@ type TextEitherWay = {
  */
 function measureTextEitherWay(textInk: Mask): TextEitherWay
 {
-    const upright = detectTextLines(textInk, { lineArtMask: dilate(createLongRunMask(textInk, 28, 20), 1), minY: 0 });
+    const first = measureTextWithRuns(textInk, 28, 20);
+
+    // Lines are told from letters here by their length, 28 pixels and more. In a small figure
+    // set in small type the branches are shorter than that: they stay in, run together with
+    // the labels, and the glyph height comes out several times too large (Prieto-Marquez 2013,
+    // 61 for letters 9 pixels tall, which made every run too short to count and the tree
+    // slanted). With the branches in, the text also reads about as well on its side as
+    // upright, 766 letters in rows against 737. A height that large for the image is measured
+    // again with half the length, and the measurement that tells the two ways apart more
+    // clearly is kept.
+    if (first.glyphHeight <= Math.min(textInk.width, textInk.height) / 25)
+    {
+        return first;
+    }
+
+    const second = measureTextWithRuns(textInk, 14, 10);
+
+    return measureDecision(second) > measureDecision(first) ? second : first;
+}
+
+/**
+ * Measures how clearly a measurement of the text tells upright from sideways: the share by
+ * which the one count of letters in rows exceeds the other.
+ *
+ * @param text - The measurement.
+ * @returns The share, 0 to 1.
+ */
+function measureDecision(text: TextEitherWay): number
+{
+    const most = Math.max(text.uprightGlyphs, text.sidewaysGlyphs);
+
+    return most === 0 ? 0 : Math.abs(text.uprightGlyphs - text.sidewaysGlyphs) / most;
+}
+
+/**
+ * Measures the text both ways with lines of a given length taken out first.
+ *
+ * @param textInk - Dark pixels at the text threshold.
+ * @param level - Shortest horizontal run that is a line.
+ * @param upright - Shortest vertical run that is a line.
+ * @returns The measurement.
+ */
+function measureTextWithRuns(textInk: Mask, level: number, upright: number): TextEitherWay
+{
+    const asDrawn = detectTextLines(textInk, { lineArtMask: dilate(createLongRunMask(textInk, level, upright), 1), minY: 0 });
     const transposed = transposeMask(textInk);
-    const sideways = detectTextLines(transposed, { lineArtMask: dilate(createLongRunMask(transposed, 28, 20), 1), minY: 0 });
+    const sideways = detectTextLines(transposed, { lineArtMask: dilate(createLongRunMask(transposed, level, upright), 1), minY: 0 });
     let uprightGlyphs = 0;
     let sidewaysGlyphs = 0;
 
-    for (const line of upright.lines)
+    for (const line of asDrawn.lines)
     {
         uprightGlyphs += line.glyphCount >= 5 ? line.glyphCount : 0;
     }
@@ -136,7 +180,7 @@ function measureTextEitherWay(textInk: Mask): TextEitherWay
         sidewaysGlyphs += line.glyphCount >= 5 ? line.glyphCount : 0;
     }
 
-    const chosen = sidewaysGlyphs > uprightGlyphs ? sideways : upright;
+    const chosen = sidewaysGlyphs > uprightGlyphs ? sideways : asDrawn;
 
     return { glyphHeight: chosen.glyphHeight > 0 ? chosen.glyphHeight : 12, uprightGlyphs, sidewaysGlyphs };
 }

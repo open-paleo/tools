@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- A small figure in small type is no longer taken for a slanted tree. Its branches, shorter
+  than what counts as a line when the letter height is first estimated, ran together with
+  the labels, the height came out several times too large, and no branch was then long
+  enough to count (Prieto-Marquez 2013 fig. 26, no tree to all 34 names).
+
 ## 0.8.1 (2026-11-21)
 
 - Trees drawn with fans are read: where several risers leave one node and the steeper ones
