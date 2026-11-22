@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Colored and gray branches are followed under black lettering printed on them. In a figure
+  with thick colored branches and a number at each node, the numbers lie on the short steps
+  between branches and the tree parted at each one (Cau 2018, 43 of 132 names to 98).
+  Lettering on a tinted panel is left alone.
+- Branches in a light color are read from a line thickness of 6 pixels, not 8.
 - A figure with very large type is read. Letters taller than 60 pixels were not taken for
   letters at all; a figure whose letters are 56 pixels tall or more is now read at the size
   that brings them to 28, and the reading is put back in the figure's own coordinates, with

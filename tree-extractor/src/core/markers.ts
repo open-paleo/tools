@@ -137,6 +137,182 @@ export function keepColoredLines(thin: Mask, minRun: number): Mask
 }
 
 /**
+ * Fills the stretches of one direction where lettering lies on a lighter line: runs of dark
+ * pixels, no longer than the reach, with the line's tone right at both ends, that lie side by
+ * side across at least half the line's thickness.
+ *
+ * @param tone - Per pixel: 2 for a line's lighter tone, 1 for dark ink, 0 for neither.
+ * @param width - Width of the tone image.
+ * @param height - Height of the tone image.
+ * @param reach - Longest run of dark pixels carried across.
+ * @param least - How many neighboring rows must carry the same stretch.
+ * @param most - How many may: more than a line is thick, and it is no line.
+ * @param level - True to work along rows, false along columns.
+ * @param result - Mask the stretches are set in.
+ */
+function fillUnderLettering(tone: Uint8Array, width: number, height: number, reach: number, least: number, most: number, level: boolean, result: Mask): void
+{
+    const along = level ? width : height;
+    const across = level ? height : width;
+    const found = new Uint8Array(width * height);
+
+    function locate(position: number, line: number): number
+    {
+        return level ? line * width + position : position * width + line;
+    }
+
+    for (let line = 0; line < across; line++)
+    {
+        let position = 1;
+
+        while (position < along - 1)
+        {
+            if (tone[locate(position, line)] !== 1 || tone[locate(position - 1, line)] !== 2)
+            {
+                position++;
+                continue;
+            }
+
+            let end = position;
+
+            while (end < along && tone[locate(end, line)] === 1 && end - position <= reach)
+            {
+                end++;
+            }
+
+            if (end < along && end - position <= reach && tone[locate(end, line)] === 2)
+            {
+                // With the line's own pixels beside the letters, as far as the reach: the
+                // pieces of line between two letters are part of the stretch.
+                let from = position;
+                let to = end;
+
+                while (from > 0 && position - from < reach && tone[locate(from - 1, line)] === 2)
+                {
+                    from--;
+                }
+
+                while (to < along && to - end < reach && tone[locate(to, line)] === 2)
+                {
+                    to++;
+                }
+
+                // Three pixels of the line's tone at each end: the soft edge of a letter is
+                // of that tone too, one pixel of it on each side of every stroke.
+                if (position - from >= 3 && to - end >= 3)
+                {
+                    for (let fill = from; fill < to; fill++)
+                    {
+                        found[locate(fill, line)] = 1;
+                    }
+                }
+            }
+
+            position = Math.max(end, position + 1);
+        }
+    }
+
+    // A stretch stands when it is as broad as a line: on one row alone it is the edge of a
+    // letter beside something tinted, and broader than a line it is lettering on a tint.
+    for (let position = 0; position < along; position++)
+    {
+        let start = -1;
+
+        for (let line = 0; line <= across; line++)
+        {
+            const set = line < across && found[locate(position, line)] === 1;
+
+            if (set && start < 0)
+            {
+                start = line;
+            }
+            else if (!set && start >= 0)
+            {
+                if (line - start >= least && line - start <= most)
+                {
+                    for (let fill = start; fill < line; fill++)
+                    {
+                        result.data[locate(position, fill)] = 1;
+                    }
+                }
+
+                start = -1;
+            }
+        }
+    }
+}
+
+/**
+ * Finds the stretches of colored or gray lines that black lettering is printed on. A figure
+ * with its branches in color and in gray and a number at each node has the numbers lie on the
+ * steps between the branches; the step is then in pieces between the digits, each too short
+ * and too broken to be line, and the tree parts there (Cau 2018, an age at every node).
+ *
+ * @param image - Image.
+ * @param lineThreshold - Luminance below which a neutral pixel is line ink.
+ * @param maxChroma - Largest channel spread still neutral.
+ * @param thickness - Thickness of the figure's colored lines.
+ * @returns Mask of the lettering that lies on such lines.
+ */
+export function bridgeUnderLettering(image: RgbaImage, lineThreshold: number, maxChroma: number, thickness: number): Mask
+{
+    const { width, height } = image;
+    const tone = new Uint8Array(width * height);
+    const marked: Mask = { width, height, data: new Uint8Array(width * height) };
+
+    for (let index = 0; index < width * height; index++)
+    {
+        const red = image.data[index * 4];
+        const green = image.data[index * 4 + 1];
+        const blue = image.data[index * 4 + 2];
+        const strongest = Math.max(red, green, blue);
+        const chroma = strongest - Math.min(red, green, blue);
+        const luminance = 0.299 * red + 0.587 * green + 0.114 * blue;
+
+        marked.data[index] = luminance < 245 || chroma > 20 ? 1 : 0;
+
+        // Black printed on a color comes out as a dark shade of the color, so what tells
+        // lettering is that no channel is strong, not that the pixel is neutral.
+        if (chroma <= maxChroma)
+        {
+            tone[index] = luminance < 100 ? 1 : luminance < lineThreshold ? 2 : 0;
+        }
+        else if (strongest < 140)
+        {
+            tone[index] = 1;
+        }
+        else if (chroma >= 70 && luminance < 240)
+        {
+            tone[index] = 2;
+        }
+    }
+
+    // A tinted ground with lettering on it has the tone on both sides of every letter as
+    // well. A ground is broad where a line is not, and solid together with its lettering:
+    // what is left of everything that is not white after wearing away three quarters of a
+    // line's thickness is ground, and no line's tone (Delcourt 2018, names on a blue panel).
+    const broad = Math.ceil(0.75 * thickness);
+    const ground = dilate(erode(marked, broad), broad + 1);
+
+    for (let index = 0; index < width * height; index++)
+    {
+        if (ground.data[index] === 1 && tone[index] === 2)
+        {
+            tone[index] = 0;
+        }
+    }
+
+    const result: Mask = { width, height, data: new Uint8Array(width * height) };
+    const reach = Math.round(3 * thickness);
+    const least = Math.max(2, Math.floor(thickness / 2));
+    const most = Math.floor(1.5 * thickness) + 1;
+    fillUnderLettering(tone, width, height, reach, least, most, true, result);
+    fillUnderLettering(tone, width, height, reach, least, most, false, result);
+
+    return result;
+}
+
+/**
  * Draws on the lines that a small colored shape covers. An arrowhead is drawn over the tree,
  * so where its point lies on a branch the branch has a hole the size of the head once the
  * head is no longer line ink. On each row and each column of the shape, where dark ink stands

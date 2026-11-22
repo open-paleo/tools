@@ -15,7 +15,7 @@ import type { SlantedLabels } from "./slant.ts";
 import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
-import { bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
+import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
@@ -417,7 +417,12 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const roughMarkers = unionMask(colored.fat, paleMarkers);
     // Of the thin colored ink only what is drawn as lines joins the line ink: an arrowhead
     // touching the tree is thin and colored too.
-    const coloredLines = keepColoredLines(colored.thin, 6 * markerRadius);
+    const thickColor = coloredThickness >= 1.5 * parameters.markerRadius;
+    // Where the colored lines are thick, black lettering printed on a colored or a gray line
+    // hides the line; the stretches under the letters are drawn back first, or the pieces of
+    // line between the letters are too short to count as line.
+    const underLettering = thickColor ? bridgeUnderLettering(image, parameters.lineThreshold, parameters.maxChroma, coloredThickness) : null;
+    const coloredLines = keepColoredLines(underLettering === null ? colored.thin : unionMask(colored.thin, underLettering), 6 * markerRadius);
     const darkInk = createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma);
     // Lines in a muted or a vivid light color join the line ink too, unless they run along a
     // filled shape: a range bar's darker edge is such a stroke (Wang 2025).
@@ -436,10 +441,11 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // pink, too light to count as colored ink. Where the colored lines are thick, light
     // colored strokes of their thickness that join the tree are branches as well (Motta 2025,
     // a clade in green and two tips in yellow and pink).
-    const lightBranches = coloredThickness >= 2 * parameters.markerRadius
+    const lightBranches = thickColor
         ? findLightBranches(image, unionMask(unionMask(darkInk, coloredLines), offColorLines), createColoredMask(image, parameters.coloredThreshold, parameters.coloredMinChroma), coloredThickness)
         : null;
-    const drawnInk = unionMask(unionMask(darkInk, coloredLines), offColorLines);
+    const tracedInk = unionMask(unionMask(darkInk, coloredLines), offColorLines);
+    const drawnInk = underLettering === null ? tracedInk : unionMask(tracedInk, underLettering);
     const strongInk = unionMask(lightBranches === null ? drawnInk : unionMask(drawnInk, lightBranches), underShapes);
 
     // A rough text pass learns the glyph size and finds glyph pixels to keep out of the line art.
@@ -522,7 +528,8 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const rungInk = keepRungs(createDirectionalRunMask(strongInk, stubLength, false), unionMask(longInk, stubInk), Math.max(4, Math.round(stubLength / 2)));
     const protectedInk = unionMask(unionMask(longInk, stubInk), rungInk);
     const glyphZone = subtractMask(dilate(rough.glyphMask, 2), protectedInk);
-    const strongLines = subtractMask(strongInk, glyphZone);
+    // A stretch of line drawn back under lettering lies among glyphs by its nature.
+    const strongLines = underLettering === null ? subtractMask(strongInk, glyphZone) : unionMask(subtractMask(strongInk, glyphZone), underLettering);
     const nearStrong = dilate(strongLines, parameters.weakReach);
     const weakCandidates = createDarkMask(image, parameters.lineThresholdWeak, true, parameters.weakMaxChroma);
     // Faint ink is darker than what surrounds it. A background band is at the weak level all
