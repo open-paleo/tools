@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A figure is also read reduced when its letters are 38 pixels tall or more and at least a
+  fiftieth of its shorter side: bold labels of that size on a small tree (Brusatte 2008, two
+  figures; Han 2015; Arcucci 2003: 8 of 31 names to 16 between them).
+- Fixed: a figure read reduced and also turned on its side gave its image size the wrong way
+  round, and no overlay could be drawn on it.
 - In a figure with thick colored branches, three more things that lettering on the branches
   did (Cau 2018, 117 of 132 names to 127, and its wrong split gone): the stub of a tip in
   dark ink as thick as the colored lines is no longer cut by a number's row beside it; a

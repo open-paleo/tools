@@ -1797,7 +1797,10 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     // figure enlarged past that is read at the size where its letters are of ordinary height,
     // and the reading put back in the figure's own coordinates (Vickaryous 2002, a small
     // cladogram at 1,900 pixels across with letters 70 to 125 tall).
-    if (typeHeight < largeTypeHeight)
+    const read = options.region ?? { x0: 0, y0: 0, x1: givenImage.width, y1: givenImage.height };
+    const shorter = Math.min(read.x1 - read.x0, read.y1 - read.y0);
+
+    if (typeHeight < largeTypeHeight && (typeHeight < largeTypeForFigure || typeHeight < largeTypeShare * shorter))
     {
         return extractTreeAtSize(givenImage, options);
     }
@@ -1822,6 +1825,19 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
  * Median letter height in pixels from which a figure is read reduced.
  */
 const largeTypeHeight = 56;
+
+/**
+ * Median letter height in pixels from which a figure is read reduced when its letters are
+ * also large for the figure: bold labels of that size on a small tree have strokes as long
+ * and as thick as its branches (Brusatte 2008, letters 44 pixels tall in a figure 1,429 high;
+ * Bonaparte 2006 has letters of 41 in a figure 2,508 high and reads well as it is).
+ */
+const largeTypeForFigure = 38;
+
+/**
+ * Share of the figure's shorter side that letters must reach to be large for the figure.
+ */
+const largeTypeShare = 0.02;
 
 /**
  * Median letter height in pixels a reduced figure is brought to.

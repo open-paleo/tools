@@ -249,8 +249,10 @@ export function scaleDocument(document: ExtractionDocument, factor: number, widt
         scaleBox(document.image.region, factor);
     }
 
-    document.image.width = width;
-    document.image.height = height;
+    // The document is in the frame the figure was read in, on its side if it was turned.
+    const turned = document.image.quarterTurns % 2 !== 0;
+    document.image.width = turned ? height : width;
+    document.image.height = turned ? width : height;
     document.glyphHeight = Math.round(document.glyphHeight * factor);
     document.profile.lineThickness = Math.round(document.profile.lineThickness * factor);
     document.profile.font.strokeWidth = Math.round(document.profile.font.strokeWidth * factor);
