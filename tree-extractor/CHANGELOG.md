@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A bar drawn along a stem, for the doubt about a clade's age, is part of the stem: the
+  branch that runs into it, or the one made for it, goes on to the vertical of the node
+  beyond the bar, past a dot on that node (Pol 2012, 9 of 24 names to 21).
 - Thick branches in colors the main colored rule leaves out are read as thick colored
   branches are: where the level and the upright stretches of ink of any color are both
   two to three and a half marker radii thick, that thickness is the figure's colored line

@@ -2017,6 +2017,7 @@ export function findBarBranches(bars: Array<Box>, verticals: Array<Segment>, hor
     {
         const middle = Math.round((bar.y0 + bar.y1) / 2);
         let taken = false;
+        let arriving: Box | null = null;
 
         // A segment along the bar is the bar traced already; one that stops at its start is
         // the branch that runs into it, and the tip is carried through the bar from there.
@@ -2027,6 +2028,30 @@ export function findBarBranches(bars: Array<Box>, verticals: Array<Segment>, hor
             const along = Math.min(box.x1, bar.x1) - Math.max(box.x0, bar.x0) >= 0.5 * (bar.x1 - bar.x0);
             const arrives = box.x1 >= bar.x0 - thickness - 2 && box.x1 <= bar.x0 + thickness + 2 && box.x0 < bar.x0 - shortest;
             taken = taken || (onLevel && (along || arrives));
+            arriving = onLevel && arrives && !along ? box : arriving;
+        }
+
+        // Unless the bar ends at a node: a bar drawn along a stem, for the doubt about its
+        // age, leads to the vertical of the clade beyond it, and no tip is there to carry
+        // through (Pol 2012, the stems of two families). The branch that arrives then goes on
+        // to the bar's far end.
+        let beyond: Box | null = null;
+
+        for (const vertical of verticals)
+        {
+            const { box } = vertical;
+
+            // Within three thicknesses: a dot on the node stands between the bar and the
+            // vertical.
+            if (box.x1 - box.x0 >= Math.max(2, thickness / 2) && box.x0 >= bar.x1 - 2 && box.x0 <= bar.x1 + 3 * thickness && box.y0 <= middle && box.y1 > middle && (beyond === null || box.x0 < beyond.x0))
+            {
+                beyond = box;
+            }
+        }
+
+        if (arriving !== null && beyond !== null)
+        {
+            arriving.x1 = beyond.x0;
         }
 
         if (taken)
@@ -2049,7 +2074,7 @@ export function findBarBranches(bars: Array<Box>, verticals: Array<Segment>, hor
 
         if (node !== null)
         {
-            found.push({ id: `h${id++}`, orientation: "horizontal", box: { x0: node.x0, y0: middle - half, x1: bar.x1, y1: middle + half + 1 } });
+            found.push({ id: `h${id++}`, orientation: "horizontal", box: { x0: node.x0, y0: middle - half, x1: beyond === null ? bar.x1 : beyond.x0, y1: middle + half + 1 } });
         }
     }
 
