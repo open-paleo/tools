@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/sen2025a_fig5.png",
+  "names": "names.txt",
+  "source": "Sen and Ray 2025, Journal of Vertebrate Paleontology 45, Fig. 5: archosaur strict consensus placing Alickmeron and the Maleri specimens (bold); rectangular, root left, thin lines, support pairs at the nodes, node dots with clade names, grey boxes over two groups. Image: census 2 figure (2126x2706 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Lesthosaurus diagnosticus', 'Sacisaurus augodoensis', 'Batrachotomus kuperferzellensis' and the specimen tips 'ISIR306c' and 'Taxon II'",
+  "gold": "gold.nex",
+  "gold_note": "Archosaur strict consensus, read by eye with the saurischian base at 1.6x. Twelve clade names beside node dots are kept as internal labels, as printed ('Ornisthischia'). Saurischia's vertical runs from the ISIR306c line to the theropod branch, broken only where the word 'Sauropodomorpha' is printed over it, and has no support value of its own above the Sauropodomorpha stem; it is read as a three-way node (ISIR306c, Sauropodomorpha and the theropod branch). Other polytomies: three ornithischians; four silesaurids. The grey boxes carry no names. 38 tips, 3 polytomies (4, 3, 3 children); 12 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/carr2010a_fig4.png",
+  "names": "names.txt",
+  "source": "Carr and Williamson 2010, Journal of Vertebrate Paleontology 30, Fig. 4: time-calibrated tyrannosauroid phylogeny; rectangular, root left, thin lines, hatched range bars against a stage scale with grey bands, Bremer values, arrows from clade names and from three character lists (headed Tyrannosauridae, Tyrannosaurinae, Derived tyrannosaurines) to the tree. Image: census 2 figure (1992x1650 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Cf. Alectrosaurus', 'Daspletosaurus spp.', 'A. sarcophagus', 'T. rex', and the specimen tip 'BYU 8120/9396, 9397, 9398, 826/9402, 9398, 13719' (printed over four lines, read as one label)",
+  "gold": "gold.nex",
+  "gold_note": "Tyrannosauroid time tree, read by eye with the tyrannosaurid part at 2x. Five names joined by arrows to the tree are kept as internal labels on the node each arrow's stem leads to: Coelurosauria and Tyrannosauroidea, and the three character-list headings Tyrannosauridae, Tyrannosaurinae and 'Derived tyrannosaurines' (as printed). Polytomies: the root (five), a seven-way node (Iliosuchus to Cf. Alectrosaurus and the tyrannosaurid branch) and a five-way node (Dryptosaurus, Appalachiosaurus, Alioramus, Bistahieversor and Tyrannosauridae). 25 tips, 3 polytomies (5, 7, 5 children); 5 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

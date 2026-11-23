@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/pol2012a_fig2.png",
+  "names": "names.txt",
+  "source": "Pol and Rauhut 2012, Proceedings of the Royal Society B: Biological Sciences 279, Fig. 2: time-calibrated ceratosaur phylogeny with Eoabelisaurus; vertical, root at the bottom, thin lines, grey ghost-lineage bars, tip names written upwards, continent silhouettes, a stage column at the left, node dots with clade names. Image: census 2 figure (2006x1573 px), a 300 dpi page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur time tree, root at the bottom, with the abelisaurid base read at 2x (Rugops, Abelisaurus and the majungasaurine group branch off one after another, on horizontals a few pixels apart). Ceratosauria, Abelisauroidea, Noasauridae, Abelisauridae and Brachyrostra, beside node dots, are kept as internal labels. Polytomies: Ceratosauria (Deltadromeus, Berberosaurus and the rest), Noasauridae (four), Majungasaurus-Indosaurus-Rajasaurus, Skorpiovenator-Ilokelesia-Ekrixinatosaurus. The grey bars are ghost lineages on the stems, and Spinostropheus' dashed line is its range. 24 tips, 4 polytomies (3, 4, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,24 @@
+#NEXUS
+
+[ apaldetti2018a_fig3: Sauropodomorph time tree, panel a, fully resolved. Dinosauria, Sauropodomorpha and Sauropoda are written vertically with arrows to node symbols and kept on those nodes; Lessemsauridae is a band spanning one clade. The dashed Isanosaurus line is a ghost range, read as an ordinary branch. Replacement for mcphee2018a_fig2 (seed 20261216). 11 tips, fully resolved; 4 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=11;
+    TAXLABELS
+        Ornithischia
+        Theropoda
+        Eoraptor
+        Plateosaurus
+        Anchisaurus
+        Lessemsaurus
+        Ingentia
+        Antetonitrus
+        Vulcanodon
+        Isanosaurus
+        Eusauropoda
+    ;
+END;
+
+BEGIN TREES;
+    TREE apaldetti2018a_fig3 = [&R] (Ornithischia,(Theropoda,(Eoraptor,(Plateosaurus,(Anchisaurus,(((Lessemsaurus,Ingentia),Antetonitrus)Lessemsauridae,(Vulcanodon,(Isanosaurus,Eusauropoda)))Sauropoda)))Sauropodomorpha))Dinosauria;
+END;

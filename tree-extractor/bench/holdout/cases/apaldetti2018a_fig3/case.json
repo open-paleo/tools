@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/apaldetti2018a_fig3.png",
+  "names": "names.txt",
+  "source": "Apaldetti et al. 2018, Nature Ecology \\& Evolution 2, Fig. 3a: time-calibrated early sauropodomorph tree with Ingentia (bold); rectangular, root left, range bars, collapsed clades as arrow-shaped boxes, a green band for Lessemsauridae, node symbols (circles, a star) with arrowed vertical clade names, a stage chart above. Panel b (body mass through time, with silhouettes and taxon names) is excluded. Image: census 2 figure (1516x1717 px), a 300 dpi page render.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1516,
+    "y1": 760
+  },
+  "region_note": "panel a, the tree; panel b below is a body-mass plot whose taxon names are not tips",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel a, including the collapsed tips Ornithischia, Theropoda and Eusauropoda",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph time tree, panel a, fully resolved. Dinosauria, Sauropodomorpha and Sauropoda are written vertically with arrows to node symbols and kept on those nodes; Lessemsauridae is a band spanning one clade. The dashed Isanosaurus line is a ghost range, read as an ordinary branch. Replacement for mcphee2018a_fig2 (seed 20261216). 11 tips, fully resolved; 4 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

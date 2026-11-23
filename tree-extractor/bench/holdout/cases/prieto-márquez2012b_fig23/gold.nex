@@ -1,0 +1,33 @@
+#NEXUS
+
+[ prieto-márquez2012b_fig23: Lambeosaurine time tree, read by eye with the lower half at 2x; fully resolved. LAMBEOSAURINAE, printed beside the stem of the Aralosaurus node with an area box, is kept as an internal label. The coloured boxes are ancestral areas, and the small arrow by Corythosaurus marks a dispersal, not a branch. Replacement for morrison2026a_fig5 (seed 20261218). 20 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=20;
+    TAXLABELS
+        SAUROLOPHINAE
+        Aralosaurus_tuberiferus
+        Jaxartosaurus_aralensis
+        Tsintaosaurus_spinorhinus
+        Pararhabdodon_isonensis
+        Amurosaurus_riabinini
+        Sahaliyania_elunchunorum
+        Lambeosaurus_lambei
+        Lambeosaurus_magnicristatus
+        Corythosaurus_casuarius
+        Corythosaurus_intermedius
+        Hypacrosaurus_stebingeri
+        Hypacrosaurus_altispinus
+        Olorotitan_ararhensis
+        Magnapaulia_laticaudus
+        Velafrons_coahuilensis
+        Charonosaurus_jiayinensis
+        Parasaurolophus_cyrtocristatus
+        Parasaurolophus_tubicen
+        Parasaurolophus_walkeri
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'prieto-márquez2012b_fig23' = [&R] (SAUROLOPHINAE,(Aralosaurus_tuberiferus,(Jaxartosaurus_aralensis,((Tsintaosaurus_spinorhinus,Pararhabdodon_isonensis),((Amurosaurus_riabinini,Sahaliyania_elunchunorum),((((Lambeosaurus_lambei,Lambeosaurus_magnicristatus),((Corythosaurus_casuarius,Corythosaurus_intermedius),(Hypacrosaurus_stebingeri,(Hypacrosaurus_altispinus,Olorotitan_ararhensis)))),(Magnapaulia_laticaudus,Velafrons_coahuilensis)),(Charonosaurus_jiayinensis,(Parasaurolophus_cyrtocristatus,(Parasaurolophus_tubicen,Parasaurolophus_walkeri))))))))LAMBEOSAURINAE);
+END;

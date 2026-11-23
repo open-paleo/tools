@@ -1,0 +1,42 @@
+#NEXUS
+
+[ saegusa2014a_fig23: Titanosauriform strict consensus (left tree). No root stem is drawn: the root node holds Shunosaurus, Omeisaurus and the rest (three-way). Other polytomies: Abydosaurus, Cedarosaurus and Venenosaurus (stem entering at Cedarosaurus' height); and a six-way euhelopodid node. The digits are decay indices; no clade names are printed. 29 tips, 3 polytomies (3, 3, 6 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Shunosaurus
+        Omeisaurus
+        Jobaria
+        Atlasaurus
+        Diplodocoidea
+        Camarasaurus
+        Tehuelchesaurus
+        Europasaurus
+        Giraffatitan
+        Brachiosaurus
+        Abydosaurus
+        Cedarosaurus
+        Venenosaurus
+        Ligabuesaurus
+        Sauroposeidon
+        Tastavinsaurus
+        Qiaowanlong
+        Erketu
+        Tambatitanis
+        Euhelopus
+        Daxiatitan
+        Tangvayosaurus
+        Phuwiangosaurus
+        Chubutisaurus
+        Andesaurus
+        Malawisaurus
+        Opisthocoelicaudia
+        Alamosaurus
+        Saltasaurini
+    ;
+END;
+
+BEGIN TREES;
+    TREE saegusa2014a_fig23 = [&R] (Shunosaurus,Omeisaurus,(Jobaria,(Atlasaurus,(Diplodocoidea,(Camarasaurus,(Tehuelchesaurus,((Europasaurus,(Giraffatitan,(Brachiosaurus,(Abydosaurus,Cedarosaurus,Venenosaurus)))),(Ligabuesaurus,(Sauroposeidon,(Tastavinsaurus,((Qiaowanlong,Erketu,Tambatitanis,Euhelopus,Daxiatitan,(Tangvayosaurus,Phuwiangosaurus)),(Chubutisaurus,(Andesaurus,(Malawisaurus,(Opisthocoelicaudia,(Alamosaurus,Saltasaurini))))))))))))))));
+END;

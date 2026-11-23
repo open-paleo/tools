@@ -1,0 +1,54 @@
+#NEXUS
+
+[ dai2022a_fig7: Eusauropod strict consensus, read by eye with the dense parts at 1.6-2x. Seven clade names, each beside a node dot or joined to it by a curve, are kept as internal labels (Eusauropoda, Mamenchisauridae, Neosauropoda, Diplodocoidea, Flagellicaudata, Rebbachisauridae, Macronaria). Polytomies: Neosauropoda (Haplocanthosaurus, Diplodocoidea, Macronaria; stem entering between them), the four diplodocids, Histriasaurus-Zapalasaurus-the rest, and Rebbachisaurus-Rayososaurus-limaysaurines (Rayososaurus' line crosses the node's vertical and is read as its stem, as in earlier batches). Replacement for morrison2026a_fig6 (seed 20261217). 41 tips, 4 polytomies (3, 4, 3, 3 children); 7 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=41;
+    TAXLABELS
+        Shunosaurus_lii
+        Barapasaurus_tagorei
+        Patagosaurus_fariasi
+        Cetiosaurus_oxoniensis
+        Analong_chaunjieensis
+        Omeisaurus_tianfuensis
+        Yuanmousaurus_jiangyiensis
+        Chuanjiesaurus_anaensis
+        Mamenchisaurus_youngi
+        Losillasaurus_giganteus
+        Turiasaurus_riodevensis
+        Jobaria_tiguidensis
+        Haplocanthosaurus_priscus
+        Calcareo_Diplodocid
+        Barosaurus_lentus
+        Diplodocus
+        Apatosaurus
+        Suwassea_emiliae
+        Lingwulong_shenqi
+        Amargasaurus_cazaui
+        Brachytrachelopan_messai
+        Dicraeosaurus_hansemanni
+        Amazonsaurus_maranhensis
+        Histriasaurus_bocardeli
+        Zapalasaurus_bonapartei
+        Comahuesaurus_windhanseni
+        Nigersaurus_taqueti
+        Demandasaurus_darwini
+        Rebbachisaurus_garasbae
+        Rayososaurus_agrioensis
+        Limaysaurus_tessonei
+        Cathartesaurus_anaerobica
+        Yuzhoulong_qurenensis
+        Camarasaurus
+        Bellusaurus_sui
+        Europasaurus_holgeri
+        Euhelopus_zdanskyi
+        Galvesaurus_herreroi
+        Tehuelchesaurus_benitezii
+        Tastavinsaurus_sanzi
+        TITANOSAURIFORMES
+    ;
+END;
+
+BEGIN TREES;
+    TREE dai2022a_fig7 = [&R] (Shunosaurus_lii,(Barapasaurus_tagorei,((Patagosaurus_fariasi,Cetiosaurus_oxoniensis),((Analong_chaunjieensis,(Omeisaurus_tianfuensis,(Yuanmousaurus_jiangyiensis,(Chuanjiesaurus_anaensis,Mamenchisaurus_youngi))))Mamenchisauridae,((Losillasaurus_giganteus,Turiasaurus_riodevensis),(Jobaria_tiguidensis,(Haplocanthosaurus_priscus,(((Calcareo_Diplodocid,Barosaurus_lentus,Diplodocus,Apatosaurus),(Suwassea_emiliae,(Lingwulong_shenqi,(Amargasaurus_cazaui,(Brachytrachelopan_messai,Dicraeosaurus_hansemanni)))))Flagellicaudata,(Amazonsaurus_maranhensis,(Histriasaurus_bocardeli,Zapalasaurus_bonapartei,(Comahuesaurus_windhanseni,((Nigersaurus_taqueti,Demandasaurus_darwini),(Rebbachisaurus_garasbae,Rayososaurus_agrioensis,(Limaysaurus_tessonei,Cathartesaurus_anaerobica))))))Rebbachisauridae)Diplodocoidea,(Yuzhoulong_qurenensis,(Camarasaurus,(Bellusaurus_sui,(Europasaurus_holgeri,((Euhelopus_zdanskyi,Galvesaurus_herreroi),(Tehuelchesaurus_benitezii,(Tastavinsaurus_sanzi,TITANOSAURIFORMES)))))))Macronaria)Neosauropoda))))))Eusauropoda;
+END;

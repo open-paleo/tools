@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/turner2012a_fig69.png",
+  "names": "names.txt",
+  "source": "Turner et al. 2012, Bulletin of the American Museum of Natural History 371, Fig. 69: Bremer analysis of the non-paravian coelurosaurs, reduced strict consensus with Bremer values below the nodes, Paraves collapsed; rectangular, root left, thin lines. Image: census 2 figure (1481x1791 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed ('Albertosaurus sacrophagus', 'Pelecanimimus polydon', 'Mononykus lolecranus', 'Ingenia yanshani'), and the collapsed tip PARAVES",
+  "gold": "gold.nex",
+  "gold_note": "Coelurosaur Bremer consensus, read by eye. Multi-way nodes: Daspletosaurus, Tarbosaurus, Tyrannosaurus and the Gorgosaurus pair; Dilong, Coelurus, Proceratosaurus and the rest; four compsognathids; Archaeornithomimus, Shenzhousaurus, Harpymimus and the rest; Albinykus, Shuvuuia and Mononykus; three therizinosaurs; Avimimus, Caudipteryx and the rest; four oviraptorids. No clade names are printed; the digits are Bremer values. 45 tips, 8 polytomies (4, 4, 4, 4, 3, 3, 3, 4 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/schweitzer1999a_fig7.png",
+  "names": "names.txt",
+  "source": "Schweitzer et al. 1999, Journal of Experimental Zoology 285, Fig. 7A: one of three alternative placements of Alvarezsauridae; slanted (diagonal) cladogram, root at the bottom, node dots, tip names written upwards, 'Aves' beside a node dot. Panels B and C (the other placements) are excluded. Image: census 2 figure (990x1980 px), a 300 dpi page render.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 990,
+    "y1": 620
+  },
+  "region_note": "panel A (top); B and C are the alternative hypotheses",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A, with '“non-avian theropods”' in its quotation marks as printed",
+  "gold": "gold.nex",
+  "gold_note": "Slanted summary cladogram, panel A, fully resolved. Aves, printed beside a node dot, is kept as an internal label. 4 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

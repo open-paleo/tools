@@ -1,0 +1,37 @@
+#NEXUS
+
+[ pol2012a_fig2: Ceratosaur time tree, root at the bottom, with the abelisaurid base read at 2x (Rugops, Abelisaurus and the majungasaurine group branch off one after another, on horizontals a few pixels apart). Ceratosauria, Abelisauroidea, Noasauridae, Abelisauridae and Brachyrostra, beside node dots, are kept as internal labels. Polytomies: Ceratosauria (Deltadromeus, Berberosaurus and the rest), Noasauridae (four), Majungasaurus-Indosaurus-Rajasaurus, Skorpiovenator-Ilokelesia-Ekrixinatosaurus. The grey bars are ghost lineages on the stems, and Spinostropheus' dashed line is its range. 24 tips, 4 polytomies (3, 4, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Syntarsus
+        Allosaurus
+        Deltadromeus
+        Berberosaurus
+        Spinostropheus
+        Limusaurus
+        Elaphrosaurus
+        Ceratosaurus
+        Genyodectes
+        Velocisaurus
+        Noasaurus
+        Masiakasaurus
+        Laevisuchus
+        Eoabelisaurus
+        Rugops
+        Abelisaurus
+        Majungasaurus
+        Indosaurus
+        Rajasaurus
+        Skorpiovenator
+        Ilokelesia
+        Ekrixinatosaurus
+        Carnotaurus
+        Aucasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE pol2012a_fig2 = [&R] (Syntarsus,(Allosaurus,(Deltadromeus,Berberosaurus,((Spinostropheus,(Limusaurus,Elaphrosaurus)),((Ceratosaurus,Genyodectes),((Velocisaurus,Noasaurus,Masiakasaurus,Laevisuchus)Noasauridae,(Eoabelisaurus,(Rugops,(Abelisaurus,((Majungasaurus,Indosaurus,Rajasaurus),((Skorpiovenator,Ilokelesia,Ekrixinatosaurus),(Carnotaurus,Aucasaurus))Brachyrostra))))Abelisauridae)Abelisauroidea)))Ceratosauria));
+END;

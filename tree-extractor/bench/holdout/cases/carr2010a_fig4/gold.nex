@@ -1,0 +1,38 @@
+#NEXUS
+
+[ carr2010a_fig4: Tyrannosauroid time tree, read by eye with the tyrannosaurid part at 2x. Five names joined by arrows to the tree are kept as internal labels on the node each arrow's stem leads to: Coelurosauria and Tyrannosauroidea, and the three character-list headings Tyrannosauridae, Tyrannosaurinae and 'Derived tyrannosaurines' (as printed). Polytomies: the root (five), a seven-way node (Iliosuchus to Cf. Alectrosaurus and the tyrannosaurid branch) and a five-way node (Dryptosaurus, Appalachiosaurus, Alioramus, Bistahieversor and Tyrannosauridae). 25 tips, 3 polytomies (5, 7, 5 children); 5 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=25;
+    TAXLABELS
+        Coelophysis
+        Allosaurus
+        Guanlong
+        Monolophosaurus
+        Coelurus
+        Sinosauropteryx
+        Velociraptor
+        Tanycolagreus
+        Dilong
+        Iliosuchus
+        Stokesosaurus
+        Eotyrannus
+        Aviatyrannis
+        Bagaraatan
+        Cf._Alectrosaurus
+        Dryptosaurus
+        Appalachiosaurus
+        Alioramus
+        Bistahieversor_sealeyi
+        Albertosaurus_libratus
+        A._sarcophagus
+        'BYU 8120/9396, 9397, 9398, 826/9402, 9398, 13719'
+        Daspletosaurus_spp.
+        Tyrannosaurus_bataar
+        T._rex
+    ;
+END;
+
+BEGIN TREES;
+    TREE carr2010a_fig4 = [&R] (Coelophysis,Allosaurus,(Guanlong,Monolophosaurus),Coelurus,(Sinosauropteryx,(Velociraptor,(Tanycolagreus,(Dilong,(Iliosuchus,Stokesosaurus,Eotyrannus,Aviatyrannis,Bagaraatan,Cf._Alectrosaurus,(Dryptosaurus,Appalachiosaurus,Alioramus,Bistahieversor_sealeyi,((Albertosaurus_libratus,A._sarcophagus),('BYU 8120/9396, 9397, 9398, 826/9402, 9398, 13719',(Daspletosaurus_spp.,(Tyrannosaurus_bataar,T._rex))Derived_tyrannosaurines)Tyrannosaurinae)Tyrannosauridae))))Tyrannosauroidea))Coelurosauria);
+END;

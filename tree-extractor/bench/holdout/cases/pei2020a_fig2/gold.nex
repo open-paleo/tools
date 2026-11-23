@@ -1,0 +1,50 @@
+#NEXUS
+
+[ pei2020a_fig2: Paravian tree, fully resolved. Seventeen clade names printed beside their nodes (or along the stem entering them) are kept as internal labels, including the descriptive ones as printed ('Archaeopteryx clade', 'Archaeopteryx + later-diverging avialans', 'Jeholornis + ...', 'Jixiangornis + ...', 'Hongshanornis + later-diverging avialans'). The notes 'pass WL', 'fail SL' etc. and 'all fail WL & SL' are character annotations, not names; the skeletal drawings sit on the stems of Anchiornithinae and the Archaeopteryx clade and are not tips. 37 tips, fully resolved; 17 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=37;
+    TAXLABELS
+        Sinornithoides_youngi
+        Sinovenator_changii
+        Mei_long
+        Jinfengopteryx_elegans
+        Mahakala_omnogovae
+        Rahonavis_ostromi
+        Buitreraptor_gonzalozorum
+        'Neuquenraptor + Unenlagia'
+        Austroraptor_cabazai
+        Tianyuraptor_ostromi
+        Zhenyuanlong_suni
+        Changyuraptor_yangi
+        Sinornithosaurus_millenii
+        Microraptor_zhaoianus
+        Bambiraptor_feinbergorum
+        Linheraptor_exquisitus
+        Saurornitholestes_langstoni
+        Dakotaraptor_steini
+        Velociraptor_mongoliensis
+        Deinonychus_antirrhopus
+        Xiaotingia_zhengi
+        Eosinopteryx_brevipenna
+        Aurornis_xui
+        Anchiornis_huxleyi
+        'Eichstätt Archaeopteryx'
+        Thermopolis_Archaeopteryx
+        Berlin_Archaeopteryx
+        Sapeornis_chaoyangensis
+        Jeholornis_prima
+        Jixiangornis_orientalis
+        Confuciusornis_sanctus
+        Hongshanornis_longicresta
+        Yixianornis_grabaui
+        Yanornis_martini
+        Pengornis_houi
+        Concornis_lacustris
+        Cathayornis_yandica
+    ;
+END;
+
+BEGIN TREES;
+    TREE pei2020a_fig2 = [&R] (((Sinornithoides_youngi,(Sinovenator_changii,(Mei_long,Jinfengopteryx_elegans)))Troodontidae,(Mahakala_omnogovae,((Rahonavis_ostromi,(Buitreraptor_gonzalozorum,('Neuquenraptor + Unenlagia',Austroraptor_cabazai)))Unenlagiinae,((Tianyuraptor_ostromi,(Zhenyuanlong_suni,(Changyuraptor_yangi,(Sinornithosaurus_millenii,Microraptor_zhaoianus))))Microraptorinae,(Bambiraptor_feinbergorum,(Linheraptor_exquisitus,(Saurornitholestes_langstoni,(Dakotaraptor_steini,(Velociraptor_mongoliensis,Deinonychus_antirrhopus))))Velociraptorinae)Eudromaeosauria)))Dromaeosauridae)Deinonychosauria,((Xiaotingia_zhengi,(Eosinopteryx_brevipenna,(Aurornis_xui,Anchiornis_huxleyi)))Anchiornithinae,(('Eichstätt Archaeopteryx',(Thermopolis_Archaeopteryx,Berlin_Archaeopteryx))Archaeopteryx_clade,(Sapeornis_chaoyangensis,(Jeholornis_prima,(Jixiangornis_orientalis,(Confuciusornis_sanctus,((Hongshanornis_longicresta,(Yixianornis_grabaui,Yanornis_martini)),(Pengornis_houi,(Concornis_lacustris,Cathayornis_yandica))Enantiornithes)'Hongshanornis + later-diverging avialans')Pygostylia)'Jixiangornis + later-diverging avialans')'Jeholornis + later-diverging avialans'))'Archaeopteryx + later-diverging avialans')Avialae)Paraves;
+END;

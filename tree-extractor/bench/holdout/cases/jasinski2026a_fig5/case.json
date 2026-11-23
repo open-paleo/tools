@@ -1,0 +1,18 @@
+{
+  "image": "../../../../../../corpus/census2/figures/jasinski2026a_fig5.png",
+  "names": "names.txt",
+  "source": "Jasinski and Sullivan 2026, Fossil Studies 4, Fig. 5A: time-calibrated troodontine tree; rectangular, root left, range bars coloured by region against a stage chart, a colour legend, clade letters G and R. Panel B (the same taxa under another analysis, with Archaeopteryx) is excluded. Image: census 2 figure (3337x3532 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 3337,
+    "y1": 2100
+  },
+  "region_note": "panel A with the stage chart above it; panel B below repeats the taxa",
+  "license": "CC BY 4.0",
+  "attribution": "Jasinski, S. E.; Sullivan, R. M. (2026). Dinevenator, a New Genus of Troodontid Dinosaur from the Late Cretaceous of New Mexico. Fossil Studies. https://doi.org/10.3390/fossils4030021. Fig. 5A. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names of panel A, including the collapsed tip Saurornithoidini (a gradient bar) and 'Kaiparowits troodontid'",
+  "gold": "gold.nex",
+  "gold_note": "Troodontine time tree, panel A, fully resolved. Troodontinae (written on the root's stem) and Troodontini (printed at the corner of its node's stem) are kept as internal labels; Saurornithoidini is printed above its own bar and is a tip. The letters G and R are keys, not names. 8 tips, fully resolved; 2 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

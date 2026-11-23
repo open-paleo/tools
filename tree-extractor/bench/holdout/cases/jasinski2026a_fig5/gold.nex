@@ -1,0 +1,21 @@
+#NEXUS
+
+[ jasinski2026a_fig5: Troodontine time tree, panel A, fully resolved. Troodontinae (written on the root's stem) and Troodontini (printed at the corner of its node's stem) are kept as internal labels; Saurornithoidini is printed above its own bar and is a tip. The letters G and R are keys, not names. 8 tips, fully resolved; 2 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=8;
+    TAXLABELS
+        Saurornithoidini
+        Troodon_formosus
+        Kaiparowits_troodontid
+        Stenonychosaurus_inequalis
+        Latenivenatrix_mcmasterae
+        Albertavenator_curriei
+        Xenovenator_espinosai
+        Dinevenator_robustus
+    ;
+END;
+
+BEGIN TREES;
+    TREE jasinski2026a_fig5 = [&R] (Saurornithoidini,((Troodon_formosus,(Kaiparowits_troodontid,(Stenonychosaurus_inequalis,Latenivenatrix_mcmasterae))),(Albertavenator_curriei,(Xenovenator_espinosai,Dinevenator_robustus)))Troodontini)Troodontinae;
+END;

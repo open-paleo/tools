@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/ksepka2010a_fig4.png",
+  "names": "names.txt",
+  "source": "Ksepka and Norell 2010, American Museum Novitates 3700, Fig. 4: sauropod strict consensus placing Erketu; rectangular, root left, thin lines, bold tip names, Bremer values, open node circles and stem arcs with clade names. Image: census 2 figure (964x1188 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Abysosaurus' and the specimen tip 'Bor Guvé Titanosaur'",
+  "gold": "gold.nex",
+  "gold_note": "Sauropod strict consensus. Eight clade names are kept as internal labels: Neosauropoda, Diplodocoidea, Titanosauriformes, Titanosauria and Lithostrotia at open node circles, and Macronaria, Brachiosauridae and Somphospondyli at arcs on the stems of their nodes. Polytomies: Cetiosaurus, Ferganasaurus and the rest; Suuwassea, the Tornieria clade and Apatosaurus; five brachiosaurids; Bor Guvé Titanosaur, Sonidosaurus and Lithostrotia; Gondwanatitan, Alamosaurus, Opisthocoelicaudia and the saltasaurine pair. 43 tips, 5 polytomies (3, 3, 5, 3, 4 children); 8 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -492,3 +492,74 @@ Over the twenty figures as drawn:
 
 - Names: 479 of 703 (68%). Exact matches: 4 of 20. Every name right: 6 of 20.
 - Eight figures named under 70% of their tips; the warning marked 7 of them.
+
+# Sample 5 (second census draw)
+
+Drawn from census 2's trees that had no gold case (corpus `census2/`; images at `../../../../../../corpus/census2/figures/{id}.png`, as for sample 4).
+
+## How the sample was drawn
+
+- **Population:** census 2's 60 trees, minus the 21 with cases (sample 4's 20 including cau2018a_fig6, and göhlich2006a_fig4), minus ramírez-velasco2022a_fig4 (recorded unreadable in sample 4): 38 trees, all in the three layout strata. Census 2 has no circular or root-right figures.
+- **Strata:** layout by time axis, using the census flags as corrected (dai2022a_fig7 and cau2018a_fig6 gained `time_axis`), largest remainder: rectangular 6 + 10, slanted 0 + 2, vertical 2 + 0 (with + without time axis), from pools of 11, 19, 0, 3, 4 and 1.
+- **Draw:** `random.Random(20261215)`, `rng.sample` per stratum; skips replaced from the stratum's remaining pool by `random.Random(20261215 + k)`. Strict on size: a figure is skipped only when its tree cannot be read from the image. Script: `census2/scripts/gold_draw5.py`; picks, pools and replacements: `census2/scripts/gold_draw5_result.json`.
+
+Pools:
+
+- rectangular, time axis (11): apaldetti2018a_fig3 carr2010a_fig4 dai2022a_fig7 hattori2023a_fig9 jasinski2026a_fig5 mcphee2018a_fig2 morrison2026a_fig5 morrison2026a_fig6 müller2018a_fig2 prieto-márquez2012b_fig23 sánchez-fenollosa2026a_fig11
+- rectangular, no time axis (19): averianov2021c_fig8 carr2020a_fig1 evans2007a_fig9 fanti2012a_fig8 ksepka2010a_fig4 lee2019a_fig8 müller2018b_fig39 nesbitt2020a_fig1 pei2020a_fig2 pond2023a_fig27 rozadilla2021a_fig14 ryan2005a_fig10 saegusa2014a_fig23 samathi2019a_fig1 sen2025a_fig5 srivastava2026a_fig20 sánchez-hernández2014a_fig12 turner2012a_fig69 turner2012a_fig79
+- slanted, no time axis (3): schweitzer1999a_fig7 thompson2011a_fig1 turner2012a_fig5
+- vertical, time axis (4): lamanna2014a_fig7 longrich2024b_fig17 pol2012a_fig2 vanderlinden2025a_fig1
+- vertical, no time axis (1): norman2011a_fig41
+
+Drawn: mcphee2018a_fig2 carr2010a_fig4 morrison2026a_fig6 jasinski2026a_fig5 müller2018a_fig2 morrison2026a_fig5 | rozadilla2021a_fig14 turner2012a_fig69 ksepka2010a_fig4 nesbitt2020a_fig1 samathi2019a_fig1 carr2020a_fig1 pei2020a_fig2 sánchez-hernández2014a_fig12 sen2025a_fig5 saegusa2014a_fig23 | thompson2011a_fig1 schweitzer1999a_fig7 | longrich2024b_fig17 pol2012a_fig2
+
+## Sample 5 (20 cases, four skips replaced)
+
+| Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
+|---|---|---|---:|---|---:|---|---|---|
+| apaldetti2018a_fig3 | rectangular | yes | 11 | - | 4 | printed | image-transcription | ? |
+| carr2010a_fig4 | rectangular | yes | 25 | 5, 7, 5 | 5 | printed | image-transcription | ? |
+| dai2022a_fig7 | rectangular | yes | 41 | 3, 4, 3, 3 | 7 | printed | image-transcription | yes |
+| jasinski2026a_fig5 | rectangular | yes | 8 | - | 2 | printed | image-transcription | yes |
+| müller2018a_fig2 | rectangular | yes | 31 | 4, 3 | 5 | printed | image-transcription | ? |
+| prieto-márquez2012b_fig23 | rectangular | yes | 20 | - | 1 | printed | image-transcription | ? |
+| rozadilla2021a_fig14 | rectangular | no | 26 | 3 | - | printed | image-transcription | ? |
+| turner2012a_fig69 | rectangular | no | 45 | 4, 4, 4, 4, 3, 3, 3, 4 | - | printed | image-transcription | ? |
+| ksepka2010a_fig4 | rectangular | no | 43 | 3, 3, 5, 3, 4 | 8 | printed | image-transcription | ? |
+| nesbitt2020a_fig1 | rectangular | no | 7 | - | 1 | printed | image-transcription | ? |
+| pond2023a_fig27 | rectangular | no | 14 | - | 1 | printed | image-transcription | ? |
+| carr2020a_fig1 | rectangular | no | 45 | 12, 32 | - | printed | image-transcription | yes |
+| pei2020a_fig2 | rectangular | no | 37 | - | 17 | printed | image-transcription | ? |
+| sánchez-hernández2014a_fig12 | rectangular | no | 23 | 19 | - | printed | image-transcription | yes |
+| sen2025a_fig5 | rectangular | no | 38 | 4, 3, 3 | 12 | printed | image-transcription | ? |
+| saegusa2014a_fig23 | rectangular | no | 29 | 3, 3, 6 | - | printed | image-transcription | ? |
+| thompson2011a_fig1 | slanted | no | 16 | - | - | printed | image-transcription | ? |
+| schweitzer1999a_fig7 | slanted | no | 4 | - | 1 | printed | image-transcription | ? |
+| longrich2024b_fig17 | vertical | yes | 30 | - | 6 | printed | image-transcription | yes |
+| pol2012a_fig2 | vertical | yes | 24 | 3, 4, 3, 3 | 5 | printed | image-transcription | ? |
+
+Skips (all for unreadable topology; none for size):
+
+- `mcphee2018a_fig2` (rectangular, time axis): the sauropodiform backbone is a stack of near-parallel lines 2-3 px apart under node dots, so which line leaves which node cannot be decided (at 5x, the Lessemsaurus, Antetonitrus-Ledumahadi and "Other sauropods" lines meet the backbone under overlapping dots). Replaced by seed 20261216: `apaldetti2018a_fig3`.
+- `morrison2026a_fig6` and `morrison2026a_fig5` (rectangular, time axis; two analyses in the same style): the megaraptorid ladder has six to eight node dots on doubled vertical lines, with dots where no branch leaves; the branching order of Megaraptor, Australovenator, Orkoraptor, Aerosteon, Aniksosaurus, Fukuiraptor and Siats cannot be decided. Replaced by seeds 20261217 and 20261218: `dai2022a_fig7` and `prieto-márquez2012b_fig23`.
+- `samathi2019a_fig1` (rectangular, no time axis): Megaraptora is drawn three times on dashed alternative branches, so the figure shows no single tree (the pol2022a_fig6 reason). Replaced by seed 20261219: `pond2023a_fig27`.
+
+Notes on sample 5:
+
+- Panels, each with a `region`: nesbitt2020a_fig1 A (one of four published hypotheses), thompson2011a_fig1 A, schweitzer1999a_fig7 A, jasinski2026a_fig5 A, apaldetti2018a_fig3 a (b is a body-mass plot), saegusa2014a_fig23 left (strict consensus with the shared tip column), carr2020a_fig1 A (B is a majority-rule tree with dashed wildcard boxes), sánchez-hernández2014a_fig12 B (the census region). rozadilla2021a_fig14 uses panel B, which a rectangle separates cleanly; panel A extends under it.
+- Labels as printed, including descriptive ones (pei2020a 'Archaeopteryx + later-diverging avialans' and four like it; carr2010a's character-list headings joined to nodes by arrows, among them 'Derived tyrannosaurines'). Not encoded: keys and support digits; thompson2011a's clade numbers; sánchez-hernández2014a's CERATOSAURIA, which panel B prints under a different node from panel A.
+- sen2025a_fig5's Saurischia vertical is broken only by the overprinted word 'Sauropodomorpha' and has no support value above the Sauropodomorpha stem, so it is read as a three-way node (ISIR306c, Sauropodomorpha, theropods); the gold_note says so.
+- müller2018a_fig2 (labels as PDF text; the census image is the render with them) was read from a listing of its grey line segments.
+- None of these census images cuts off tips.
+
+What is left in census 2 after sample 5: 18 trees without gold, 5 of them recorded unreadable (ramírez-velasco2022a_fig4, mcphee2018a_fig2, morrison2026a_fig5, morrison2026a_fig6, samathi2019a_fig1), leaving 13.
+
+### Sample 5 baseline (tree extractor at commit 4f41ffb, run cold on 2026-11-22)
+
+Run before any change was made for these figures.
+
+- Names: 413 of 517 (80%). Exact matches: 8 of 20 (carr2020a_fig1, nesbitt2020a_fig1, pond2023a_fig27, rozadilla2021a_fig14, saegusa2014a_fig23, schweitzer1999a_fig7, sánchez-hernández2014a_fig12, turner2012a_fig69). Every name right: 9 of 20.
+- Splits, among the tips named: 243 of 256 (95%), with 4 wrong splits.
+- Five figures named under 70% of their tips: sen2025a_fig5 9 of 38, pei2020a_fig2 10 of 37, apaldetti2018a_fig3 3 of 11, pol2012a_fig2 9 of 24, carr2010a_fig4 14 of 25.
+- The `reading-doubtful` warning marked all 5 of those, 1 of the 3 between 70 and 90 percent (jasinski2026a_fig5), and 2 of the 12 at 90 percent or more (dai2022a_fig7 and müller2018a_fig2, each with many unnamed tips in the tree beside the named ones).
+- Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%.

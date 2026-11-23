@@ -1,0 +1,20 @@
+#NEXUS
+
+[ nesbitt2020a_fig1: Early dinosaur summary ladder, panel A, fully resolved. The shaded DINOSAURIA box spans the whole tree and is kept as the root label. 7 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=7;
+    TAXLABELS
+        Ornithischia
+        Sauropodomorpha
+        Herrerasauridae
+        Eoraptor
+        Daemonosaurus
+        Tawa
+        Neotheropoda
+    ;
+END;
+
+BEGIN TREES;
+    TREE nesbitt2020a_fig1 = [&R] (Ornithischia,(Sauropodomorpha,(Herrerasauridae,(Eoraptor,(Daemonosaurus,(Tawa,Neotheropoda))))))DINOSAURIA;
+END;

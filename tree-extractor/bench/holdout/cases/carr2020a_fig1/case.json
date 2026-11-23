@@ -1,0 +1,18 @@
+{
+  "image": "../../../../../../corpus/census2/figures/carr2020a_fig1.png",
+  "names": "names.txt",
+  "source": "Carr 2020, PeerJ 8, Fig. 1A: strict consensus of a specimen-level (growth-stage) analysis of Tyrannosaurus specimens; rectangular, root left, thin lines, two large fans. Panel B (the majority-rule tree with dashed boxes for alternative positions) is excluded. Image: census 2 figure (2277x1575 px), a 300 dpi page render of the vector figure.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 430,
+    "y1": 1575
+  },
+  "region_note": "panel A (left); panel B to its right is the majority-rule tree",
+  "license": "CC BY 4.0",
+  "attribution": "Carr, T. D. (2020). A high-resolution growth series of Tyrannosaurus rex obtained from multiple lines of evidence. PeerJ. https://doi.org/10.7717/peerj.9192. Fig. 1A. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names of panel A, all specimen numbers except 'Artificial embryo'",
+  "gold": "gold.nex",
+  "gold_note": "Specimen-level strict consensus, panel A: an 11-way polytomy (AMNH FARB 5050 to RSM 2347.1 and the rest) and a 32-way polytomy, with BMRP 2002.4.1 between them. No clade names are printed. 45 tips, 2 polytomies (12, 32 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/pond2023a_fig27.png",
+  "names": "names.txt",
+  "source": "Pond et al. 2023, Journal of Systematic Palaeontology 21, Fig. 27: ankylosaur phylogeny placing Vectipelta (bold); rectangular, root left, thick lines, support values above the nodes, collapsed clades as coloured triangles, an arrow from 'Polacanthidae' to its node. Image: census 2 figure (1938x1956 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the triangle tips Panoplosauridae, Struthiosauridae and Ankylosauridae",
+  "gold": "gold.nex",
+  "gold_note": "Ankylosaur cladogram, fully resolved. Polacanthidae, joined by an arrow to its node, is kept as an internal label. Replacement for samathi2019a_fig1 (seed 20261219). 14 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

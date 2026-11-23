@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/pei2020a_fig2.png",
+  "names": "names.txt",
+  "source": "Pei et al. 2020, Current Biology 30, Fig. 2: paravian phylogeny with powered-flight potential mapped (pass/fail notes, coloured and dotted branches); rectangular, root left, thick coloured lines, many clade names beside nodes in grey and green, skeletal drawings standing in for two branches, arrows and notes. Image: census 2 figure (1744x1803 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Neuquenraptor + Unenlagia' as one tip, 'Buitreraptor gonzalozorum' and the three Archaeopteryx specimens ('Eichstätt Archaeopteryx' etc.)",
+  "gold": "gold.nex",
+  "gold_note": "Paravian tree, fully resolved. Seventeen clade names printed beside their nodes (or along the stem entering them) are kept as internal labels, including the descriptive ones as printed ('Archaeopteryx clade', 'Archaeopteryx + later-diverging avialans', 'Jeholornis + ...', 'Jixiangornis + ...', 'Hongshanornis + later-diverging avialans'). The notes 'pass WL', 'fail SL' etc. and 'all fail WL & SL' are character annotations, not names; the skeletal drawings sit on the stems of Anchiornithinae and the Archaeopteryx clade and are not tips. 37 tips, fully resolved; 17 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

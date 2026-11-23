@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/nesbitt2020a_fig1.png",
+  "names": "names.txt",
+  "source": "Nesbitt and Sues 2020, Zoological Journal of the Linnean Society 191, Fig. 1A: one of four published hypotheses of early dinosaur relationships; rectangular, root left, a shaded box labelled DINOSAURIA. Panels B-D (the other hypotheses, over overlapping taxa) are excluded. Image: census 2 figure (973x609 px), a 300 dpi page render of the vector figure.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 490,
+    "y1": 280
+  },
+  "region_note": "panel A (top left); B-D are other hypotheses",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A, mostly higher taxa",
+  "gold": "gold.nex",
+  "gold_note": "Early dinosaur summary ladder, panel A, fully resolved. The shaded DINOSAURIA box spans the whole tree and is kept as the root label. 7 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

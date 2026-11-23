@@ -1,0 +1,51 @@
+#NEXUS
+
+[ sen2025a_fig5: Archosaur strict consensus, read by eye with the saurischian base at 1.6x. Twelve clade names beside node dots are kept as internal labels, as printed ('Ornisthischia'). Saurischia's vertical runs from the ISIR306c line to the theropod branch, broken only where the word 'Sauropodomorpha' is printed over it, and has no support value of its own above the Sauropodomorpha stem; it is read as a three-way node (ISIR306c, Sauropodomorpha and the theropod branch). Other polytomies: three ornithischians; four silesaurids. The grey boxes carry no names. 38 tips, 3 polytomies (4, 3, 3 children); 12 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=38;
+    TAXLABELS
+        Erythrosuchus_africanus
+        Euparkeria_capensis
+        Aetosaurus_ferratus
+        Revueltosaurus_callenderi
+        Effigia_okeeffeae
+        Arizonasaurus_babbitti
+        Batrachotomus_kuperferzellensis
+        Dromicosuchus_grallator
+        Postosuchus_kirkpatricki
+        Dimorphodon_macronyx
+        Eudimorphodon_ranzii
+        Alickmeron_maleriensis
+        Lagerpeton_chanarensis
+        Dromomeron_romeri
+        Dromomeron_gregorii
+        Marasuchus_lilloensis
+        Lewisuchus_admixtus
+        Asilisaurus_kongwe
+        Eucoelophysis_baldwini
+        Silesaurus_opolensis
+        Diodorus_scytobrachion
+        Sacisaurus_augodoensis
+        Lutungutali_sitwensis
+        Lesthosaurus_diagnosticus
+        Heterodontosaurus_tucki
+        Pisanosaurus_mertii
+        ISIR306c
+        Eoraptor_lunensis
+        Saturnalia_tupiniquim
+        Efraasia_minor
+        Plateosaurus_engelhardti
+        Herrerasaurus_ischigualastensis
+        Tawa_hallae
+        Taxon_II
+        Coelophysis_bauri
+        Dilophosaurus_wetherilli
+        Allosaurus_fragilis
+        Velociraptor_mongoliensis
+    ;
+END;
+
+BEGIN TREES;
+    TREE sen2025a_fig5 = [&R] (Erythrosuchus_africanus,(Euparkeria_capensis,(((Aetosaurus_ferratus,Revueltosaurus_callenderi),((Effigia_okeeffeae,Arizonasaurus_babbitti),(Batrachotomus_kuperferzellensis,(Dromicosuchus_grallator,Postosuchus_kirkpatricki))))Pseudosuchia,((Dimorphodon_macronyx,Eudimorphodon_ranzii),((Alickmeron_maleriensis,(Lagerpeton_chanarensis,(Dromomeron_romeri,Dromomeron_gregorii)))Lagerpetidae,(Marasuchus_lilloensis,((Lewisuchus_admixtus,(Asilisaurus_kongwe,(Eucoelophysis_baldwini,(Silesaurus_opolensis,Diodorus_scytobrachion,Sacisaurus_augodoensis,Lutungutali_sitwensis))))Silesauridae,((Lesthosaurus_diagnosticus,Heterodontosaurus_tucki,Pisanosaurus_mertii)Ornisthischia,(ISIR306c,(Eoraptor_lunensis,(Saturnalia_tupiniquim,(Efraasia_minor,Plateosaurus_engelhardti)))Sauropodomorpha,(Herrerasaurus_ischigualastensis,(Tawa_hallae,(Taxon_II,(Coelophysis_bauri,(Dilophosaurus_wetherilli,(Allosaurus_fragilis,Velociraptor_mongoliensis))))Theropoda)))Saurischia)Dinosauria))Dinosauriformes)Dinosauromorpha)Avemetatarsalia)Archosauria));
+END;

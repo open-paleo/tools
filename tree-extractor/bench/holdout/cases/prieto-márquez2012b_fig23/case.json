@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/prieto-márquez2012b_fig23.png",
+  "names": "names.txt",
+  "source": "Prieto-Márquez et al. 2012, PLoS ONE 7, Fig. 23: time-scaled lambeosaurine phylogeny with ancestral areas, Magnapaulia (bold); rectangular, root left, area boxes on branches and nodes, age ranges beside the tips, a stage scale above, a legend, SAUROLOPHINAE as a collapsed bar. Image: census 2 figure (1378x942 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, genus and species, including the collapsed tip SAUROLOPHINAE",
+  "gold": "gold.nex",
+  "gold_note": "Lambeosaurine time tree, read by eye with the lower half at 2x; fully resolved. LAMBEOSAURINAE, printed beside the stem of the Aralosaurus node with an area box, is kept as an internal label. The coloured boxes are ancestral areas, and the small arrow by Corythosaurus marks a dispersal, not a branch. Replacement for morrison2026a_fig5 (seed 20261218). 20 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

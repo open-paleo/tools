@@ -1,0 +1,39 @@
+#NEXUS
+
+[ rozadilla2021a_fig14: Saurolophine consensus, panel B. The digits at nodes are Bremer support, not keys or names; no clade names are printed. One three-way node: Bonapartesaurus, Kelumapusaura and Huallasaurus (the stem enters at Kelumapusaura's line, which continues as that tip, read as one node as in earlier batches). 26 tips, 1 polytomies (3 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=26;
+    TAXLABELS
+        Hadrosaurus_foulki
+        Yamatosaurus_izangii
+        Wulagasaurus_dongi
+        Acristavus_gagslarsoni
+        Maisaura_peeblesorum
+        Probrachylphosaurus_bergei
+        Brachylophosaurus_canadensis
+        Secernosaurus_koerneri
+        Bonapartesaurus_rionegrensis
+        Kelumapusaura_machi
+        Huallasaurus_australis
+        Kritosaurus_navajovius
+        Gryposaurus_notabilis
+        Gryposaurus_monumentensis
+        Gryposaurus_latidens
+        Rhinorex_condruptus
+        Kamuysaurus_japonica
+        Prosaurolophus_maximus
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+        Laiyangosaurus_youngi
+        Kerberosaurus_mankini
+        Shantungosaurus_giganteus
+        Edmontosaurus_anectens
+        Edmontosaurus_regalis
+        LAMBEOSAURINAE
+    ;
+END;
+
+BEGIN TREES;
+    TREE rozadilla2021a_fig14 = [&R] (Hadrosaurus_foulki,(Yamatosaurus_izangii,((((Wulagasaurus_dongi,Acristavus_gagslarsoni),(Maisaura_peeblesorum,(Probrachylphosaurus_bergei,Brachylophosaurus_canadensis))),(((Secernosaurus_koerneri,(Bonapartesaurus_rionegrensis,Kelumapusaura_machi,Huallasaurus_australis)),(Kritosaurus_navajovius,((Gryposaurus_notabilis,Gryposaurus_monumentensis),(Gryposaurus_latidens,Rhinorex_condruptus)))),(Kamuysaurus_japonica,((Prosaurolophus_maximus,(Saurolophus_osborni,Saurolophus_angustirostris)),((Laiyangosaurus_youngi,Kerberosaurus_mankini),(Shantungosaurus_giganteus,(Edmontosaurus_anectens,Edmontosaurus_regalis))))))),LAMBEOSAURINAE)));
+END;

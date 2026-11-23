@@ -1,0 +1,27 @@
+#NEXUS
+
+[ pond2023a_fig27: Ankylosaur cladogram, fully resolved. Polacanthidae, joined by an arrow to its node, is kept as an internal label. Replacement for samathi2019a_fig1 (seed 20261219). 14 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=14;
+    TAXLABELS
+        Sarcolestes
+        Cedarpelta
+        Hoplitosaurus
+        Polacanthus
+        Niobrarasaurus
+        Hylaeosaurus
+        Gastonia
+        Panoplosauridae
+        Struthiosauridae
+        Borealopelta
+        Vectipelta
+        Zhejiangosaurus
+        Dongyangopelta
+        Ankylosauridae
+    ;
+END;
+
+BEGIN TREES;
+    TREE pond2023a_fig27 = [&R] (Sarcolestes,(Cedarpelta,((Hoplitosaurus,((Polacanthus,Niobrarasaurus),(Hylaeosaurus,Gastonia)))Polacanthidae,((Panoplosauridae,Struthiosauridae),(Borealopelta,((Vectipelta,(Zhejiangosaurus,Dongyangopelta)),Ankylosauridae))))));
+END;

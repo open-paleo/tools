@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/saegusa2014a_fig23.png",
+  "names": "names.txt",
+  "source": "Saegusa and Ikeda 2014, Zootaxa 3848, Fig. 23, left tree: strict consensus of 81 MPTs placing Tambatitanis (bold), with decay indices below the nodes; rectangular, root left, tip names in a shared central column. The 50% majority-rule tree mirrored on the right is excluded. Image: census 2 figure (3544x5164 px), a 600 dpi page render.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2050,
+    "y1": 4700
+  },
+  "region_note": "the strict consensus (left) with the shared central tip names; the majority-rule tree mirrored on the right is excluded",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the higher-taxon tips Diplodocoidea and Saltasaurini",
+  "gold": "gold.nex",
+  "gold_note": "Titanosauriform strict consensus (left tree). No root stem is drawn: the root node holds Shunosaurus, Omeisaurus and the rest (three-way). Other polytomies: Abydosaurus, Cedarosaurus and Venenosaurus (stem entering at Cedarosaurus' height); and a six-way euhelopodid node. The digits are decay indices; no clade names are printed. 29 tips, 3 polytomies (3, 3, 6 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/müller2018a_fig2.png",
+  "names": "names.txt",
+  "source": "Müller et al. 2018, Biology Letters 14, Fig. 2: time-calibrated sauropodomorph tree with Bagualosaurus; rectangular, root left, thin grey lines, coloured range bars (pink Triassic, blue Jurassic), red arrows from two clade names, clade names beside nodes, skeletal reconstructions, tooth photos and a diet colour scale. Image: census 2 figure (1967x1290 px), a 300 dpi page render that includes the tip names (PDF text over the raster).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including the abbreviations 'P. erlenbergensis', 'P. gracilis', 'P. engelhardti', 'M. kaalae', 'M. carinatus', the specimen tip 'ISI R277' and the collapsed tip Sauropodiformes (a bar)",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph time tree, read with a listing of the grey line segments from the pixels. Sauropodomorpha and Unaysauridae (red arrows), Plateosauria and Massopoda (printed beside the stems entering their nodes) and Massospondylidae (beside its stem) are kept as internal labels. Polytomies: Saturnalia, Panphagia, Chromogisaurus and Pampadromaeus; and Pantydraco, Thecodontosaurus and Arcusaurus (the Thecodontosaurus line runs from the node's parent across the node's vertical and is read as its stem with Thecodontosaurus a child, as in earlier batches). 31 tips, 2 polytomies (4, 3 children); 5 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,43 @@
+#NEXUS
+
+[ longrich2024b_fig17: Saurolophine time tree, root at the bottom, fully resolved. Six clade names printed just below their nodes' horizontals are kept as internal labels (SAUROLOPHINAE, BRACHYLOPHOSAURINI, SAUROLOPHINI, EDMONTOSAURINI, KRITOSAURINI, AUSTROKRITOSAURIA; the last sits beside the stem of its node, to the right of Gryposaurus alsatei). 30 tips, fully resolved; 6 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=30;
+    TAXLABELS
+        Wulagasaurus_dongi
+        Acristavus_gagslarsoni
+        Maiasaura_peeblesorum
+        Ornatops_incantatus
+        Probrachylophosaurus_bergei
+        Brachylophosaurus_canadensis
+        Sabinas_saurolophine
+        Prosaurolophus_maximus
+        Augustinolophus_morrisoni
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+        Kamuysaurus_japonicus
+        Laiyangosaurus_youngi
+        Kereberosaurus_manakini
+        Shantungosaurus_giganteus
+        Edmontosaurus_regalis
+        Edmontosaurus_annectens
+        Gryposaurus_latidens
+        Naashoibitosaurus_ostromi
+        Anasazisaurus_horneri
+        Kritosaurus_navajovius
+        Gryposaurus_notabilis
+        Rhinorex_condrupus
+        Gryposaurus_monumentensis
+        Coahuilasaurus_lipani
+        Gryposaurus_alsatei
+        Bonapartesaurus_rionegrensis
+        Huallasaurus_australis
+        Secernosaurus_koerneri
+        Kelumapusaura_machi
+    ;
+END;
+
+BEGIN TREES;
+    TREE longrich2024b_fig17 = [&R] (Wulagasaurus_dongi,((Acristavus_gagslarsoni,(Maiasaura_peeblesorum,(Ornatops_incantatus,(Probrachylophosaurus_bergei,Brachylophosaurus_canadensis))))BRACHYLOPHOSAURINI,(((Sabinas_saurolophine,(Prosaurolophus_maximus,(Augustinolophus_morrisoni,(Saurolophus_osborni,Saurolophus_angustirostris))))SAUROLOPHINI,((Kamuysaurus_japonicus,Laiyangosaurus_youngi),(Kereberosaurus_manakini,(Shantungosaurus_giganteus,(Edmontosaurus_regalis,Edmontosaurus_annectens))))EDMONTOSAURINI),(Gryposaurus_latidens,((Naashoibitosaurus_ostromi,(Anasazisaurus_horneri,Kritosaurus_navajovius)),((Gryposaurus_notabilis,((Rhinorex_condrupus,Gryposaurus_monumentensis),Coahuilasaurus_lipani)),(Gryposaurus_alsatei,(Bonapartesaurus_rionegrensis,(Huallasaurus_australis,(Secernosaurus_koerneri,Kelumapusaura_machi)))AUSTROKRITOSAURIA))))KRITOSAURINI)))SAUROLOPHINAE;
+END;

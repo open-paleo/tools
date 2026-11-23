@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/longrich2024b_fig17.png",
+  "names": "names.txt",
+  "source": "Longrich et al. 2024, Diversity 16, Fig. 17: time-calibrated saurolophine phylogeny with biogeography; vertical, root at the bottom, thin lines, coloured range bars and node dots by region, tip names written upwards, a stage column at the left, K-Pg and OAE 2 lines, clade names in capitals below their nodes. Image: census 2 figure (2055x1150 px), a 300 dpi page render including the stage column (re-rendered 2026-11-22).",
+  "license": "CC BY (Creative Commons Attribution, as stated in the text)",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Sabinas saurolophine' and 'Kereberosaurus manakini'",
+  "gold": "gold.nex",
+  "gold_note": "Saurolophine time tree, root at the bottom, fully resolved. Six clade names printed just below their nodes' horizontals are kept as internal labels (SAUROLOPHINAE, BRACHYLOPHOSAURINI, SAUROLOPHINI, EDMONTOSAURINI, KRITOSAURINI, AUSTROKRITOSAURIA; the last sits beside the stem of its node, to the right of Gryposaurus alsatei). 30 tips, fully resolved; 6 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/dai2022a_fig7.png",
+  "names": "names.txt",
+  "source": "Dai et al. 2022, Royal Society Open Science 9, Fig. 7: strict consensus of the EWP analysis placing Yuzhoulong (arrow); rectangular, root left, thin lines, coloured area bars at the tips, node dots with clade names (leader curves), a stage chart above, a colour legend and silhouettes. Image: census 2 figure (1747x2059 px), a 300 dpi page render including the stage chart (re-rendered 2026-11-22).",
+  "license": "CC BY 4.0",
+  "attribution": "Dai, H.; Tan, C.; Xiong, C.; Ma, Q.; Li, N.; Yu, H.; Wei, Z.; Wang, P.; Yi, J.; Wei, G.; You, H.; Ren, X. (2022). New macronarian from the Middle Jurassic of Chongqing, China: phylogenetic and biogeographic implications for neosauropod dinosaur evolution. Royal Society Open Science. https://doi.org/10.1098/rsos.220794. Fig. 7. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Analong chaunjieensis', 'Calcareo Diplodocid' and the collapsed tip TITANOSAURIFORMES",
+  "gold": "gold.nex",
+  "gold_note": "Eusauropod strict consensus, read by eye with the dense parts at 1.6-2x. Seven clade names, each beside a node dot or joined to it by a curve, are kept as internal labels (Eusauropoda, Mamenchisauridae, Neosauropoda, Diplodocoidea, Flagellicaudata, Rebbachisauridae, Macronaria). Polytomies: Neosauropoda (Haplocanthosaurus, Diplodocoidea, Macronaria; stem entering between them), the four diplodocids, Histriasaurus-Zapalasaurus-the rest, and Rebbachisaurus-Rayososaurus-limaysaurines (Rayososaurus' line crosses the node's vertical and is read as its stem, as in earlier batches). Replacement for morrison2026a_fig6 (seed 20261217). 41 tips, 4 polytomies (3, 4, 3, 3 children); 7 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

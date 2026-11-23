@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/sánchez-hernández2014a_fig12.png",
+  "names": "names.txt",
+  "source": "Sánchez-Hernández and Benton 2014, Acta Palaeontologica Polonica 59, Fig. 12B: strict consensus placing Camarillasaurus (bold) among ceratosaurs; rectangular, root left, thin lines, bootstrap values, one large fan. Panels A, C and D (other analyses of the same taxa) are excluded. Image: census 2 figure (2050x1692 px), a 300 dpi render of the whole vector figure, region on panel B as in the census.",
+  "region": {
+    "x0": 1129,
+    "y0": 0,
+    "x1": 2050,
+    "y1": 1333
+  },
+  "region_note": "panel B (the first crop); panels A, C and D are other analyses",
+  "license": "CC BY (Creative Commons Attribution License, as stated in the text)",
+  "names_note": "no matrix held; list = the printed tip names of panel B (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur strict consensus, panel B: a 19-way polytomy from Camarillasaurus to Majungasaurus. CERATOSAURIA is printed under the stem that enters the fan, but panel A of the same figure prints it at the node that also holds Limusaurus, so the figure does not fix which node it names and it is not encoded. The numbers are bootstrap values. 23 tips, 1 polytomies (19 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

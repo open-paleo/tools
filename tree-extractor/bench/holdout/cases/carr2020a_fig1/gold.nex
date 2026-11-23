@@ -1,0 +1,58 @@
+#NEXUS
+
+[ carr2020a_fig1: Specimen-level strict consensus, panel A: an 11-way polytomy (AMNH FARB 5050 to RSM 2347.1 and the rest) and a 32-way polytomy, with BMRP 2002.4.1 between them. No clade names are printed. 45 tips, 2 polytomies (12, 32 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=45;
+    TAXLABELS
+        Artificial_embryo
+        AMNH_FARB_5050
+        BMRP_2001.4.70
+        CMNH_7541
+        DDM_35.1
+        DDM_344.1
+        DDM_1561.14
+        DDM_1536.8
+        DDM_1863.1
+        FMNH_PR2411
+        LACM_28471
+        RSM_2347.1
+        BMRP_2002.4.1
+        AMNH_FARB_5027
+        AMNH_FARB_5029
+        AMNH_FARB_5117
+        BMRP_2006.4.4
+        CM_1400
+        CM_9380
+        CM_9401
+        FMNH_PR2081
+        LACM_23844
+        LACM_23845
+        LACM_150167
+        MOR_002
+        MOR_008
+        MOR_555
+        MOR_980
+        MOR_1125
+        MOR_1131
+        MOR_2822
+        MOR_2925
+        MOR_3044
+        NHMUK_R7994
+        NMMNH_P-3698
+        RSM_2523.8
+        RSM_2990.1
+        SDSM_12047
+        TMM_41436-1
+        TMP_1981.006.0001
+        TMP_1981.012.0001
+        UCMP_118742
+        UMNH_11000
+        UWBM_99000
+        UWGM_181
+    ;
+END;
+
+BEGIN TREES;
+    TREE carr2020a_fig1 = [&R] (Artificial_embryo,(AMNH_FARB_5050,BMRP_2001.4.70,CMNH_7541,DDM_35.1,DDM_344.1,DDM_1561.14,DDM_1536.8,DDM_1863.1,FMNH_PR2411,LACM_28471,RSM_2347.1,(BMRP_2002.4.1,(AMNH_FARB_5027,AMNH_FARB_5029,AMNH_FARB_5117,BMRP_2006.4.4,CM_1400,CM_9380,CM_9401,FMNH_PR2081,LACM_23844,LACM_23845,LACM_150167,MOR_002,MOR_008,MOR_555,MOR_980,MOR_1125,MOR_1131,MOR_2822,MOR_2925,MOR_3044,NHMUK_R7994,NMMNH_P-3698,RSM_2523.8,RSM_2990.1,SDSM_12047,TMM_41436-1,TMP_1981.006.0001,TMP_1981.012.0001,UCMP_118742,UMNH_11000,UWBM_99000,UWGM_181))));
+END;

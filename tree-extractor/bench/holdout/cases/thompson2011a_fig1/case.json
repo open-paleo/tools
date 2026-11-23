@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/thompson2011a_fig1.png",
+  "names": "names.txt",
+  "source": "Thompson et al. 2011, Journal of Systematic Palaeontology 10, Fig. 1A: one of four earlier ankylosaur phylogenies redrawn for comparison; slanted (diagonal) cladogram, root at the left, thick lines, short ticks for sister taxa, three clade numbers. Panels B-D (the other published hypotheses) are excluded. Image: census 2 figure (995x1217 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 497,
+    "y1": 600
+  },
+  "region_note": "panel A (top left); B-D are other hypotheses",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A (genus only)",
+  "gold": "gold.nex",
+  "gold_note": "Ankylosaur slanted cladogram, panel A, read from 4x crops, fully resolved. Sister taxa are drawn as short ticks off a longer line, each at its own point, so each comb is a ladder: (Pawpawsaurus, (Sauropelta, (Edmontonia, Panoplosaurus))), (Mymoorapelta, (Polacanthus, Gastonia)). The numbers 1-3 mark clades keyed in the caption, not names. 16 tips, fully resolved. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

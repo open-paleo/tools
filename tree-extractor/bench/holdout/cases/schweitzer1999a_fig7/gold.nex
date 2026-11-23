@@ -1,0 +1,17 @@
+#NEXUS
+
+[ schweitzer1999a_fig7: Slanted summary cladogram, panel A, fully resolved. Aves, printed beside a node dot, is kept as an internal label. 4 tips, fully resolved; 1 printed clade names kept as internal node labels. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=4;
+    TAXLABELS
+        '“non-avian theropods”'
+        Archaeopteryx
+        Alvarezsauridae
+        Ornithothoraces
+    ;
+END;
+
+BEGIN TREES;
+    TREE schweitzer1999a_fig7 = [&R] ('“non-avian theropods”',(Archaeopteryx,(Alvarezsauridae,Ornithothoraces))Aves);
+END;

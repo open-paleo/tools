@@ -1,0 +1,29 @@
+#NEXUS
+
+[ thompson2011a_fig1: Ankylosaur slanted cladogram, panel A, read from 4x crops, fully resolved. Sister taxa are drawn as short ticks off a longer line, each at its own point, so each comb is a ladder: (Pawpawsaurus, (Sauropelta, (Edmontonia, Panoplosaurus))), (Mymoorapelta, (Polacanthus, Gastonia)). The numbers 1-3 mark clades keyed in the caption, not names. 16 tips, fully resolved. Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=16;
+    TAXLABELS
+        Scelidosaurus
+        Minmi
+        Pawpawsaurus
+        Sauropelta
+        Edmontonia
+        Panoplosaurus
+        Shamosaurus
+        Mymoorapelta
+        Polacanthus
+        Gastonia
+        Tsagantegia
+        Pinacosaurus
+        Saichania
+        Tarchia
+        Euoplocephalus
+        Ankylosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE thompson2011a_fig1 = [&R] (Scelidosaurus,(Minmi,((Pawpawsaurus,(Sauropelta,(Edmontonia,Panoplosaurus))),(Shamosaurus,((Mymoorapelta,(Polacanthus,Gastonia)),(Tsagantegia,(Pinacosaurus,((Saichania,Tarchia),(Euoplocephalus,Ankylosaurus)))))))));
+END;

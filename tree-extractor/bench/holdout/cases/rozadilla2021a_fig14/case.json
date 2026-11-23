@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/rozadilla2021a_fig14.png",
+  "names": "names.txt",
+  "source": "Rozadilla et al. 2021, Journal of Systematic Palaeontology 19, Fig. 14B: saurolophine consensus with Bremer values at the nodes, Kelumapusaura and Huallasaurus in bold; rectangular, root left, grey type and lines. Panel A (the full hadrosauroid tree with coloured region boxes and maps) is excluded: it is not separable from panel B by a rectangle, while panel B is. Image: census 2 figure (2043x1982 px), the embedded raster.",
+  "region": {
+    "x0": 1110,
+    "y0": 0,
+    "x1": 2043,
+    "y1": 985
+  },
+  "region_note": "panel B (upper right); panel A on the left extends under it",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel B as printed ('Maisaura', 'Probrachylphosaurus', 'Yamatosaurus izangii', 'Edmontosaurus anectens', 'Hadrosaurus foulki'), and the collapsed tip LAMBEOSAURINAE",
+  "gold": "gold.nex",
+  "gold_note": "Saurolophine consensus, panel B. The digits at nodes are Bremer support, not keys or names; no clade names are printed. One three-way node: Bonapartesaurus, Kelumapusaura and Huallasaurus (the stem enters at Kelumapusaura's line, which continues as that tip, read as one node as in earlier batches). 26 tips, 1 polytomies (3 children). Sample 5 case (census 2, seed 20261215). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}
