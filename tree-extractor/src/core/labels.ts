@@ -124,6 +124,55 @@ export function assignLabels(document: ExtractionDocument): void
         }
     }
 
+    // A tip whose branch runs to the edge of the figure has no room for its label after it,
+    // and the label is set on the branch, ending where the branch ends (Carr 2010, the tips
+    // of the latest stage). A tip still without a row takes one that lies just above its
+    // branch, ends at its end and begins after its node.
+    const parents = new Map<string, TreeNode>();
+
+    for (const node of document.nodes)
+    {
+        parents.set(node.id, node);
+    }
+
+    const overPairings = new Array<Pairing>();
+
+    for (const tip of document.tips)
+    {
+        const parent = tip.parent === null ? undefined : parents.get(tip.parent);
+
+        if (tip.textLine !== null || parent === undefined || !attached.has(tip.id))
+        {
+            continue;
+        }
+
+        for (const line of document.textLines)
+        {
+            const lift = tip.y - line.box.y1;
+            const short = tip.x - line.box.x1;
+
+            if (!used.has(line.id) && line.frame === undefined && isLabelSized(line, glyph) && lift >= -0.3 * glyph && lift <= 1.2 * glyph && short >= -4 * glyph && short <= 2 * glyph && line.box.x0 >= parent.x)
+            {
+                overPairings.push({ subject: tip.id, line, distance: Math.abs(short) + 3 * Math.abs(lift) });
+            }
+        }
+    }
+
+    overPairings.sort(comparePairingDistances);
+
+    for (const pairing of overPairings)
+    {
+        for (const tip of document.tips)
+        {
+            if (tip.id === pairing.subject && tip.textLine === null && !used.has(pairing.line.id))
+            {
+                tip.textLine = pairing.line.id;
+                pairing.line.role = "tip";
+                used.add(pairing.line.id);
+            }
+        }
+    }
+
     const nodePairings = new Array<Pairing>();
 
     for (const node of document.nodes)

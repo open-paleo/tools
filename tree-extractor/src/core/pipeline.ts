@@ -24,7 +24,7 @@ import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeN
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { assessReading } from "./assess.ts";
-import { eraseDottedLines, joinDashedLines } from "./dots.ts";
+import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
 import { recoverElbowTips } from "./elbows.ts";
 import { clearDarkGrounds } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
@@ -2166,8 +2166,15 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const turnedImage = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
     // Branches drawn in dashes are drawn solid, now that the way the tree runs is known.
     const dashed = joinDashedLines(turnedImage, parameters.inkThreshold);
-    const image = dashed.image;
+    // And bars drawn in hatching are filled.
+    const hatched = fillHatchedBars(dashed.image, parameters.inkThreshold);
+    const image = hatched.image;
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (hatched.lines > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "hatched-bars-filled", message: `${hatched.lines} bar(s) drawn in hatching were read as solid bars`, subject: null });
+    }
 
     if (dashed.lines > 0)
     {

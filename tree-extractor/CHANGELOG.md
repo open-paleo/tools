@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Range bars drawn in hatching are filled (`hatched-bars-filled`): a row of four or more
+  small upright strokes standing close together, or two or three on the end of a line, read
+  as "IIII" and stopped the tip where the hatching began (Carr 2010).
+- A tip with no label after it takes one set on its branch: a row just above the branch
+  that ends about where the branch ends and begins after its node, as labels are set where
+  a branch runs to the figure's edge (Carr 2010, 14 of 25 names to 16 with the entry above;
+  Selles 2021, Xu 2018 and three others gain names).
 - A bar drawn along a stem, for the doubt about a clade's age, is part of the stem: the
   branch that runs into it, or the one made for it, goes on to the vertical of the node
   beyond the bar, past a dot on that node (Pol 2012, 9 of 24 names to 21).

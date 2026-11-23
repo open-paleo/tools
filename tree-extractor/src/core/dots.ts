@@ -432,3 +432,132 @@ export function joinDashedLines(image: RgbaImage, threshold: number): DashedLine
 
     return { image: { width, height, data: joined }, lines: fills.length };
 }
+
+/**
+ * Fewest strokes side by side for them to be a hatched bar.
+ */
+const fewestHatches = 4;
+
+/**
+ * Fills hatched bars solid. The bar of a tip's range may be drawn as a row of upright strokes
+ * standing close together, each a letter's stroke to look at: the row is read as "IIII", and
+ * the tip ends where the hatching begins (Carr 2010, every range so drawn). Strokes are small
+ * solid uprights at least twice as tall as broad, alike in height and on one level, no
+ * further apart than they are broad. The row is filled, and joined to ink that stands as
+ * close on its left.
+ *
+ * @param image - Image, turned so that the root is on the left.
+ * @param threshold - Luminance below which a pixel is ink.
+ * @returns The image and the number of bars filled.
+ */
+export function fillHatchedBars(image: RgbaImage, threshold: number): DashedLineResult
+{
+    const { width, height, data } = image;
+    const dark: Mask = { width, height, data: new Uint8Array(width * height) };
+
+    for (let index = 0; index < width * height; index++)
+    {
+        const offset = 4 * index;
+        dark.data[index] = 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2] < threshold ? 1 : 0;
+    }
+
+    const tallest = Math.max(16, Math.round(Math.min(width, height) / 30));
+    const rows = new Map<number, Array<Component>>();
+
+    for (const component of findConnectedComponents(dark).components)
+    {
+        const { box } = component;
+        const wide = box.x1 - box.x0;
+        const tall = box.y1 - box.y0;
+
+        if (wide < 2 || wide > 8 || tall < 6 || tall > tallest || tall < 2 * wide || component.area < 0.8 * wide * tall)
+        {
+            continue;
+        }
+
+        // Strokes of one bar can sit a pixel apart in height, so each is entered under two rows.
+        for (const key of [Math.floor(box.y0 / 2), Math.floor((box.y0 + 1) / 2) + 100000])
+        {
+            const row = rows.get(key) ?? [];
+            row.push(component);
+            rows.set(key, row);
+        }
+    }
+
+    const fills = new Array<Component["box"]>();
+
+    for (const strokes of rows.values())
+    {
+        strokes.sort(compareDotColumns);
+        let start = 0;
+
+        for (let index = 1; index <= strokes.length; index++)
+        {
+            const previous = strokes[index - 1].box;
+            const next = index < strokes.length ? strokes[index].box : null;
+            const broad = previous.x1 - previous.x0;
+            const alike = next !== null
+                && Math.abs((next.y1 - next.y0) - (previous.y1 - previous.y0)) <= 1
+                && Math.abs(next.y0 - previous.y0) <= 1
+                && Math.abs((next.x1 - next.x0) - broad) <= 2
+                && next.x0 > previous.x1
+                && next.x0 - previous.x1 <= broad + 2;
+
+            if (alike)
+            {
+                continue;
+            }
+
+            if (index - start >= fewestHatches - 2)
+            {
+                const first = strokes[start].box;
+                const middle = Math.floor((first.y0 + first.y1) / 2);
+                let x0 = first.x0;
+                let joined = false;
+
+                // The first stroke often stands on the branch's end and is one piece with it.
+                for (let x = first.x0 - 1; x >= Math.max(0, first.x0 - broad - 3); x--)
+                {
+                    if (dark.data[middle * width + x] === 1)
+                    {
+                        x0 = x;
+                        joined = true;
+                        break;
+                    }
+                }
+
+                // Two or three strokes are a bar only on the end of a line: a short range.
+                // Alone they are a numeral.
+                if (index - start >= fewestHatches || joined)
+                {
+                    fills.push({ x0, y0: Math.min(first.y0, previous.y0), x1: previous.x1, y1: Math.max(first.y1, previous.y1) });
+                }
+            }
+
+            start = index;
+        }
+    }
+
+    if (fills.length === 0)
+    {
+        return { image, lines: 0 };
+    }
+
+    const filled = new Uint8ClampedArray(data);
+
+    for (const fill of fills)
+    {
+        for (let y = fill.y0; y < fill.y1; y++)
+        {
+            for (let x = fill.x0; x < fill.x1; x++)
+            {
+                const offset = 4 * (y * width + x);
+                filled[offset] = 0;
+                filled[offset + 1] = 0;
+                filled[offset + 2] = 0;
+            }
+        }
+    }
+
+    return { image: { width, height, data: filled }, lines: fills.length };
+}
