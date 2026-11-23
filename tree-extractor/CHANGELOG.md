@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.11.0 (2026-11-23)
 
 - A label's row begins after the bar of its range when only a mark or two stand before the
   bar: an arrow or a support value beside the node, or the branch's own stub, had been
