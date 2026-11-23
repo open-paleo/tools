@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- The `reading-doubtful` warning no longer counts branch ends with no label against a tree
+  that names half its tips or more: they are stray marks, not tips whose names were missed
+  (Dai 2022 and Muller 2018, warned with 39 of 41 and 30 of 31 names). Over the 195 gold
+  figures it marks 17 of the 21 readings under 70 percent and none of the 139 at 90 or more.
 - A tip whose branch is nothing but the solid bar of its range, starting at the node, is
   traced: a bar with a node's vertical at its left end, no branch arriving there and no
   segment of its own gets a branch from the vertical to its far end. And a dash or two

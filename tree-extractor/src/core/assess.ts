@@ -17,6 +17,12 @@ const fewestTips = 4;
 const namedShare = 0.75;
 
 /**
+ * Share of the tree's tips that must match a name before its unlabelled ends are taken for
+ * stray marks.
+ */
+const strayShare = 0.5;
+
+/**
  * Share of the tips with a name that must be joined to the tree.
  */
 const joinedShare = 0.7;
@@ -77,7 +83,13 @@ export function assessReading(document: ExtractionDocument, listed: boolean, rea
     // a label was read for it at all.
     const sound = listed ? named : labelled;
 
-    if (read && inTree >= fewestTips && sound < namedShare * inTree)
+    // A branch end in the tree with no label at all is a stray end, a tick or the edge of a
+    // bar, and where the labelled tips nearly all match it is not held against the reading
+    // (Dai 2022, 39 names and 25 such ends). Where under half the tips are sound it is: the
+    // labels were not found.
+    const judged = listed && named >= strayShare * inTree ? labelled : inTree;
+
+    if (read && inTree >= fewestTips && sound < namedShare * judged)
     {
         reasons.push(listed ? `only ${named} of the tree's ${inTree} tips match a name` : `only ${labelled} of the tree's ${inTree} tips have a label`);
     }
