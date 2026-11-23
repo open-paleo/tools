@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- A gray ground under part of a tree is cleared: a clade's box with the tree running into it
+  was joined by the soft rims of its lines to every line of the figure and never passed for
+  a solid area. Gray is now also looked for worn by two pixels, and such a ground is cleared
+  by its tone, with the pieces of it shut inside letters (Sen 2025; Hu 2009, 4 of 18 names
+  to 11).
+- The first text pass lets its measure of the letter height settle, over six rounds at most
+  and not three: in large type it stopped short, and the upright strokes of digits were
+  taken for lines (Sen 2025, a false upright on nearly every stem).
+- A stem that the digits of a support value touch stays whole: the run is as tall there as
+  digit and line together and came out as scraps between the digits. Scraps of one run are
+  joined where the line art runs unbroken under lettering.
+- A vertical cut by two names stacked across it, with a sliver of line between them, is
+  mended (Sen 2025, 16 of 38 names to 21 with the three entries above).
 - A backbone with clade names printed across it and dots on its nodes holds together in three
   more cases (Sen 2025, 9 of 38 names to 16; Rauhut 2017, Gohlich 2006, Bellardini 2025,
   Wilson 2016 and Tortosa 2014 gain names):

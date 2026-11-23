@@ -487,7 +487,7 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     let roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
     let rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers });
 
-    for (let pass = 0; pass < 3 && (2.3 * rough.glyphHeight > stripHorizontal || 1.7 * rough.glyphHeight > stripVertical); pass++)
+    for (let pass = 0; pass < 6 && (2.3 * rough.glyphHeight > stripHorizontal || 1.7 * rough.glyphHeight > stripVertical); pass++)
     {
         stripHorizontal = Math.max(stripHorizontal, Math.round(2.3 * rough.glyphHeight));
         stripVertical = Math.max(stripVertical, Math.round(1.7 * rough.glyphHeight));

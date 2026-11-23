@@ -246,6 +246,83 @@ function hasLineAcross(lineArt: Mask, box: Box, row: Box, beyond: number): boole
 }
 
 /**
+ * Joins the pieces of one run that were parted where a letter touches the line: a digit of a
+ * value printed on a stem stands on it, the run is as tall there as the digit and the line
+ * together, and the stem comes out as scraps between the digits (Sen 2025). Two pieces no
+ * more than a glyph apart are one when the line art runs unbroken under the gap, no thicker
+ * than a line.
+ *
+ * @param pieces - Pieces of one run, in order.
+ * @param lineArt - Line ink, without glyphs.
+ * @param ink - All dark ink, lettering included.
+ * @param reach - Greatest gap to join across: a digit's width, seven tenths of a glyph's height.
+ * @param limit - Greatest thickness of a line.
+ * @returns The pieces, those joined given as one.
+ */
+function joinUnderLetters(pieces: Array<Box>, lineArt: Mask, ink: Mask, reach: number, limit: number): Array<Box>
+{
+    const joined = new Array<Box>();
+
+    for (const piece of [...pieces].sort(compareLeftEdges))
+    {
+        const last = joined.length > 0 ? joined[joined.length - 1] : null;
+
+        // The run is no taller than a letter standing on a line: the rule of a stage chart
+        // with its dividers is a run as tall as the chart (Perez-Pueyo 2019).
+        const low = Math.max(piece.y1, last === null ? 0 : last.y1) - Math.min(piece.y0, last === null ? piece.y0 : last.y0) <= 3 * reach;
+
+        if (last !== null && low && piece.x0 - last.x1 > 0 && piece.x0 - last.x1 <= reach)
+        {
+            const whole = fitToInkRows(lineArt, { x0: last.x0, y0: Math.min(last.y0, piece.y0), x1: piece.x1, y1: Math.max(last.y1, piece.y1) });
+            let crossed = 0;
+            let lettered = 0;
+
+            // What makes the run thick in the gap is lettering, not line art: a vertical
+            // that crosses there, or a tick, is the tree's own (Perez-Pueyo 2019).
+            for (let x = last.x1; whole !== null && x < piece.x0; x++)
+            {
+                let top = whole.y0;
+                let bottom = whole.y1;
+
+                while (top > 0 && whole.y0 - top <= limit && lineArt.data[(top - 1) * lineArt.width + x] === 1)
+                {
+                    top--;
+                }
+
+                while (bottom < lineArt.height && bottom - whole.y1 <= limit && lineArt.data[bottom * lineArt.width + x] === 1)
+                {
+                    bottom++;
+                }
+
+                crossed += bottom - top > limit ? 1 : 0;
+
+                // And lettering is there: ink that is not line art, in the run's rows.
+                let letter = false;
+
+                for (let y = Math.min(last.y0, piece.y0); y < Math.max(last.y1, piece.y1) && !letter; y++)
+                {
+                    letter = ink.data[y * ink.width + x] === 1 && lineArt.data[y * ink.width + x] === 0;
+                }
+
+                lettered += letter ? 1 : 0;
+            }
+
+            if (whole !== null && whole.y1 - whole.y0 <= limit && crossed === 0 && 2 * lettered >= piece.x0 - last.x1)
+            {
+                last.x1 = piece.x1;
+                last.y0 = Math.min(last.y0, piece.y0);
+                last.y1 = Math.max(last.y1, piece.y1);
+                continue;
+            }
+        }
+
+        joined.push({ x0: piece.x0, y0: piece.y0, x1: piece.x1, y1: piece.y1 });
+    }
+
+    return joined;
+}
+
+/**
  * Fits a box to the rows its ink fills: the rows in which ink covers nine tenths of the box's
  * width.
  *
@@ -794,7 +871,7 @@ function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizo
             const overlap = Math.min(first.x1, second.x1) - Math.max(first.x0, second.x0);
             const thinner = Math.min(first.x1 - first.x0, second.x1 - second.x0);
 
-            if (gap > 0 && overlap >= 0.5 * thinner && isGapInsideRow(first, second, textRows) && !hasBranchAtEnd(first, first.y1, horizontals, thinner) && !hasBranchAtEnd(second, second.y0, horizontals, thinner))
+            if (gap > 0 && overlap >= 0.5 * thinner && isGapInsideRow(first, second, textRows, ink) && !hasBranchAtEnd(first, first.y1, horizontals, thinner) && !hasBranchAtEnd(second, second.y0, horizontals, thinner))
             {
                 uppers.push(first);
                 lowers.push(second);
@@ -906,9 +983,11 @@ function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>, br
  * @param first - Upper box.
  * @param second - Lower box.
  * @param textRows - Boxes of text rows.
+ * @param ink - All dark ink, for the sliver of line between two names; null leaves a gap under
+ *   two names unmended.
  * @returns True when a row accounts for the gap.
  */
-function isGapInsideRow(first: Box, second: Box, textRows: Array<Box>): boolean
+function isGapInsideRow(first: Box, second: Box, textRows: Array<Box>, ink: Mask | null = null): boolean
 {
     const x = (Math.max(first.x0, second.x0) + Math.min(first.x1, second.x1)) / 2;
     let endsBefore = false;
@@ -933,7 +1012,84 @@ function isGapInsideRow(first: Box, second: Box, textRows: Array<Box>): boolean
         startsAfter = startsAfter || (level && row.x0 > x && row.x0 <= x + near);
     }
 
-    return endsBefore && startsAfter;
+    if (endsBefore && startsAfter)
+    {
+        return true;
+    }
+
+    // Or two names stand one under the other across the line, a clade's and the next one's,
+    // with a sliver of the line between them that is shorter than a letter and went with the
+    // lettering (Sen 2025, "Dinosauromorpha" over "Silesauridae"). The rows that cross the
+    // line then cover the gap between them, no further apart than one is tall.
+    const crossing = new Array<Box>();
+
+    for (const row of textRows)
+    {
+        const tall = row.y1 - row.y0;
+
+        // Lying across the line, a row's height of it on each side: the labels of two tips
+        // one under the other begin beside the vertical between them (Fonseca 2024).
+        if (row.x0 <= x - tall && row.x1 >= x + tall && row.y1 > first.y1 - tall && row.y0 < second.y0 + tall)
+        {
+            crossing.push(row);
+        }
+    }
+
+    if (ink === null || crossing.length < 2 || crossing.length > 3)
+    {
+        return false;
+    }
+
+    crossing.sort(compareTopEdges);
+    const topRow = crossing[0];
+    const bottomRow = crossing[crossing.length - 1];
+    const broader = Math.max(first.x1 - first.x0, second.x1 - second.x0);
+    const narrower = Math.min(first.x1 - first.x0, second.x1 - second.x0);
+
+    // Both pieces are lines of one breadth that go on a row's height past the names: the
+    // strokes of letters in a block of text stand in a column too (Wu 2015, a key).
+    if (first.y0 > topRow.y0 - (topRow.y1 - topRow.y0) || second.y1 < bottomRow.y1 + (bottomRow.y1 - bottomRow.y0) || broader > 2 * narrower)
+    {
+        return false;
+    }
+
+    let reached = first.y1;
+
+    for (const row of crossing)
+    {
+        const slack = Math.max(3, Math.round(0.4 * (row.y1 - row.y0)));
+        const near = reached === first.y1 ? slack : row.y1 - row.y0;
+
+        if (row.y0 > reached + near)
+        {
+            return false;
+        }
+
+        // And the sliver between two names is there: ink down the column all the way.
+        if (reached !== first.y1)
+        {
+            for (let y = reached; y < row.y0; y++)
+            {
+                let dark = false;
+
+                for (let column = Math.max(first.x0, second.x0); column < Math.min(first.x1, second.x1) && !dark; column++)
+                {
+                    dark = ink.data[y * ink.width + column] === 1;
+                }
+
+                if (!dark)
+                {
+                    return false;
+                }
+            }
+        }
+
+        reached = Math.max(reached, row.y1);
+    }
+
+    const last = crossing[crossing.length - 1];
+
+    return second.y0 <= reached + Math.max(3, Math.round(0.4 * (last.y1 - last.y0)));
 }
 
 /**
@@ -1122,7 +1278,7 @@ export function extractSegments(
         {
             // The figure's line width is taken from all the ink around each run, as it always
             // was; where a run is cut for being too thick, only ink joined to it counts.
-            const found = findLinePieces(measureJoinedHeights(ink, components[index].box, window), components[index].box, limit, minHorizontalRun);
+            const found = joinUnderLetters(findLinePieces(measureJoinedHeights(ink, components[index].box, window), components[index].box, limit, minHorizontalRun), lineArt, ink, Math.round(0.7 * window), limit);
             pieces.push(...found);
 
             for (const piece of found)
