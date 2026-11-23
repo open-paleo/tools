@@ -135,6 +135,8 @@ function measureTextBox(line: OpenLine, glyphHeight: number, markerMask: Mask | 
     // the box here only loses the columns of solid blocks.
     let x0 = Infinity;
     let x1 = -Infinity;
+    let block: Box | null = null;
+    const letters = new Array<Component>();
 
     for (const glyph of line.glyphs)
     {
@@ -148,6 +150,34 @@ function measureTextBox(line: OpenLine, glyphHeight: number, markerMask: Mask | 
         const solid = width >= 1.2 * glyphHeight && (filled || (markerMask !== undefined && liesOnMarker(markerMask, glyph, glyphHeight)));
 
         if (!solid)
+        {
+            letters.push(glyph);
+        }
+        else if (block === null || glyph.box.x1 > block.x1)
+        {
+            block = glyph.box;
+        }
+    }
+
+    // A mark or two before the bar, an arrow or a support value beside the node the bar's
+    // branch leaves, or the stub of the branch itself, got into the row across the bar. The
+    // label is what follows the bar, and the box must begin there, or the tip is not carried
+    // through the bar to it (Dieudonne 2020's Abrictosaurus). Up to four glyphs before the
+    // bar, and at least three after.
+    let before = 0;
+    let after = 0;
+
+    for (const glyph of letters)
+    {
+        before += block !== null && glyph.box.x1 <= block.x0 ? 1 : 0;
+        after += block !== null && glyph.box.x0 >= block.x1 ? 1 : 0;
+    }
+
+    const afterOnly = block !== null && before > 0 && before <= 4 && after >= 3;
+
+    for (const glyph of letters)
+    {
+        if (!afterOnly || glyph.box.x0 >= (block as Box).x1)
         {
             x0 = Math.min(x0, glyph.box.x0);
             x1 = Math.max(x1, glyph.box.x1);

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A label's row begins after the bar of its range when only a mark or two stand before the
+  bar: an arrow or a support value beside the node, or the branch's own stub, had been
+  taken into the row across the bar, the row then began before the bar, and the tip was not
+  carried through the bar to its label (Dieudonne 2020, three wrong splits to none; Poole
+  2022 fig. 6, 62 of 68 names to 68; Foth 2017, two wrong splits to none).
 - Range bars drawn in hatching are filled (`hatched-bars-filled`): a row of four or more
   small upright strokes standing close together, or two or three on the end of a line, read
   as "IIII" and stopped the tip where the hatching began (Carr 2010).
