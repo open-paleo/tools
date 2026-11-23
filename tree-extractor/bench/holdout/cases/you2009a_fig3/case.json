@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census/figures/you2009a_fig3.png",
+  "names": "names.txt",
+  "source": "You and Li 2009, Canadian Journal of Earth Sciences 46, Fig. 3: strict consensus of two MPTs placing Jintasaurus (bold), with character changes mapped on the branches as rows of small solid circles and squares, each with the character number above and the state below; rectangular, root left, one tree wrapped into two parts (a connector from the Aralosaurus node's lower branch runs to the right edge and back to the left, continuing as Hadrosauridae), arrows from three clade names. Image: census figure (4300x3453 px), a 600 dpi page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genus only), including 'K. australis' as printed",
+  "gold": "gold.nex",
+  "gold_note": "Iguanodontian-hadrosauroid strict consensus with character marks on most branches (rows of solid circles and squares, numbered above and below). The lower half continues the upper: its root (HADROSAURIDAE) is the sister of Aralosaurus, joined by the connector that runs from the Aralosaurus node along the right edge. HADROSAURIFORMES, HADROSAUROIDEA and HADROSAURIDAE, joined by arrows to nodes, are kept as internal labels. One polytomy: HADROSAUROIDEA is five-way (Telmatosaurus, Bactrosaurus, Levnesovia, Tanius and the Aralosaurus-hadrosaurid node). 35 tips, 1 polytomies (5 children); 3 printed clade names kept as internal node labels. Picked case (character marks on branches; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the marks and their numbers are not encoded.",
+  "gold_method": "image-transcription"
+}

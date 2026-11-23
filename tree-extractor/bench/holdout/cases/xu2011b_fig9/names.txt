@@ -1,0 +1,13 @@
+OUTGROUPS
+Pelecanimimus (Europe, EK)
+Shenzhousaurus (Asia, EK)
+Beishanlong (Asia, EK)
+Harpymimus (Asia, EK)
+Garudimimus (Asia, eLK)
+Archaeornithomimus (Asia, lLK)
+Sinornithomimus (Asia, lLK)
+Anserimimus (Asia, lLK)
+Gallimimus (Asia, lLK)
+Qiupalong (Asia, lLK)
+Struthiomimus (North America, lLK)
+Ornithomimus (North America, lLK)

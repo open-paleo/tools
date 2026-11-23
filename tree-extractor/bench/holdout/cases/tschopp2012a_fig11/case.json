@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/picked/figures/tschopp2012a_fig11.png",
+  "names": "names.txt",
+  "source": "Tschopp and Mateus 2012, Journal of Systematic Palaeontology 11, Fig. 11: Nelsen consensus of six MPTs from WinClada placing Kaatedocus (larger type); printed sideways (root at the bottom of the page image, tips along the top with names written upwards), thin lines with rounded connectors, rows of small solid (unambiguous) and open (ambiguous) circles on every branch with the character number above and the state below, clade names with bootstrap [Bremer] values joined to nodes by grey leader lines. Image: picked figure, corpus picked/figures/tschopp2012a_fig11.png (1283x2901 px), a 340 dpi page render (the embedded raster's own resolution).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed ('Suuwassea emilieae')",
+  "gold": "gold.nex",
+  "gold_note": "Diplodocoid Nelsen consensus with WinClada character dots on every branch, read with the image as it stands (root at the bottom). Diplodocoidea, Flagellicaudata, Dicraeosauridae, Diplodocidae and Diplodocinae, joined by grey leader lines to nodes with their support values, are kept as internal labels; leader lines with support values only ('100 [5]', '21 [1]', '12 [1]', '33 [1]') name no clade. One three-way node: Diplodocoidea (Limaysaurus, Amphicoelias and Flagellicaudata). 14 tips, 1 polytomies (3 children); 5 printed clade names kept as internal node labels. Picked case (character marks on branches; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the marks and their numbers are not encoded.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,22 @@
+#NEXUS
+
+[ ryan2005a_fig10: Centrosaurine cladogram, fully resolved, with character changes marked as ticks across the branches and numbers (character with state as superscript) beside them. Ceratopsidae and Centrosaurinae, each printed under the stem entering its node, are kept as internal labels; the bold italic numbers are bootstrap values. 9 tips, fully resolved; 2 printed clade names kept as internal node labels. Picked case (character marks on branches; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the marks and their numbers are not encoded. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=9;
+    TAXLABELS
+        outgroup
+        Chasmosaurinae
+        C._apertus
+        C._brinkmani
+        Styracosaurus
+        Einiosaurus
+        Achelosaurus
+        P._canadensis
+        P._n._sp.
+    ;
+END;
+
+BEGIN TREES;
+    TREE ryan2005a_fig10 = [&R] (outgroup,(Chasmosaurinae,((C._apertus,C._brinkmani),(Styracosaurus,(Einiosaurus,(Achelosaurus,(P._canadensis,P._n._sp.)))))Centrosaurinae)Ceratopsidae);
+END;

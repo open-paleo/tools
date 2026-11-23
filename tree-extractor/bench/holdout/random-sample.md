@@ -563,3 +563,27 @@ Run before any change was made for these figures.
 - Five figures named under 70% of their tips: sen2025a_fig5 9 of 38, pei2020a_fig2 10 of 37, apaldetti2018a_fig3 3 of 11, pol2012a_fig2 9 of 24, carr2010a_fig4 14 of 25.
 - The `reading-doubtful` warning marked all 5 of those, 1 of the 3 between 70 and 90 percent (jasinski2026a_fig5), and 2 of the 12 at 90 percent or more (dai2022a_fig7 and müller2018a_fig2, each with many unnamed tips in the tree beside the named ones).
 - Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%.
+
+# Picked cases: character marks (not a sample)
+
+Four cases chosen for one feature, numbered character marks on branches (tools issue #19), after the feature survey of census and census 2. They were picked, not drawn: they are **not to be counted in any estimate of accuracy**. Tips and topology as usual, names as printed; the marks and their numbers are not encoded.
+
+| Case | Image | Marks | Tips | Polytomies | Clade labels |
+|---|---|---|---:|---|---:|
+| you2009a_fig3 | census/figures | rows of small solid circles and squares, character number above, state below | 35 | 5 | 3 |
+| tschopp2012a_fig11 | picked/figures | WinClada rows of solid (unambiguous) and open (ambiguous) circles, number above, state below; figure printed sideways | 14 | 3 | 5 |
+| ryan2005a_fig10 | census2/figures | short ticks across the branch, character numbers with state superscripts beside them | 9 | - | 2 |
+| xu2011b_fig9 | picked/figures | short ticks across the stems, character numbers beside them; root at the bottom | 13 | 5 | 2 |
+
+- you2009a_fig3 and ryan2005a_fig10 are the two census trees the survey found with this feature and no gold case. tschopp2012a_fig11 and xu2011b_fig9 were chosen from outside the censuses after a caption search and a look at about 30 candidates (most captions that mention mapped characters print only numbers, without marks). Their images are in the corpus at `picked/figures/` (same depth as census: `../../../../../../corpus/picked/figures/{id}.png`), with `picked/manifest.json` and a README.
+- you2009a_fig3 is one tree wrapped into two parts: a connector from the Aralosaurus node runs along the right edge and back to the left, continuing as Hadrosauridae.
+
+### Picked character-mark cases, cold (tree extractor 0.11.0, commit c9887b8, run on 2026-11-23)
+
+Run before any change was made for these figures. They are not a sample and are not counted in any estimate of accuracy.
+
+- ryan2005a_fig10: 9 of 9 names, 6 of 6 splits, exact. Ticks across the branches.
+- xu2011b_fig9: 13 of 13, 7 of 7, exact. Ticks across the stems.
+- you2009a_fig3: 12 of 35, 8 of 9 scored splits, one wrong. Rows of solid circles and squares.
+- tschopp2012a_fig11: 0 of 14. Rows of solid and open circles on every branch; printed on its side.
+- With serrano-brañas2016a_fig11 (6 of 12): the figures whose marks are ticks read whole, and the three whose marks are rows of circles or squares do not.

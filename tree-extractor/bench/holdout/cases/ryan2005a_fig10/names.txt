@@ -1,0 +1,9 @@
+outgroup
+Chasmosaurinae
+C. apertus
+C. brinkmani
+Styracosaurus
+Einiosaurus
+Achelosaurus
+P. canadensis
+P. n. sp.

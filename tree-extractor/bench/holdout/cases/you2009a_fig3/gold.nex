@@ -1,0 +1,48 @@
+#NEXUS
+
+[ you2009a_fig3: Iguanodontian-hadrosauroid strict consensus with character marks on most branches (rows of solid circles and squares, numbered above and below). The lower half continues the upper: its root (HADROSAURIDAE) is the sister of Aralosaurus, joined by the connector that runs from the Aralosaurus node along the right edge. HADROSAURIFORMES, HADROSAUROIDEA and HADROSAURIDAE, joined by arrows to nodes, are kept as internal labels. One polytomy: HADROSAUROIDEA is five-way (Telmatosaurus, Bactrosaurus, Levnesovia, Tanius and the Aralosaurus-hadrosaurid node). 35 tips, 1 polytomies (5 children); 3 printed clade names kept as internal node labels. Picked case (character marks on branches; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the marks and their numbers are not encoded. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=35;
+    TAXLABELS
+        Hypsilophodon
+        Ouranosaurus
+        Iguanodon
+        Altirhinus
+        Fukuisaurus
+        Eolambia
+        Equijubus
+        Probactrosaurus
+        Protohadros
+        Jintasaurus
+        Telmatosaurus
+        Bactrosaurus
+        Levnesovia
+        Tanius
+        Aralosaurus
+        Tsintaosaurus
+        Jaxartosaurus
+        Amurosaurus
+        Parasaurolophus
+        Charonosaurus
+        Olorotitan
+        Lambeosaurus
+        Corythosaurus
+        Nipponosaurus
+        Hypacrosaurus
+        Lophorhothon
+        Kritosaurus
+        Maiasaura
+        Brachylophosaurus
+        Gryposaurus
+        Kerberosaurus
+        Edmontosaurus
+        Prosaurolophus
+        Saurolophus
+        K._australis
+    ;
+END;
+
+BEGIN TREES;
+    TREE you2009a_fig3 = [&R] (Hypsilophodon,(Ouranosaurus,(Iguanodon,(Altirhinus,((Fukuisaurus,Eolambia),(Equijubus,(Probactrosaurus,(Protohadros,(Jintasaurus,(Telmatosaurus,Bactrosaurus,Levnesovia,Tanius,(Aralosaurus,((Tsintaosaurus,(Jaxartosaurus,(Amurosaurus,((Parasaurolophus,Charonosaurus),(Olorotitan,(Lambeosaurus,(Corythosaurus,(Nipponosaurus,Hypacrosaurus)))))))),(Lophorhothon,(Kritosaurus,((Maiasaura,Brachylophosaurus),(Gryposaurus,((Kerberosaurus,Edmontosaurus),(Prosaurolophus,(Saurolophus,K._australis))))))))HADROSAURIDAE))HADROSAUROIDEA)))))))HADROSAURIFORMES));
+END;

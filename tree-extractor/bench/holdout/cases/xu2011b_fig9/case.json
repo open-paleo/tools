@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/picked/figures/xu2011b_fig9.png",
+  "names": "names.txt",
+  "source": "Xu et al. 2011, Cretaceous Research 32, Fig. 9: strict consensus of ornithomimosaurs placing Qiupalong (bold), with character changes marked as short ticks across the stems and the character numbers beside them; rectangular, root at the bottom, thick lines, tip names written at an angle with region and age in parentheses. Image: picked figure, corpus picked/figures/xu2011b_fig9.png (3027x2259 px), a 600 dpi page render of the figure box (the page's embedded raster at its own resolution).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip labels in full, each with its region and age in parentheses as printed ('Qiupalong (Asia, lLK)'; 'lLK' is late Late Cretaceous, 'eLK' early Late, 'EK' Early Cretaceous), and OUTGROUPS",
+  "gold": "gold.nex",
+  "gold_note": "Ornithomimosaur strict consensus, root at the bottom, with character marks as ticks across the stems and character numbers beside them. Ornithomimosauria and Ornithomimidae, printed beside their nodes (the latter followed by its character numbers), are kept as internal labels. One five-way node: Pelecanimimus, Shenzhousaurus, Beishanlong, Harpymimus and the Garudimimus node leave one horizontal. 13 tips, 1 polytomies (5 children); 2 printed clade names kept as internal node labels. Picked case (character marks on branches; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the marks and their numbers are not encoded.",
+  "gold_method": "image-transcription"
+}

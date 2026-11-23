@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/ryan2005a_fig10.png",
+  "names": "names.txt",
+  "source": "Ryan and Russell 2005, Canadian Journal of Earth Sciences 42, Fig. 10: cladistic relationships of the Centrosaurinae, characters (1-17) and states (superscripts) mapped on the branches as short ticks across the branch with the numbers beside them, bootstrap percentages in bold italics at the nodes; rectangular, root left, thick lines. Image: census 2 figure (1777x959 px), a 300 dpi page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including the abbreviated 'C. apertus', 'C. brinkmani', 'P. canadensis', 'P. n. sp.' and the tips 'outgroup' and Chasmosaurinae",
+  "gold": "gold.nex",
+  "gold_note": "Centrosaurine cladogram, fully resolved, with character changes marked as ticks across the branches and numbers (character with state as superscript) beside them. Ceratopsidae and Centrosaurinae, each printed under the stem entering its node, are kept as internal labels; the bold italic numbers are bootstrap values. 9 tips, fully resolved; 2 printed clade names kept as internal node labels. Picked case (character marks on branches; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the marks and their numbers are not encoded.",
+  "gold_method": "image-transcription"
+}

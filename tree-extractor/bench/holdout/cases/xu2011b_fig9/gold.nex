@@ -1,0 +1,26 @@
+#NEXUS
+
+[ xu2011b_fig9: Ornithomimosaur strict consensus, root at the bottom, with character marks as ticks across the stems and character numbers beside them. Ornithomimosauria and Ornithomimidae, printed beside their nodes (the latter followed by its character numbers), are kept as internal labels. One five-way node: Pelecanimimus, Shenzhousaurus, Beishanlong, Harpymimus and the Garudimimus node leave one horizontal. 13 tips, 1 polytomies (5 children); 2 printed clade names kept as internal node labels. Picked case (character marks on branches; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the marks and their numbers are not encoded. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=13;
+    TAXLABELS
+        OUTGROUPS
+        'Pelecanimimus (Europe, EK)'
+        'Shenzhousaurus (Asia, EK)'
+        'Beishanlong (Asia, EK)'
+        'Harpymimus (Asia, EK)'
+        'Garudimimus (Asia, eLK)'
+        'Archaeornithomimus (Asia, lLK)'
+        'Sinornithomimus (Asia, lLK)'
+        'Anserimimus (Asia, lLK)'
+        'Gallimimus (Asia, lLK)'
+        'Qiupalong (Asia, lLK)'
+        'Struthiomimus (North America, lLK)'
+        'Ornithomimus (North America, lLK)'
+    ;
+END;
+
+BEGIN TREES;
+    TREE xu2011b_fig9 = [&R] (OUTGROUPS,('Pelecanimimus (Europe, EK)','Shenzhousaurus (Asia, EK)','Beishanlong (Asia, EK)','Harpymimus (Asia, EK)',('Garudimimus (Asia, eLK)',('Archaeornithomimus (Asia, lLK)',('Sinornithomimus (Asia, lLK)',(('Anserimimus (Asia, lLK)','Gallimimus (Asia, lLK)'),('Qiupalong (Asia, lLK)',('Struthiomimus (North America, lLK)','Ornithomimus (North America, lLK)')))))Ornithomimidae))Ornithomimosauria);
+END;
