@@ -18,7 +18,7 @@ import type { ChartStripFind } from "./markers.ts";
 import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, keepComponentsWithin } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
+import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeNames } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -2472,6 +2472,26 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         for (const stub of findMarkerStubs(lineInk, verticals, horizontals, bars, minHorizontalRun, thickness, highest + 1))
         {
             horizontals.push(stub);
+            highest++;
+        }
+
+        // And the branch that is nothing but a solid bar starting at its node.
+        const solidBars = new Array<Box>();
+
+        for (const component of findConnectedComponents(findFatShapes(lineInk, Math.max(parameters.markerRadius, Math.round(thickness) + 1))).components)
+        {
+            const wide = component.box.x1 - component.box.x0;
+            const tall = component.box.y1 - component.box.y0;
+
+            if (wide >= 2 * tall && tall <= 2.5 * glyphHeight && component.area >= 0.8 * wide * tall)
+            {
+                solidBars.push(component.box);
+            }
+        }
+
+        for (const branch of findBarBranches(solidBars, verticals, horizontals, minHorizontalRun, thickness, highest + 1))
+        {
+            horizontals.push(branch);
         }
     }
 

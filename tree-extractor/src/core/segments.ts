@@ -1977,3 +1977,68 @@ export function dropCrossedRules(verticals: Array<Segment>, horizontals: Array<S
 
     return dropped;
 }
+
+/**
+ * Finds the branches that are drawn as nothing but a solid bar: the bar of a tip's range in
+ * time, starting at the node or a few pixels from it, in a time tree whose branches are
+ * otherwise thin lines. A run through such a bar is too thick to pass for a line, so the tip
+ * has no branch (Tortosa 2014, where half the tips are so drawn). For each bar with a node's
+ * vertical at its left end, no branch arriving there, and no segment of its own, a branch is
+ * made from the vertical to the bar's far end.
+ *
+ * @param bars - Boxes of the solid bars: fat shapes of the line ink.
+ * @param verticals - Vertical segments.
+ * @param horizontals - Horizontal segments already found.
+ * @param shortest - Greatest distance from the vertical at which a bar may start.
+ * @param thickness - Line thickness in pixels.
+ * @param nextId - First identifier number to use.
+ * @returns The branches as horizontal segments.
+ */
+export function findBarBranches(bars: Array<Box>, verticals: Array<Segment>, horizontals: Array<Segment>, shortest: number, thickness: number, nextId: number): Array<Segment>
+{
+    const found = new Array<Segment>();
+    const half = Math.max(1, Math.round(thickness / 2));
+    let id = nextId;
+
+    for (const bar of bars)
+    {
+        const middle = Math.round((bar.y0 + bar.y1) / 2);
+        let taken = false;
+
+        // A segment along the bar is the bar traced already; one that stops at its start is
+        // the branch that runs into it, and the tip is carried through the bar from there.
+        for (const segment of horizontals)
+        {
+            const { box } = segment;
+            const onLevel = box.y1 > bar.y0 && box.y0 < bar.y1;
+            const along = Math.min(box.x1, bar.x1) - Math.max(box.x0, bar.x0) >= 0.5 * (bar.x1 - bar.x0);
+            const arrives = box.x1 >= bar.x0 - thickness - 2 && box.x1 <= bar.x0 + thickness + 2 && box.x0 < bar.x0 - shortest;
+            taken = taken || (onLevel && (along || arrives));
+        }
+
+        if (taken)
+        {
+            continue;
+        }
+
+        let node: Box | null = null;
+
+        for (const vertical of verticals)
+        {
+            const { box } = vertical;
+
+            // Not the edge of a box or a symbol, which is thinner than the figure's lines.
+            if (box.x1 - box.x0 >= Math.max(2, thickness / 2) && box.x1 >= bar.x0 - shortest && box.x1 <= bar.x0 + 2 && box.y0 <= middle && box.y1 > middle && (node === null || box.x1 > node.x1))
+            {
+                node = box;
+            }
+        }
+
+        if (node !== null)
+        {
+            found.push({ id: `h${id++}`, orientation: "horizontal", box: { x0: node.x0, y0: middle - half, x1: bar.x1, y1: middle + half + 1 } });
+        }
+    }
+
+    return found;
+}

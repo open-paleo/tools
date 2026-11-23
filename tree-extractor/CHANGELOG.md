@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A tip whose branch is nothing but the solid bar of its range, starting at the node, is
+  traced: a bar with a node's vertical at its left end, no branch arriving there and no
+  segment of its own gets a branch from the vertical to its far end. And a dash or two
+  between the tree and such a bar are joined as longer dashed runs are (Tortosa 2014, 22 of
+  40 names to 30).
 - Branches drawn in dashes are read (`dashed-lines-joined`). Once the figure is turned root
   left, level rows of four or more small strokes, alike in size and evenly spaced, that
   start from or run to the tree are drawn solid. They passed for lettering, and the tips at

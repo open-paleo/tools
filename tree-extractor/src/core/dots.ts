@@ -240,6 +240,47 @@ export type DashedLineResult = {
 const fewestDashes = 4;
 
 /**
+ * Whether the ink at a pixel is the end of a solid bar: it runs on for two dashes' length,
+ * and stands between two and a half and ten times as tall as a dash, which a line of the tree
+ * does not.
+ *
+ * @param dark - Dark pixels.
+ * @param x - Column of the pixel.
+ * @param y - Row of the pixel.
+ * @param length - A dash's length.
+ * @param thickness - A dash's thickness.
+ * @returns True for a bar.
+ */
+function isBarAt(dark: Mask, x: number, y: number, length: number, thickness: number): boolean
+{
+    let along = 0;
+
+    while (x + along < dark.width && along <= 2 * length && dark.data[y * dark.width + x + along] === 1)
+    {
+        along++;
+    }
+
+    // Measured two dashes' length in: the last dash before a bar may run into it.
+    const column = Math.min(dark.width - 1, x + along - 1);
+    let top = y;
+    let bottom = y;
+
+    while (top > 0 && y - top <= 10 * thickness && dark.data[(top - 1) * dark.width + column] === 1)
+    {
+        top--;
+    }
+
+    while (bottom < dark.height - 1 && bottom - y <= 10 * thickness && dark.data[(bottom + 1) * dark.width + column] === 1)
+    {
+        bottom++;
+    }
+
+    const tall = bottom - top + 1;
+
+    return along > 2 * length && tall >= 2.5 * thickness && tall <= 10 * thickness;
+}
+
+/**
  * Draws level dashed lines solid. A branch drawn in dashes, for a lineage with no fossils
  * over that stretch, is a row of short strokes that pass for lettering, and the tip at the end
  * of it has no branch (Tortosa 2014, where most tips hang on dashes). Dashes are small solid
@@ -292,11 +333,6 @@ export function joinDashedLines(image: RgbaImage, threshold: number): DashedLine
 
     for (const dashes of rows.values())
     {
-        if (dashes.length < fewestDashes)
-        {
-            continue;
-        }
-
         dashes.sort(compareDotColumns);
         let start = 0;
 
@@ -317,7 +353,6 @@ export function joinDashedLines(image: RgbaImage, threshold: number): DashedLine
                 continue;
             }
 
-            if (index - start >= fewestDashes)
             {
                 const first = dashes[start].box;
                 const reach = Math.round(2.5 * length);
@@ -327,6 +362,8 @@ export function joinDashedLines(image: RgbaImage, threshold: number): DashedLine
 
                 // On to the ink the line starts from and ends at, a gap's width away at most.
                 let fromLine = false;
+                let fromTree = false;
+                let toBar = false;
 
                 for (let x = first.x0 - 1; x >= Math.max(0, first.x0 - reach); x--)
                 {
@@ -338,6 +375,7 @@ export function joinDashedLines(image: RgbaImage, threshold: number): DashedLine
                         // (Brusatte 2010).
                         const source = labeling.components[labeling.labels[middle * width + x] - 1].box;
                         fromLine = source.y1 - source.y0 > 4 * longest || source.x1 - source.x0 > 4 * longest;
+                        fromTree = fromLine;
                         x0 = x;
                         break;
                     }
@@ -349,12 +387,16 @@ export function joinDashedLines(image: RgbaImage, threshold: number): DashedLine
                     {
                         const target = labeling.components[labeling.labels[middle * width + x] - 1].box;
                         fromLine = fromLine || target.y1 - target.y0 > 4 * longest || target.x1 - target.x0 > 4 * longest;
+                        toBar = isBarAt(dark, x, middle, length, previous.y1 - previous.y0);
                         x1 = x + 1;
                         break;
                     }
                 }
 
-                if (!fromLine)
+                // Under four dashes are a line only from the tree to a solid bar: the dash or
+                // two from a node to the bar of a tip's range (Tortosa 2014). A hyphen stands
+                // between letters, and a tick between two lines of the tree.
+                if (!fromLine || (index - start < fewestDashes && !(fromTree && toBar)))
                 {
                     start = index;
                     continue;
