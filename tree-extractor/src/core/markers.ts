@@ -1194,6 +1194,51 @@ export function extendTipsThroughMarkers(document: ExtractionDocument, fat: Mask
 }
 
 /**
+ * Finds the solid marks set on branches: a square, a triangle, an oval or a bar that stands
+ * for a change of character on the branch it is drawn on (Senter 2012). The ink is eroded by
+ * the line thickness, so the branches vanish and the cores of solid shapes remain, to be
+ * measured and grown back. A mark is between a letter and six letters across, and solid for
+ * two fifths of its box, which a triangle is and a silhouette is not.
+ *
+ * @param ink - Dark ink.
+ * @param discs - Node discs already found, which are left out.
+ * @param glyphHeight - Glyph height in pixels.
+ * @param thickness - Line thickness in pixels.
+ * @returns Bounding boxes of the marks.
+ */
+export function findBranchMarks(ink: Mask, discs: Array<Box>, glyphHeight: number, thickness: number): Array<Box>
+{
+    const radius = Math.max(2, Math.round(thickness / 2) + 1);
+    const marks = new Array<Box>();
+
+    for (const component of findConnectedComponents(erode(ink, radius)).components)
+    {
+        const box: Box = { x0: component.box.x0 - radius, y0: component.box.y0 - radius, x1: component.box.x1 + radius, y1: component.box.y1 + radius };
+        const width = box.x1 - box.x0;
+        const height = box.y1 - box.y0;
+
+        if (Math.min(width, height) < Math.max(3 * thickness, 0.9 * glyphHeight) || Math.max(width, height) > 6 * glyphHeight || measureInkShare(ink, box) < 0.4)
+        {
+            continue;
+        }
+
+        let isDisc = false;
+
+        for (const disc of discs)
+        {
+            isDisc = isDisc || (disc.x0 < box.x1 && disc.x1 > box.x0 && disc.y0 < box.y1 && disc.y1 > box.y0);
+        }
+
+        if (!isDisc)
+        {
+            marks.push(box);
+        }
+    }
+
+    return marks;
+}
+
+/**
  * Finds filled discs the size of a node marker: a numbered circle drawn over a junction. Such a
  * disc is round, a glyph or three across, and mostly filled even with a digit knocked out of
  * it. Its halves beside the digit pass for glyphs and leave the line art, which cuts the
@@ -1554,16 +1599,18 @@ function findLineEndAt(ink: Mask, box: Box, side: "left" | "right" | "top" | "bo
  * @param boxes - Boxes of the small rows.
  * @param glyphHeight - Glyph height in pixels.
  * @param thickness - Line thickness in pixels.
+ * @param clear - Whether to clear the box before the join is painted: for a solid mark.
  * @returns How many junctions were joined.
  */
-export function joinThroughNumbers(lineArt: Mask, ink: Mask, boxes: Array<Box>, glyphHeight: number, thickness: number): number
+export function joinThroughNumbers(lineArt: Mask, ink: Mask, boxes: Array<Box>, glyphHeight: number, thickness: number, clear = false): number
 {
     const reach = Math.max(3, Math.round(glyphHeight / 3));
     const half = Math.max(1, Math.round(thickness / 2));
 
     // The step to such a node can be short; what is looked for is line ink, which lettering
     // is not, so half a glyph of it is a line.
-    const least = Math.max(3 * Math.round(thickness), Math.round(glyphHeight / 2));
+    // Between two marks set close together on one branch there is less line than that.
+    const least = clear ? Math.max(6, 2 * Math.round(thickness)) : Math.max(3 * Math.round(thickness), Math.round(glyphHeight / 2));
     let joined = 0;
 
     function paint(x0: number, y0: number, x1: number, y1: number): void
@@ -1608,6 +1655,32 @@ export function joinThroughNumbers(lineArt: Mask, ink: Mask, boxes: Array<Box>, 
         if (x < box.x0 || x >= box.x1 || y < box.y0 || y >= box.y1)
         {
             continue;
+        }
+
+        // A mark is drawn on a line that runs through its middle, and out the other side: two
+        // lines that meet at a corner of a solid shape, or one that passes along its edge, have
+        // a blot of something else beside them (Gomez 2024, Gallina 2015).
+        if (clear)
+        {
+            const across = left !== null && right !== null && Math.abs(y - (box.y0 + box.y1) / 2) <= (box.y1 - box.y0) / 4;
+            const down = top !== null && bottom !== null && Math.abs(x - (box.x0 + box.x1) / 2) <= (box.x1 - box.x0) / 4;
+
+            if (!across && !down)
+            {
+                continue;
+            }
+        }
+
+        // A solid mark is cleared first: left in, the line through it is as thick as the mark.
+        if (clear)
+        {
+            for (let clearY = Math.max(0, box.y0); clearY < Math.min(lineArt.height, box.y1); clearY++)
+            {
+                for (let clearX = Math.max(0, box.x0); clearX < Math.min(lineArt.width, box.x1); clearX++)
+                {
+                    lineArt.data[clearY * lineArt.width + clearX] = 0;
+                }
+            }
         }
 
         if (left !== null)

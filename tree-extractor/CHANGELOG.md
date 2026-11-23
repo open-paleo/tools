@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- A solid mark drawn on a branch, a square, a triangle, an oval or a bar that stands for a
+  change of character, is taken off the branch and the branch drawn through it. The branch
+  was cut at each mark (Senter 2012, 10 of 15 names to 15).
+- A column of drawings standing one above the other at the tips is not a vertical line.
+
 ## 0.10.0 (2026-11-22)
 
 - A slanted tree drawn without a root stub, two lines meeting at a corner, is rooted at that

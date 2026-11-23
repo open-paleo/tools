@@ -15,7 +15,7 @@ import type { SlantedLabels } from "./slant.ts";
 import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
-import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
+import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
@@ -1736,6 +1736,60 @@ function blankAreas(image: RgbaImage, areas: Array<Box>): RgbaImage
 }
 
 /**
+ * Measures the longest run of ink down any one column of a box.
+ *
+ * @param mask - Mask.
+ * @param box - Box.
+ * @returns The run's length in pixels.
+ */
+function measureLongestColumnRun(mask: Mask, box: Box): number
+{
+    let longest = 0;
+
+    for (let x = Math.max(0, box.x0); x < Math.min(mask.width, box.x1); x++)
+    {
+        let run = 0;
+
+        for (let y = Math.max(0, box.y0); y < Math.min(mask.height, box.y1); y++)
+        {
+            run = mask.data[y * mask.width + x] === 1 ? run + 1 : 0;
+            longest = Math.max(longest, run);
+        }
+    }
+
+    return longest;
+}
+
+/**
+ * Counts the rows of a box that hold an unbroken stretch of ink longer than a limit.
+ *
+ * @param mask - Mask.
+ * @param box - Box.
+ * @param limit - Length a stretch must exceed.
+ * @returns The number of such rows.
+ */
+function countBroadRows(mask: Mask, box: Box, limit: number): number
+{
+    let rows = 0;
+
+    for (let y = Math.max(0, box.y0); y < Math.min(mask.height, box.y1); y++)
+    {
+        let run = 0;
+        let broad = false;
+
+        for (let x = Math.max(0, box.x0); x < Math.min(mask.width, box.x1) && !broad; x++)
+        {
+            run = mask.data[y * mask.width + x] === 1 ? run + 1 : 0;
+            broad = run > limit;
+        }
+
+        rows += broad ? 1 : 0;
+    }
+
+    return rows;
+}
+
+/**
  * Clears boxes out of a mask.
  *
  * @param mask - Mask.
@@ -2187,6 +2241,32 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     joinThroughNumbers(lineArt, lineInk, junctionNumbers, glyphHeight, thickness);
     joinThroughNumbers(inkForRuns, lineInk, junctionNumbers, glyphHeight, thickness);
+    // A solid mark drawn on a branch is taken off it, and the branch drawn through.
+    // Not one with a label beginning after it on its own level: that is the bar of a tip's
+    // range, or a marker before its name, and the tip's branch ends at it.
+    const branchMarks = new Array<Box>();
+
+    for (const mark of parameters.nodeDiscs ? findBranchMarks(textInk, nodeDiscs, glyphHeight, thickness) : [])
+    {
+        let labelled = false;
+
+        for (const line of roughLines)
+        {
+            const level = Math.min(line.box.y1, mark.y1) - Math.max(line.box.y0, mark.y0) >= 0.5 * Math.min(line.box.y1 - line.box.y0, mark.y1 - mark.y0);
+            labelled = labelled || (level && line.glyphCount >= 3 && line.box.x0 >= mark.x0 && line.box.x0 <= mark.x1 + 3 * glyphHeight);
+        }
+
+        if (!labelled)
+        {
+            branchMarks.push(mark);
+        }
+    }
+
+    // The lines that arrive at a mark are looked for in the ink without the marks: a mark's
+    // own ink would pass for a line on every side of it.
+    const inkBesideMarks = branchMarks.length === 0 ? lineInk : blankMaskAreas(lineInk, branchMarks);
+    joinThroughNumbers(lineArt, inkBesideMarks, branchMarks, glyphHeight, thickness, true);
+    joinThroughNumbers(inkForRuns, inkBesideMarks, branchMarks, glyphHeight, thickness, true);
     const probe = extractSegments(lineArt, minHorizontalRun, Number.MAX_SAFE_INTEGER);
     const thicknesses = new Array<number>();
 
@@ -2270,7 +2350,16 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         const width = segment.box.x1 - segment.box.x0;
         const height = segment.box.y1 - segment.box.y0;
 
-        if (width > thickness / 3 || height > 3 * thickness)
+        // A column of drawings standing one above the other, tail to head, is as tall as a
+        // vertical and several times as broad (Senter 2012, a silhouette at every tip). No
+        // column of it holds ink for a quarter of its height, which tells it from the
+        // verticals of several nodes a few pixels apart; and an eighth of its rows hold a
+        // stretch of ink over twice a line's thickness, which tells it from a line drawn
+        // leaning (Averianov 2021, Sues 2014). A thick line drawn at a slant has such rows
+        // too, and its box is broader than eight thicknesses (Novas 2013).
+        const ragged = width > 3 * thickness + 2 && width <= 8 * thickness && measureLongestColumnRun(lineArt, segment.box) < 0.25 * height && countBroadRows(lineArt, segment.box, 2 * thickness + 1) >= 0.125 * height;
+
+        if ((width > thickness / 3 || height > 3 * thickness) && !ragged)
         {
             keptVerticals.push(segment);
         }
