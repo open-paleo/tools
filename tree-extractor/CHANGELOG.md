@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A slanted tree drawn without a root stub, two lines meeting at a corner, is rooted at that
+  corner (`root-at-corner`). It was rooted at one of its tips, which paired the first two
+  tips and lost another (Brusatte 2008, 5 of 8 names to 7, in the right order).
+- A nearly level branch of a slanted tree that ends in line with the other tips is a tip's
+  branch, not a leader line to a label.
 - A figure is also read reduced when its letters are 38 pixels tall or more and at least a
   fiftieth of its shorter side: bold labels of that size on a small tree (Brusatte 2008, two
   figures; Han 2015; Arcucci 2003: 8 of 31 names to 16 between them).

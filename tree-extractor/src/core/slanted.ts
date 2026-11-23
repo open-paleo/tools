@@ -1358,6 +1358,143 @@ function chooseRootEnd(graph: SkeletonGraph, component: Array<number>, side: Poi
 }
 
 /**
+ * Measures the length of a path along its points.
+ *
+ * @param path - Path.
+ * @returns The length in pixels.
+ */
+function measurePathLength(path: Array<Point>): number
+{
+    let length = 0;
+
+    for (let index = 1; index < path.length; index++)
+    {
+        length += Math.hypot(path[index].x - path[index - 1].x, path[index].y - path[index - 1].y);
+    }
+
+    return length;
+}
+
+/**
+ * Finds the root of a tree drawn without a root stub: two lines meeting at a corner, with
+ * every end on the tips' side (Brusatte 2008, a V whose arms are the first tip's branch and
+ * the backbone). The corner is the point of the component farthest back from the tips; it is
+ * the root when it lies two glyph heights behind the farthest back end, in the run of an edge
+ * and not at a point. The edge is parted there and the corner made a point.
+ *
+ * @param graph - Graph changed in place.
+ * @param component - Point ids of the main component.
+ * @param side - The tips' side.
+ * @param glyphHeight - Glyph height in pixels.
+ * @returns The corner's point id, or -1 when the tree has no such corner.
+ */
+function findRootCorner(graph: SkeletonGraph, component: Array<number>, side: Point, glyphHeight: number): number
+{
+    const inComponent = new Set<number>(component);
+    let backmostEnd = Infinity;
+
+    for (const id of component)
+    {
+        const point = graph.points[id];
+
+        if (listLiveEdges(graph, point).length === 1)
+        {
+            backmostEnd = Math.min(backmostEnd, point.x * side.x + point.y * side.y);
+        }
+    }
+
+    let bestEdge = -1;
+    let bestIndex = -1;
+    let backmost = Infinity;
+
+    for (let index = 0; index < graph.edges.length; index++)
+    {
+        const edge = graph.edges[index];
+
+        if (!edge.alive || !inComponent.has(edge.from))
+        {
+            continue;
+        }
+
+        for (let step = 0; step < edge.path.length; step++)
+        {
+            const along = edge.path[step].x * side.x + edge.path[step].y * side.y;
+
+            if (along < backmost)
+            {
+                backmost = along;
+                bestEdge = index;
+                bestIndex = step;
+            }
+        }
+    }
+
+    if (bestEdge < 0 || backmostEnd - backmost < 2 * glyphHeight)
+    {
+        return -1;
+    }
+
+    const edge = graph.edges[bestEdge];
+    const before = edge.path.slice(0, bestIndex + 1);
+    const after = edge.path.slice(bestIndex);
+
+    // At a point of the graph the root is that junction, and the walk from an end finds it.
+    if (measurePathLength(before) < glyphHeight || measurePathLength(after) < glyphHeight)
+    {
+        return -1;
+    }
+
+    const corner: GraphPoint = { id: graph.points.length, x: edge.path[bestIndex].x, y: edge.path[bestIndex].y, edges: [], alive: true };
+    graph.points.push(corner);
+    edge.alive = false;
+
+    const parts: Array<GraphEdge> = [
+        { from: edge.from, to: corner.id, length: measurePathLength(before), path: before, alive: true },
+        { from: corner.id, to: edge.to, length: measurePathLength(after), path: after, alive: true },
+    ];
+
+    for (const part of parts)
+    {
+        graph.points[part.from].edges.push(graph.edges.length);
+        graph.points[part.to].edges.push(graph.edges.length);
+        graph.edges.push(part);
+    }
+
+    return corner.id;
+}
+
+/**
+ * Whether an end stops in line with most of the component's other ends: within half a glyph
+ * height of them across the figure.
+ *
+ * @param graph - Graph.
+ * @param component - Point ids of the component.
+ * @param end - The end's point id.
+ * @param glyphHeight - Glyph height in pixels.
+ * @returns True when half the other ends or more, and two at least, stand in its column.
+ */
+function endsInLine(graph: SkeletonGraph, component: Array<number>, end: number, glyphHeight: number): boolean
+{
+    let others = 0;
+    let inLine = 0;
+
+    for (const id of component)
+    {
+        const point = graph.points[id];
+
+        if (id === end || !point.alive || listLiveEdges(graph, point).length !== 1)
+        {
+            continue;
+        }
+
+        others++;
+        inLine += Math.abs(point.x - graph.points[end].x) <= 0.5 * glyphHeight ? 1 : 0;
+    }
+
+    return inLine >= 2 && 2 * inLine >= others;
+}
+
+/**
  * Removes leader lines: ends of the component whose last stretch points away from the side
  * the tips are on. A tip's branch runs toward the tips; a line from a node to a clade name or
  * a support value printed on the root side runs the other way. Points left with two edges are
@@ -1427,7 +1564,10 @@ function pruneLeaders(graph: SkeletonGraph, component: Array<number>, rootEnd: n
             // looks at the stretch before the last two glyphs as well, since the bracket's own
             // stroke turns the line's last pixels.
             const away = (dx * sideX + dy * sideY) / (length * sideLength) < -0.5;
-            const level = edge.length >= 2 * glyphHeight && (isLevelStretch(path, 0, 2 * glyphHeight) || isLevelStretch(path, 2 * glyphHeight, 4 * glyphHeight));
+            // But not one that stops in line with the other ends: that is a branch of a fan
+            // which happens to leave its node nearly level, and ends where the tips end
+            // (Brusatte 2008's Acrocanthosaurus, ten degrees off level).
+            const level = edge.length >= 2 * glyphHeight && (isLevelStretch(path, 0, 2 * glyphHeight) || isLevelStretch(path, 2 * glyphHeight, 4 * glyphHeight)) && !endsInLine(graph, component, id, glyphHeight);
 
             if (away || level)
             {
@@ -1841,7 +1981,8 @@ export function traceSlantedTree(lineInk: Mask, thickness: number, glyphHeight: 
     }
 
     const side = measureTipSide(graph, main) ?? { x: 1, y: 0 };
-    const rootEnd = chooseRootEnd(graph, main, side, textBoxes, 2 * glyphHeight);
+    const rootCorner = findRootCorner(graph, main, side, glyphHeight);
+    const rootEnd = rootCorner >= 0 ? rootCorner : chooseRootEnd(graph, main, side, textBoxes, 2 * glyphHeight);
     const leaders = pruneLeaders(graph, main, rootEnd, side, glyphHeight);
 
     if (leaders > 0)
@@ -1923,7 +2064,12 @@ export function traceSlantedTree(lineInk: Mask, thickness: number, glyphHeight: 
         return node.id;
     }
 
-    if (rootEnd >= 0)
+    if (rootCorner >= 0)
+    {
+        root = visit(rootCorner, -1, null);
+        issues.push({ severity: "info", code: "root-at-corner", message: "the tree has no root stub; its root was taken at the corner farthest from the tips", subject: null });
+    }
+    else if (rootEnd >= 0)
     {
         const rootPoint = graph.points[rootEnd];
         const stem = listLiveEdges(graph, rootPoint);
