@@ -246,6 +246,38 @@ function hasLineAcross(lineArt: Mask, box: Box, row: Box, beyond: number): boole
 }
 
 /**
+ * Fits a box to the rows its ink fills: the rows in which ink covers nine tenths of the box's
+ * width.
+ *
+ * @param mask - Mask.
+ * @param box - Box.
+ * @returns The box with those rows, or null when there are none.
+ */
+function fitToInkRows(mask: Mask, box: Box): Box | null
+{
+    let y0 = -1;
+    let y1 = -1;
+
+    for (let y = Math.max(0, box.y0); y < Math.min(mask.height, box.y1); y++)
+    {
+        let set = 0;
+
+        for (let x = Math.max(0, box.x0); x < Math.min(mask.width, box.x1); x++)
+        {
+            set += mask.data[y * mask.width + x];
+        }
+
+        if (set >= 0.9 * (box.x1 - box.x0))
+        {
+            y0 = y0 < 0 ? y : y0;
+            y1 = y + 1;
+        }
+    }
+
+    return y0 < 0 ? null : { x0: box.x0, y0, x1: box.x1, y1 };
+}
+
+/**
  * Measures the share of a box that is set in a mask.
  *
  * @param mask - Mask.
@@ -638,15 +670,115 @@ function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number,
  * @param boxes - Vertical boxes, changed in place.
  * @param textRows - Boxes of text rows.
  * @param horizontals - Horizontal boxes.
+ * @param ink - All dark ink, lettering included, for the piece of a vertical that went with a
+ *   name; null leaves such verticals as they are.
  * @returns How many pairs were joined.
  */
-function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizontals: Array<Box>): number
+function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizontals: Array<Box>, ink: Mask | null = null): number
 {
     if (textRows.length === 0)
     {
         return 0;
     }
 
+    let carried = 0;
+
+    // A vertical may stop at a name with nothing of itself left beyond it: the short
+    // piece between the name and the branch the vertical turns into is no longer than a
+    // letter, and went with the lettering (Sen 2025, 40 pixels of backbone between
+    // "Pseudosuchia" and the stem above it). Where a branch ends in the vertical's column
+    // within a row and a half's height beyond the name, the vertical is carried on to it.
+    for (const box of boxes)
+    {
+        const x = (box.x0 + box.x1) / 2;
+        const reach = 2 * (box.x1 - box.x0) + 2;
+
+        for (const row of textRows)
+        {
+            const tall = row.y1 - row.y0;
+            const slack = Math.max(3, Math.round(0.4 * tall));
+
+            // The name lies across the line, a row's height of it on each side: a tip's label
+            // begins beside the vertical it hangs from and does not cross it.
+            if (row.x0 > x - tall || row.x1 < x + tall)
+            {
+                continue;
+            }
+
+            const above = box.y0 >= row.y1 - slack && box.y0 <= row.y1 + slack && !hasBranchAtEnd(box, box.y0, horizontals);
+            const below = box.y1 <= row.y0 + slack && box.y1 >= row.y0 - slack && !hasBranchAtEnd(box, box.y1, horizontals);
+
+            if (!above && !below)
+            {
+                continue;
+            }
+
+            let target: Box | null = null;
+
+            for (const horizontal of horizontals)
+            {
+                const middle = (horizontal.y0 + horizontal.y1) / 2;
+                const beyond = above ? row.y0 - middle : middle - row.y1;
+                const endsHere = Math.abs(horizontal.x0 - x) <= reach || Math.abs(horizontal.x1 - x) <= reach;
+
+                if (endsHere && beyond >= 0 && beyond <= 1.5 * tall && (target === null || beyond < (above ? row.y0 - (target.y0 + target.y1) / 2 : (target.y0 + target.y1) / 2 - row.y1)))
+                {
+                    target = horizontal;
+                }
+            }
+
+            // No vertical stands there already: one that does is another node's, or the other
+            // piece of this one, which is joined as a pair above or not at all.
+            let taken = false;
+
+            for (const other of boxes)
+            {
+                taken = taken || (other !== box && target !== null && Math.abs((other.x0 + other.x1) / 2 - x) <= reach && other.y0 <= target.y1 + reach && other.y1 >= target.y0 - reach);
+            }
+
+            // And the piece that went with the lettering is there to see: ink down the
+            // vertical's column for four fifths of the way from the name to the branch.
+            let inked = 0;
+            let span = 0;
+
+            if (target !== null && ink !== null)
+            {
+                const from = above ? target.y1 : row.y1;
+                const to = above ? row.y0 : target.y0;
+
+                for (let y = Math.max(0, from); y < Math.min(ink.height, to); y++)
+                {
+                    let dark = false;
+
+                    for (let column = Math.max(0, box.x0); column < Math.min(ink.width, box.x1) && !dark; column++)
+                    {
+                        dark = ink.data[y * ink.width + column] === 1;
+                    }
+
+                    span++;
+                    inked += dark ? 1 : 0;
+                }
+            }
+
+            if (target !== null && !taken && inked >= 0.8 * span)
+            {
+                if (above)
+                {
+                    box.y0 = target.y0;
+                }
+                else
+                {
+                    box.y1 = target.y1;
+                }
+
+                carried++;
+                break;
+            }
+        }
+    }
+
+    // That goes first: a backbone under several names is mended as a whole only when a
+    // branch leaves its topmost piece, and the branch may be the one just reached.
     boxes.sort(compareTopEdges);
     const uppers = new Array<Box>();
     const lowers = new Array<Box>();
@@ -662,7 +794,7 @@ function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizo
             const overlap = Math.min(first.x1, second.x1) - Math.max(first.x0, second.x0);
             const thinner = Math.min(first.x1 - first.x0, second.x1 - second.x0);
 
-            if (gap > 0 && overlap >= 0.5 * thinner && isGapInsideRow(first, second, textRows) && !hasBranchAtEnd(first, first.y1, horizontals) && !hasBranchAtEnd(second, second.y0, horizontals))
+            if (gap > 0 && overlap >= 0.5 * thinner && isGapInsideRow(first, second, textRows) && !hasBranchAtEnd(first, first.y1, horizontals, thinner) && !hasBranchAtEnd(second, second.y0, horizontals, thinner))
             {
                 uppers.push(first);
                 lowers.push(second);
@@ -712,7 +844,7 @@ function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizo
         }
     }
 
-    return joined;
+    return joined + carried;
 }
 
 /**
@@ -743,14 +875,16 @@ function hasBranchAlong(vertical: Box, horizontals: Array<Box>): boolean
  * @param vertical - Vertical box.
  * @param endY - The end to look at: the box's top or bottom.
  * @param horizontals - Horizontal boxes.
+ * @param breadth - The line's breadth, when the box is broader than its line: a dot on the
+ *   node makes the box as broad as the dot.
  * @returns True when a branch arrives at or leaves from that end.
  */
-function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>): boolean
+function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>, breadth = vertical.x1 - vertical.x0): boolean
 {
     // No further than a third of the vertical: of a piece barely longer than it is broad, the
     // branch at its other end is not at this one (Pei 2020, the 19 pixels of the root's
     // vertical above the name printed across it).
-    const reach = Math.min(2 * (vertical.x1 - vertical.x0) + 2, Math.floor((vertical.y1 - vertical.y0) / 3));
+    const reach = Math.min(2 * breadth + 2, Math.floor((vertical.y1 - vertical.y0) / 3));
 
     for (const horizontal of horizontals)
     {
@@ -951,6 +1085,8 @@ export function extractSegments(
     const horizontalMask = dropVerticalBreadth(createDirectionalRunMask(lineArt, minHorizontalRun, true), lineArt, minHorizontalRun);
     const components = findConnectedComponents(horizontalMask).components;
     let pieces = new Array<Box>();
+    // The run each piece was cut from.
+    const runOf = new Map<Box, Box>();
 
     if (ink === null)
     {
@@ -986,7 +1122,25 @@ export function extractSegments(
         {
             // The figure's line width is taken from all the ink around each run, as it always
             // was; where a run is cut for being too thick, only ink joined to it counts.
-            pieces.push(...findLinePieces(measureJoinedHeights(ink, components[index].box, window), components[index].box, limit, minHorizontalRun));
+            const found = findLinePieces(measureJoinedHeights(ink, components[index].box, window), components[index].box, limit, minHorizontalRun);
+            pieces.push(...found);
+
+            for (const piece of found)
+            {
+                runOf.set(piece, components[index].box);
+            }
+        }
+    }
+
+    const verticalBoxes = new Array<Box>();
+
+    for (const component of findConnectedComponents(createDirectionalRunMask(lineArt, minVerticalRun, false)).components)
+    {
+        const box = component.box;
+
+        if (box.y1 - box.y0 >= 2 * (box.x1 - box.x0) && !isInsideAny(box, letterRows ?? textRows))
+        {
+            verticalBoxes.push(box);
         }
     }
 
@@ -1001,23 +1155,39 @@ export function extractSegments(
             if (part.x1 - part.x0 >= part.y1 - part.y0)
             {
                 clipped.push(part);
+                continue;
+            }
+
+            // A piece cut from a run that also holds something thick, a dot on the node the
+            // branch runs to, has the height of the whole run and looks taller than it is
+            // long (Sen 2025, 29 pixels of stem beside a dot of 31). Its own rows are the
+            // ones its ink fills.
+            // The thick part of the run is a dot or a small mark, no longer than three times
+            // its height. Beside a range bar the piece is the stub of the bar's branch, which
+            // is found in its own way (Perez-Pueyo 2019, Gonzalez Riga 2018).
+            const run = runOf.get(piece);
+            const beside = run !== undefined && (run.x1 - run.x0) - (part.x1 - part.x0) <= 3 * (run.y1 - run.y0);
+            const fitted = beside ? fitToInkRows(lineArt, part) : null;
+            let own: Box | null = null;
+
+            // And the piece runs from a vertical: its other end stands on one. A stroke of
+            // a drawing beside a blot has no line to come from (Gomez 2024).
+            for (const vertical of verticalBoxes)
+            {
+                if (fitted !== null && vertical.y0 <= fitted.y0 && vertical.y1 >= fitted.y1 && ((vertical.x1 >= fitted.x0 - 2 && vertical.x0 <= fitted.x0 + 2) || (vertical.x0 <= fitted.x1 + 2 && vertical.x1 >= fitted.x1 - 2)))
+                {
+                    own = fitted;
+                }
+            }
+
+            if (own !== null && own.x1 - own.x0 >= minHorizontalRun && own.x1 - own.x0 >= 2 * (own.y1 - own.y0))
+            {
+                clipped.push(own);
             }
         }
     }
 
     pieces = clipped;
-    const verticalBoxes = new Array<Box>();
-
-    for (const component of findConnectedComponents(createDirectionalRunMask(lineArt, minVerticalRun, false)).components)
-    {
-        const box = component.box;
-
-        if (box.y1 - box.y0 >= 2 * (box.x1 - box.x0) && !isInsideAny(box, letterRows ?? textRows))
-        {
-            verticalBoxes.push(box);
-        }
-    }
-
     const horizontals = new Array<Segment>();
     const verticals = new Array<Segment>();
 
@@ -1027,7 +1197,7 @@ export function extractSegments(
     // between them (Cau 2018); there a vertical that crosses the gap keeps the two apart.
     const mergedHorizontals = mergeCollinearBoxes(pieces, true, maxGap, ink, Math.round(window / 2), gapInkShare, null, knownLines === null ? null : verticalBoxes, knownLines);
     const mergedVerticals = mergeCollinearBoxes(verticalBoxes, false, maxVerticalGap, ink, Math.round(window / 2), gapInkShare, mergedHorizontals.boxes);
-    mergedVerticals.bridged += joinVerticalsAcrossText(mergedVerticals.boxes, textRows, mergedHorizontals.boxes);
+    mergedVerticals.bridged += joinVerticalsAcrossText(mergedVerticals.boxes, textRows, mergedHorizontals.boxes, ink);
 
     for (const box of mergedHorizontals.boxes)
     {

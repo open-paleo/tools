@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- A backbone with clade names printed across it and dots on its nodes holds together in three
+  more cases (Sen 2025, 9 of 38 names to 16; Rauhut 2017, Gohlich 2006, Bellardini 2025,
+  Wilson 2016 and Tortosa 2014 gain names):
+  - a vertical that stops at a name lying across it is carried on to the branch that ends in
+    its column just beyond the name, where the short piece of line between the two went with
+    the lettering;
+  - a branch at a cut end is looked for within the line's breadth, not that of a dot on the
+    node, which made the box broad and the node's own stem pass for a branch at the cut;
+  - a short stem beside a node's dot is kept: cut from a run as tall as the dot, it looked
+    taller than it was long.
+
 ## 0.11.0 (2026-11-23)
 
 - A label's row begins after the bar of its range when only a mark or two stand before the
