@@ -253,70 +253,191 @@ function hasLineAcross(lineArt: Mask, box: Box, row: Box, beyond: number): boole
  * than a line.
  *
  * @param pieces - Pieces of one run, in order.
+ * @param run - Box of the run the pieces were cut from.
  * @param lineArt - Line ink, without glyphs.
  * @param ink - All dark ink, lettering included.
  * @param reach - Greatest gap to join across: a digit's width, seven tenths of a glyph's height.
  * @param limit - Greatest thickness of a line.
  * @returns The pieces, those joined given as one.
  */
-function joinUnderLetters(pieces: Array<Box>, lineArt: Mask, ink: Mask, reach: number, limit: number): Array<Box>
+function joinUnderLetters(pieces: Array<Box>, run: Box, lineArt: Mask, ink: Mask, reach: number, limit: number): Array<Box>
 {
+    // Whether a letter stands in a column of the run: ink that is not line art, and no
+    // taller than a letter. A rule of the time scale drawn faint or in dots is such ink too,
+    // and runs on far above and below the run (Gonzalez Riga 2018).
+    function hasLetterAt(x: number): boolean
+    {
+        for (let y = run.y0; y < run.y1; y++)
+        {
+            if (ink.data[y * ink.width + x] !== 1 || lineArt.data[y * ink.width + x] === 1)
+            {
+                continue;
+            }
+
+            let top = y;
+            let bottom = y;
+
+            while (top > 0 && y - top <= 3 * reach && ink.data[(top - 1) * ink.width + x] === 1)
+            {
+                top--;
+            }
+
+            while (bottom < ink.height - 1 && bottom - y <= 3 * reach && ink.data[(bottom + 1) * ink.width + x] === 1)
+            {
+                bottom++;
+            }
+
+            if (bottom - top <= 3 * reach)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Whether the line runs on under lettering from one column to another: the line art has
+    // unbroken rows over the whole stretch no thicker than a line, nothing of the tree crosses
+    // in the gap (a vertical or a tick there is the tree's own, Perez-Pueyo 2019), and
+    // lettering, ink that is not line art, stands in half the gap's columns.
+    function runsUnder(x0: number, x1: number, gapFrom: number, gapTo: number): boolean
+    {
+        const whole = fitToInkRows(lineArt, { x0, y0: run.y0, x1, y1: run.y1 });
+
+        if (whole === null || whole.y1 - whole.y0 > limit)
+        {
+            return false;
+        }
+
+        let lettered = 0;
+
+        for (let x = gapFrom; x < gapTo; x++)
+        {
+            let top = whole.y0;
+            let bottom = whole.y1;
+
+            while (top > 0 && whole.y0 - top <= limit && lineArt.data[(top - 1) * lineArt.width + x] === 1)
+            {
+                top--;
+            }
+
+            while (bottom < lineArt.height && bottom - whole.y1 <= limit && lineArt.data[bottom * lineArt.width + x] === 1)
+            {
+                bottom++;
+            }
+
+            if (bottom - top > limit)
+            {
+                return false;
+            }
+
+            lettered += hasLetterAt(x) ? 1 : 0;
+        }
+
+        return 2 * lettered >= gapTo - gapFrom;
+    }
+
+    // Whether two pieces that touch are one line: the line art has unbroken rows over both,
+    // no thicker than a line, and nothing of the tree stands at the seam. Pieces are parted
+    // where a vertical meets the branch, and those stay apart.
+    function isThinOver(x0: number, x1: number, seam: number): boolean
+    {
+        const whole = fitToInkRows(lineArt, { x0, y0: run.y0, x1, y1: run.y1 });
+
+        if (whole === null || whole.y1 - whole.y0 > limit)
+        {
+            return false;
+        }
+
+        for (let x = Math.max(0, seam - 2); x < Math.min(lineArt.width, seam + 2); x++)
+        {
+            let top = whole.y0;
+            let bottom = whole.y1;
+
+            while (top > 0 && whole.y0 - top <= limit && lineArt.data[(top - 1) * lineArt.width + x] === 1)
+            {
+                top--;
+            }
+
+            while (bottom < lineArt.height && bottom - whole.y1 <= limit && lineArt.data[bottom * lineArt.width + x] === 1)
+            {
+                bottom++;
+            }
+
+            if (bottom - top > limit)
+            {
+                return false;
+            }
+        }
+
+        // And a letter stands at the seam, within half a digit's width: a bar parted where
+        // a rule of the time scale crosses it has none there (Gonzalez Riga 2018).
+        let lettered = 0;
+
+        for (let x = Math.max(run.x0, seam - Math.round(reach / 2)); x < Math.min(run.x1, seam + Math.round(reach / 2)); x++)
+        {
+            lettered += hasLetterAt(x) ? 1 : 0;
+        }
+
+        return lettered >= 2;
+    }
+
+    // How many columns of the run hold lettering: ink that is not line art.
+    let letteredColumns = 0;
+
+    for (let x = run.x0; x < run.x1; x++)
+    {
+        letteredColumns += hasLetterAt(x) ? 1 : 0;
+    }
+
     const joined = new Array<Box>();
+
+    // Nothing is joined in a run that no letter touches: its pieces were parted by the
+    // tree's own shapes, a bar or a dot, and are told apart for good reason.
+    if (2 * letteredColumns < reach)
+    {
+        return pieces;
+    }
+
+    // The run is no taller than a letter standing on a line: the rule of a stage chart with
+    // its dividers is a run as tall as the chart (Perez-Pueyo 2019).
+    if (run.y1 - run.y0 > 3 * reach)
+    {
+        return pieces;
+    }
 
     for (const piece of [...pieces].sort(compareLeftEdges))
     {
         const last = joined.length > 0 ? joined[joined.length - 1] : null;
+        const gap = last === null ? -1 : piece.x0 - last.x1;
 
-        // The run is no taller than a letter standing on a line: the rule of a stage chart
-        // with its dividers is a run as tall as the chart (Perez-Pueyo 2019).
-        const low = Math.max(piece.y1, last === null ? 0 : last.y1) - Math.min(piece.y0, last === null ? piece.y0 : last.y0) <= 3 * reach;
-
-        if (last !== null && low && piece.x0 - last.x1 > 0 && piece.x0 - last.x1 <= reach)
+        if (last !== null && gap >= 0 && gap <= reach && (gap === 0 ? isThinOver(last.x0, piece.x1, piece.x0) : runsUnder(last.x0, piece.x1, last.x1, piece.x0)))
         {
-            const whole = fitToInkRows(lineArt, { x0: last.x0, y0: Math.min(last.y0, piece.y0), x1: piece.x1, y1: Math.max(last.y1, piece.y1) });
-            let crossed = 0;
-            let lettered = 0;
-
-            // What makes the run thick in the gap is lettering, not line art: a vertical
-            // that crosses there, or a tick, is the tree's own (Perez-Pueyo 2019).
-            for (let x = last.x1; whole !== null && x < piece.x0; x++)
-            {
-                let top = whole.y0;
-                let bottom = whole.y1;
-
-                while (top > 0 && whole.y0 - top <= limit && lineArt.data[(top - 1) * lineArt.width + x] === 1)
-                {
-                    top--;
-                }
-
-                while (bottom < lineArt.height && bottom - whole.y1 <= limit && lineArt.data[bottom * lineArt.width + x] === 1)
-                {
-                    bottom++;
-                }
-
-                crossed += bottom - top > limit ? 1 : 0;
-
-                // And lettering is there: ink that is not line art, in the run's rows.
-                let letter = false;
-
-                for (let y = Math.min(last.y0, piece.y0); y < Math.max(last.y1, piece.y1) && !letter; y++)
-                {
-                    letter = ink.data[y * ink.width + x] === 1 && lineArt.data[y * ink.width + x] === 0;
-                }
-
-                lettered += letter ? 1 : 0;
-            }
-
-            if (whole !== null && whole.y1 - whole.y0 <= limit && crossed === 0 && 2 * lettered >= piece.x0 - last.x1)
-            {
-                last.x1 = piece.x1;
-                last.y0 = Math.min(last.y0, piece.y0);
-                last.y1 = Math.max(last.y1, piece.y1);
-                continue;
-            }
+            last.x1 = piece.x1;
+            last.y0 = Math.min(last.y0, piece.y0);
+            last.y1 = Math.max(last.y1, piece.y1);
+            continue;
         }
 
         joined.push({ x0: piece.x0, y0: piece.y0, x1: piece.x1, y1: piece.y1 });
+    }
+
+    // A letter may stand on the very end of the line, where it turns into its vertical: the
+    // first or the last piece then starts a digit's width inside the run.
+    if (joined.length > 0)
+    {
+        const first = joined[0];
+        const last = joined[joined.length - 1];
+
+        if (first.x0 > run.x0 && first.x0 - run.x0 <= reach && runsUnder(run.x0, first.x1, run.x0, first.x0))
+        {
+            first.x0 = run.x0;
+        }
+
+        if (last.x1 < run.x1 && run.x1 - last.x1 <= reach && runsUnder(last.x0, run.x1, last.x1, run.x1))
+        {
+            last.x1 = run.x1;
+        }
     }
 
     return joined;
@@ -871,7 +992,7 @@ function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizo
             const overlap = Math.min(first.x1, second.x1) - Math.max(first.x0, second.x0);
             const thinner = Math.min(first.x1 - first.x0, second.x1 - second.x0);
 
-            if (gap > 0 && overlap >= 0.5 * thinner && isGapInsideRow(first, second, textRows, ink) && !hasBranchAtEnd(first, first.y1, horizontals, thinner) && !hasBranchAtEnd(second, second.y0, horizontals, thinner))
+            if (gap > 0 && overlap >= 0.5 * thinner && isGapInsideRow(first, second, textRows, ink) && !hasBranchAtEnd(first, first.y1, horizontals, thinner, first.x1 - first.x0 >= 2 * thinner) && !hasBranchAtEnd(second, second.y0, horizontals, thinner, second.x1 - second.x0 >= 2 * thinner))
             {
                 uppers.push(first);
                 lowers.push(second);
@@ -954,9 +1075,11 @@ function hasBranchAlong(vertical: Box, horizontals: Array<Box>): boolean
  * @param horizontals - Horizontal boxes.
  * @param breadth - The line's breadth, when the box is broader than its line: a dot on the
  *   node makes the box as broad as the dot.
+ * @param leavingOnly - Whether only a branch that leaves to the right counts, and not a stem
+ *   arriving from the left.
  * @returns True when a branch arrives at or leaves from that end.
  */
-function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>, breadth = vertical.x1 - vertical.x0): boolean
+function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>, breadth = vertical.x1 - vertical.x0, leavingOnly = false): boolean
 {
     // No further than a third of the vertical: of a piece barely longer than it is broad, the
     // branch at its other end is not at this one (Pei 2020, the 19 pixels of the root's
@@ -966,8 +1089,15 @@ function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>, br
     for (const horizontal of horizontals)
     {
         const touchesColumn = horizontal.x0 <= vertical.x1 + reach && horizontal.x1 >= vertical.x0 - reach;
+        // A branch that arrives from the left and goes no further is the node's stem. Where
+        // it arrives at a dot on a cut end, the vertical went on past the cut: a stem enters
+        // between a node's branches, not at the end of them (Sen 2025, a name printed just
+        // under the dot its stem runs to). Only at a dot, which makes the piece twice as
+        // broad as its line: two nodes one above the other in a column each have a stem
+        // too (Muller 2018, Dai 2022).
+        const leaves = horizontal.x1 > vertical.x1 + reach;
 
-        if (touchesColumn && horizontal.y0 <= endY + reach && horizontal.y1 >= endY - reach)
+        if (touchesColumn && (leaves || !leavingOnly) && horizontal.y0 <= endY + reach && horizontal.y1 >= endY - reach)
         {
             return true;
         }
@@ -1278,7 +1408,7 @@ export function extractSegments(
         {
             // The figure's line width is taken from all the ink around each run, as it always
             // was; where a run is cut for being too thick, only ink joined to it counts.
-            const found = joinUnderLetters(findLinePieces(measureJoinedHeights(ink, components[index].box, window), components[index].box, limit, minHorizontalRun), lineArt, ink, Math.round(0.7 * window), limit);
+            const found = joinUnderLetters(findLinePieces(measureJoinedHeights(ink, components[index].box, window), components[index].box, limit, minHorizontalRun), components[index].box, lineArt, ink, Math.round(0.7 * window), limit);
             pieces.push(...found);
 
             for (const piece of found)

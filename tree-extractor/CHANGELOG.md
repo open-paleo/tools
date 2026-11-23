@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Sen 2025 reads as one tree (21 of 38 names to 31): a stem is joined to the end of its
+  run where a digit stands on its corner, and pieces of one run that touch are joined
+  where a letter stands at the seam; a vertical cut by a name just under a node's dot is
+  mended though the node's stem arrives at the cut; and the soft edge of a cleared gray
+  ground goes with it, which had stayed as a hairline down each side.
 - A gray ground under part of a tree is cleared: a clade's box with the tree running into it
   was joined by the soft rims of its lines to every line of the figure and never passed for
   a solid area. Gray is now also looked for worn by two pixels, and such a ground is cleared

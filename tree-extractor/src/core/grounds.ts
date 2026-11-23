@@ -187,7 +187,9 @@ export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: n
                     const offset = 4 * (y * width + x);
                     const luminance = 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2];
 
-                    if (dark.data[y * width + x] === 1 && Math.abs(luminance - tone) <= 25)
+                    // And with what is lighter than it: the soft edge where the ground meets
+                    // white, which is left as a hairline down each side of the box.
+                    if (dark.data[y * width + x] === 1 && luminance >= tone - 25)
                     {
                         cleaned[offset] = 255;
                         cleaned[offset + 1] = 255;
