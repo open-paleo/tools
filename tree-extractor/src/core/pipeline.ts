@@ -369,6 +369,12 @@ export type PreparedMasks = {
     paleMarkers: Mask;
 
     /**
+     * Ink known for line by its color in a figure with thick colored branches: the stretches
+     * drawn back under lettering and the colored lines; null in any other figure.
+     */
+    knownLines: Mask | null;
+
+    /**
      * Whether the strict text threshold broke letters into fragments.
      */
     fragmented: boolean;
@@ -545,7 +551,7 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const weakInk = subtractMask(subtractMask(faint, invertMask(nearStrong)), dilate(rough.glyphMask, 4));
     const lineInk = closeMask(applyHysteresis(strongLines, weakInk), parameters.closeRadius);
 
-    return { gray, textInk, runInk: runInk ?? textInk, lineInk, glyphMask: rough.glyphMask, markers: colored.fat, paleMarkers, fragmented, widened, glyphHeight, roughLines: rough.lines };
+    return { gray, textInk, runInk: runInk ?? textInk, lineInk, glyphMask: rough.glyphMask, markers: colored.fat, paleMarkers, knownLines: underLettering === null ? null : unionMask(coloredLines, underLettering), fragmented, widened, glyphHeight, roughLines: rough.lines };
 }
 
 /**
@@ -2001,7 +2007,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     }
 
     announce("Preparing masks");
-    const { gray, textInk, runInk, lineInk, glyphMask, markers, paleMarkers, fragmented, widened, glyphHeight, roughLines } = prepareMasks(image, parameters);
+    const { gray, textInk, runInk, lineInk, glyphMask, markers, paleMarkers, knownLines, fragmented, widened, glyphHeight, roughLines } = prepareMasks(image, parameters);
     recordLap("masks");
     announce("Finding segments");
 
@@ -2133,6 +2139,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         parameters.gapInkShare,
         letterRows,
         reachRows,
+        knownLines,
     );
     // A sliver a few pixels wide and tall beside a vertical is its rounded end or a stray edge,
     // and would take the attachment of a branch that belongs to the vertical.

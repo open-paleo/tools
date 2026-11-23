@@ -246,6 +246,30 @@ function hasLineAcross(lineArt: Mask, box: Box, row: Box, beyond: number): boole
 }
 
 /**
+ * Measures the share of a box that is set in a mask.
+ *
+ * @param mask - Mask.
+ * @param box - Box.
+ * @returns The share, 0 for an empty box.
+ */
+function measureMaskShare(mask: Mask, box: Box): number
+{
+    let set = 0;
+
+    for (let y = Math.max(0, box.y0); y < Math.min(mask.height, box.y1); y++)
+    {
+        for (let x = Math.max(0, box.x0); x < Math.min(mask.width, box.x1); x++)
+        {
+            set += mask.data[y * mask.width + x];
+        }
+    }
+
+    const area = (box.x1 - box.x0) * (box.y1 - box.y0);
+
+    return area <= 0 ? 0 : set / area;
+}
+
+/**
  * Removes from a horizontal piece every stretch that lies under a text row, keeping the parts
  * outside. A label that touches its branch continues the branch's ink; this is where it stops.
  *
@@ -255,9 +279,10 @@ function hasLineAcross(lineArt: Mask, box: Box, row: Box, beyond: number): boole
  * @param lineArt - Line ink, without glyphs.
  * @param reachRows - For each text row, the box of its letters widened by a glyph; a piece
  *   in the row's margin that starts or ends beyond it reaches the row from outside.
+ * @param knownLines - Ink known for line by its color, which a row does not clip; or null.
  * @returns Parts of the piece outside every text row.
  */
-function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt: Mask, reachRows: Array<Box> | null): Array<Box>
+function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt: Mask, reachRows: Array<Box> | null, knownLines: Mask | null): Array<Box>
 {
     const height = box.y1 - box.y0;
     const blocked = new Array<Box>();
@@ -267,6 +292,13 @@ function clipToTextRows(box: Box, textRows: Array<Box>, minRun: number, lineArt:
         const row = textRows[index];
         const reach = reachRows === null ? row : reachRows[index];
         const overlap = Math.min(row.y1, box.y1) - Math.max(row.y0, box.y0);
+
+        // A stretch known for line by its color is no part of the row's lettering: the row
+        // is a number printed on the branch (Cau 2018, an age on the step at every node).
+        if (knownLines !== null && overlap > 0 && row.x1 > box.x0 && row.x0 < box.x1 && measureMaskShare(knownLines, { x0: Math.max(box.x0, row.x0), y0: box.y0, x1: Math.min(box.x1, row.x1), y1: box.y1 }) >= 0.6)
+        {
+            continue;
+        }
 
         // A line that runs on unbroken along the edge of the row, and past it on both sides,
         // is a branch with a name printed just above or below it, not a label continuing its
@@ -853,6 +885,7 @@ function dropVerticalBreadth(horizontalMask: Mask, lineArt: Mask, shortest: numb
  * @param window - How far above and below a run to look for ink when measuring height.
  * @param textRows - Boxes of text rows; horizontals are clipped out of them and verticals inside
  * them are dropped.
+ * @param knownLines - Ink known for line by its color, which a text row does not clip.
  * @returns The segments found.
  */
 export function extractSegments(
@@ -867,6 +900,7 @@ export function extractSegments(
     gapInkShare = 0.4,
     letterRows: Array<Box> | null = null,
     reachRows: Array<Box> | null = null,
+    knownLines: Mask | null = null,
 ): SegmentSet
 {
     const horizontalMask = dropVerticalBreadth(createDirectionalRunMask(lineArt, minHorizontalRun, true), lineArt, minHorizontalRun);
@@ -917,7 +951,7 @@ export function extractSegments(
     // least as long as it is thick; text has already been cut away.
     for (const piece of pieces)
     {
-        for (const part of clipToTextRows(piece, textRows, minHorizontalRun, lineArt, reachRows))
+        for (const part of clipToTextRows(piece, textRows, minHorizontalRun, lineArt, reachRows, knownLines))
         {
             if (part.x1 - part.x0 >= part.y1 - part.y0)
             {
