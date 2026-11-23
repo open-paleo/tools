@@ -218,3 +218,175 @@ export function eraseDottedLines(image: RgbaImage): DottedLineResult
 
     return { image: { width, height, data: cleaned }, lines };
 }
+
+/**
+ * What drawing the dashed branches solid did.
+ */
+export type DashedLineResult = {
+    /**
+     * The image with them solid; the given image when there were none.
+     */
+    image: RgbaImage;
+
+    /**
+     * Number of dashed lines drawn solid.
+     */
+    lines: number;
+};
+
+/**
+ * Fewest dashes on one level, evenly sized and spaced, for them to be a dashed line.
+ */
+const fewestDashes = 4;
+
+/**
+ * Draws level dashed lines solid. A branch drawn in dashes, for a lineage with no fossils
+ * over that stretch, is a row of short strokes that pass for lettering, and the tip at the end
+ * of it has no branch (Tortosa 2014, where most tips hang on dashes). Dashes are small solid
+ * strokes longer than they are thick, alike in size, on one level, no further apart than two
+ * and a half of their length. The gaps between them are filled, and so is the gap from the
+ * first and the last to the ink the line runs from and to.
+ *
+ * Only level dashes: the rules of a time scale are dashed too, and stand upright.
+ *
+ * @param image - Image, turned so that the root is on the left.
+ * @param threshold - Luminance below which a pixel is ink.
+ * @returns The image and the number of lines drawn solid.
+ */
+export function joinDashedLines(image: RgbaImage, threshold: number): DashedLineResult
+{
+    const { width, height, data } = image;
+    const dark: Mask = { width, height, data: new Uint8Array(width * height) };
+
+    for (let index = 0; index < width * height; index++)
+    {
+        const offset = 4 * index;
+        dark.data[index] = 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2] < threshold ? 1 : 0;
+    }
+
+    const longest = Math.max(12, Math.round(Math.min(width, height) / 40));
+    const rows = new Map<number, Array<Component>>();
+    const labeling = findConnectedComponents(dark);
+
+    for (const component of labeling.components)
+    {
+        const { box } = component;
+        const wide = box.x1 - box.x0;
+        const tall = box.y1 - box.y0;
+
+        if (wide < 3 || wide > longest || tall > 8 || wide < 1.5 * tall || component.area < 0.6 * wide * tall)
+        {
+            continue;
+        }
+
+        // Dashes of one line can sit a pixel apart in height, so each is entered under two rows.
+        for (const key of [Math.floor(box.y0 / 2), Math.floor((box.y0 + 1) / 2) + 100000])
+        {
+            const row = rows.get(key) ?? [];
+            row.push(component);
+            rows.set(key, row);
+        }
+    }
+
+    const fills = new Array<Component["box"]>();
+
+    for (const dashes of rows.values())
+    {
+        if (dashes.length < fewestDashes)
+        {
+            continue;
+        }
+
+        dashes.sort(compareDotColumns);
+        let start = 0;
+
+        for (let index = 1; index <= dashes.length; index++)
+        {
+            const previous = dashes[index - 1].box;
+            const next = index < dashes.length ? dashes[index].box : null;
+            const length = previous.x1 - previous.x0;
+            const alike = next !== null
+                && Math.abs((next.x1 - next.x0) - length) <= Math.max(2, 0.4 * length)
+                && Math.abs((next.y1 - next.y0) - (previous.y1 - previous.y0)) <= 1
+                && Math.abs(next.y0 - previous.y0) <= 1
+                && next.x0 - previous.x1 <= 2.5 * length
+                && next.x0 > previous.x1;
+
+            if (alike)
+            {
+                continue;
+            }
+
+            if (index - start >= fewestDashes)
+            {
+                const first = dashes[start].box;
+                const reach = Math.round(2.5 * length);
+                let x0 = first.x0;
+                let x1 = previous.x1;
+                const middle = Math.floor((first.y0 + first.y1) / 2);
+
+                // On to the ink the line starts from and ends at, a gap's width away at most.
+                let fromLine = false;
+
+                for (let x = first.x0 - 1; x >= Math.max(0, first.x0 - reach); x--)
+                {
+                    if (dark.data[middle * width + x] === 1)
+                    {
+                        // A branch is joined to the tree: what the dashes start from, or
+                        // run to, is a piece of ink several glyphs across, not a letter.
+                        // Dashes after a name are a doubtful range drawn beside it
+                        // (Brusatte 2010).
+                        const source = labeling.components[labeling.labels[middle * width + x] - 1].box;
+                        fromLine = source.y1 - source.y0 > 4 * longest || source.x1 - source.x0 > 4 * longest;
+                        x0 = x;
+                        break;
+                    }
+                }
+
+                for (let x = previous.x1; x < Math.min(width, previous.x1 + reach); x++)
+                {
+                    if (dark.data[middle * width + x] === 1)
+                    {
+                        const target = labeling.components[labeling.labels[middle * width + x] - 1].box;
+                        fromLine = fromLine || target.y1 - target.y0 > 4 * longest || target.x1 - target.x0 > 4 * longest;
+                        x1 = x + 1;
+                        break;
+                    }
+                }
+
+                if (!fromLine)
+                {
+                    start = index;
+                    continue;
+                }
+
+                fills.push({ x0, y0: Math.min(first.y0, previous.y0), x1, y1: Math.max(first.y1, previous.y1) });
+            }
+
+            start = index;
+        }
+    }
+
+    if (fills.length === 0)
+    {
+        return { image, lines: 0 };
+    }
+
+    const joined = new Uint8ClampedArray(data);
+
+    for (const fill of fills)
+    {
+        for (let y = fill.y0; y < fill.y1; y++)
+        {
+            for (let x = fill.x0; x < fill.x1; x++)
+            {
+                const offset = 4 * (y * width + x);
+                joined[offset] = 0;
+                joined[offset + 1] = 0;
+                joined[offset + 2] = 0;
+            }
+        }
+    }
+
+    return { image: { width, height, data: joined }, lines: fills.length };
+}

@@ -24,7 +24,7 @@ import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeN
 import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { assessReading } from "./assess.ts";
-import { eraseDottedLines } from "./dots.ts";
+import { eraseDottedLines, joinDashedLines } from "./dots.ts";
 import { recoverElbowTips } from "./elbows.ts";
 import { clearDarkGrounds } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
@@ -2143,8 +2143,16 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const orientation: Orientation = forced ?? (orientationFind === null ? "root-left" : orientationFind.orientation);
     const slantedFigure = parameters.slantedTrees && orientationFind !== null && orientationFind.slanted;
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
-    const image = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
+    const turnedImage = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
+    // Branches drawn in dashes are drawn solid, now that the way the tree runs is known.
+    const dashed = joinDashedLines(turnedImage, parameters.inkThreshold);
+    const image = dashed.image;
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (dashed.lines > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "dashed-lines-joined", message: `${dashed.lines} dashed line(s) were read as solid branches`, subject: null });
+    }
 
     if (cleared.grounds > 0)
     {

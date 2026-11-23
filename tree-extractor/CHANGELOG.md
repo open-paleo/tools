@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Branches drawn in dashes are read (`dashed-lines-joined`). Once the figure is turned root
+  left, level rows of four or more small strokes, alike in size and evenly spaced, that
+  start from or run to the tree are drawn solid. They passed for lettering, and the tips at
+  their ends had no branch (Tortosa 2014, 10 of 40 names to 22; Bellardini 2025, 11 of 14
+  to 14). Dashes after a name, a doubtful range drawn beside it, are left as they are.
 - A tree drawn in a muted color whose every branch ends at a range bar is read. A stroke in
   such a color was dropped when it touched a filled shape anywhere, which was meant for the
   darker edge of a bar; it is dropped now only when it runs along one (Dieudonne 2020).
