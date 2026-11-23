@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.10.0 (2026-11-22)
 
 - A slanted tree drawn without a root stub, two lines meeting at a corner, is rooted at that
   corner (`root-at-corner`). It was rooted at one of its tips, which paired the first two

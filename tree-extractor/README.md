@@ -28,13 +28,15 @@ licensed and ship with the benchmark; `bench/README.md` says how to supply the r
 figures that must stay identical are listed in `bench/expectations.json` and checked on every
 change.
 
-**Gold sample** (`npm run bench:holdout`): 109 more figures with gold trees. A hundred of them
-were drawn at random from the census, in a sample of twenty and one of eighty, so that their
-scores estimate accuracy on the typical figure and not on figures picked for being hard. Each
-batch was first run cold, before any change was made for it, and only then worked on;
-`bench/holdout/random-sample.md` gives the draws and each batch's cold result. The last two
-batches of twenty named 67 and 74 percent of their tips cold. Over all 134 figures with gold
-trees the pipeline now names 4,267 of 4,598 tips, and 42 figures come out identical.
+**Gold sample** (`npm run bench:holdout`): 150 more figures with gold trees. A hundred and
+forty of them were drawn at random, in batches of twenty and one of eighty: most from the
+census below, the last batch from a second census of sixty trees drawn the same way from
+captions the first had not drawn. Their scores so estimate accuracy on the typical figure and
+not on figures picked for being hard. Each batch was first run cold, before any change was
+made for it, and only then worked on; `bench/holdout/random-sample.md` gives the draws and
+each batch's cold result. The last four batches of twenty named 67, 74, 89 and 68 percent of
+their tips cold. Over all 175 figures with gold trees the pipeline now names 5,486 of 5,973
+tips, and 54 figures come out identical.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
 (`bench/holdout/census.md` gives the sampling), run with the batch runner and not scored
@@ -233,7 +235,7 @@ npm test                 # unit tests (node:test)
 npm run test:web         # drives the built viewer in headless Chromium through an editing session
 npm run bench            # benchmark against gold trees; see bench/README.md for supplying images
 npm run bench:strict     # the same, failing when a case expected identical is not
-npm run bench:holdout    # the gold sample: 109 more figures with gold trees
+npm run bench:holdout    # the gold sample: 150 more figures with gold trees
 npm run bench:census     # the corpus census, from a checkout named corpus beside this repository
 npm run bench:generate   # render synthetic figures in several styles for the benchmark
 npm run lint             # eslint, same style as the other Open Paleo repositories
