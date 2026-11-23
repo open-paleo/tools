@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- In a figure with thick colored branches, three more things that lettering on the branches
+  did (Cau 2018, 117 of 132 names to 127, and its wrong split gone): the stub of a tip in
+  dark ink as thick as the colored lines is no longer cut by a number's row beside it; a
+  rough text row that took in a number, a stub and a label is parted at the stub; and two
+  level pieces are not joined across a number when a vertical crosses the gap between them.
 - Colored and gray branches are followed under black lettering printed on them. In a figure
   with thick colored branches and a number at each node, the numbers lie on the short steps
   between branches and the tree parted at each one (Cau 2018, 43 of 132 names to 117).

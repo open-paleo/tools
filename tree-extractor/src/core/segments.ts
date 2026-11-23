@@ -527,10 +527,37 @@ function standApart(ink: Mask, upper: Box, lower: Box, horizontals: Array<Box>):
  * @param corners - Horizontal boxes, for verticals: two verticals that each turn a corner at
  *   the end facing the other are two nodes one above the other in a column, and the ink in
  *   the gap is their own branches (Rauhut 2019); null joins them all the same.
+ * @param crossing - Vertical boxes, for horizontals: a vertical that crosses the gap keeps the
+ *   two pieces apart; null joins them all the same.
+ * @param knownLines - Ink known for line, which a crossing vertical must be made of.
  * @returns Merged boxes and the number of gaps bridged.
  */
-function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number, ink: Mask | null, window: number, gapInkShare: number, corners: Array<Box> | null = null): MergeResult
+function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number, ink: Mask | null, window: number, gapInkShare: number, corners: Array<Box> | null = null, crossing: Array<Box> | null = null, knownLines: Mask | null = null): MergeResult
 {
+    // Whether a vertical stands in the gap between two level pieces and runs on a glyph's
+    // half past them above and below. The gap is a glyph wider than the vertical: a branch
+    // that a rule of the time scale crosses is cut for the rule's own width and no more
+    // (Hartman 2019).
+    function isCrossed(first: Box, second: Box): boolean
+    {
+        const top = Math.min(first.y0, second.y0);
+        const bottom = Math.max(first.y1, second.y1);
+        const gap = second.x0 - first.x1;
+
+        for (const vertical of crossing ?? [])
+        {
+            const crosses = gap > vertical.x1 - vertical.x0 + 2 * window && vertical.x0 >= first.x1 - 1 && vertical.x1 <= second.x0 + 1 && vertical.y0 <= top - window && vertical.y1 >= bottom + window;
+
+            // And it is a branch by its ink, not a rule of the time scale under a label.
+            if (crosses && (knownLines === null || measureMaskShare(knownLines, { x0: vertical.x0, y0: top - window, x1: vertical.x1, y1: bottom + window }) >= 0.6))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     const merged = new Array<Box>();
     let bridged = 0;
 
@@ -568,6 +595,11 @@ function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number,
                     : Math.min(first.x1 - first.x0, second.x1 - second.x0);
 
                 if (overlap >= 0.5 * thinner && corners !== null && ink !== null && gap > 2 && standApart(ink, first, second, corners))
+                {
+                    continue;
+                }
+
+                if (alongX && gap > 2 && crossing !== null && isCrossed(first, second))
                 {
                     continue;
                 }
@@ -976,7 +1008,11 @@ export function extractSegments(
     const horizontals = new Array<Segment>();
     const verticals = new Array<Segment>();
 
-    const mergedHorizontals = mergeCollinearBoxes(pieces, true, maxGap, ink, Math.round(window / 2), gapInkShare);
+    // Two pieces on one level are joined across a gap that holds enough ink. In a figure
+    // with thick colored branches a number printed between two branches is such ink, and
+    // joined the stub of a tip to a branch a hundred pixels to its left, across the vertical
+    // between them (Cau 2018); there a vertical that crosses the gap keeps the two apart.
+    const mergedHorizontals = mergeCollinearBoxes(pieces, true, maxGap, ink, Math.round(window / 2), gapInkShare, null, knownLines === null ? null : verticalBoxes, knownLines);
     const mergedVerticals = mergeCollinearBoxes(verticalBoxes, false, maxVerticalGap, ink, Math.round(window / 2), gapInkShare, mergedHorizontals.boxes);
     mergedVerticals.bridged += joinVerticalsAcrossText(mergedVerticals.boxes, textRows, mergedHorizontals.boxes);
 

@@ -369,8 +369,9 @@ export type PreparedMasks = {
     paleMarkers: Mask;
 
     /**
-     * Ink known for line by its color in a figure with thick colored branches: the stretches
-     * drawn back under lettering and the colored lines; null in any other figure.
+     * Ink known for line in a figure with thick colored branches: the colored lines, the
+     * stretches drawn back under lettering, and dark ink as thick as the colored lines; null
+     * in any other figure.
      */
     knownLines: Mask | null;
 
@@ -535,6 +536,14 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const protectedInk = unionMask(unionMask(longInk, stubInk), rungInk);
     const glyphZone = subtractMask(dilate(rough.glyphMask, 2), protectedInk);
     // A stretch of line drawn back under lettering lies among glyphs by its nature.
+    // Known for line as well is dark ink as thick as the colored lines in level runs three
+    // thicknesses long: a letter's stroke is a third as thick, and does not outlast being
+    // worn away by half the thickness; the bar of a bold capital does, and is short.
+    const thickRadius = Math.max(3, Math.floor((coloredThickness - 1) / 2));
+    // A range bar is thicker than a line, and stops at its label as it always did.
+    const barRadius = thickRadius + 1;
+    const thickDark = subtractMask(dilate(erode(darkInk, thickRadius), thickRadius), dilate(erode(darkInk, barRadius), barRadius + 1));
+    const knownLines = underLettering === null ? null : unionMask(unionMask(coloredLines, underLettering), createDirectionalRunMask(thickDark, Math.round(3 * coloredThickness), true));
     const strongLines = underLettering === null ? subtractMask(strongInk, glyphZone) : unionMask(subtractMask(strongInk, glyphZone), underLettering);
     const nearStrong = dilate(strongLines, parameters.weakReach);
     const weakCandidates = createDarkMask(image, parameters.lineThresholdWeak, true, parameters.weakMaxChroma);
@@ -551,7 +560,7 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     const weakInk = subtractMask(subtractMask(faint, invertMask(nearStrong)), dilate(rough.glyphMask, 4));
     const lineInk = closeMask(applyHysteresis(strongLines, weakInk), parameters.closeRadius);
 
-    return { gray, textInk, runInk: runInk ?? textInk, lineInk, glyphMask: rough.glyphMask, markers: colored.fat, paleMarkers, knownLines: underLettering === null ? null : unionMask(coloredLines, underLettering), fragmented, widened, glyphHeight, roughLines: rough.lines };
+    return { gray, textInk, runInk: runInk ?? textInk, lineInk, glyphMask: rough.glyphMask, markers: colored.fat, paleMarkers, knownLines, fragmented, widened, glyphHeight, roughLines: rough.lines };
 }
 
 /**
@@ -780,6 +789,99 @@ function findLetterEdge(box: Box, from: number, glyphMask: Mask, lineInk: Mask, 
     }
 
     return fromTop ? box.y0 : box.y1 - 1;
+}
+
+/**
+ * A rough text row, or a part of one.
+ */
+type RowPart = {
+    /**
+     * Bounding box.
+     */
+    box: Box;
+
+    /**
+     * Glyphs in it.
+     */
+    glyphCount: number;
+};
+
+/**
+ * Parts the rough rows that a line runs through the middle of: a number, a branch's stub and
+ * the label after it, all on one level and close together, come out of the rough pass as one
+ * row, and the stub between them is then lettering that no branch may pass (Cau 2018, the
+ * age of a node, the stub of its upper tip and the tip's name). A stretch of a row at least
+ * a glyph long that holds line ink and no letter parts it.
+ *
+ * @param rows - Rough rows.
+ * @param glyphMask - Glyph pixels of the rough pass.
+ * @param lineInk - Ink known for line.
+ * @param glyphHeight - Glyph height in pixels.
+ * @returns The rows, those parted given as their parts.
+ */
+function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask, glyphHeight: number): Array<RowPart>
+{
+    const parts = new Array<RowPart>();
+
+    for (const row of rows)
+    {
+        const { box } = row;
+        const cuts = new Array<number>();
+        let lineStart = -1;
+        let lined = 0;
+        let seenLetters = false;
+
+        for (let x = box.x0; x < box.x1; x++)
+        {
+            let letters = 0;
+            let line = 0;
+
+            for (let y = box.y0; y < box.y1; y++)
+            {
+                const index = y * glyphMask.width + x;
+                line += lineInk.data[index];
+                letters += glyphMask.data[index] === 1 && lineInk.data[index] === 0 ? 1 : 0;
+            }
+
+            if (letters < 3)
+            {
+                lineStart = lineStart < 0 ? x : lineStart;
+                lined += line > 0 ? 1 : 0;
+                continue;
+            }
+
+            // A stretch without letters between two with them, mostly under a line; with two
+            // glyphs of row before it and after it, since a single letter cut off by a mark
+            // is still part of its word.
+            const before = lineStart - (cuts.length === 0 ? box.x0 : cuts[cuts.length - 1]);
+
+            if (lineStart >= 0 && seenLetters && x - lineStart >= glyphHeight && lined >= 0.75 * (x - lineStart) && before >= 2 * glyphHeight && box.x1 - x >= 2 * glyphHeight)
+            {
+                cuts.push(lineStart, x);
+            }
+
+            seenLetters = true;
+            lineStart = -1;
+            lined = 0;
+        }
+
+        if (cuts.length === 0)
+        {
+            parts.push({ box, glyphCount: row.glyphCount });
+            continue;
+        }
+
+        let start = box.x0;
+
+        for (let index = 0; index <= cuts.length; index += 2)
+        {
+            const end = index < cuts.length ? cuts[index] : box.x1;
+            parts.push({ box: { x0: start, y0: box.y0, x1: end, y1: box.y1 }, glyphCount: Math.max(1, Math.round(row.glyphCount * (end - start) / (box.x1 - box.x0))) });
+            start = index + 1 < cuts.length ? cuts[index + 1] : box.x1;
+        }
+    }
+
+    return parts;
 }
 
 /**
@@ -2102,7 +2204,9 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const labelRows = new Array<Box>();
     const markerInk = unionMask(markers, paleMarkers);
 
-    for (const line of roughLines)
+    // In a figure with thick colored branches the rough rows are parted where a line runs
+    // through them; elsewhere a row with a stretch of line in it is a label with its bar.
+    for (const line of knownLines === null ? roughLines : splitRowsAtLines(roughLines, glyphMask, knownLines, glyphHeight))
     {
         // Touching letters, or an underscore joining words, can make a whole label one component.
         const width = line.box.x1 - line.box.x0;
