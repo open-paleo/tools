@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- A tree drawn in a muted color whose every branch ends at a range bar is read. A stroke in
+  such a color was dropped when it touched a filled shape anywhere, which was meant for the
+  darker edge of a bar; it is dropped now only when it runs along one (Dieudonne 2020).
+- In a figure of thin lines, branches in a soft color of middling luminance, a green or a
+  blue neither dark nor vivid, are read when they are straight, as thick as the lines,
+  joined to the tree and twenty thicknesses long (Dieudonne 2020, 14 of 33 names to 28
+  with the change above; Foth 2017 and Funston 2026 gain a name each).
 - A solid mark drawn on a branch, a square, a triangle, an oval or a bar that stands for a
   change of character, is taken off the branch and the branch drawn through it. The branch
   was cut at each mark (Senter 2012, 10 of 15 names to 15).

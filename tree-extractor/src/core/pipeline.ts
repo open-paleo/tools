@@ -16,7 +16,7 @@ import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
 import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
-import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba } from "./raster.ts";
+import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, keepComponentsWithin } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
@@ -437,7 +437,10 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // Where the figure's colored lines are themselves thick, a shape is filled only if it is
     // thicker still.
     const filled = markerRadius === parameters.markerRadius ? roughMarkers : unionMask(colored.fat, findFatShapes(createColoredMask(image, 235, 30), markerRadius));
-    const offColorLines = subtractMask(offColorStrokes, keepComponentsTouching(offColorStrokes, dilate(filled, 2)));
+    // Along it, not merely up to it: a tree drawn in such a color whose every branch ends at
+    // a range bar touches a filled shape at each tip, and is one stroke (Dieudonne 2020). An
+    // edge lies beside its bar for its whole length.
+    const offColorLines = subtractMask(offColorStrokes, keepComponentsWithin(offColorStrokes, dilate(filled, 2), 0.3));
     // A small filled shape set on a branch, an icon that says where a clade lived, hides the
     // branch for its own width; the branch is carried under it as under an arrowhead (Arbour
     // 2015, a continent on each of two stems). Shapes up to a twelfth of the image's shorter
@@ -448,9 +451,15 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // pink, too light to count as colored ink. Where the colored lines are thick, light
     // colored strokes of their thickness that join the tree are branches as well (Motta 2025,
     // a clade in green and two tips in yellow and pink).
+    // Where the lines are thin, only a soft color of middling luminance is taken so: a green
+    // or a blue neither dark nor vivid (Dieudonne 2020, a clade in a green of luminance 151).
+    // The lighter tints are those of bands and boxes, whose edges are as thin as the lines.
+    // And only a stroke twenty thicknesses long: a colored word or the bar of a collapsed
+    // clade is a stroke of the right tone too (Gonzalez Riga 2018, Qiu 2025).
+    const softThickness = Math.max(coloredThickness, estimateLineThickness(darkInk));
     const lightBranches = thickColor
         ? findLightBranches(image, unionMask(unionMask(darkInk, coloredLines), offColorLines), createColoredMask(image, parameters.coloredThreshold, parameters.coloredMinChroma), coloredThickness)
-        : null;
+        : findLightBranches(image, unionMask(unionMask(darkInk, coloredLines), offColorLines), createColoredMask(image, parameters.coloredThreshold, parameters.coloredMinChroma), softThickness, softLuminance, 20 * softThickness);
     const tracedInk = unionMask(unionMask(darkInk, coloredLines), offColorLines);
     const drawnInk = underLettering === null ? tracedInk : unionMask(tracedInk, underLettering);
     const strongInk = unionMask(lightBranches === null ? drawnInk : unionMask(drawnInk, lightBranches), underShapes);
@@ -628,6 +637,12 @@ function keepInkInBoxes(boxes: Array<Box>, textInk: Mask, glyphMask: Mask, thick
 }
 
 /**
+ * Luminance below which a color of middling chroma is taken for a line's in a figure of thin
+ * lines.
+ */
+const softLuminance = 165;
+
+/**
  * Finds the branches drawn in a light color: straight strokes of a color too light to be
  * colored ink, about as thick as the figure's colored lines, that touch the ink already taken
  * for line. A filled box or a range bar is thicker; the rim of a pale band is thinner.
@@ -636,13 +651,15 @@ function keepInkInBoxes(boxes: Array<Box>, textInk: Mask, glyphMask: Mask, thick
  * @param lineInk - Ink already taken for line.
  * @param strong - Colored ink proper, dark enough to have been sorted into lines and fills.
  * @param thickness - Thickness of the figure's colored lines.
+ * @param lightest - Luminance below which a color counts; 240 takes yellow and pink.
+ * @param leastLength - Least extent of a stroke, in pixels.
  * @returns Mask of the light branches.
  */
-function findLightBranches(image: RgbaImage, lineInk: Mask, strong: Mask, thickness: number): Mask
+function findLightBranches(image: RgbaImage, lineInk: Mask, strong: Mask, thickness: number, lightest = 240, leastLength = 0): Mask
 {
     // Light, but a color: the tint of a clade's box or a band has a third of this chroma.
     // And lighter than colored ink proper, whose strokes and bars are sorted already.
-    const light = subtractMask(subtractMask(createColoredMask(image, 240, 70), strong), lineInk);
+    const light = subtractMask(subtractMask(createColoredMask(image, lightest, 70), strong), lineInk);
     const broad = Math.ceil(0.75 * thickness);
     // What an erosion by three quarters of the lines' thickness leaves is half again as thick
     // as they are: a bar or a fill.
@@ -670,7 +687,9 @@ function findLightBranches(image: RgbaImage, lineInk: Mask, strong: Mask, thickn
 
     for (let index = 0; index < labeling.components.length; index++)
     {
-        if (inRuns[index] >= 0.7 * labeling.components[index].area)
+        const { box } = labeling.components[index];
+
+        if (inRuns[index] >= 0.7 * labeling.components[index].area && Math.max(box.x1 - box.x0, box.y1 - box.y0) >= leastLength)
         {
             kept.add(index + 1);
         }

@@ -953,6 +953,41 @@ export function keepComponentsTouching(mask: Mask, reference: Mask): Mask
 }
 
 /**
+ * Keeps the connected components of a mask that lie in a reference mask for at least a share
+ * of their pixels.
+ *
+ * @param mask - Mask.
+ * @param reference - Reference mask.
+ * @param share - Least share of a component's pixels inside the reference.
+ * @returns The components kept.
+ */
+export function keepComponentsWithin(mask: Mask, reference: Mask, share: number): Mask
+{
+    const { labels, components } = findConnectedComponents(mask);
+    const inside = new Array<number>(components.length).fill(0);
+
+    for (let index = 0; index < labels.length; index++)
+    {
+        if (labels[index] > 0 && reference.data[index] === 1)
+        {
+            inside[labels[index] - 1]++;
+        }
+    }
+
+    const selected = new Set<number>();
+
+    for (let index = 0; index < components.length; index++)
+    {
+        if (inside[index] >= share * components[index].area)
+        {
+            selected.add(index + 1);
+        }
+    }
+
+    return createMaskFromComponents(labels, selected, mask.width, mask.height);
+}
+
+/**
  * Estimates the thickness of the lines in a mask: the median length of the vertical runs of
  * ink, counting runs. Every column of a horizontal contributes one run of the line's
  * thickness, so horizontals dominate the count; a vertical contributes only as many runs as it
