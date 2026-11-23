@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Thick branches in colors the main colored rule leaves out are read as thick colored
+  branches are: where the level and the upright stretches of ink of any color are both
+  two to three and a half marker radii thick, that thickness is the figure's colored line
+  thickness (Pei 2020, a vivid light green and dark greens 9 pixels thick; 10 of 37 names
+  to 30 with the next entry). The strips a tree's branches cut from a tinted panel are not
+  taken for light-colored branches.
+- A vertical cut by a name printed across it is mended when its piece above the name is
+  barely longer than it is broad: the branch at that piece's far end counted as being at
+  the cut.
 - The `reading-doubtful` warning no longer counts branch ends with no label against a tree
   that names half its tips or more: they are stray marks, not tips whose names were missed
   (Dai 2022 and Muller 2018, warned with 39 of 41 and 30 of 31 names). Over the 195 gold

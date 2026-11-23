@@ -16,7 +16,7 @@ import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
 import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
-import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, keepComponentsWithin } from "./raster.ts";
+import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, keepComponentsWithin, transposeMask } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
@@ -412,7 +412,22 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     // Branches drawn in color can be thicker than a marker radius (Wu 2015's ten-pixel subgenus
     // branches), and would then pass for markers; the colored ink's own line thickness sets the
     // radius that tells a marker from a line.
-    const coloredThickness = estimateLineThickness(createColoredMask(image, parameters.coloredThreshold, parameters.coloredMinChroma));
+    const properThickness = estimateLineThickness(createColoredMask(image, parameters.coloredThreshold, parameters.coloredMinChroma));
+    // A figure may draw its thick colored branches only in colors the main rule leaves out: a
+    // vivid light green, and dark greens of little chroma (Pei 2020, lines 9 pixels thick).
+    // The thickness of the level stretches of ink of any color then stands in, when it is two
+    // to three and a half marker radii: thicker, it is that of fills and bands. Of the long
+    // level runs only, since the soft edges of lettering are colored ink too and outnumber
+    // any line.
+    // And of its upright stretches as well, which must be as thick: the bars of ranges in a
+    // time tree are level stretches of color of just that thickness, and nothing upright
+    // (Dieudonne 2026). Not where the main rule's ink is itself nearly thick enough: its own
+    // measure is the better one (Cau 2018, 7 pixels).
+    const anyColor = properThickness >= 1.5 * parameters.markerRadius ? null : createColoredMask(image, 240, 70);
+    const levelThickness = anyColor === null ? 0 : estimateLineThickness(createDirectionalRunMask(anyColor, 40, true));
+    const uprightThickness = anyColor === null ? 0 : estimateLineThickness(transposeMask(createDirectionalRunMask(anyColor, 40, false)));
+    const thickAnyColor = levelThickness >= 2 * parameters.markerRadius && levelThickness <= 3.5 * parameters.markerRadius && Math.abs(uprightThickness - levelThickness) <= 2;
+    const coloredThickness = thickAnyColor ? levelThickness : properThickness;
     const markerRadius = coloredThickness >= 2 * parameters.markerRadius ? Math.round(coloredThickness) + 1 : parameters.markerRadius;
     const colored = splitColoredInk(image, parameters.coloredThreshold, parameters.coloredMinChroma, markerRadius);
     // A colored ground is pale and fat all over, and is no marker: with it in the mask every
@@ -663,7 +678,12 @@ function findLightBranches(image: RgbaImage, lineInk: Mask, strong: Mask, thickn
     const broad = Math.ceil(0.75 * thickness);
     // What an erosion by three quarters of the lines' thickness leaves is half again as thick
     // as they are: a bar or a fill.
-    const strokes = subtractMask(light, dilate(erode(light, broad), broad + 1));
+    // The same of the color and the line ink together: a tinted panel with the tree drawn
+    // on it is cut by the branches into strips no broader than a line, each straight and
+    // touching the tree, and is solid with them (Ramirez-Velasco 2021, a clade's green box).
+    const solid = unionMask(light, lineInk);
+    const panel = dilate(erode(solid, 2 * broad), 2 * broad + 1);
+    const strokes = subtractMask(subtractMask(light, dilate(erode(light, broad), broad + 1)), panel);
     // And what an erosion by a quarter of it removes whole is a rim.
     const cores = erode(strokes, Math.max(1, Math.floor(thickness / 4)));
     const joined = keepComponentsTouching(keepComponentsTouching(strokes, cores), dilate(lineInk, 2));

@@ -747,7 +747,10 @@ function hasBranchAlong(vertical: Box, horizontals: Array<Box>): boolean
  */
 function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>): boolean
 {
-    const reach = 2 * (vertical.x1 - vertical.x0) + 2;
+    // No further than a third of the vertical: of a piece barely longer than it is broad, the
+    // branch at its other end is not at this one (Pei 2020, the 19 pixels of the root's
+    // vertical above the name printed across it).
+    const reach = Math.min(2 * (vertical.x1 - vertical.x0) + 2, Math.floor((vertical.y1 - vertical.y0) / 3));
 
     for (const horizontal of horizontals)
     {
@@ -774,19 +777,29 @@ function hasBranchAtEnd(vertical: Box, endY: number, horizontals: Array<Box>): b
 function isGapInsideRow(first: Box, second: Box, textRows: Array<Box>): boolean
 {
     const x = (Math.max(first.x0, second.x0) + Math.min(first.x1, second.x1)) / 2;
+    let endsBefore = false;
+    let startsAfter = false;
 
     for (const row of textRows)
     {
         // The line art stops a few pixels short of the letters on each side.
         const slack = Math.max(3, Math.round(0.4 * (row.y1 - row.y0)));
+        const level = first.y1 >= row.y0 - slack && second.y0 <= row.y1 + slack;
 
-        if (row.x0 <= x && row.x1 >= x && first.y1 >= row.y0 - slack && second.y0 <= row.y1 + slack)
+        if (row.x0 <= x && row.x1 >= x && level)
         {
             return true;
         }
+
+        // A name printed across a thick line can come out as two rows, one on each side of
+        // it, where the letters on the line itself went with the line (Pei 2020,
+        // "Deinonychosauria" across the root's vertical).
+        const near = row.y1 - row.y0;
+        endsBefore = endsBefore || (level && row.x1 < x && row.x1 >= x - near);
+        startsAfter = startsAfter || (level && row.x0 > x && row.x0 <= x + near);
     }
 
-    return false;
+    return endsBefore && startsAfter;
 }
 
 /**
