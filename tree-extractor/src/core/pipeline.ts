@@ -16,7 +16,7 @@ import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
 import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, findMarkChains, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
-import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, keepComponentsWithin, transposeMask } from "./raster.ts";
+import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, enlargeRgba, keepComponentsWithin, transposeMask } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
@@ -1900,6 +1900,43 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     // names 63 tall).
     const large = typeHeight >= largeTypeHeight || typeHeights.tallest >= largeTypeHeight;
 
+    // A figure embedded small is read at twice its size as well. With letters under ten
+    // pixels tall the strokes of a word can run together into a bar as thick as a branch,
+    // and the lines be no thicker than a letter's stroke (Pretto 2018, 20 of 44 names as it
+    // stands and 39 enlarged; Dai 2022, 80 of 88 and 88). Most figures of small type read
+    // well as they are, and some read worse enlarged (Dalla Vecchia 2006 names 16 of 19 and
+    // then none), so the reading as it stands is kept when it placed nearly all its tips,
+    // and the enlarged one must place a tenth more to replace it.
+    if (typeHeight > 0 && typeHeight <= smallTypeHeight)
+    {
+        const plain = await extractTreeAtSize(givenImage, options);
+        const placed = countPlacedTips(plain);
+
+        if (placed >= 4 && placed >= nearlyAllPlaced * plain.tips.length)
+        {
+            return plain;
+        }
+
+        const document = await extractTreeAtSize(enlargeRgba(givenImage, smallTypeFactor), {
+            ...options,
+            region: options.region === undefined || options.region === null ? null : reduceBox(options.region, 1 / smallTypeFactor),
+            exclude: options.exclude === undefined ? undefined : options.exclude.map(function enlargeArea(area: Box): Box
+            {
+                return reduceBox(area, 1 / smallTypeFactor);
+            }),
+        });
+
+        if (countPlacedTips(document) < placed + Math.max(3, Math.round(placed / 10)))
+        {
+            return plain;
+        }
+
+        scaleDocument(document, 1 / smallTypeFactor, givenImage.width, givenImage.height);
+        document.qc.push({ severity: "info", code: "figure-enlarged", message: `the figure's letters are about ${typeHeight} px tall, so it was read at ${smallTypeFactor} times its size; pixel positions in these messages are at that size`, subject: null });
+
+        return document;
+    }
+
     if (!large && (typeHeight < largeTypeForFigure || typeHeight < largeTypeShare * shorter))
     {
         return extractTreeAtSize(givenImage, options);
@@ -1920,6 +1957,22 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
 
     return document;
 }
+
+/**
+ * Median letter height in pixels up to which a figure is read enlarged.
+ */
+const smallTypeHeight = 9;
+
+/**
+ * Share of its tips a reading must have placed for a figure of small type not to be read
+ * enlarged as well.
+ */
+const nearlyAllPlaced = 0.92;
+
+/**
+ * How many times its size a figure with small type is read at.
+ */
+const smallTypeFactor = 2;
 
 /**
  * Median letter height in pixels from which a figure is read reduced.

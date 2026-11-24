@@ -348,7 +348,11 @@ export function detectSlantedLabels(textInk: Mask, lineArtMask: Mask, tips: Arra
     const residue = subtractMask(textInk, lineArtMask);
     const measure = measureLabelSlant(residue, measureZone, glyphHeight);
 
-    if (measure.pairs < 8 || measure.share < 0.25 || Math.abs(measure.angle) < minAngle)
+    // Half the pairs must agree on the angle. Labels set at a slant have 60 percent and more
+    // over the gold figures; small italic type run together gives pairs at every angle, a
+    // quarter to a third of them on one (Pretto 2018, where the frame took the labels of 31
+    // tips of 41).
+    if (measure.pairs < 8 || measure.share < 0.5 || Math.abs(measure.angle) < minAngle)
     {
         return null;
     }

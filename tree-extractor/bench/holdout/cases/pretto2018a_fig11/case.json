@@ -5,10 +5,18 @@
   "region": {
     "x0": 0,
     "y0": 0,
-    "x1": 515,
+    "x1": 715,
     "y1": 726
   },
-  "region_note": "panel A; panel B to its right repeats the same tips under another analysis",
+  "exclude": [
+    {
+      "x0": 515,
+      "y0": 0,
+      "x1": 715,
+      "y1": 500
+    }
+  ],
+  "region_note": "panel A; panel B to its right repeats the same tips under another analysis. Panel A's lower labels run on under panel B's upper left, to about x 705, so the region reaches x 715 and the part of panel B inside it is excluded. Until tree extractor 0.12.0 the region stopped at x 515 and cut fourteen labels short.",
   "license": "unverified: no licence statement in the text held",
   "names_note": "no matrix held; list = the 44 printed tip names of panel A as printed, including 'Petrified forest teropod' (sic) and 'Chindesaurus briansmalli'",
   "gold": "gold.nex",

@@ -832,6 +832,48 @@ export function transposeMask(mask: Mask): Mask
 }
 
 /**
+ * Enlarges an image by a whole factor, each pixel weighed from the four source pixels about
+ * it. The soft edges it gives are what a small letter needs to be read; doubled pixels leave
+ * it as blocky as it was.
+ *
+ * @param image - Source image.
+ * @param factor - How many pixels each source pixel becomes, each way.
+ * @returns The enlarged image.
+ */
+export function enlargeRgba(image: RgbaImage, factor: number): RgbaImage
+{
+    const width = image.width * factor;
+    const height = image.height * factor;
+    const data = new Uint8ClampedArray(width * height * 4);
+
+    for (let y = 0; y < height; y++)
+    {
+        const sourceY = Math.min(image.height - 1, Math.max(0, (y + 0.5) / factor - 0.5));
+        const top = Math.floor(sourceY);
+        const bottom = Math.min(image.height - 1, top + 1);
+        const down = sourceY - top;
+
+        for (let x = 0; x < width; x++)
+        {
+            const sourceX = Math.min(image.width - 1, Math.max(0, (x + 0.5) / factor - 0.5));
+            const left = Math.floor(sourceX);
+            const right = Math.min(image.width - 1, left + 1);
+            const across = sourceX - left;
+            const target = (y * width + x) * 4;
+
+            for (let channel = 0; channel < 4; channel++)
+            {
+                const upper = image.data[(top * image.width + left) * 4 + channel] * (1 - across) + image.data[(top * image.width + right) * 4 + channel] * across;
+                const lower = image.data[(bottom * image.width + left) * 4 + channel] * (1 - across) + image.data[(bottom * image.width + right) * 4 + channel] * across;
+                data[target + channel] = Math.round(upper * (1 - down) + lower * down);
+            }
+        }
+    }
+
+    return { width, height, data };
+}
+
+/**
  * Reduces an image by a factor, each pixel the mean of the source pixels it covers.
  *
  * @param image - Source image.

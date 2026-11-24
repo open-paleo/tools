@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- A figure with letters under ten pixels tall is read at twice its size as well, when the
+  reading as it stands leaves tips unplaced, and the reading that places clearly more tips
+  is kept (`figure-enlarged`). Pretto 2018 goes from 1 of 44 names to 39, Dai 2022 fig. 9
+  from 80 of 88 to 88, Thompson 2011 fig. 1 from 13 of 16 to 16.
+- Labels are taken for slanted only when half the letter pairs agree on the angle, not a
+  quarter: small italic type run together gave a false slant, and the frame made for it
+  took the labels of most tips (Pretto 2018).
+- A benchmark case may give areas to exclude (`exclude` in `case.json`). Pretto 2018's
+  region stopped short of fourteen of its labels and is corrected.
+
 ## 0.12.0 (2026-11-23)
 
 - Slanted strokes no longer count when the figure's thickest lines are measured: four arrow
