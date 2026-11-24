@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A riser drawn at a slant and cut by a clade's name printed across it is mended. Whether a
+  branch stands at the cut is judged by the breadth of the riser's line and not of its
+  box, which is as broad as the riser leans (Averianov 2018, fig. 6: 20 of 35 names to 31).
 - A band of a saturated color behind the tree, lighter than text ink but dark enough to
   pass for a colored line, is cleared as a ground: it was one block of colored ink and
   every branch on it was lost (Poole 2022, fig. 8, the blue of the Early Jurassic: 49 of 68

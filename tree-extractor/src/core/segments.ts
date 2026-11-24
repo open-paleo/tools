@@ -897,6 +897,23 @@ function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number,
  */
 function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizontals: Array<Box>, ink: Mask | null = null): number
 {
+    // Counts the ink across a vertical piece on one row: the breadth of its line there, or
+    // of its box when the ink is not given or the row is bare.
+    function measureStroke(box: Box, y: number): number
+    {
+        let count = 0;
+
+        if (ink !== null && y >= 0 && y < ink.height)
+        {
+            for (let x = Math.max(0, box.x0); x < Math.min(ink.width, box.x1); x++)
+            {
+                count += ink.data[y * ink.width + x];
+            }
+        }
+
+        return count > 0 ? count : box.x1 - box.x0;
+    }
+
     if (textRows.length === 0)
     {
         return 0;
@@ -1013,9 +1030,15 @@ function joinVerticalsAcrossText(boxes: Array<Box>, textRows: Array<Box>, horizo
             const second = boxes[other];
             const gap = second.y0 - first.y1;
             const overlap = Math.min(first.x1, second.x1) - Math.max(first.x0, second.x0);
-            const thinner = Math.min(first.x1 - first.x0, second.x1 - second.x0);
+            const narrower = Math.min(first.x1 - first.x0, second.x1 - second.x0);
+            // A riser drawn at a slant has a box as broad as it leans, and its line is far
+            // thinner: by the box, the shoulder a riser leaves its node on, a line's breadth
+            // above the cut, was a branch at the cut (Averianov 2018, a riser behind a
+            // clade's name). The line's breadth is what the ink measures at the cut ends. A
+            // dot on a node is still told by the boxes, one twice as broad as the other.
+            const thinner = overlap >= 0.5 * narrower ? Math.min(narrower, measureStroke(first, first.y1 - 2), measureStroke(second, second.y0 + 1)) : narrower;
 
-            if (gap > 0 && overlap >= 0.5 * thinner && isGapInsideRow(first, second, textRows, ink) && !hasBranchAtEnd(first, first.y1, horizontals, thinner, first.x1 - first.x0 >= 2 * thinner) && !hasBranchAtEnd(second, second.y0, horizontals, thinner, second.x1 - second.x0 >= 2 * thinner))
+            if (gap > 0 && overlap >= 0.5 * narrower && isGapInsideRow(first, second, textRows, ink) && !hasBranchAtEnd(first, first.y1, horizontals, thinner, first.x1 - first.x0 >= 2 * narrower) && !hasBranchAtEnd(second, second.y0, horizontals, thinner, second.x1 - second.x0 >= 2 * narrower))
             {
                 uppers.push(first);
                 lowers.push(second);
