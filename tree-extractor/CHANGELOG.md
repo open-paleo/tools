@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Slanted strokes no longer count when the figure's thickest lines are measured: four arrow
+  shafts made the shortest vertical longer than a node's own (Carr 2010, Monolophosaurus).
+- A text row that is one solid, long, flat piece is a range bar and no row: it was taken as
+  its own tip's label, and the name set over it went unpaired (Carr 2010, Cf.
+  Alectrosaurus).
 - A slanted stroke that ends on a branch no longer takes the branch with it: the shaft of
   an arrow pointing at the tree was joined, step by step, into one level segment as tall as
   the arrow climbs (Carr 2010, where it detached a clade of nine tips).

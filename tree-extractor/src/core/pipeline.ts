@@ -1957,6 +1957,41 @@ function reduceBox(box: Box, factor: number): Box
 }
 
 /**
+ * Whether the ink in a box stands at one height in its left quarter and at another, half
+ * the box's height away or more, in its right quarter: a slanted stroke and not a level one.
+ *
+ * @param mask - Ink.
+ * @param box - Box of the piece.
+ * @returns Whether the piece climbs.
+ */
+function climbsAcross(mask: Mask, box: Box): boolean
+{
+    const quarter = Math.max(1, Math.round((box.x1 - box.x0) / 4));
+
+    function measureMeanRow(x0: number, x1: number): number
+    {
+        let sum = 0;
+        let count = 0;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = x0; x < x1; x++)
+            {
+                if (mask.data[y * mask.width + x] === 1)
+                {
+                    sum += y;
+                    count++;
+                }
+            }
+        }
+
+        return count === 0 ? (box.y0 + box.y1) / 2 : sum / count;
+    }
+
+    return Math.abs(measureMeanRow(box.x0, box.x0 + quarter) - measureMeanRow(box.x1 - quarter, box.x1)) >= (box.y1 - box.y0) / 2;
+}
+
+/**
  * Letter heights of a figure, in pixels.
  */
 type TypeHeights = {
@@ -2381,7 +2416,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         const width = segment.box.x1 - segment.box.x0;
         const height = segment.box.y1 - segment.box.y0;
 
-        if (width >= 4 * height)
+        // And only level ones: the shaft of an arrow comes as a box many times taller than
+        // the stroke, two letters tall or more, nearly all white, and with its ink at one
+        // height on the left and another on the right. Four of them put the shortest
+        // vertical past a node's own (Carr 2010). The frame of a time scale is as tall and
+        // as white, and level (Perez-Pueyo 2019).
+        const slanted = height > 2 * glyphHeight && measureInkShare(lineArt, segment.box) < 0.25 && climbsAcross(lineArt, segment.box);
+
+        if (width >= 4 * height && !slanted)
         {
             thicknesses.push(height);
         }
@@ -2672,7 +2714,24 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     // Labels set at a slant are found again in a level frame of their own; the level rows in
     // that zone, fragments of the same labels, give way to them.
     const slanted = parameters.slantedLabels ? detectSlantedLabels(textInk, lineArtMask, trace.tips, glyphHeight, (parameters.minLabelSlant * Math.PI) / 180) : null;
-    const textLines = slanted === null ? text.lines : replaceZoneLines(text.lines, slanted);
+    // A row that is one solid piece, long and flat, is a range bar that was too thick for a
+    // line and not a word: as a row it would be its own tip's label, and the name set over
+    // it would go unpaired (Carr 2010, Cf. Alectrosaurus). Letters run together into one
+    // piece fill far less of their box.
+    const wordLines = new Array<TextLine>();
+
+    for (const line of text.lines)
+    {
+        const wide = line.box.x1 - line.box.x0;
+        const tall = line.box.y1 - line.box.y0;
+
+        if (line.glyphCount > 1 || wide < 4 * tall || measureInkShare(textInk, line.box) < 0.75)
+        {
+            wordLines.push(line);
+        }
+    }
+
+    const textLines = slanted === null ? wordLines : replaceZoneLines(wordLines, slanted);
     const slantIssues = new Array<QcIssue>();
 
     if (slanted !== null)
