@@ -334,3 +334,158 @@ function regroupSisterTips(document: ExtractionDocument): Array<QcIssue>
 
     return issues;
 }
+
+/**
+ * Finds the node at the top of the piece a node or tip is in.
+ *
+ * @param document - Extraction document.
+ * @param parent - Parent id of the node or tip.
+ * @returns The piece's root, or null for one with no parent.
+ */
+function findPieceRoot(document: ExtractionDocument, parent: string | null): TreeNode | null
+{
+    let root: TreeNode | null = null;
+    let id = parent;
+
+    while (id !== null)
+    {
+        let found: TreeNode | null = null;
+
+        for (const node of document.nodes)
+        {
+            if (node.id === id)
+            {
+                found = node;
+            }
+        }
+
+        if (found === null)
+        {
+            break;
+        }
+
+        root = found;
+        id = found.parent;
+    }
+
+    return root;
+}
+
+/**
+ * Joins a tree drawn in two halves by a branch that wraps around the page: a branch of the
+ * upper half runs to the margin, turns down, and comes back across the whole figure to the
+ * root of the lower half (You 2009). The trace has it as two ends with no name, one in each
+ * half, with a vertical between them; the lower half's root takes the place of the upper end.
+ *
+ * @param document - Extraction document, changed in place.
+ * @returns Notes on the joins made.
+ */
+export function joinWrappedBranches(document: ExtractionDocument): Array<QcIssue>
+{
+    const issues = new Array<QcIssue>();
+    const glyph = document.glyphHeight;
+
+    for (const root of document.nodes)
+    {
+        if (root.parent !== null)
+        {
+            continue;
+        }
+
+        // The returning line: an end with no name that leaves an end of the root's vertical
+        // and runs most of the figure's width.
+        let returning: Tip | null = null;
+
+        for (const tip of document.tips)
+        {
+            const atEnd = Math.abs(tip.y - root.y0) <= glyph || Math.abs(tip.y - root.y1) <= glyph;
+
+            if (tip.parent === root.id && tip.textLine === null && atEnd && tip.x - root.x >= 0.5 * document.image.width)
+            {
+                returning = tip;
+            }
+        }
+
+        if (returning === null)
+        {
+            continue;
+        }
+
+        // The leaving branch: an end with no name in another piece, a little short of a
+        // vertical that reaches from its height to the returning line's end.
+        let leaving: Tip | null = null;
+
+        for (const tip of document.tips)
+        {
+            if (tip.textLine !== null || tip.parent === null || findPieceRoot(document, tip.parent) === root)
+            {
+                continue;
+            }
+
+            for (const vertical of document.verticals)
+            {
+                const top = Math.min(tip.y, returning.y);
+                const bottom = Math.max(tip.y, returning.y);
+                const spans = vertical.box.y0 <= top + glyph && vertical.box.y1 >= bottom - glyph && vertical.box.y1 - vertical.box.y0 <= bottom - top + 2 * glyph;
+                const atLine = Math.abs((vertical.box.x0 + vertical.box.x1) / 2 - returning.x) <= glyph;
+                const short = vertical.box.x0 - tip.x;
+
+                if (spans && atLine && short >= -glyph && short <= 3 * glyph)
+                {
+                    leaving = tip;
+                }
+            }
+        }
+
+        if (leaving === null)
+        {
+            continue;
+        }
+
+        let parent: TreeNode | null = null;
+
+        for (const node of document.nodes)
+        {
+            if (node.id === leaving.parent)
+            {
+                parent = node;
+            }
+        }
+
+        if (parent === null)
+        {
+            continue;
+        }
+
+        const upper = findPieceRoot(document, leaving.parent);
+        const leavingId = leaving.id;
+        const returningId = returning.id;
+
+        function isKept(tip: Tip): boolean
+        {
+            return tip.id !== leavingId && tip.id !== returningId;
+        }
+
+        parent.children[parent.children.indexOf(leavingId)] = root.id;
+        root.children.splice(root.children.indexOf(returningId), 1);
+        root.parent = parent.id;
+        root.attachY = returning.y;
+        root.length = leaving.length;
+        document.tips = document.tips.filter(isKept);
+        sortChildren(document, parent);
+
+        if (document.root === root.id && upper !== null)
+        {
+            document.root = upper.id;
+        }
+
+        issues.push({
+            severity: "info",
+            code: "wrapped-branch-joined",
+            message: `node ${root.id} joined under ${parent.id} by a branch that leaves at y ${Math.round(leaving.y)}, turns at x ${Math.round(returning.x)} and returns at y ${Math.round(returning.y)}`,
+            subject: root.id,
+        });
+    }
+
+    return issues;
+}

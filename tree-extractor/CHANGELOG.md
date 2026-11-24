@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- You 2009 reads as one tree (14 of 35 names to 34). A solid dot that a branch runs through
+  is found by the two caps it leaves over and under the line, and no longer joins the
+  lettering. A row of numbers printed along a branch is not given a tip of its own. A figure
+  whose names are large while a crowd of small digits holds its median letter height down
+  is read reduced. And a tree drawn in two halves, joined by a branch that runs to the
+  margin and returns across the page, is joined there (`wrapped-branch-joined`).
 - Marks for character changes drawn on a branch no longer cut it (Serrano-Brañas 2016, 6 of
   12 names to 12): a row of solid squares is not taken for a row of text, and a chain of
   open rings joined by short pieces of the branch is taken out of the lettering and the

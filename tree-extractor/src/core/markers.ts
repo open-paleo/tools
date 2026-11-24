@@ -1254,6 +1254,106 @@ export function findMarkChains(textInk: Mask, lineInk: Mask, glyphHeight: number
         return 20 * inked <= all;
     }
 
+    // Counts the columns of a box's width that have ink of one mask on a row.
+    function countOnRow(mask: Mask, box: Box, y: number): number
+    {
+        let count = 0;
+
+        for (let x = box.x0; x < box.x1 && y >= 0 && y < height; x++)
+        {
+            count += mask.data[y * width + x];
+        }
+
+        return count;
+    }
+
+    // Measures how far line ink runs up and down a column through a point.
+    function measureLineRun(x: number, y: number): number
+    {
+        if (x < 0 || x >= width || lineInk.data[y * width + x] === 0)
+        {
+            return 0;
+        }
+
+        let top = y;
+        let bottom = y;
+
+        while (top > 0 && lineInk.data[(top - 1) * width + x] === 1)
+        {
+            top--;
+        }
+
+        while (bottom < height - 1 && lineInk.data[(bottom + 1) * width + x] === 1)
+        {
+            bottom++;
+        }
+
+        return bottom - top + 1;
+    }
+
+    // Finds the dot a cap is half of: the cap lies flat against a line, and across the line
+    // other ink bulges as broad as the cap does. Null when it is no such cap.
+    function findDotOfCap(cap: Box): Box | null
+    {
+        const wide = cap.x1 - cap.x0;
+        const tall = cap.y1 - cap.y0;
+        const center = Math.round((cap.x0 + cap.x1) / 2);
+
+        for (const step of [-1, 1])
+        {
+            // The line begins on the row next to the cap, and is a line's thickness.
+            let y = step < 0 ? cap.y0 - 1 : cap.y1;
+
+            if (10 * countOnRow(lineInk, cap, y) < 9 * wide)
+            {
+                continue;
+            }
+
+            const from = y;
+
+            while (y >= 0 && y < height && Math.abs(y - from) <= 2 * thickness && lineInk.data[y * width + center] === 1)
+            {
+                y += step;
+            }
+
+            const beyond = countOnRow(letters, cap, y);
+            const middle = Math.round((from + y - step) / 2);
+
+            if (Math.abs(y - from) > 2 * thickness || 10 * beyond < 6 * wide || !hasLineBeside(cap.x0 - reach - 1, cap.x0, middle) || !hasLineBeside(cap.x1, cap.x1 + reach + 1, middle))
+            {
+                continue;
+            }
+
+            // The dot stands out over the branch on both sides: a short thick stub whose
+            // core alone is line has caps too, level with the line it joins (Dyer 2023).
+            const dot = step < 0 ? { x0: cap.x0, y0: y + 1 - tall, x1: cap.x1, y1: cap.y1 } : { x0: cap.x0, y0: cap.y0, x1: cap.x1, y1: y + tall };
+            const most = (dot.y1 - dot.y0) / 1.6;
+
+            if (measureLineRun(cap.x0 - 2, middle) > most || measureLineRun(cap.x1 + 1, middle) > most)
+            {
+                continue;
+            }
+
+            return dot;
+        }
+
+        return null;
+    }
+
+    // Whether a box overlaps a chain already found: the two caps of a dot give it twice.
+    function overlapsChain(box: Box): boolean
+    {
+        for (const chain of chains)
+        {
+            if (chain.x0 < box.x1 && box.x0 < chain.x1 && chain.y0 < box.y1 && box.y0 < chain.y1)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // Counts the white pixels of a box that ink closes in: the insides of the rings. All
     // ink counts, since the branch itself may close the side of a ring.
     function countEnclosed(box: Box): number
@@ -1312,8 +1412,38 @@ export function findMarkChains(textInk: Mask, lineInk: Mask, glyphHeight: number
         const wide = box.x1 - box.x0;
         const tall = box.y1 - box.y0;
 
-        if (tall > 1.3 * glyphHeight || tall < 0.4 * glyphHeight || wide < 1.5 * glyphHeight)
+        // A dot the branch runs through leaves two caps as lettering, one over the line and
+        // one under it. A dot is half again as broad as a line is thick: where the type is
+        // tiny, pieces of letters that touch a line are caps of that kind too.
+        if (tall < 0.5 * glyphHeight && tall >= 3 && wide >= 0.4 * glyphHeight && wide >= 1.5 * thickness && wide <= 1.2 * glyphHeight && wide >= 1.3 * tall && 10 * component.area >= 6 * wide * tall)
         {
+            const dot = findDotOfCap(box);
+
+            if (dot !== null && !overlapsChain(dot))
+            {
+                chains.push(dot);
+            }
+
+            continue;
+        }
+
+        if (tall > 1.3 * glyphHeight || tall < 0.4 * glyphHeight)
+        {
+            continue;
+        }
+
+        // A solid dot on a branch is a mark alone: round, filled, and with the branch
+        // arriving at its middle on both sides (You 2009).
+        if (wide < 1.5 * glyphHeight)
+        {
+            const center = Math.round((box.y0 + box.y1) / 2);
+            const round = Math.abs(wide - tall) <= 0.25 * tall && 10 * component.area >= 7 * wide * tall;
+
+            if (round && standsClear(box) && hasLineBeside(box.x0 - reach - 1, box.x0, center) && hasLineBeside(box.x1, box.x1 + reach + 1, center))
+            {
+                chains.push(box);
+            }
+
             continue;
         }
 
@@ -1366,6 +1496,13 @@ export function findMarkChains(textInk: Mask, lineInk: Mask, glyphHeight: number
     {
         return [];
     }
+
+    function compareLeftEdges(first: Box, second: Box): number
+    {
+        return first.x0 - second.x0;
+    }
+
+    chains.sort(compareLeftEdges);
 
     return chains;
 }

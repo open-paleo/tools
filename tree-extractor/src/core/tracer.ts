@@ -377,6 +377,24 @@ function addGluedBranches(branches: Array<Branch>, candidates: Array<Candidate>,
             }
         }
 
+        // Nor is it a taxon's name when a branch leaves the vertical close under or over the
+        // row and runs its whole length: the row is printed along that branch, the numbers
+        // of the characters marked on it (You 2009).
+        const tall = row.y1 - row.y0;
+
+        for (const branch of branches)
+        {
+            const apart = branch.y < center ? row.y0 - branch.y : branch.y - row.y1;
+            const leaves = branch.x0 >= vertical.x - tolerance && branch.x0 <= vertical.x + reach;
+
+            // A name glued to its node stands right against the vertical; these numbers
+            // begin at the first mark, well along the branch (Hartman 2019 has the former).
+            if (!hasBranch && leaves && apart >= 0 && apart <= 0.6 * tall && branch.x1 >= row.x1 && row.x0 - vertical.x >= 0.75 * tall)
+            {
+                hasBranch = true;
+            }
+        }
+
         if (!hasBranch)
         {
             branches.push(createBranch(`glued.${branches.length}`, `glued.${branches.length}`, vertical.x, vertical.x + 2, center, true));

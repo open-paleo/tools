@@ -25,7 +25,7 @@ import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { assessReading } from "./assess.ts";
 import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
-import { recoverElbowTips } from "./elbows.ts";
+import { joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
 import { clearDarkGrounds } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
@@ -1884,7 +1884,8 @@ function invertImage(image: RgbaImage): RgbaImage
 export async function extractTree(givenImage: RgbaImage, options: Partial<ExtractOptions> = {}): Promise<ExtractionDocument>
 {
     const parameters = { ...defaultParameters, ...options.parameters };
-    const typeHeight = measureTypeHeight(givenImage, options.region ?? null, parameters);
+    const typeHeights = measureTypeHeight(givenImage, options.region ?? null, parameters);
+    const typeHeight = typeHeights.median;
 
     // The steps that tell letters from lines take a letter for at most 60 pixels tall. A
     // figure enlarged past that is read at the size where its letters are of ordinary height,
@@ -1893,7 +1894,13 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
     const read = options.region ?? { x0: 0, y0: 0, x1: givenImage.width, y1: givenImage.height };
     const shorter = Math.min(read.x1 - read.x0, read.y1 - read.y0);
 
-    if (typeHeight < largeTypeHeight && (typeHeight < largeTypeForFigure || typeHeight < largeTypeShare * shorter))
+    // A figure with a number at every mark on its branches has far more digits than
+    // letters, and the median is a digit's height: there the tallest tenth of the pieces,
+    // the capitals of its names, tell that its type is large (You 2009, a median of 45 and
+    // names 63 tall).
+    const large = typeHeight >= largeTypeHeight || typeHeights.tallest >= largeTypeHeight;
+
+    if (!large && (typeHeight < largeTypeForFigure || typeHeight < largeTypeShare * shorter))
     {
         return extractTreeAtSize(givenImage, options);
     }
@@ -1950,6 +1957,16 @@ function reduceBox(box: Box, factor: number): Box
 }
 
 /**
+ * Letter heights of a figure, in pixels.
+ */
+type TypeHeights = {
+    /** Median height. */
+    median: number;
+    /** Height that the tallest tenth of the letters reach. */
+    tallest: number;
+};
+
+/**
  * Measures the median height of the letters of a figure: of the pieces of ink that are
  * neither specks nor long, flat or hollow, and no taller than a fifth of the figure's shorter
  * side.
@@ -1957,9 +1974,9 @@ function reduceBox(box: Box, factor: number): Box
  * @param image - Image.
  * @param region - Region to be read, or null for the whole image.
  * @param parameters - Thresholds.
- * @returns The median height, or 0 with under twenty such pieces.
+ * @returns The median height and the height the tallest tenth reach, or 0 with under twenty such pieces.
  */
-function measureTypeHeight(image: RgbaImage, region: Box | null, parameters: Parameters): number
+function measureTypeHeight(image: RgbaImage, region: Box | null, parameters: Parameters): TypeHeights
 {
     const area = region === null ? null : clampBox(region, image.width, image.height);
     const read = area === null || area.x1 - area.x0 < 1 || area.y1 - area.y0 < 1 ? image : cropImage(image, area);
@@ -1980,12 +1997,12 @@ function measureTypeHeight(image: RgbaImage, region: Box | null, parameters: Par
 
     if (heights.length < 20)
     {
-        return 0;
+        return { median: 0, tallest: 0 };
     }
 
     heights.sort(compareNumbers);
 
-    return heights[heights.length >> 1];
+    return { median: heights[heights.length >> 1], tallest: heights[Math.floor(0.9 * heights.length)] };
 }
 
 /**
@@ -2739,6 +2756,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     if (slantedTrace === null)
     {
         document.qc.push(...recoverElbowTips(document));
+        document.qc.push(...joinWrappedBranches(document));
     }
 
     // A clade's name printed on the box or band that shades it. A slanted figure's rows are
