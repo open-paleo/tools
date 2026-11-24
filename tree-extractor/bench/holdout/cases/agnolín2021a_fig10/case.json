@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/agnolín2021a_fig10.png",
+  "names": "names.txt",
+  "source": "Agnolín et al. 2021, Journal of Vertebrate Paleontology 41, Fig. 10: phylogeny of Ceratosauria placing Guemesia (bold); rectangular, root left, small dots at every node, large black discs on named nodes with clade names in capitals beside them (two abbreviated). Image: census 2 figure (2138x1802 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genera)",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur tree, read by eye. Seven clade names beside large node discs are kept as internal labels, as printed: CERATOSAURIA, ABELISAUROIDEA, NOAS. (abbreviated, for Noasauridae), ABELISAURIDAE, MAJUN. (abbreviated, for Majungasaurinae), BRACHYROSTRA and CARNOTAURINAE. Polytomies: NOAS. (Masiakasaurus, Noasaurus, Velocisaurus), Rajasaurus-Indosaurus-Majungasaurus, and BRACHYROSTRA (six tips and Carnotaurinae). 30 tips, 3 polytomies (3, 3, 7 children); 7 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

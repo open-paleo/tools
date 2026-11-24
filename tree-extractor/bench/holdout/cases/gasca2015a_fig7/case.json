@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/gasca2015a_fig7.png",
+  "names": "names.txt",
+  "source": "Gasca et al. 2015, Journal of Iberian Geology 41, Fig. 7: consensus tree of ornithopods placing Delapparentia (bold); rectangular, root left, thin lines, support values below some nodes. Image: census 2 figure (1526x1581 px), a 300 dpi page render of the image.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Rhabdodon sp.', 'NHMUK R3741 (cf. Mantellisaurus)' and '\"Probactrosaurus\" mazongshanens' (straight quotes, the species name cut short as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Ornithopod tree, read by eye; no clade names are printed. Polytomies: Delapparentia-Kukufeldia-Lanzhousaurus-Barilium-the rest, Proa-Iguanodon-the rest, and the seven-way node from Xuwulong to the \"Probactrosaurus\" mazongshanens clade (Xuwulong, Equijubus, Altirhinus, Ouranosaurus, Hypselospinus, the Mantellisaurus pair and the rest). 43 tips, 3 polytomies (5, 3, 7 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

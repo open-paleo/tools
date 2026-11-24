@@ -1,0 +1,55 @@
+#NEXUS
+
+[ sancarlo2026a_fig14: Tyrannosauroid Bayesian tree, read by eye at 2x (a small image, 671x848 px); no clade names are printed. Polytomies: Stokesosaurus-Juratyrant-Eotyrannus-the rest; Appalachiosaurus-the Dryptosaurus clade-the rest; Thanatotheristes-D.torosus-D.horneri and T.rex-T.regina-T.imperator (in both the stem enters at the middle tip's level, read as entering the node, as in earlier batches). Replacement for turner2012a_fig59 (seed 20261232). 42 tips, 4 polytomies (4, 3, 3, 3 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=42;
+    TAXLABELS
+        Allosaurus
+        Compsognathus
+        ornithomimosauria
+        maniraptora
+        Guanlong
+        Proceratosaurus
+        Kileskus
+        Sinotyrannus
+        Yutyrannus
+        Dilong
+        Aviatyrannis
+        Stokesosaurus
+        Juratyrant
+        Eotyrannus
+        Xiongguanlong
+        Timurlengia
+        Appalachiosaurus
+        Dryptosaurus
+        Nanotyrannus
+        NCSM4000
+        LACM28471
+        BMRP2002.4.1
+        HRS08
+        Qianzhousaurus
+        A.altai
+        A.remotus
+        Gorgosaurus
+        Albertosaurus
+        Bistahieversor
+        Teratophoneus
+        Dynamoterror
+        Lythronax
+        Nanuqsaurus
+        Thanatotheristes
+        D.torosus
+        D.horneri
+        Zhuchengtyrannus
+        'T?mcraeensis'
+        Tarbosaurus
+        T.rex
+        T.regina
+        T.imperator
+    ;
+END;
+
+BEGIN TREES;
+    TREE sancarlo2026a_fig14 = [&R] (Allosaurus,((Compsognathus,(ornithomimosauria,maniraptora)),((Guanlong,(Proceratosaurus,(Kileskus,(Sinotyrannus,Yutyrannus)))),(Dilong,(Aviatyrannis,(Stokesosaurus,Juratyrant,Eotyrannus,(Xiongguanlong,(Timurlengia,(Appalachiosaurus,(Dryptosaurus,(Nanotyrannus,((NCSM4000,LACM28471),(BMRP2002.4.1,HRS08)))),((Qianzhousaurus,(A.altai,A.remotus)),((Gorgosaurus,Albertosaurus),(Bistahieversor,((Teratophoneus,(Dynamoterror,Lythronax)),(Nanuqsaurus,((Thanatotheristes,D.torosus,D.horneri),(Zhuchengtyrannus,('T?mcraeensis',(Tarbosaurus,(T.rex,T.regina,T.imperator)))))))))))))))))));
+END;

@@ -1,0 +1,31 @@
+#NEXUS
+
+[ yu2018a_fig4: Panel a, read by eye at 2x. Each black triangle is a collapsed clade and is one tip, named by the word under it. Polytomies: Zuolong-Tugulusaurus-Tyrannosauroidea-the rest, Therizinosauroidea-Alvaresauroidea-the rest, and a six-way node (Epidexipteryx, Pedopenna, the Anomalopes clade, Troodontidae, Dromaeosauridae, Avialae). 18 tips, 3 polytomies (4, 3, 6 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=18;
+    TAXLABELS
+        Allosaurus_fragilis
+        Sinraptor_dongi
+        Bicentenaria
+        Zuolong
+        Tugulusaurus
+        Tyrannosauroidea
+        Ornitholestes_hermanni
+        Compsognathidae
+        Ornithomimosauria
+        Therizinosauroidea
+        Alvaresauroidea
+        Epidexipteryx
+        Pedopenna
+        Anomalopes_zhaoi
+        other_Oviraptorosauria
+        Troodontidae
+        Dromaeosauridae
+        Avialae
+    ;
+END;
+
+BEGIN TREES;
+    TREE yu2018a_fig4 = [&R] (Allosaurus_fragilis,(Sinraptor_dongi,(Bicentenaria,(Zuolong,Tugulusaurus,Tyrannosauroidea,(Ornitholestes_hermanni,(Compsognathidae,(Ornithomimosauria,(Therizinosauroidea,Alvaresauroidea,(Epidexipteryx,Pedopenna,(Anomalopes_zhaoi,other_Oviraptorosauria),Troodontidae,Dromaeosauridae,Avialae)))))))));
+END;

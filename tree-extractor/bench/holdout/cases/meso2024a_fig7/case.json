@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/meso2024a_fig7.png",
+  "names": "names.txt",
+  "source": "Meso et al. 2024, Cladistics 41, Fig. 7: time-calibrated alvarezsaurian tree against a stage chart, with forelimb drawings below; rectangular, root left, thick lines coloured by an ancestral-state reconstruction (blue, purple, red), open circles on five nodes, pale vertical bands marking time intervals. Image: census 2 figure (2057x1132 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genera)",
+  "gold": "gold.nex",
+  "gold_note": "Alvarezsaurian time tree, read by eye at 3-4x; the ladder from Ceratonykus to Xixianykus steps in short coloured segments, each read as a node. The open circles mark nodes and are not encoded; no clade names are printed. One three-way node: Ondogurvel-Albinykus-Xixianykus (the stem enters at Albinykus's level and runs on as its branch, read as entering the node, as in earlier batches). 23 tips, 1 polytomies (3 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

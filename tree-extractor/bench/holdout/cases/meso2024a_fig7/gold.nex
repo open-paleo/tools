@@ -1,0 +1,36 @@
+#NEXUS
+
+[ meso2024a_fig7: Alvarezsaurian time tree, read by eye at 3-4x; the ladder from Ceratonykus to Xixianykus steps in short coloured segments, each read as a node. The open circles mark nodes and are not encoded; no clade names are printed. One three-way node: Ondogurvel-Albinykus-Xixianykus (the stem enters at Albinykus's level and runs on as its branch, read as entering the node, as in earlier batches). 23 tips, 1 polytomies (3 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=23;
+    TAXLABELS
+        Shishugounykus
+        Aorun
+        Haplocheirus
+        Bannykus
+        Xiyunykus
+        Tugulusaurus
+        Alnashetri
+        Bonapartenykus
+        Patagonykus
+        Achillesaurus
+        Alvarezsaurus
+        Ceratonykus
+        Khulsanurus
+        Qiupanykus
+        Dzharaonyx
+        Linhenykus
+        Parvicursor
+        Shuvuuia
+        Mononykus
+        Kol
+        Ondogurvel
+        Albinykus
+        Xixianykus
+    ;
+END;
+
+BEGIN TREES;
+    TREE meso2024a_fig7 = [&R] (Shishugounykus,(Aorun,(Haplocheirus,((Bannykus,(Xiyunykus,Tugulusaurus)),(Alnashetri,(((Bonapartenykus,Patagonykus),(Achillesaurus,Alvarezsaurus)),(Ceratonykus,(Khulsanurus,(Qiupanykus,(Dzharaonyx,((Linhenykus,Parvicursor),(Shuvuuia,(Mononykus,(Kol,(Ondogurvel,Albinykus,Xixianykus)))))))))))))));
+END;

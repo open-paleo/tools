@@ -1,0 +1,105 @@
+#NEXUS
+
+[ moore2020a_fig25: Sauropod reduced consensus, read by eye from a low-resolution raster (884x976 px, small type) at 2-6x. Labels kept as internal labels: Euhelopodidae and Diplodocoidea (on their stems), CMT clade (the caption's 'Core Mamenchisaurus-like Taxa'), Turiasauria, Neosauropoda, Macronaria, Titanosauriformes, Titanosauria and Lithostrotia (each printed just left of its node's vertical line). Support values and circled Bremer values are not encoded. Polytomies: Cetiosaurus-Haute Moulouya taxon-Omeisaurus maojanus-the rest; Omeisaurus tianfuensis-Cetiosauriscus-Euhelopodidae-the rest; the four-tip Qijianglong node; Losillasaurus-Turiasaurus-Zby; Camarasaurus-Tehuelchesaurus-Janenschia pair; Brachiosaurus-Cedarosaurus pair-Sonorasaurus clade; Wintonotitan-the Paluxysaurus clade-the rest; Tastavinsaurus-Angolatitan pair-the five-tip node; the five-tip node (Baotianmansaurus to Padillasaurus); Notocolossus-Patagotitan-Puertasaurus; Rapetosaurus-Aeolosaurus-Alamosaurus pair-the Isisaurus clade. 92 tips, 11 polytomies (4, 4, 4, 3, 3, 3, 3, 3, 5, 3, 4 children); 9 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=92;
+    TAXLABELS
+        Shunosaurus_lii
+        Cetiosaurus_oxoniensis
+        Haute_Moulouya_taxon
+        Omeisaurus_maojanus
+        Omeisaurus_tianfuensis
+        Cetiosauriscus_stewarti
+        Omeisaurus_junghsiensis
+        Dongbeititan_dongi
+        Euhelopus_zdanskyi
+        Daxiatitan_binglingi
+        Tienshanosaurus_chitaiensis
+        Wamweracaudia_keranjei
+        'Mamenchisaurus hochuanensis (ref.)'
+        Mamenchisaurus_youngi
+        Shishugou_cervicodorsals
+        Phu_Kradung_taxon
+        Klamelisaurus_gobiensis
+        'Mamenchisaurus hochuanensis (holo.)'
+        Qijianglong_guokr
+        Mamenchisaurus_sinocanadorum
+        'Chuanjiesaurus anaensis (holo.)'
+        'Chuanjiesaurus anaensis (ref.)'
+        Jobaria_tiguidensis
+        Atlasaurus_imelakei
+        Bellusaurus_sui
+        Nigersaurus_taqueti
+        Apatosaurus
+        Diplodocus
+        Mierasaurus_bobyoungi
+        Moabosaurus_utahensis
+        Losillasaurus_giganteus
+        Turiasaurus_riodevensis
+        Zby_atlanticus
+        Camarasaurus
+        Tehuelchesaurus_benitezii
+        Janenschia_robusta
+        Haestasaurus_becklesii
+        Lapparentosaurus_madagascarensis
+        Aragosaurus_ischiatus
+        Galveosaurus_herreroi
+        Lusotitan_atalaiensis
+        Venenosaurus_dicrocei
+        Europasaurus_holgeri
+        Brachiosaurus_altithorax
+        Cedarosaurus_weiskopfae
+        Vouivria_damparisensis
+        Sonorasaurus_thompsoni
+        Abydosaurus_mcintoshi
+        Giraffatitan_brancai
+        Qiaowanlong_kangxii
+        Phuwiangosaurus_sirindhornae
+        Tangvayosaurus_hoffeti
+        Wintonotitan_wattsi
+        Paluxysaurus_jonesi
+        Sauroposeidon_proteles
+        Tastavinsaurus_sanzi
+        Angolatitan_adamastor
+        Chubutisaurus_insignis
+        Baotianmansaurus_henanensis
+        Erketu_ellisoni
+        Gobititan_shenzhouensis
+        Savannasaurus_elliottorum
+        Padillasaurus_leivaensis
+        Cloverly_titanosauriform
+        Ligabuesaurus_lenzai
+        Ruyangosaurus_giganteus
+        Huanghetitan_liujiaxiaensis
+        Huanghetitan_ruyangensis
+        Andesaurus_delgadoi
+        Malawisaurus_dixeyi
+        Pitekunsaurus_macayai
+        Epachthosaurus_sciuttoi
+        Muyelensaurus_pecheni
+        Rinconsaurus_caudamirus
+        Mendozasaurus_neguyelap
+        Futalognkosaurus_dukei
+        Argentinosaurus_huinculensis
+        Notocolossus_gonzalezparejasi
+        Patagotitan_mayorum
+        Puertasaurus_reuili
+        Nemegtosaurus_mongoliensis
+        Tapuiasaurus_macedoi
+        Rapetosaurus_krausei
+        Aeolosaurus_rionegrinus
+        Alamosaurus_sanjuanensis
+        Jiangshanosaurus_lixianensis
+        Isisaurus_colberti
+        Saltasaurus_loricatus
+        Dongyangosaurus_sinensis
+        Opisthocoelicaudia_skarzynskii
+        Diamantinasaurus_matildae
+        AODF_836
+    ;
+END;
+
+BEGIN TREES;
+    TREE moore2020a_fig25 = [&R] (Shunosaurus_lii,(Cetiosaurus_oxoniensis,Haute_Moulouya_taxon,Omeisaurus_maojanus,(Omeisaurus_tianfuensis,Cetiosauriscus_stewarti,(Omeisaurus_junghsiensis,((Dongbeititan_dongi,(Euhelopus_zdanskyi,Daxiatitan_binglingi)),(Tienshanosaurus_chitaiensis,(Wamweracaudia_keranjei,(('Mamenchisaurus hochuanensis (ref.)',(Mamenchisaurus_youngi,(Shishugou_cervicodorsals,(Phu_Kradung_taxon,Klamelisaurus_gobiensis)))),('Mamenchisaurus hochuanensis (holo.)',(Qijianglong_guokr,Mamenchisaurus_sinocanadorum,'Chuanjiesaurus anaensis (holo.)','Chuanjiesaurus anaensis (ref.)')))CMT_clade))))Euhelopodidae,((Jobaria_tiguidensis,Atlasaurus_imelakei),(((Bellusaurus_sui,(Nigersaurus_taqueti,(Apatosaurus,Diplodocus))),((Mierasaurus_bobyoungi,Moabosaurus_utahensis),(Losillasaurus_giganteus,Turiasaurus_riodevensis,Zby_atlanticus))Turiasauria)Diplodocoidea,((Camarasaurus,Tehuelchesaurus_benitezii,(Janenschia_robusta,Haestasaurus_becklesii)),(Lapparentosaurus_madagascarensis,(Aragosaurus_ischiatus,(Galveosaurus_herreroi,(Lusotitan_atalaiensis,((Venenosaurus_dicrocei,(Europasaurus_holgeri,(Brachiosaurus_altithorax,(Cedarosaurus_weiskopfae,Vouivria_damparisensis),(Sonorasaurus_thompsoni,(Abydosaurus_mcintoshi,Giraffatitan_brancai))))),((Qiaowanlong_kangxii,(Phuwiangosaurus_sirindhornae,Tangvayosaurus_hoffeti)),(Wintonotitan_wattsi,((Paluxysaurus_jonesi,Sauroposeidon_proteles),(Tastavinsaurus_sanzi,(Angolatitan_adamastor,Chubutisaurus_insignis),(Baotianmansaurus_henanensis,Erketu_ellisoni,Gobititan_shenzhouensis,Savannasaurus_elliottorum,Padillasaurus_leivaensis))),(Cloverly_titanosauriform,((Ligabuesaurus_lenzai,Ruyangosaurus_giganteus),(Huanghetitan_liujiaxiaensis,(Huanghetitan_ruyangensis,(Andesaurus_delgadoi,(Malawisaurus_dixeyi,((Pitekunsaurus_macayai,(Epachthosaurus_sciuttoi,((Muyelensaurus_pecheni,Rinconsaurus_caudamirus),(Mendozasaurus_neguyelap,(Futalognkosaurus_dukei,(Argentinosaurus_huinculensis,(Notocolossus_gonzalezparejasi,Patagotitan_mayorum,Puertasaurus_reuili))))))),((Nemegtosaurus_mongoliensis,Tapuiasaurus_macedoi),(Rapetosaurus_krausei,Aeolosaurus_rionegrinus,(Alamosaurus_sanjuanensis,Jiangshanosaurus_lixianensis),(Isisaurus_colberti,(Saltasaurus_loricatus,((Dongyangosaurus_sinensis,Opisthocoelicaudia_skarzynskii),(Diamantinasaurus_matildae,AODF_836))))))))Lithostrotia)Titanosauria)))))))Titanosauriformes)))))Macronaria)Neosauropoda))));
+END;

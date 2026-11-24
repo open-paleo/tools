@@ -1,0 +1,31 @@
+#NEXUS
+
+[ evans2007a_fig9: Lambeosaurine strict consensus, read by eye. The lettered discs (A-F) are node keys for the text and are not encoded, nor are the support values and character numbers. One three-way node: F (Olorotitan, Corythosaurus and the two Hypacrosaurus species). 18 tips, 1 polytomies (3 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=18;
+    TAXLABELS
+        Probactrosaurus_gobiensis
+        Telmatosaurus_transsylvanicus
+        Gryposaurus_incurvimanus
+        Aralosaurus_tuberiferus
+        Tsintaosaurus_spinorhinus
+        Jaxartosaurus_aralensis
+        Amurosaurus_riabinini
+        Charonosaurus_jiayinensis
+        Parasaurolophus_cyrtocristatus
+        Parasaurolophus_walkeri
+        Parasaurolophus_tubicen
+        Nipponosaurus_sachalinensis
+        Lambeosaurus_lambei
+        Lambeosaurus_magnicristatus
+        Olorotitan_arharensis
+        Corythosaurus_casuarius
+        Hypacrosaurus_stebingeri
+        Hypacrosaurus_altispinus
+    ;
+END;
+
+BEGIN TREES;
+    TREE evans2007a_fig9 = [&R] (Probactrosaurus_gobiensis,(Telmatosaurus_transsylvanicus,(Gryposaurus_incurvimanus,(Aralosaurus_tuberiferus,(Tsintaosaurus_spinorhinus,(Jaxartosaurus_aralensis,(Amurosaurus_riabinini,((Charonosaurus_jiayinensis,(Parasaurolophus_cyrtocristatus,(Parasaurolophus_walkeri,Parasaurolophus_tubicen))),(Nipponosaurus_sachalinensis,((Lambeosaurus_lambei,Lambeosaurus_magnicristatus),(Olorotitan_arharensis,Corythosaurus_casuarius,(Hypacrosaurus_stebingeri,Hypacrosaurus_altispinus))))))))))));
+END;

@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/zaher2011a_fig7.png",
+  "names": "names.txt",
+  "source": "Zaher et al. 2011, PLoS ONE 6, Fig. 7: time-calibrated tree of neosauropods placing Tapuiasaurus (bold); vertical, root at the bottom, thin lines with range ticks and white ghost-lineage bars, thick lines in the titanosaur part, node dots with clade names beside them or joined by arrows, a stage chart at the left and skull drawings. Image: census 2 figure (1294x1055 px), the embedded raster.",
+  "license": "CC BY (no version stated)",
+  "attribution": "Zaher, H.; Pol, D.; Carvalho, A. B.; Nascimento, P. M.; Riccomini, C.; Larson, P.; Juárez Valieri, R. D.; Pires-Domingues, R.; da Silva, N. J.; de Almeida Campos, D. (2011). A Complete Skull of an Early Cretaceous Sauropod and the Evolution of Advanced Titanosaurians. PLoS ONE. https://doi.org/10.1371/journal.pone.0016663. Fig. 7. CC BY (no version stated).",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Diplococus' (so spelled in the figure)",
+  "gold": "gold.nex",
+  "gold_note": "Neosauropod time tree, read by eye at 2x. Seven names at node dots are kept as internal labels: Neosauropoda, Somphospondyli, Titanosauria, Lithostrotia, “advanced titanosaurians” (with its quotation marks, as printed), Nemegtosauridae (joined to its dot by an arrow) and Saltasauridae. 'basal eusauropods', on an arrow leaving the root to the left, names the outgroups and is not a tip. One three-way node: Nigersaurus-Rayososaurus-Rebbachisaurus. 24 tips, 1 polytomies (3 children); 7 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

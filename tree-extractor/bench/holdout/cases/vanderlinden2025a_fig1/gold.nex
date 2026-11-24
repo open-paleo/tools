@@ -1,0 +1,20 @@
+#NEXUS
+
+[ vanderlinden2025a_fig1: Clade diagram, read by eye. Terminal branches are named by the stem-based names on them (Macronaria's at its base). Internal labels: Khebbashia, Flagellicaudata and Diplodocimorpha (node-based, at grey dots), Diplodocidae and Diplodocoidea (stem-based names whose content is the node above the triangle). Rebbachisauridae, stem-based on the branch below Khebbashia, has the same content as Khebbashia in this tree; one label per node, so it is not encoded. Fully resolved. 7 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=7;
+    TAXLABELS
+        Limaysaurinae
+        Rebbachisaurinae
+        Dicraeosauridae
+        Diplodocinae
+        Apatosaurinae
+        Haplocanthosaurus
+        Macronaria
+    ;
+END;
+
+BEGIN TREES;
+    TREE vanderlinden2025a_fig1 = [&R] ((((Limaysaurinae,Rebbachisaurinae)Khebbashia,(Dicraeosauridae,(Diplodocinae,Apatosaurinae)Diplodocidae)Flagellicaudata)Diplodocimorpha,Haplocanthosaurus)Diplodocoidea,Macronaria);
+END;

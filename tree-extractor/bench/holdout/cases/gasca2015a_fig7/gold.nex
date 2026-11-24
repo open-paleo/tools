@@ -1,0 +1,56 @@
+#NEXUS
+
+[ gasca2015a_fig7: Ornithopod tree, read by eye; no clade names are printed. Polytomies: Delapparentia-Kukufeldia-Lanzhousaurus-Barilium-the rest, Proa-Iguanodon-the rest, and the seven-way node from Xuwulong to the "Probactrosaurus" mazongshanens clade (Xuwulong, Equijubus, Altirhinus, Ouranosaurus, Hypselospinus, the Mantellisaurus pair and the rest). 43 tips, 3 polytomies (5, 3, 7 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=43;
+    TAXLABELS
+        Lesothosaurus_diagnosticus
+        Hypsilophodon_foxii
+        Rhabdodon_sp.
+        Zalmoxes_shqiperorum
+        Zalmoxes_robustus
+        Tenontosaurus_tilletti
+        Tenontosaurus_dossi
+        Dryosaurus_altus
+        Dysalotosaurus_lettowvorbecki
+        Valdosaurus_canaliculatus
+        Elrhazosaurus_nigeriensis
+        Camptosaurus_dispar
+        Cumnoria_prestwichii
+        Uteodon_aphanoecetes
+        Theiophytalia_kerri
+        Hippodraco_scutodens
+        Iguanacolossus_fortis
+        Delapparentia_turolensis
+        Kukufeldia_tilgatensis
+        Lanzhousaurus_magnidens
+        Barilium_dawsoni
+        Proa_valdearinnoensis
+        Iguanodon_bernissartensis
+        Xuwulong_yueluni
+        Equijubus_normani
+        Altirhinus_kurzanovi
+        Ouranosaurus_nigeriensis
+        Hypselospinus_fittoni
+        'NHMUK R3741 (cf. Mantellisaurus)'
+        Mantellisaurus_atherfieldensis
+        '"Probactrosaurus" mazongshanens'
+        Eolambia_caroljonesa
+        Probactrosaurus_gobiensis
+        Jeyawati_rugoculus
+        Protohadros_byrdi
+        Tethyshadros_insularis
+        Nanyangosaurus_zhugeii
+        Gilmoreosaurus_mongoliensis
+        Bactrosaurus_johnsoni
+        Shuangmiaosaurus_gilmorei
+        Telmatosaurus_transsylvanicus
+        Corythosaurus_casuarius
+        Edmontosaurus_annectens
+    ;
+END;
+
+BEGIN TREES;
+    TREE gasca2015a_fig7 = [&R] (Lesothosaurus_diagnosticus,(Hypsilophodon_foxii,((Rhabdodon_sp.,(Zalmoxes_shqiperorum,Zalmoxes_robustus)),((Tenontosaurus_tilletti,Tenontosaurus_dossi),((Dryosaurus_altus,(Dysalotosaurus_lettowvorbecki,(Valdosaurus_canaliculatus,Elrhazosaurus_nigeriensis))),(Camptosaurus_dispar,((Cumnoria_prestwichii,Uteodon_aphanoecetes),((Theiophytalia_kerri,Hippodraco_scutodens),(Iguanacolossus_fortis,(Delapparentia_turolensis,Kukufeldia_tilgatensis,Lanzhousaurus_magnidens,Barilium_dawsoni,(Proa_valdearinnoensis,Iguanodon_bernissartensis,(Xuwulong_yueluni,Equijubus_normani,Altirhinus_kurzanovi,Ouranosaurus_nigeriensis,Hypselospinus_fittoni,('NHMUK R3741 (cf. Mantellisaurus)',Mantellisaurus_atherfieldensis),('"Probactrosaurus" mazongshanens',((Eolambia_caroljonesa,Probactrosaurus_gobiensis),(Jeyawati_rugoculus,(Protohadros_byrdi,(Tethyshadros_insularis,(Nanyangosaurus_zhugeii,(Gilmoreosaurus_mongoliensis,(Bactrosaurus_johnsoni,(Shuangmiaosaurus_gilmorei,(Telmatosaurus_transsylvanicus,(Corythosaurus_casuarius,Edmontosaurus_annectens)))))))))))))))))))))));
+END;

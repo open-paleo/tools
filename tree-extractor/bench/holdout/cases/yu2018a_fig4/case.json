@@ -1,0 +1,18 @@
+{
+  "image": "../../../../../../corpus/census2/figures/yu2018a_fig4.png",
+  "names": "names.txt",
+  "source": "Yu et al. 2018, Scientific Reports 8, Fig. 4a: panel a, a reduced tree of theropods with most clades collapsed to black triangles (names under them); rectangular, root left. Panel b (oviraptorosaur relationships, another tree) is excluded. Image: census 2 figure (1650x893 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 705,
+    "y1": 893
+  },
+  "region_note": "panel a (left); panel b (right) is another tree",
+  "license": "CC BY 4.0",
+  "attribution": "Yu, Y.; Wang, K.; Chen, S.; Sullivan, C.; Wang, S.; Wang, P.; Xu, X. (2018). A new caenagnathid dinosaur from the Upper Cretaceous Wangshi Group of Shandong, China, with comments on size variation among oviraptorosaurs. Scientific Reports. https://doi.org/10.1038/s41598-018-23252-2. Fig. 4a. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names of panel a, including the triangle tips (Tyrannosauroidea, Compsognathidae, Ornithomimosauria, Therizinosauroidea, Alvaresauroidea, 'other Oviraptorosauria', Troodontidae, Dromaeosauridae, Avialae)",
+  "gold": "gold.nex",
+  "gold_note": "Panel a, read by eye at 2x. Each black triangle is a collapsed clade and is one tip, named by the word under it. Polytomies: Zuolong-Tugulusaurus-Tyrannosauroidea-the rest, Therizinosauroidea-Alvaresauroidea-the rest, and a six-way node (Epidexipteryx, Pedopenna, the Anomalopes clade, Troodontidae, Dromaeosauridae, Avialae). 18 tips, 3 polytomies (4, 3, 6 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

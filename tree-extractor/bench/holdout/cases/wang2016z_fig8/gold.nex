@@ -1,0 +1,74 @@
+#NEXUS
+
+[ wang2016z_fig8: Avialan strict consensus, read by eye with the lower ladder at 2x. Clade names kept as internal labels: Aves, Pygostylia, Ornithothoraces, Enantiornithes and Ornithuromorpha, each written vertically just left of the node's vertical line (below the support value of the node before it), and Confuciusornithidae, Pengornithidae and Hongshanornithidae, written above their stems. Polytomies: Enantiornithes (22 children: Pengornithidae, three pairs and 18 single tips) and Hongshanornithidae (4). 61 tips, 2 polytomies (22, 4 children); 8 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=61;
+    TAXLABELS
+        Dromaeosauridae
+        Archaeopteryx
+        Jeholornis
+        Eoconfuciusornis
+        Confuciusornis_dui
+        Jinzhouornis
+        Confuciusornis_sanctus
+        Changchengornis
+        Sapeornis
+        Pengornis
+        Eopengornis
+        Elsornis
+        Protopteryx
+        Eocathayornis
+        Iberomesornis
+        Boluochia
+        Longipteryx
+        Shanweiniao
+        Rapaxavis
+        Longirostravis
+        Cathayornis
+        Vescornis
+        Neuquenornis
+        Gobipteryx
+        Eoalulavis
+        Concornis
+        Qiliania
+        Eoenantiornis
+        Fortunguavis
+        Shenqiornis
+        Sulcavis
+        Zhouornis
+        Longusunguis
+        Parabohaiornis
+        Bohaiornis
+        Archaeorhynchus
+        Jianchangornis
+        Schizooura
+        Bellulia_rectusunguis
+        Hongshanornis
+        Longicrusavis
+        Parahongshanornis
+        Tianyuornis
+        Songlingornis
+        Yanornis
+        Piscivoravis
+        Yixianornis
+        Iteravis
+        Gansus
+        Ichthyornis
+        Apsaravis
+        Patagopteryx
+        Vorona
+        Vegavis
+        Anas
+        Gallus
+        Enaliornis
+        Baptornis_advenus
+        Baptornis_varneri
+        Parahesperornis
+        Hesperornis
+    ;
+END;
+
+BEGIN TREES;
+    TREE wang2016z_fig8 = [&R] (Dromaeosauridae,(Archaeopteryx,(Jeholornis,((Eoconfuciusornis,((Confuciusornis_dui,Jinzhouornis),(Confuciusornis_sanctus,Changchengornis)))Confuciusornithidae,(Sapeornis,(((Pengornis,Eopengornis)Pengornithidae,Elsornis,Protopteryx,Eocathayornis,Iberomesornis,(Boluochia,Longipteryx),Shanweiniao,Rapaxavis,Longirostravis,Cathayornis,Vescornis,Neuquenornis,Gobipteryx,Eoalulavis,(Concornis,Qiliania),Eoenantiornis,Fortunguavis,Shenqiornis,Sulcavis,Zhouornis,Longusunguis,(Parabohaiornis,Bohaiornis))Enantiornithes,(Archaeorhynchus,(Jianchangornis,((Schizooura,Bellulia_rectusunguis),((Hongshanornis,Longicrusavis,Parahongshanornis,Tianyuornis)Hongshanornithidae,(Songlingornis,(Yanornis,(Piscivoravis,(Yixianornis,(Iteravis,(Gansus,(Ichthyornis,(Apsaravis,((Patagopteryx,Vorona),((Vegavis,(Anas,Gallus)),(Enaliornis,(Baptornis_advenus,(Baptornis_varneri,(Parahesperornis,Hesperornis))))))))))))))))))Ornithuromorpha)Ornithothoraces))Pygostylia))Aves);
+END;

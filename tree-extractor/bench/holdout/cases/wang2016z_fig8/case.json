@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/wang2016z_fig8.png",
+  "names": "names.txt",
+  "source": "Wang et al. 2016, Zoological Journal of the Linnean Society 176, Fig. 8: strict consensus of Mesozoic birds placing Bellulia rectusunguis (bold); rectangular, root left, thin lines, bootstrap/Bremer values at the nodes (Bremer in bold italics), clade names written vertically beside node lines or above stems. Image: census 2 figure (1917x4557 px), a 600 dpi page render of the image.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the collapsed outgroup tip Dromaeosauridae",
+  "gold": "gold.nex",
+  "gold_note": "Avialan strict consensus, read by eye with the lower ladder at 2x. Clade names kept as internal labels: Aves, Pygostylia, Ornithothoraces, Enantiornithes and Ornithuromorpha, each written vertically just left of the node's vertical line (below the support value of the node before it), and Confuciusornithidae, Pengornithidae and Hongshanornithidae, written above their stems. Polytomies: Enantiornithes (22 children: Pengornithidae, three pairs and 18 single tips) and Hongshanornithidae (4). 61 tips, 2 polytomies (22, 4 children); 8 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

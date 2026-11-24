@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/turner2012a_fig1.png",
+  "names": "names.txt",
+  "source": "Turner et al. 2012, Bulletin of the American Museum of Natural History 371, Fig. 1: generalized cladogram of coelurosaurian groups; slanted (diagonal branches), root left, a skeletal silhouette beside each tip. Image: census 2 figure (1717x2146 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (higher taxa)",
+  "gold": "gold.nex",
+  "gold_note": "Slanted cladogram of nine coelurosaur groups, read by eye; fully resolved. Dromaeosauridae's branch leaves the Troodontidae branch partway along, so the two are sisters and Avialae is their sister. The silhouettes are not encoded. 9 tips, fully resolved. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

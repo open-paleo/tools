@@ -1,0 +1,40 @@
+#NEXUS
+
+[ wilson2002a_fig13: Panel A, read by eye at 1.2-2x. Fourteen clade names at node circles are kept as internal labels (SAUROPODA, EUSAUROPODA, NEOSAUROPODA, DIPLODOCOIDEA, REBBACHISAURIDAE, DICRAEOSAURIDAE, DIPLODOCIDAE, MACRONARIA, TITANOSAURIFORMES, SOMPHOSPONDYLI, TITANOSAURIA, SALTASAURIDAE, OPISTHOCOELICAUDIINAE, SALTASAURINAE). Where a tip's line runs through a node circle and on down as the stem (Nigersaurus, Amargasaurus, Opisthocoelicaudia, Saltasaurus), the tip is a child of that node. Nemegtosaurus joins Rapetosaurus by a short solid bracket; the two dashed arrows (from that bracket and from the Opisthocoelicaudiinae circle to the 'T.' colberti junction) mark alternative placements and are not part of the gold tree. One three-way node: REBBACHISAURIDAE (Nigersaurus, Rebbachisaurus, Rayososaurus). 27 tips, 1 polytomies (3 children); 14 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=27;
+    TAXLABELS
+        Vulcanodon
+        Shunosaurus
+        Barapasaurus
+        Patagosaurus
+        Omeisaurus
+        Mamenchisaurus
+        Jobaria
+        Haplocanthosaurus
+        Nigersaurus
+        Rebbachisaurus
+        Rayososaurus
+        Amargasaurus
+        Dicraeosaurus
+        Apatosaurus
+        Barosaurus
+        Diplodocus
+        Camarasaurus
+        Brachiosaurus
+        Euhelopus
+        Malawisaurus
+        Rapetosaurus
+        Nemegtosaurus
+        '''T.'' colberti'
+        Opisthocoelicaudia
+        Alamosaurus
+        Neuquensaurus
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE wilson2002a_fig13 = [&R] (Vulcanodon,(Shunosaurus,(Barapasaurus,(Patagosaurus,((Omeisaurus,Mamenchisaurus),(Jobaria,((Haplocanthosaurus,((Nigersaurus,Rebbachisaurus,Rayososaurus)REBBACHISAURIDAE,((Amargasaurus,Dicraeosaurus)DICRAEOSAURIDAE,(Apatosaurus,(Barosaurus,Diplodocus))DIPLODOCIDAE)))DIPLODOCOIDEA,(Camarasaurus,(Brachiosaurus,(Euhelopus,(Malawisaurus,((Rapetosaurus,Nemegtosaurus),('''T.'' colberti',((Opisthocoelicaudia,Alamosaurus)OPISTHOCOELICAUDIINAE,(Neuquensaurus,Saltasaurus)SALTASAURINAE)SALTASAURIDAE)))TITANOSAURIA)SOMPHOSPONDYLI)TITANOSAURIFORMES)MACRONARIA)NEOSAUROPODA)))))EUSAUROPODA)SAUROPODA;
+END;

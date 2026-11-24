@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/evans2007a_fig9.png",
+  "names": "names.txt",
+  "source": "Evans and Reisz 2007, Journal of Vertebrate Paleontology 27, Fig. 9: strict consensus of three MPTs for lambeosaurine relationships; rectangular, root left, thick lines, support values (Bremer/bootstrap) above and character numbers below each stem, lettered node discs A-F, tree statistics in the lower left. Image: census 2 figure (1988x1110 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (binomials)",
+  "gold": "gold.nex",
+  "gold_note": "Lambeosaurine strict consensus, read by eye. The lettered discs (A-F) are node keys for the text and are not encoded, nor are the support values and character numbers. One three-way node: F (Olorotitan, Corythosaurus and the two Hypacrosaurus species). 18 tips, 1 polytomies (3 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/sancarlo2026a_fig13.png",
+  "names": "names.txt",
+  "source": "Sancarlo and Paul 2026, ZooNova 54, Fig. 13: the left of two strict consensus trees of tyrannosauroids (the caption reads them right to left: equal weights, then extended implied weights); rectangular, root left, thick lines, specimen numbers before some names. The right tree (the same taxa, another analysis) is excluded. Image: census 2 figure (2185x1205 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1000,
+    "y1": 1205
+  },
+  "region_note": "the left tree; the right tree is the other analysis of the same taxa",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of the left tree as printed, abbreviations included ('A.altai', 'T?mcraeensis', 'T.rex'), the specimen tips with their numbers ('CMNH7541 Nanotyrannus', 'HRS08') and the lower-case higher taxa 'ornithomimosauria' and 'maniraptora'",
+  "gold": "gold.nex",
+  "gold_note": "Left tree of the two, read by eye at 2-3x; no clade names are printed. Polytomies: Sinotyrannus-Yutyrannus-the Kileskus clade; Aviatyrannis-Dilong-the Stokesosaurus clade-the rest; Stokesosaurus-Juratyrant-Eotyrannus and Teratophoneus-Dynamoterror-Lythronax (in both the stem enters at the middle tip's level and runs on as its branch, read as entering the node, as in earlier batches). 42 tips, 4 polytomies (3, 4, 3, 3 children). Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

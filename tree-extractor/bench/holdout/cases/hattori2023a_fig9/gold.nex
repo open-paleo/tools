@@ -1,0 +1,32 @@
+#NEXUS
+
+[ hattori2023a_fig9: Ornithomimosaur strict consensus, read by eye. Aviatyrannis, on a dotted line that does not join the tree, is left out (not in the analysis, per the caption). Deinocheiridae and Ornithomimidae, on brackets at the right that each span exactly one clade, are kept as internal labels. Two lines cross a node's vertical and are read as that node's stem with the tip as a child (as in earlier batches): Deinocheirus (into the Garudimimus-Paraxenisaurus node) and Galimimus (into the Sinornithomimus node). Polytomies: the root (five tips and two clades), Garudimimus-Deinocheirus-Paraxenisaurus, and the seven-way Sinornithomimus node. 19 tips, 3 polytomies (7, 3, 7 children); 2 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=19;
+    TAXLABELS
+        Nqwebasaurus
+        Pelecanimimus
+        Shenzhousaurus
+        Beishanlong
+        LH-02-01
+        Tyrannomimus
+        Harpymimus
+        Garudimimus
+        Deinocheirus
+        Paraxenisaurus
+        Archaeornithomimus
+        Bissekty_ornithomimid
+        Sinornithomimus
+        Rativates
+        Struthiomimus
+        Galimimus
+        Anserimimus
+        Ornithomimus
+        Qiupalong
+    ;
+END;
+
+BEGIN TREES;
+    TREE hattori2023a_fig9 = [&R] (Nqwebasaurus,Pelecanimimus,Shenzhousaurus,Beishanlong,LH-02-01,((Tyrannomimus,Harpymimus),(Garudimimus,Deinocheirus,Paraxenisaurus))Deinocheiridae,(Archaeornithomimus,(Bissekty_ornithomimid,(Sinornithomimus,Rativates,Struthiomimus,Galimimus,Anserimimus,Ornithomimus,Qiupalong)))Ornithomimidae);
+END;

@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/lee2019a_fig8.png",
+  "names": "names.txt",
+  "source": "Lee et al. 2019, Scientific Reports 9, Fig. 8: phylogeny of Alvarezsauria placing Nemegtonykus (red); rectangular, root left, a support value (all 1) below each node, clade names joined by arrows to node dots. Image: census 2 figure (1350x701 px), the embedded raster.",
+  "license": "CC BY 4.0",
+  "attribution": "Lee, S.; Park, J. Y.; Lee, Y. N.; Kim, S. H.; Lü, J.; Barsbold, R.; Tsogtbaatar, K. (2019). A new alvarezsaurid dinosaur from the Nemegt Formation of Mongolia. Scientific Reports. https://doi.org/10.1038/s41598-019-52021-y. Fig. 8. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names, including the collapsed tip 'Outgroup taxa'",
+  "gold": "gold.nex",
+  "gold_note": "Alvarezsaurian tree, read by eye. Alvarezsauria, Alvarezsauridae and Parvicursorinae, joined by arrows to node dots, are kept as internal labels; the support digits are not. One seven-way node: Parvicursorinae. 21 tips, 1 polytomies (7 children); 3 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

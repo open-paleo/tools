@@ -1,0 +1,43 @@
+#NEXUS
+
+[ agnolín2021a_fig10: Ceratosaur tree, read by eye. Seven clade names beside large node discs are kept as internal labels, as printed: CERATOSAURIA, ABELISAUROIDEA, NOAS. (abbreviated, for Noasauridae), ABELISAURIDAE, MAJUN. (abbreviated, for Majungasaurinae), BRACHYROSTRA and CARNOTAURINAE. Polytomies: NOAS. (Masiakasaurus, Noasaurus, Velocisaurus), Rajasaurus-Indosaurus-Majungasaurus, and BRACHYROSTRA (six tips and Carnotaurinae). 30 tips, 3 polytomies (3, 3, 7 children); 7 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=30;
+    TAXLABELS
+        Herrerasaurus
+        Coelophysis
+        Allosaurus
+        Spinostropheus
+        Limusaurus
+        Elaphrosaurus
+        Genyodectes
+        Ceratosaurus
+        Eoabelisaurus
+        Ligabueino
+        Masiakasaurus
+        Noasaurus
+        Velocisaurus
+        Spectrovenator
+        Rugops
+        Viavenator
+        Rahiolisaurus
+        Arcovenator
+        Rajasaurus
+        Indosaurus
+        Majungasaurus
+        Llukalkan
+        Niebla
+        Guemesia
+        Skorpiovenator
+        Ekrixinatosaurus
+        Ilokelesia
+        Carnotaurus
+        Aucasaurus
+        Abelisaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'agnolín2021a_fig10' = [&R] (Herrerasaurus,(Coelophysis,(Allosaurus,((Spinostropheus,(Limusaurus,Elaphrosaurus)),((Genyodectes,Ceratosaurus),(Eoabelisaurus,(Ligabueino,((Masiakasaurus,Noasaurus,Velocisaurus)NOAS.,(Spectrovenator,(Rugops,(Viavenator,((Rahiolisaurus,(Arcovenator,(Rajasaurus,Indosaurus,Majungasaurus)))MAJUN.,(Llukalkan,Niebla,Guemesia,Skorpiovenator,Ekrixinatosaurus,Ilokelesia,(Carnotaurus,(Aucasaurus,Abelisaurus))CARNOTAURINAE)BRACHYROSTRA))))ABELISAURIDAE)))ABELISAUROIDEA))CERATOSAURIA)));
+END;

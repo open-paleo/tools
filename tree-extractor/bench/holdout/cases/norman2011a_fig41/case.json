@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/norman2011a_fig41.png",
+  "names": "names.txt",
+  "source": "Norman et al. 2011, Zoological Journal of the Linnean Society, Fig. 41: the single most parsimonious tree of Fig. 40 after minor branch swapping within Cerapoda (per the caption), early ornithischians and outgroups; vertical, root at the bottom, thick lines, tree statistics beside the root. Image: census 2 figure (1943x2098 px), a 600 dpi page render of the image.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the specimen tip 'BMNH A100' and the higher taxa Pachycephalosauridae, Ankylopollexia and Psittacosauridae",
+  "gold": "gold.nex",
+  "gold_note": "Ornithischian tree with outgroups, read by eye; fully resolved, no clade names printed. 14 tips, fully resolved. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

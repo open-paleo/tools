@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/krause2007a_fig9.png",
+  "names": "names.txt",
+  "source": "Krause et al. 2007, Journal of Vertebrate Paleontology 27, Fig. 9A: panel A, a published hypothesis of ceratosaur relationships (Sampson et al. 1998, as labelled); slanted, root lower left, clade names under node points. Panels B-D (other published hypotheses over overlapping taxa) are excluded. Image: census 2 figure (2001x1492 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 990,
+    "y1": 700
+  },
+  "region_note": "panel A (top left); B-D are other published hypotheses",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A (genera)",
+  "gold": "gold.nex",
+  "gold_note": "Panel A, read by eye. Ceratosauria and Abelisauridae, printed just under their node points, are kept as internal labels; the source line 'Sampson et al. (1998)' is not a name. One four-way node: Abelisauridae (Abelisaurus, Indosuchus, Carnotaurus and Majungatholus, which continues the backbone). 7 tips, 1 polytomies (4 children); 2 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

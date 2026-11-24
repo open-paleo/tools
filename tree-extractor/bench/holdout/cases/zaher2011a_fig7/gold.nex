@@ -1,0 +1,37 @@
+#NEXUS
+
+[ zaher2011a_fig7: Neosauropod time tree, read by eye at 2x. Seven names at node dots are kept as internal labels: Neosauropoda, Somphospondyli, Titanosauria, Lithostrotia, “advanced titanosaurians” (with its quotation marks, as printed), Nemegtosauridae (joined to its dot by an arrow) and Saltasauridae. 'basal eusauropods', on an arrow leaving the root to the left, names the outgroups and is not a tip. One three-way node: Nigersaurus-Rayososaurus-Rebbachisaurus. 24 tips, 1 polytomies (3 children); 7 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Barosaurus
+        Diplococus
+        Apatosaurus
+        Dicraeosaurus
+        Amargasaurus
+        Nigersaurus
+        Rayososaurus
+        Rebbachisaurus
+        Haplocanthosaurus
+        Camarasaurus
+        Brachiosaurus
+        Euhelopus
+        Phuwiangosaurus
+        Tangvayosaurus
+        Malawisaurus
+        Nemegtosaurus
+        Tapuiasaurus
+        Rapetosaurus
+        Isisaurus
+        Diamantinasaurus
+        Opisthocoelicaudia
+        Alamosaurus
+        Neuquensaurus
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE zaher2011a_fig7 = [&R] ((((((Barosaurus,Diplococus),Apatosaurus),(Dicraeosaurus,Amargasaurus)),(Nigersaurus,Rayososaurus,Rebbachisaurus)),Haplocanthosaurus),(Camarasaurus,(Brachiosaurus,(Euhelopus,(Phuwiangosaurus,(Tangvayosaurus,(Malawisaurus,((Nemegtosaurus,(Tapuiasaurus,Rapetosaurus))Nemegtosauridae,(Isisaurus,(Diamantinasaurus,((Opisthocoelicaudia,Alamosaurus),(Neuquensaurus,Saltasaurus))Saltasauridae)))'“advanced titanosaurians”')Lithostrotia))Titanosauria)Somphospondyli)))Neosauropoda;
+END;

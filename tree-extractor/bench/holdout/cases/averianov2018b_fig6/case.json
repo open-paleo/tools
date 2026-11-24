@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/averianov2018b_fig6.png",
+  "names": "names.txt",
+  "source": "Averianov and Efimov 2018, Biological Communications 63, Fig. 6: titanosaur phylogeny placing Volgatitan (bold); nodes drawn as diagonal fans with short horizontal shoulders, root left, support values above the nodes, clade names joined to nodes by thin leader lines. Image: census 2 figure (1014x1098 px), a 300 dpi page render of the image.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including '“Huanghetitan” ruyangensis' (curly quotes) and the specimen tip 'AODF 836'",
+  "gold": "gold.nex",
+  "gold_note": "Titanosaur tree, read by eye; every child leaves its node on a diagonal, so a node is the point where the diagonals meet. Lithostrotia, Saltasauridae and Lognkosauria (spelled as printed), joined to nodes by leader lines, are kept as internal labels; the support digits are not. Polytomies: the root (six tips and the rest), the five-tip node beside the Isisaurus-Saltasauridae clade, Pitekunsaurus-Volgatitan-the rest, Muyelensaurus-Rinconsaurus-Lognkosauria, and Notocolossus-Patagotitan-Puertasaurus. 35 tips, 5 polytomies (7, 6, 3, 3, 3 children); 3 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

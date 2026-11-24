@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/vanderlinden2025a_fig1.png",
+  "names": "names.txt",
+  "source": "van der Linden et al. 2025, Palaeontologia Electronica 28, Fig. 1: generalized, time-correlated tree of the main diplodocoid clades; vertical, root at the bottom, thick lines with black range bars against a stage chart and numerical ages at the left, clade names at node dots (node-based) or at grey triangles on stems (stem-based), with a legend. Image: census 2 figure (1945x1815 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed names of the seven terminal branches: six clades (Limaysaurinae, Rebbachisaurinae, Dicraeosauridae, Diplodocinae, Apatosaurinae, Macronaria) and the genus Haplocanthosaurus. Macronaria's bar has no name at its top; the name is printed at its base, on the stem triangle",
+  "gold": "gold.nex",
+  "gold_note": "Clade diagram, read by eye. Terminal branches are named by the stem-based names on them (Macronaria's at its base). Internal labels: Khebbashia, Flagellicaudata and Diplodocimorpha (node-based, at grey dots), Diplodocidae and Diplodocoidea (stem-based names whose content is the node above the triangle). Rebbachisauridae, stem-based on the branch below Khebbashia, has the same content as Khebbashia in this tree; one label per node, so it is not encoded. Fully resolved. 7 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

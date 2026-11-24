@@ -1,0 +1,22 @@
+#NEXUS
+
+[ turner2012a_fig1: Slanted cladogram of nine coelurosaur groups, read by eye; fully resolved. Dromaeosauridae's branch leaves the Troodontidae branch partway along, so the two are sisters and Avialae is their sister. The silhouettes are not encoded. 9 tips, fully resolved. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=9;
+    TAXLABELS
+        Tyrannosauridae
+        Compsognathidae
+        Ornithomimosauria
+        Alvarezsauridae
+        Therizinosauria
+        Oviraptorosauria
+        Troodontidae
+        Dromaeosauridae
+        Avialae
+    ;
+END;
+
+BEGIN TREES;
+    TREE turner2012a_fig1 = [&R] (Tyrannosauridae,(Compsognathidae,(Ornithomimosauria,(Alvarezsauridae,(Therizinosauria,(Oviraptorosauria,((Troodontidae,Dromaeosauridae),Avialae)))))));
+END;

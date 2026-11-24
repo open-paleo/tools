@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/lamanna2014a_fig7.png",
+  "names": "names.txt",
+  "source": "Lamanna et al. 2014, PLoS ONE 9, Fig. 7: time-calibrated strict consensus of oviraptorosaurs placing Anzu wyliei (bold); vertical, root at the bottom, black range bars at the tips against a stage chart at the left, Bremer values beside the nodes, clade names in capitals at node dots or joined to them by curved arrows. Image: census 2 figure (1931x1740 px), the embedded raster.",
+  "license": "CC0 1.0",
+  "attribution": "Lamanna, M. C.; Sues, H. D.; Schachner, E. R.; Lyson, T. R. (2014). A new large-bodied oviraptorosaurian theropod dinosaur from the latest Cretaceous of western North America. PLoS ONE. https://doi.org/10.1371/journal.pone.0092022. Fig. 7. CC0 1.0.",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'Alberta dentary morph 3', '‘Caenagnathus’ sternbergi' (curly quotes) and 'Zamyn Khondt oviraptorid'",
+  "gold": "gold.nex",
+  "gold_note": "Oviraptorosaur time tree, read by eye at full size. Five clade names at node dots are kept as internal labels: OVIRAPTOROSAURIA, CAUDIPTERYGIDAE and CAENAGNATHIDAE (the last two joined by curved arrows), CAENAGNATHOIDEA and OVIRAPTORIDAE; the Bremer values are not encoded. Polytomies: Alberta dentary morph 3-Leptorhynchos-the 'Caenagnathus' sternbergi clade, and the seven-way node from Jiangxisaurus to the Ingenia-Heyuannia pair. 33 tips, 2 polytomies (3, 7 children); 5 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

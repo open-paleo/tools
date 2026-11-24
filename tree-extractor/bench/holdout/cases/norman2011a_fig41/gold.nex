@@ -1,0 +1,27 @@
+#NEXUS
+
+[ norman2011a_fig41: Ornithischian tree with outgroups, read by eye; fully resolved, no clade names printed. 14 tips, fully resolved. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=14;
+    TAXLABELS
+        Euparkeria
+        Herrerasaurus
+        Abrictosaurus
+        Heterodontosaurus
+        BMNH_A100
+        Lesothosaurus
+        Emausaurus
+        Scelidosaurus
+        Agilisaurus
+        Hexinlusaurus
+        Hypsilophodon
+        Pachycephalosauridae
+        Ankylopollexia
+        Psittacosauridae
+    ;
+END;
+
+BEGIN TREES;
+    TREE norman2011a_fig41 = [&R] (Euparkeria,(Herrerasaurus,((Abrictosaurus,(Heterodontosaurus,BMNH_A100)),((Lesothosaurus,(Emausaurus,Scelidosaurus)),(Agilisaurus,(Hexinlusaurus,((Hypsilophodon,Pachycephalosauridae),(Ankylopollexia,Psittacosauridae))))))));
+END;

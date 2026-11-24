@@ -1,0 +1,34 @@
+#NEXUS
+
+[ lee2019a_fig8: Alvarezsaurian tree, read by eye. Alvarezsauria, Alvarezsauridae and Parvicursorinae, joined by arrows to node dots, are kept as internal labels; the support digits are not. One seven-way node: Parvicursorinae. 21 tips, 1 polytomies (7 children); 3 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=21;
+    TAXLABELS
+        Outgroup_taxa
+        Aorun_zhaoi
+        Haplocheirus_sollers
+        Xiyunykus_pengi
+        Tugulusaurus_faciles
+        Bannykus_wulatensis
+        Bonapartenykus_ultimus
+        Patagonykus_puertai
+        Achillesaurus_manazzonei
+        Alvarezsaurus_calvoi
+        Albertonykus_borealis
+        Qiupanykus_zhangi
+        Nemegtonykus_citus
+        Shuvuuia_deserti
+        Parvicursor_remotus
+        Mononykus_olecranus
+        Linhenykus_monodactylus
+        Ceratonykus_oculatus
+        Kol_ghuva
+        Xixianykus_zhangi
+        Albinykus_baatar
+    ;
+END;
+
+BEGIN TREES;
+    TREE lee2019a_fig8 = [&R] (Outgroup_taxa,(Aorun_zhaoi,(Haplocheirus_sollers,((Xiyunykus_pengi,Tugulusaurus_faciles),(Bannykus_wulatensis,(Bonapartenykus_ultimus,(Patagonykus_puertai,(Achillesaurus_manazzonei,(Alvarezsaurus_calvoi,(Albertonykus_borealis,(Qiupanykus_zhangi,(Nemegtonykus_citus,Shuvuuia_deserti,Parvicursor_remotus,Mononykus_olecranus,Linhenykus_monodactylus,Ceratonykus_oculatus,(Kol_ghuva,(Xixianykus_zhangi,Albinykus_baatar)))Parvicursorinae)))Alvarezsauridae)))))))Alvarezsauria);
+END;

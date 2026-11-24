@@ -1,0 +1,46 @@
+#NEXUS
+
+[ lamanna2014a_fig7: Oviraptorosaur time tree, read by eye at full size. Five clade names at node dots are kept as internal labels: OVIRAPTOROSAURIA, CAUDIPTERYGIDAE and CAENAGNATHIDAE (the last two joined by curved arrows), CAENAGNATHOIDEA and OVIRAPTORIDAE; the Bremer values are not encoded. Polytomies: Alberta dentary morph 3-Leptorhynchos-the 'Caenagnathus' sternbergi clade, and the seven-way node from Jiangxisaurus to the Ingenia-Heyuannia pair. 33 tips, 2 polytomies (3, 7 children); 5 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=33;
+    TAXLABELS
+        Velociraptor_mongoliensis
+        Archaeopteryx_lithographica
+        Incisivosaurus_gauthieri
+        Similicaudipteryx_yixianensis
+        Caudipteryx_dongi
+        Caudipteryx_zoui
+        Avimimus_portentosus
+        Microvenator_celer
+        Gigantoraptor_erlianensis
+        Caenagnathasia_martinsoni
+        Alberta_dentary_morph_3
+        Leptorhynchos_gaddisi
+        '‘Caenagnathus’ sternbergi'
+        Anzu_wyliei
+        Caenagnathus_collinsi
+        Nankangia_jiangxiensis
+        Yulong_mini
+        Nomingia_gobiensis
+        Oviraptor_philoceratops
+        Rinchenia_mongoliensis
+        Zamyn_Khondt_oviraptorid
+        Citipati_osmolskae
+        Wulatelong_gobiensis
+        Banji_long
+        Shixinggia_oblita
+        Jiangxisaurus_ganzhouensis
+        Ganzhousaurus_nankangensis
+        Nemegtomaia_barsboldi
+        Machairasaurus_leptonychus
+        Conchoraptor_gracilis
+        Khaan_mckennai
+        Ingenia_yanshini
+        Heyuannia_huangi
+    ;
+END;
+
+BEGIN TREES;
+    TREE lamanna2014a_fig7 = [&R] (Velociraptor_mongoliensis,(Archaeopteryx_lithographica,(Incisivosaurus_gauthieri,((Similicaudipteryx_yixianensis,(Caudipteryx_dongi,Caudipteryx_zoui))CAUDIPTERYGIDAE,(Avimimus_portentosus,((Microvenator_celer,(Gigantoraptor_erlianensis,(Caenagnathasia_martinsoni,(Alberta_dentary_morph_3,Leptorhynchos_gaddisi,('‘Caenagnathus’ sternbergi',(Anzu_wyliei,Caenagnathus_collinsi))))))CAENAGNATHIDAE,((Nankangia_jiangxiensis,(Yulong_mini,Nomingia_gobiensis)),(Oviraptor_philoceratops,((Rinchenia_mongoliensis,(Zamyn_Khondt_oviraptorid,Citipati_osmolskae)),((Wulatelong_gobiensis,Banji_long),(Shixinggia_oblita,(Jiangxisaurus_ganzhouensis,Ganzhousaurus_nankangensis,Nemegtomaia_barsboldi,Machairasaurus_leptonychus,Conchoraptor_gracilis,Khaan_mckennai,(Ingenia_yanshini,Heyuannia_huangi)))))))OVIRAPTORIDAE)CAENAGNATHOIDEA)))OVIRAPTOROSAURIA));
+END;

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/wilson2002a_fig13.png",
+  "names": "names.txt",
+  "source": "Wilson 2002, Zoological Journal of the Linnean Society 136, Fig. 13A: panel A, the most parsimonious tree of this analysis (its statistics give mpt = 3); slanted, root at the bottom, thick lines, open circles on named nodes with clade names in capitals beside them or joined by curved arrows, two dashed arrows in the titanosaur part, tree statistics. Panel B (a 50% majority-rule consensus from a pruned matrix, with percentages) is excluded. Image: census 2 figure (3669x4167 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 3669,
+    "y1": 2100
+  },
+  "region_note": "panel A (top); panel B below is a pruned majority-rule tree",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A (genera), including \"'T.' colberti\"",
+  "gold": "gold.nex",
+  "gold_note": "Panel A, read by eye at 1.2-2x. Fourteen clade names at node circles are kept as internal labels (SAUROPODA, EUSAUROPODA, NEOSAUROPODA, DIPLODOCOIDEA, REBBACHISAURIDAE, DICRAEOSAURIDAE, DIPLODOCIDAE, MACRONARIA, TITANOSAURIFORMES, SOMPHOSPONDYLI, TITANOSAURIA, SALTASAURIDAE, OPISTHOCOELICAUDIINAE, SALTASAURINAE). Where a tip's line runs through a node circle and on down as the stem (Nigersaurus, Amargasaurus, Opisthocoelicaudia, Saltasaurus), the tip is a child of that node. Nemegtosaurus joins Rapetosaurus by a short solid bracket; the two dashed arrows (from that bracket and from the Opisthocoelicaudiinae circle to the 'T.' colberti junction) mark alternative placements and are not part of the gold tree. One three-way node: REBBACHISAURIDAE (Nigersaurus, Rebbachisaurus, Rayososaurus). 27 tips, 1 polytomies (3 children); 14 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

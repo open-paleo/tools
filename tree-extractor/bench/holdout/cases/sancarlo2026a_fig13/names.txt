@@ -1,0 +1,42 @@
+Allosaurus
+Compsognathus
+ornithomimosauria
+maniraptora
+Sinotyrannus
+Yutyrannus
+Kileskus
+Proceratosaurus
+Guanlong
+Aviatyrannis
+Dilong
+Stokesosaurus
+Juratyrant
+Eotyrannus
+Xiongguanlong
+Timurlengia
+CMNH7541 Nanotyrannus
+BMRP2002.4.1 Gilmoretyrannus
+HRS08
+NCSM4000 Larsonvenator
+LACM28471 Stygivenator
+Dryptosaurus
+Appalachiosaurus
+Qianzhousaurus
+A.altai
+A.remotus
+Gorgosaurus
+Albertosaurus
+Bistahieversor
+Teratophoneus
+Dynamoterror
+Lythronax
+Thanatotheristes
+D.torosus
+D.horneri
+T?mcraeensis
+Nanuqsaurus
+Zhuchengtyrannus
+Tarbosaurus
+T.imperator
+T.rex
+T.regina

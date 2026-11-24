@@ -587,3 +587,77 @@ Run before any change was made for these figures. They are not a sample and are 
 - you2009a_fig3: 12 of 35, 8 of 9 scored splits, one wrong. Rows of solid circles and squares.
 - tschopp2012a_fig11: 0 of 14. Rows of solid and open circles on every branch; printed on its side.
 - With serrano-brañas2016a_fig11 (6 of 12): the figures whose marks are ticks read whole, and the three whose marks are rows of circles or squares do not.
+
+
+# Sample 6 (census 2 extended to draw 120)
+
+Drawn from census 2's trees that had no gold case, after the census was extended for this sample (corpus `census2/`, commit e6df0d64; images at `../../../../../../corpus/census2/figures/{id}.png`, as for samples 4 and 5).
+
+## How the sample was drawn
+
+- **Census extension:** after sample 5, 13 readable census-2 trees had no gold. Census 2 was continued along its own seeded order (seed 20261130) with draws 82-120, located and classified with the same rules: 2 losses, 3 located non-trees, 34 trees. Census 2 now has 120 draws and 94 trees. One drawn figure's paper key changed after the draw (fernández2022a_fig21, now paper regaladofernández2022a); the case id keeps the drawn id. See `census2/README.md`.
+- **Population:** census 2's 94 trees, minus those with cases, minus the five recorded unreadable (ramírez-velasco2022a_fig4, mcphee2018a_fig2, morrison2026a_fig5, morrison2026a_fig6, samathi2019a_fig1): 47 trees (13 from draws 1-81, 34 from draws 82-120), all in the three layout strata.
+- **Strata:** layout by time axis, largest remainder: rectangular 3 + 10, slanted 0 + 3, vertical 3 + 1 (with + without time axis), from pools of 8, 23, 0, 7, 6 and 3.
+- **Draw:** `random.Random(20261231)`, `rng.sample` per stratum; skips replaced from the stratum's remaining pool by `random.Random(20261231 + k)`. Strict on size: a figure is skipped only when its tree cannot be read from the image. Script: `census2/scripts/gold_draw6.py`; picks, pools and replacements: `census2/scripts/gold_draw6_result.json`.
+
+Pools:
+
+- rectangular, no time axis (23): agnolín2021a_fig10 averianov2018b_fig6 averianov2021c_fig8 cau2015a_fig6 evans2007a_fig9 fanti2012a_fig8 gasca2015a_fig7 godefroit2012b_fig21 lee2019a_fig8 moore2020a_fig25 müller2018b_fig39 prieto-márquez2011b_fig3 raven2023a_fig3 rotatori2026a_fig4 sancarlo2026a_fig13 sancarlo2026a_fig14 sethapanichsakul2026a_fig14 srivastava2026a_fig20 turner2012a_fig59 turner2012a_fig62 turner2012a_fig79 wang2016z_fig8 yu2018a_fig4
+- slanted, no time axis (7): czepiński2019a_fig18 harris2004a_fig4 krause2007a_fig9 otero2010a_fig15 turner2012a_fig1 turner2012a_fig5 wilson2002a_fig13
+- rectangular, time axis (8): cruzado-caballero2017a_fig14 fernández2022a_fig21 hattori2023a_fig9 jiménezvelandia2025a_fig8 meso2024a_fig7 poole2022a_fig8 salgado2017a_fig4 sánchez-fenollosa2026a_fig11
+- vertical, time axis (6): fanti2013a_fig4 lamanna2014a_fig7 langer2019a_fig13 pinheiro2018a_fig11 vanderlinden2025a_fig1 zaher2011a_fig7
+- vertical, no time axis (3): knoll2019z_fig4 norman2011a_fig41 norman2020b_fig24
+
+Drawn: meso2024a_fig7 hattori2023a_fig9 poole2022a_fig8 | wang2016z_fig8 agnolín2021a_fig10 sancarlo2026a_fig13 lee2019a_fig8 averianov2018b_fig6 moore2020a_fig25 gasca2015a_fig7 evans2007a_fig9 turner2012a_fig59 yu2018a_fig4 | krause2007a_fig9 wilson2002a_fig13 turner2012a_fig1 | vanderlinden2025a_fig1 zaher2011a_fig7 lamanna2014a_fig7 | norman2011a_fig41
+
+## Sample 6 (20 cases, one skip replaced)
+
+| Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
+|---|---|---|---:|---|---:|---|---|---|
+| meso2024a_fig7 | rectangular | yes | 23 | 3 | - | printed | image-transcription | ? |
+| hattori2023a_fig9 | rectangular | yes | 19 | 7, 3, 7 | 2 | printed | image-transcription | yes |
+| poole2022a_fig8 | rectangular | yes | 68 | - | 13 | printed | pdf-vector | yes |
+| wang2016z_fig8 | rectangular | no | 61 | 22, 4 | 8 | printed | image-transcription | ? |
+| agnolín2021a_fig10 | rectangular | no | 30 | 3, 3, 7 | 7 | printed | image-transcription | ? |
+| sancarlo2026a_fig13 | rectangular | no | 42 | 3, 4, 3, 3 | - | printed | image-transcription | ? |
+| lee2019a_fig8 | rectangular | no | 21 | 7 | 3 | printed | image-transcription | yes |
+| averianov2018b_fig6 | rectangular | no | 35 | 7, 6, 3, 3, 3 | 3 | printed | image-transcription | ? |
+| moore2020a_fig25 | rectangular | no | 92 | 4, 4, 4, 3, 3, 3, 3, 3, 5, 3, 4 | 9 | printed | image-transcription | ? |
+| gasca2015a_fig7 | rectangular | no | 43 | 5, 3, 7 | - | printed | image-transcription | ? |
+| evans2007a_fig9 | rectangular | no | 18 | 3 | - | printed | image-transcription | ? |
+| sancarlo2026a_fig14 | rectangular | no | 42 | 4, 3, 3, 3 | - | printed | image-transcription | ? |
+| yu2018a_fig4 | rectangular | no | 18 | 4, 3, 6 | - | printed | image-transcription | yes |
+| krause2007a_fig9 | slanted | no | 7 | 4 | 2 | printed | image-transcription | ? |
+| wilson2002a_fig13 | slanted | no | 27 | 3 | 14 | printed | image-transcription | ? |
+| turner2012a_fig1 | slanted | no | 9 | - | - | printed | image-transcription | ? |
+| vanderlinden2025a_fig1 | vertical | yes | 7 | - | 5 | printed | image-transcription | ? |
+| zaher2011a_fig7 | vertical | yes | 24 | 3 | 7 | printed | image-transcription | yes |
+| lamanna2014a_fig7 | vertical | yes | 33 | 3, 7 | 5 | printed | image-transcription | yes |
+| norman2011a_fig41 | vertical | no | 14 | - | - | printed | image-transcription | ? |
+
+Skip (for unreadable topology; none for size):
+
+- `turner2012a_fig59` (rectangular, no time axis): Pyroraptor olympius is drawn 13 times in grey on alternative branches ('13 positions'), so the figure shows no single tree (the samathi2019a_fig1 and pol2022a_fig6 reason). Replaced by seed 20261232: `sancarlo2026a_fig14`.
+
+Notes on sample 6:
+
+- Panels, each with a `region`: yu2018a_fig4 a (b is another tree), sancarlo2026a_fig13 left tree (the caption reads the two right to left: equal weights, extended implied weights), krause2007a_fig9 A (one of four published hypotheses), wilson2002a_fig13 A (B is a majority-rule tree from a pruned matrix). moore2020a_fig25's census image is panel B only; the case says Fig. 25B and needs no region.
+- Not encoded: lettered node discs (evans2007a A-F), open node circles (meso2024a), 'Unnamed node' (poole2022a), 'basal eusauropods' on an arrow leaving the root (zaher2011a), the dashed arrows marking alternative placements in wilson2002a_fig13 A (the solid tree is the gold), and hattori2023a's Aviatyrannis, printed on a dotted line that joins nothing (the caption says the analysis did not include it; not in names.txt).
+- Labels as printed: abbreviations agnolín2021a 'NOAS.' and 'MAJUN.'; zaher2011a '“advanced titanosaurians”' with its quotation marks; moore2020a 'CMT clade'. Tip spellings as printed: 'Diplococus' (zaher2011a), 'Ligabuesaurus lenzai' (moore2020a), '"Probactrosaurus" mazongshanens' (gasca2015a).
+- vanderlinden2025a_fig1 is a clade diagram: six terminal branches are clades named by stem-based labels (Macronaria's at its base) and one is the genus Haplocanthosaurus. Rebbachisauridae has the same content as Khebbashia in this tree and is not encoded (one label per node).
+- Where a stem enters a node at a tip's level and runs on as that tip's branch, the tip is read as a child of the node (as in earlier batches): hattori2023a (Deinocheirus, Galimimus), meso2024a, sancarlo2026a_fig13 and fig14, moore2020a (Camarasaurus node).
+- poole2022a_fig8 was read from the PDF's own vector lines (68 tips in printed order; the text is outlined, so names were assigned by order and checked against the image). averianov2018b_fig6 and wilson2002a's nodes are diagonal fans or slanted joins; moore2020a_fig25 is a low-resolution raster with small type.
+- None of these census images cuts off tips.
+
+What is left in census 2 after sample 6: 32 trees without gold, 6 of them recorded unreadable (the five above and turner2012a_fig59), leaving 26.
+
+### Sample 6 baseline (tree extractor 0.12.0 plus the enlarged reading, commit d7a28c6, run cold on 2026-11-23)
+
+Run before any change was made for these figures.
+
+- Names: 557 of 633 (88%). Exact matches: 8 of 20 (wang2016z_fig8, agnolín2021a_fig10, sancarlo2026a_fig13, sancarlo2026a_fig14, evans2007a_fig9, krause2007a_fig9, turner2012a_fig1, norman2011a_fig41).
+- Splits, among the tips named: 371 of 404 (92%), with 14 wrong splits, nine of them on two upward time trees (zaher2011a_fig7 3 of 12 with 5 wrong, lamanna2014a_fig7 6 of 21 with 4 wrong).
+- Three figures named under 70% of their tips: yu2018a_fig4 0 of 18, vanderlinden2025a_fig1 1 of 7, averianov2018b_fig6 20 of 35. zaher2011a_fig7 named 15 of 24 (63%) as well, which makes four.
+- The `reading-doubtful` warning marked three of those four (not zaher2011a_fig7) and none of the 14 at 90 percent or more.
+- The commit the batch ran at is one after 0.12.0: it reads a figure of small type at twice its size as well, made for pretto2018a_fig11 an hour before the batch arrived and without sight of it. moore2020a_fig25 was read that way and named 89 of 92; without the step it names 76. At 0.12.0 as tagged the batch would so have named 544 of 633 (86%).
+- Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%.

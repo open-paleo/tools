@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/hattori2023a_fig9.png",
+  "names": "names.txt",
+  "source": "Hattori et al. 2023, Scientific Reports 13, Fig. 9: strict consensus placing Tyrannomimus (bold) within Ornithomimosauria; rectangular, root left, coloured range bars by region at the tips against a stage chart below, Bremer values below the nodes, brackets at the right naming Deinocheiridae and Ornithomimidae, a colour legend. Aviatyrannis is drawn at the top on a dotted line that joins nothing. Image: census 2 figure (1418x1468 px), the embedded raster.",
+  "license": "CC BY 4.0",
+  "attribution": "Hattori, S.; Shibata, M.; Kawabe, S.; Imai, T.; Nishi, H.; Azuma, Y. (2023). New theropod dinosaur from the Lower Cretaceous of Japan provides critical implications for the early evolution of ornithomimosaurs. Scientific Reports. https://doi.org/10.1038/s41598-023-40804-3. Fig. 9. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names of the tree, including the specimen tip 'LH-02-01' and 'Bissekty ornithomimid'. Aviatyrannis is printed but is not in the tree (the caption says the analysis did not include it), so it is not listed",
+  "gold": "gold.nex",
+  "gold_note": "Ornithomimosaur strict consensus, read by eye. Aviatyrannis, on a dotted line that does not join the tree, is left out (not in the analysis, per the caption). Deinocheiridae and Ornithomimidae, on brackets at the right that each span exactly one clade, are kept as internal labels. Two lines cross a node's vertical and are read as that node's stem with the tip as a child (as in earlier batches): Deinocheirus (into the Garudimimus-Paraxenisaurus node) and Galimimus (into the Sinornithomimus node). Polytomies: the root (five tips and two clades), Garudimimus-Deinocheirus-Paraxenisaurus, and the seven-way Sinornithomimus node. 19 tips, 3 polytomies (7, 3, 7 children); 2 printed clade names kept as internal node labels. Sample 6 case (census 2 extended to draw 120, seed 20261231). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}
