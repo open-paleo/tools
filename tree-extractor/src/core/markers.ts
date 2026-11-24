@@ -465,9 +465,13 @@ export function createColoredMask(image: RgbaImage, threshold: number, minChroma
  * @param threshold - Luminance below which the main rule counts a colored pixel as dark.
  * @param minChroma - Chroma the main rule requires.
  * @param radius - Half-width of the erosion square; strokes thinner than its width are thin.
+ * @param beside - The thin ink of the main colored rule, or null. A stretch of a branch may
+ *   be drawn in another color than the rest, where branches are colored by a rate, say, and
+ *   a short one in a muted color is by itself too short for a line: it is judged together
+ *   with the colored ink it continues (Meso 2024, 33 pixels of purple between blue).
  * @returns The pixels of those lines.
  */
-export function findOffColorLines(image: RgbaImage, threshold: number, minChroma: number, radius: number): Mask
+export function findOffColorLines(image: RgbaImage, threshold: number, minChroma: number, radius: number, beside: Mask | null = null): Mask
 {
     const offColor = createOffColorMask(image, threshold, minChroma);
     const thin = subtractMask(offColor, dilate(erode(offColor, radius), radius + 2));
@@ -475,6 +479,107 @@ export function findOffColorLines(image: RgbaImage, threshold: number, minChroma
     removeLoops(thin, Math.max(2, radius), 8 * radius);
     const lines = keepColoredLines(thin, 6 * radius);
     removeDashes(lines);
+
+    if (beside === null)
+    {
+        return lines;
+    }
+
+    // A piece too short to stand as a line is one all the same where it joins two ends of
+    // the colored ink: touched at two places as far apart as most of its own length. An
+    // edge of a colored bar, or a mark beside a colored branch, touches it at one.
+    const near = dilate(beside, 1);
+    const labeling = findConnectedComponents(thin);
+    const joiners = new Array<number>();
+
+    for (let label = 1; label <= labeling.components.length; label++)
+    {
+        const { box } = labeling.components[label - 1];
+        const long = Math.max(box.x1 - box.x0, box.y1 - box.y0);
+        const upright = box.y1 - box.y0 >= box.x1 - box.x0;
+        const touched = new Set<number>();
+        let first = -1;
+        let last = -1;
+        let kept = false;
+
+        if (long < 2 * radius)
+        {
+            continue;
+        }
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                const index = y * thin.width + x;
+
+                if (labeling.labels[index] !== label)
+                {
+                    continue;
+                }
+
+                kept = kept || lines.data[index] === 1;
+
+                if (near.data[index] === 1)
+                {
+                    const along = upright ? y : x;
+                    first = first < 0 ? along : Math.min(first, along);
+                    last = Math.max(last, along);
+                    touched.add(along);
+                }
+            }
+        }
+
+        // At its two ends, and no broader than a line: within a fifth of its length of
+        // each end, and its short side no more than the erosion took for thin.
+        const start = upright ? box.y0 : box.x0;
+        const end = upright ? box.y1 - 1 : box.x1 - 1;
+        const across = Math.min(box.x1 - box.x0, box.y1 - box.y0);
+
+        // And as broad as a line, touched at its ends alone: the soft fringe of a colored
+        // line is an off-color sliver a pixel or two broad that lies against it all the
+        // way (Delcourt 2018, Foth 2017).
+        if (kept || first < 0 || first - start > 0.2 * long || end - last > 0.2 * long || across > radius + 2 || across < radius || 10 * touched.size > 7 * long)
+        {
+            continue;
+        }
+
+        joiners.push(label);
+    }
+
+    // Three or more in one column or row are the stripes of a line drawn in two colors by
+    // turns, which is a pattern and not a branch with a stretch recolored (Foth 2017).
+    for (const label of joiners)
+    {
+        const { box } = labeling.components[label - 1];
+        const upright = box.y1 - box.y0 >= box.x1 - box.x0;
+        let alike = 0;
+
+        for (const other of joiners)
+        {
+            const otherBox = labeling.components[other - 1].box;
+
+            alike += upright
+                ? (Math.abs(otherBox.x0 - box.x0) <= 2 && Math.abs(otherBox.x1 - box.x1) <= 2 ? 1 : 0)
+                : (Math.abs(otherBox.y0 - box.y0) <= 2 && Math.abs(otherBox.y1 - box.y1) <= 2 ? 1 : 0);
+        }
+
+        if (alike >= 3)
+        {
+            continue;
+        }
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                if (labeling.labels[y * thin.width + x] === label)
+                {
+                    lines.data[y * thin.width + x] = 1;
+                }
+            }
+        }
+    }
 
     return lines;
 }

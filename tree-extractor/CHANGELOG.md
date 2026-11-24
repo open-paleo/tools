@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- A short stretch of a branch drawn in another color than the rest is kept as line where it
+  joins two ends of the colored line: where branches are colored by a rate, a stretch in a
+  muted color was by itself too short for a line and left a gap (Meso 2024, figs 6 and 7:
+  16 of 19 scored splits with one wrong to 18 of 19 with none).
+
 ## 0.13.0 (2026-11-24)
 
 - A riser drawn at a slant and cut by a clade's name printed across it is mended. Whether a

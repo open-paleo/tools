@@ -452,7 +452,7 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters, rowsFarAp
     const darkInk = createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma);
     // Lines in a muted or a vivid light color join the line ink too, unless they run along a
     // filled shape: a range bar's darker edge is such a stroke (Wang 2025).
-    const offColorStrokes = findOffColorLines(image, parameters.coloredThreshold, parameters.coloredMinChroma, markerRadius);
+    const offColorStrokes = findOffColorLines(image, parameters.coloredThreshold, parameters.coloredMinChroma, markerRadius, colored.thin);
     // Where the figure's colored lines are themselves thick, a shape is filled only if it is
     // thicker still.
     const filled = markerRadius === parameters.markerRadius ? roughMarkers : unionMask(colored.fat, findFatShapes(createColoredMask(image, 235, 30), markerRadius));
