@@ -1022,11 +1022,14 @@ export async function readLabels(
 
             for (const line of document.textLines)
             {
-                const lift = tip.y - line.box.y1;
+                // Over the branch, or under it: the name of a collapsed clade is set under
+                // its wedge, by the node (Yu 2018).
+                const under = line.box.y0 >= tip.y;
+                const lift = under ? line.box.y0 - tip.y : tip.y - line.box.y1;
                 const shared = Math.min(line.box.x1, tip.x + 2 * glyph) - Math.max(line.box.x0, parent.x);
                 const along = 2 * shared >= line.box.x1 - line.box.x0 && tip.x - line.box.x1 >= -4 * glyph;
 
-                if (tip.textLine !== null || line.role !== "unassigned" || line.frame !== undefined || !isLabelSized(line, glyph) || lift < -0.3 * glyph || lift > 1.2 * glyph || !along)
+                if (tip.textLine !== null || line.role !== "unassigned" || line.frame !== undefined || !isLabelSized(line, glyph) || lift < -0.3 * glyph || lift > (under ? 1.6 : 1.2) * glyph || !along)
                 {
                     continue;
                 }

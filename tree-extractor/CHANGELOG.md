@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Collapsed clades drawn as wedges are read as branches (`wedges-flattened`): a solid
+  triangle with its point at the node is replaced by a line to its broad end. Three or more
+  that open to the right also settle that the root is on the left, and the names set under
+  them are paired with their tips (Yu 2018, fig. 4: no names of 18 to 15).
+- A name set under its branch, along it, is paired with the tip as one over it is, when it
+  reads as a name of the list (Penkalski 2018 and Qiu 2025 gain names).
 - A figure with letters under ten pixels tall is read at twice its size as well, when the
   reading as it stands leaves tips unplaced, and the reading that places clearly more tips
   is kept (`figure-enlarged`). Pretto 2018 goes from 1 of 44 names to 39, Dai 2022 fig. 9

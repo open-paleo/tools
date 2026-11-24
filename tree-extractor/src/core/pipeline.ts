@@ -25,6 +25,7 @@ import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { assessReading } from "./assess.ts";
 import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
+import { flattenWedges } from "./wedges.ts";
 import { joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
 import { clearDarkGrounds } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
@@ -401,9 +402,11 @@ export type PreparedMasks = {
  *
  * @param image - Decoded RGBA image.
  * @param parameters - Thresholds.
+ * @param rowsFarApart - Whether the labels are known to stand far apart, so that their
+ *   spacing sets no floor for the letter height.
  * @returns The masks and the glyph height.
  */
-export function prepareMasks(image: RgbaImage, parameters: Parameters): PreparedMasks
+export function prepareMasks(image: RgbaImage, parameters: Parameters, rowsFarApart = false): PreparedMasks
 {
     const gray = convertToGray(image);
     let textInk = createDarkMask(image, parameters.inkThreshold, false, parameters.maxChroma);
@@ -485,14 +488,14 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
     let stripHorizontal = parameters.glyphStripHorizontalRun;
     let stripVertical = parameters.glyphStripVerticalRun;
     let roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
-    let rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers });
+    let rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart });
 
     for (let pass = 0; pass < 6 && (2.3 * rough.glyphHeight > stripHorizontal || 1.7 * rough.glyphHeight > stripVertical); pass++)
     {
         stripHorizontal = Math.max(stripHorizontal, Math.round(2.3 * rough.glyphHeight));
         stripVertical = Math.max(stripVertical, Math.round(1.7 * rough.glyphHeight));
         roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
-        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers });
+        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart });
     }
 
     // A thin font breaks into fragments at the strict threshold, and very small text always
@@ -526,7 +529,7 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters): Prepared
         runInk = applyHysteresis(textInk, faint);
         textInk = applyHysteresis(textInk, faintStrokes);
         roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
-        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers });
+        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart });
 
         // Widening is meant to mend letters. Where it leaves fewer than half the rows the
         // plain ink gave, it has joined letters and rows instead, and the plain ink stands
@@ -1959,6 +1962,11 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
 }
 
 /**
+ * Fewest wedges of collapsed clades for a figure's labels to be taken as standing far apart.
+ */
+const wedgesForFarRows = 3;
+
+/**
  * Median letter height in pixels up to which a figure is read enlarged.
  */
 const smallTypeHeight = 9;
@@ -2265,7 +2273,12 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const inkAdaptation = parameters.adaptiveInk ? adaptInkThresholds(parameters, sourceCrop) : null;
     const orientationFind = parameters.rotation === "auto" ? detectOrientation(sourceCrop, parameters.inkThreshold, parameters.lineThreshold, parameters.maxChroma, parameters.coloredThreshold, parameters.coloredMinChroma, parameters.markerRadius) : null;
     const forced = parameters.rotation === "root-bottom" || parameters.rotation === "root-top" ? parameters.rotation : null;
-    const orientation: Orientation = forced ?? (orientationFind === null ? "root-left" : orientationFind.orientation);
+    // Wedges that open to the right say where the tips are: the collapsed clades of a tree
+    // with its root on the left. Their names stand under them, and by the branch ends alone
+    // such a figure looks like one on its side (Yu 2018: no end with a label to its right,
+    // five with one above).
+    const opensRight = parameters.rotation === "auto" && flattenWedges(sourceCrop, parameters.inkThreshold).lines >= wedgesForFarRows;
+    const orientation: Orientation = forced ?? (orientationFind === null || opensRight ? "root-left" : orientationFind.orientation);
     const slantedFigure = parameters.slantedTrees && orientationFind !== null && orientationFind.slanted;
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
     const turnedImage = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
@@ -2273,8 +2286,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const dashed = joinDashedLines(turnedImage, parameters.inkThreshold);
     // And bars drawn in hatching are filled.
     const hatched = fillHatchedBars(dashed.image, parameters.inkThreshold);
-    const image = hatched.image;
+    const flattened = flattenWedges(hatched.image, parameters.inkThreshold);
+    const image = flattened.image;
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (flattened.lines > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "wedges-flattened", message: `${flattened.lines} wedge(s) drawn for collapsed clades were read as branches`, subject: null });
+    }
 
     if (hatched.lines > 0)
     {
@@ -2338,7 +2357,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     }
 
     announce("Preparing masks");
-    const { gray, textInk, runInk, lineInk, glyphMask, markers, paleMarkers, knownLines, fragmented, widened, glyphHeight, roughLines } = prepareMasks(image, parameters);
+    const { gray, textInk, runInk, lineInk, glyphMask, markers, paleMarkers, knownLines, fragmented, widened, glyphHeight, roughLines } = prepareMasks(image, parameters, flattened.lines >= wedgesForFarRows);
     recordLap("masks");
     announce("Finding segments");
 
@@ -2734,7 +2753,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     // for a marker.
     const tipMarkers = slantedFigure ? keepShapesBeyond(findFatShapes(subtractMask(textInk, lineInk), Math.max(2, Math.round(thickness / 5))), traceSlantedTree(lineInk, thickness, glyphHeight, roughBoxes).result.tips, 2 * glyphHeight) : null;
     const slantedTrace = slantedFigure ? traceSlantedTree(lineInk, thickness, glyphHeight, roughBoxes, tipMarkers) : null;
-    const trace = slantedTrace === null ? traceRectangularTree(horizontals, verticals, tolerance, reach, labelBoxes, 3 * glyphHeight, labelRows, 1.5 * glyphHeight, connectors) : slantedTrace.result;
+    const trace = slantedTrace === null ? traceRectangularTree(horizontals, verticals, tolerance, reach, labelBoxes, 3 * glyphHeight, labelRows, 1.5 * glyphHeight, connectors, flattened.lines >= wedgesForFarRows) : slantedTrace.result;
     recordLap("trace");
     announce("Finding labels");
 
@@ -2762,7 +2781,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const lineArtMask = slantedTrace === null
         ? dilate(keepInkInBoxes(lineArtBoxes, textInk, glyphMask, thickness), 1)
         : dilate(slantedTrace.skeleton, Math.max(1, Math.round(thickness / 2) + 1));
-    const text = detectTextLines(smallDiscs.length + markChains.length === 0 ? textInk : blankMaskAreas(textInk, [...smallDiscs, ...markChains]), { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers) });
+    const text = detectTextLines(smallDiscs.length + markChains.length === 0 ? textInk : blankMaskAreas(textInk, [...smallDiscs, ...markChains]), { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers), rowsFarApart: flattened.lines >= wedgesForFarRows });
 
     // Labels set at a slant are found again in a level frame of their own; the level rows in
     // that zone, fragments of the same labels, give way to them.

@@ -26,6 +26,13 @@ export type TextLineOptions = {
      * however hollow it reads once the line art is taken out of it.
      */
     markerMask?: Mask;
+
+    /**
+     * Whether the labels are known to stand far apart, as the names of collapsed clades do,
+     * each a wedge from the next. The spacing of the rows then says nothing of the letters'
+     * height and sets no floor for it (Yu 2018, letters of 8 pixels taken for 26).
+     */
+    rowsFarApart?: boolean;
 };
 
 /**
@@ -707,7 +714,7 @@ export function detectTextLines(ink: Mask, options: TextLineOptions): TextDetect
     let lines = clusterIntoLines(selected.glyphs, selected.uprights, glyphHeight);
     const pitch = estimateRowPitch(lines, glyphHeight);
     const floor = pitch === null ? 0 : Math.round(0.45 * pitch);
-    const fragmented = floor > glyphHeight + 1;
+    const fragmented = floor > glyphHeight + 1 && options.rowsFarApart !== true;
 
     if (fragmented)
     {

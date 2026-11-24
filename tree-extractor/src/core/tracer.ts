@@ -312,8 +312,10 @@ function splitAtCrossings(horizontals: Array<Segment>, candidates: Array<Candida
  * @param labelRows - Boxes of tip-label-sized text rows.
  * @param tolerance - Attachment tolerance in pixels.
  * @param reach - Largest gap between a vertical and a label that still counts as glued.
+ * @param namesUnderBranches - Whether the figure sets names under branches by their node, as
+ *   it does those of collapsed clades.
  */
-function addGluedBranches(branches: Array<Branch>, candidates: Array<Candidate>, labelRows: Array<Box>, tolerance: number, reach: number): void
+function addGluedBranches(branches: Array<Branch>, candidates: Array<Candidate>, labelRows: Array<Box>, tolerance: number, reach: number, namesUnderBranches: boolean): void
 {
     for (const row of labelRows)
     {
@@ -389,7 +391,26 @@ function addGluedBranches(branches: Array<Branch>, candidates: Array<Candidate>,
 
             // A name glued to its node stands right against the vertical; these numbers
             // begin at the first mark, well along the branch (Hartman 2019 has the former).
-            if (!hasBranch && leaves && apart >= 0 && apart <= 0.6 * tall && branch.x1 >= row.x1 && row.x0 - vertical.x >= 0.75 * tall)
+            // Or, in a figure with collapsed clades, no other label stands at the branch's
+            // end: the row is then the branch's own name, set under it by its node (Yu
+            // 2018). Elsewhere a branch with no label at its end leads on to a node, and the
+            // name over it is a taxon's on a branch of no length (Otero 2015).
+            let named = !namesUnderBranches;
+
+            for (const other of labelRows)
+            {
+                const gap = other.x0 - branch.x1;
+
+                if (other !== row && gap >= -reach && gap <= 3 * tall && branch.y >= other.y0 - tolerance && branch.y <= other.y1 + tolerance)
+                {
+                    named = true;
+                }
+            }
+
+            // Such a name may stand a little further off: under a wedge, by its broad side.
+            const close = apart <= 0.6 * tall || (!named && branch.y < center && apart <= 1.6 * tall);
+
+            if (!hasBranch && leaves && apart >= 0 && close && branch.x1 >= row.x1 && (row.x0 - vertical.x >= 0.75 * tall || !named))
             {
                 hasBranch = true;
             }
@@ -930,6 +951,8 @@ function renumberTips(nodes: Map<string, TreeNode>, tips: Map<string, Tip>, root
  * @param labelReach - How far left of a vertical its support label may sit.
  * @param labelRows - Boxes of tip-label-sized text rows, for zero-length branches.
  * @param gluedReach - Largest gap between a vertical and a label that still counts as glued.
+ * @param connectors - Ids of the segments that are connectors.
+ * @param namesUnderBranches - Whether the figure sets names under branches by their node.
  * @returns Nodes, tips, root and findings.
  */
 export function traceRectangularTree(
@@ -942,6 +965,7 @@ export function traceRectangularTree(
     labelRows: Array<Box> = [],
     gluedReach = 0,
     connectors: Set<string> = new Set<string>(),
+    namesUnderBranches = false,
 ): TraceResult
 {
     const issues = new Array<QcIssue>();
@@ -960,7 +984,7 @@ export function traceRectangularTree(
     }
 
     const branches = splitAtCrossings(horizontals, candidates, tolerance);
-    addGluedBranches(branches, candidates, labelRows, tolerance, gluedReach);
+    addGluedBranches(branches, candidates, labelRows, tolerance, gluedReach, namesUnderBranches);
     const rejected = new Array<RejectedVertical>();
     const active = attachAndPrune(branches, candidates, tolerance, looseTolerance, rejected);
     const usedSegments = new Set<string>();
