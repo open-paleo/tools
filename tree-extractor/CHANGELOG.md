@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- The rules of a time scale ruled across the plot in thin gray lines are erased before the
+  tree is traced (`scale-rules-erased`). Turned on its side, an upward time tree has them
+  as uprights the height of the tree, which were nodes with every branch they cross as a
+  child. Lamanna 2014 goes from 6 of 21 splits with 4 wrong to 24 of 24 and matches its
+  gold tree; Rotatori 2023 gains five names and Pérez-Pueyo 2019 two.
 - Collapsed clades drawn as wedges are read as branches (`wedges-flattened`): a solid
   triangle with its point at the node is replaced by a line to its broad end. Three or more
   that open to the right also settle that the root is on the left, and the names set under

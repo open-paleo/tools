@@ -25,6 +25,7 @@ import { getTipDisplayName } from "./newick.ts";
 import { assignBoxedNames } from "./clade-boxes.ts";
 import { assessReading } from "./assess.ts";
 import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
+import { eraseScaleRules } from "./rules.ts";
 import { flattenWedges } from "./wedges.ts";
 import { joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
 import { clearDarkGrounds } from "./grounds.ts";
@@ -2254,7 +2255,10 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const blanked = excluded.length === 0 ? readable : blankAreas(readable, excluded);
     // Dotted guide lines go first of all: their dots pass for letters, hundreds of them, and
     // a figure's letter height is then the height of a dot (Fiorillo 2014).
-    const undotted = eraseDottedLines(blanked);
+    // The rules of a time scale go before the dots: turned, they are uprights the height of
+    // the tree.
+    const unruled = eraseScaleRules(blanked);
+    const undotted = eraseDottedLines(unruled.image);
     // So does a ground as dark as ink, which would be one solid block of it.
     const cleared = clearDarkGrounds(undotted.image, parameters.maxChroma, parameters.lineThreshold, parameters.inkThreshold);
     const sourceImage = cleared.image;
@@ -2289,6 +2293,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const flattened = flattenWedges(hatched.image, parameters.inkThreshold);
     const image = flattened.image;
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (unruled.rules > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "scale-rules-erased", message: `${unruled.rules} thin gray rule(s) ruled across the plot were left out as the rules of a time scale`, subject: null });
+    }
 
     if (flattened.lines > 0)
     {
