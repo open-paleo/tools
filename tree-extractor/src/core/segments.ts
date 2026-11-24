@@ -834,6 +834,29 @@ function mergeCollinearBoxes(boxes: Array<Box>, alongX: boolean, maxGap: number,
                     continue;
                 }
 
+                // A slanted stroke comes as a stair of level pieces, each a pixel under the
+                // last, and joined they are one box as tall as the stroke climbs, which takes
+                // in any branch it ends on: the shaft of an arrow that points at a branch
+                // (Carr 2010). Level pieces of one line make a box no taller than four of
+                // the thinner one.
+                const tall = alongX ? Math.max(first.y1, second.y1) - Math.min(first.y0, second.y0) : 0;
+
+                const taller = alongX ? Math.max(first.y1 - first.y0, second.y1 - second.y0) : 0;
+
+                // A thin piece within the height of a solid bar adds nothing to it; a tall box
+                // that is mostly white is a slanted piece itself.
+                const thick = first.y1 - first.y0 >= second.y1 - second.y0 ? first : second;
+                const solid = tall === taller && (ink === null || measureMaskShare(ink, thick) >= 0.6);
+
+                // And the stroke climbs a pixel in twenty-five or more: a line of a scan set
+                // a little askew climbs far less (Gohlich 2006).
+                const long = Math.max(first.x1, second.x1) - Math.min(first.x0, second.x0);
+
+                if (!solid && tall > 4 * Math.max(thinner, 2) && 25 * (tall - thinner) > long)
+                {
+                    continue;
+                }
+
                 if (overlap >= 0.5 * thinner && (ink === null || gap <= 0 || hasInkBetween(ink, first, second, alongX, window, gapInkShare)))
                 {
                     if (gap > 0)

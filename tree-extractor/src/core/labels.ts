@@ -3,7 +3,7 @@
  * against a name list.
  */
 
-import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, ProgressReporter, RotatedFrame, TextLine, Tip, TreeNode } from "./types.ts";
+import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, OcrResult, ProgressReporter, RotatedFrame, TextLine, Tip, TreeNode } from "./types.ts";
 import { compareNumbers, computeMedian, cropAndScale } from "./raster.ts";
 import { createId, sortChildren } from "./edit.ts";
 import { mapPointToFrame } from "./geometry.ts";
@@ -827,6 +827,32 @@ function measureRowPitch(document: ExtractionDocument): number | null
 }
 
 /**
+ * Finds the line before a row of a label set over its branch: an unclaimed row resting on it,
+ * starting where it starts.
+ *
+ * @param document - Document with labels assigned.
+ * @param row - A row of the label.
+ * @returns The row over it, or null.
+ */
+function findLineOver(document: ExtractionDocument, row: TextLine): TextLine | null
+{
+    const glyph = document.glyphHeight;
+
+    for (const other of document.textLines)
+    {
+        const gap = row.box.y0 - other.box.y1;
+        const aligned = Math.abs(other.box.x0 - row.box.x0) <= glyph / 2;
+
+        if (other.role === "unassigned" && other.frame === undefined && other.glyphCount >= 3 && aligned && gap >= -glyph / 4 && gap <= glyph / 2)
+        {
+            return other;
+        }
+    }
+
+    return null;
+}
+
+/**
  * Finds the second line of a tip's label: an unclaimed row just under the first, starting at
  * the same place, and nearer to it than rows of different tips stand to one another.
  *
@@ -965,6 +991,82 @@ export async function readLabels(
         }
 
         return turned;
+    }
+
+    // Pairs a tip left without a name with one set over its branch somewhere along it: a
+    // name too long for a short branch begins before the node, and the last line of a name
+    // set in two ends short of the branch's end (Carr 2010, "Albertosaurus / libratus" and
+    // "Bistahieversor / sealeyi"). Rows of numbers stand over branches in the same way, so
+    // the row, with the rows stacked on it, must read as a name of the list that no tip has.
+    async function pairLabelsOverBranches(): Promise<void>
+    {
+        const attached = collectAttachedTips(document);
+        const glyph = document.glyphHeight;
+
+        for (const tip of document.tips)
+        {
+            let parent: TreeNode | null = null;
+
+            for (const node of document.nodes)
+            {
+                if (node.id === tip.parent)
+                {
+                    parent = node;
+                }
+            }
+
+            if (tip.textLine !== null || parent === null || !attached.has(tip.id))
+            {
+                continue;
+            }
+
+            for (const line of document.textLines)
+            {
+                const lift = tip.y - line.box.y1;
+                const shared = Math.min(line.box.x1, tip.x + 2 * glyph) - Math.max(line.box.x0, parent.x);
+                const along = 2 * shared >= line.box.x1 - line.box.x0 && tip.x - line.box.x1 >= -4 * glyph;
+
+                if (tip.textLine !== null || line.role !== "unassigned" || line.frame !== undefined || !isLabelSized(line, glyph) || lift < -0.3 * glyph || lift > 1.2 * glyph || !along)
+                {
+                    continue;
+                }
+
+                const rows = [line];
+                let upper = findLineOver(document, line);
+
+                while (upper !== null && rows.length < 4)
+                {
+                    rows.unshift(upper);
+                    upper = findLineOver(document, upper);
+                }
+
+                const parts = new Array<string>();
+                const readings = new Array<OcrResult>();
+
+                for (const row of rows)
+                {
+                    const reading = await ocr.recognize(cropAndScale(chooseSource(row), row.box, 3, scale, scale * document.profile.font.condensing), "text");
+                    readings.push(reading);
+                    parts.push(cleanTaxonText(reading.text));
+                }
+
+                const label = parts.join(" ").trim();
+                const match = chooseMatch(label.length > 0 ? label : null, names, knownNames, knownClades);
+
+                if (match !== null && match.accepted && match.source === "list" && !isNameHeld(document, match.name))
+                {
+                    tip.textLine = line.id;
+                    tip.label = label;
+                    tip.match = match;
+
+                    for (let index = 0; index < rows.length; index++)
+                    {
+                        rows[index].role = "tip";
+                        rows[index].ocr = readings[index];
+                    }
+                }
+            }
+        }
     }
 
     // Pairs the tips with their names by order where the names stand apart from the branch
@@ -1207,6 +1309,43 @@ export async function readLabels(
             // closer than the next tip's row would be, with no tip of its own (Otero 2015:
             // "basalmost" over "sauropodomorphs"). It is taken unless the first line alone
             // names a taxon and the two together do not.
+            // A label set over its branch in several lines: the row paired is the last, and
+            // the rows stacked on it, starting where it starts, are the lines before it (Carr
+            // 2010, a list of specimens over four lines). They are taken when together they
+            // read as a name: numbers stand in rows over a branch too.
+            if (tip.label !== null && line.frame === undefined && line.box.y1 <= tip.y + 0.3 * document.glyphHeight && line.box.x0 < tip.x)
+            {
+                const rows = new Array<TextLine>();
+                const readings = new Array<OcrResult>();
+                let joined = tip.label;
+                let upper = findLineOver(document, line);
+
+                // A row's reading is kept on it only once the row is taken: a later step
+                // reads the rows still free in its own way.
+                while (upper !== null && rows.length < 3)
+                {
+                    const reading = await ocr.recognize(cropAndScale(chooseSource(upper), upper.box, 3, scale, scale * condensing), "text");
+                    joined = `${cleanTaxonText(reading.text)} ${joined}`.trim();
+                    rows.push(upper);
+                    readings.push(reading);
+                    upper = findLineOver(document, upper);
+                }
+
+                const joinedMatch = chooseMatch(joined, names, knownNames, knownClades);
+
+                if (rows.length > 0 && joinedMatch !== null && joinedMatch.accepted)
+                {
+                    tip.label = joined;
+                    tip.match = joinedMatch;
+
+                    for (let index = 0; index < rows.length; index++)
+                    {
+                        rows[index].role = "tip";
+                        rows[index].ocr = readings[index];
+                    }
+                }
+            }
+
             const second = findSecondLine(document, line, rowPitch);
 
             if (second !== null && tip.label !== null)
@@ -1271,7 +1410,10 @@ export async function readLabels(
         }
     }
 
+    // In order first: where the names of a whole figure stand apart, that pairs them all,
+    // and pairing some of them here would leave it too few to go by (Zanno 2009).
     await pairLabelsInOrder();
+    await pairLabelsOverBranches();
 
     for (const node of document.nodes)
     {

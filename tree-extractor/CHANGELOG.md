@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A slanted stroke that ends on a branch no longer takes the branch with it: the shaft of
+  an arrow pointing at the tree was joined, step by step, into one level segment as tall as
+  the arrow climbs (Carr 2010, where it detached a clade of nine tips).
+- A name set over its branch in two lines or more is read whole, and a name over a branch
+  is paired with its tip when it begins before the node or ends short of the branch's end,
+  provided it reads as a name of the list (Carr 2010, 16 of 25 names to 22).
 - You 2009 reads as one tree (14 of 35 names to 34). A solid dot that a branch runs through
   is found by the two caps it leaves over and under the line, and no longer joins the
   lettering. A row of numbers printed along a branch is not given a tip of its own. A figure
