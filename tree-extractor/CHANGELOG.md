@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.13.0 (2026-11-24)
 
 - A riser drawn at a slant and cut by a clade's name printed across it is mended. Whether a
   branch stands at the cut is judged by the breadth of the riser's line and not of its
