@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.12.0 (2026-11-23)
 
 - Slanted strokes no longer count when the figure's thickest lines are measured: four arrow
   shafts made the shortest vertical longer than a node's own (Carr 2010, Monolophosaurus).
