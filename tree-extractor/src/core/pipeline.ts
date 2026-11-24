@@ -860,9 +860,13 @@ type RowPart = {
  * @param glyphMask - Glyph pixels of the rough pass.
  * @param lineInk - Ink known for line.
  * @param glyphHeight - Glyph height in pixels.
+ * @param onlyLeading - Whether to part a row only after a short piece at its start: a
+ *   support value or the short riser of a fork, then the tip's stub, then its name, where
+ *   the riser is the size of a letter and the row begins with it (Averianov 2018). The
+ *   stub must then be a glyph and a half long and line all the way.
  * @returns The rows, those parted given as their parts.
  */
-function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask, glyphHeight: number): Array<RowPart>
+function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask, glyphHeight: number, onlyLeading = false): Array<RowPart>
 {
     const parts = new Array<RowPart>();
 
@@ -873,6 +877,8 @@ function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask,
         let lineStart = -1;
         let lined = 0;
         let seenLetters = false;
+        let lettered = 0;
+        let letteredBefore = 0;
 
         for (let x = box.x0; x < box.x1; x++)
         {
@@ -888,6 +894,7 @@ function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask,
 
             if (letters < 3)
             {
+                letteredBefore = lineStart < 0 ? lettered : letteredBefore;
                 lineStart = lineStart < 0 ? x : lineStart;
                 lined += line > 0 ? 1 : 0;
                 continue;
@@ -898,12 +905,25 @@ function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask,
             // is still part of its word.
             const before = lineStart - (cuts.length === 0 ? box.x0 : cuts[cuts.length - 1]);
 
-            if (lineStart >= 0 && seenLetters && x - lineStart >= glyphHeight && lined >= 0.75 * (x - lineStart) && before >= 2 * glyphHeight && box.x1 - x >= 2 * glyphHeight)
+            const stretch = x - lineStart;
+            const parted = !onlyLeading && stretch >= glyphHeight && lined >= 0.75 * stretch && before >= 2 * glyphHeight;
+            // The piece at the start is strokes, a digit and a riser, and not a solid block:
+            // a range bar before its branch and its name is a block (Wang 2025).
+            const sparse = 10 * letteredBefore <= 4 * Math.max(1, before) * (box.y1 - box.y0);
+            // And it ends in a riser: a stroke that climbs or falls to the stub's height
+            // over the glyph before the stub. A node's age or a bar's end before a branch is
+            // level, and the row there is left whole (two synthetic strict cases).
+            const riserFrom = Math.max(box.x0, lineStart - glyphHeight);
+            const rises = lineStart - riserFrom >= 6 && climbsAcross(glyphMask, { x0: riserFrom, y0: box.y0, x1: lineStart, y1: box.y1 }, 0.25);
+            const led = cuts.length === 0 && before < 2.5 * glyphHeight && stretch >= 1.5 * glyphHeight && lined >= 0.9 * stretch && sparse && rises;
+
+            if (lineStart >= 0 && seenLetters && (parted || led) && box.x1 - x >= 2 * glyphHeight)
             {
                 cuts.push(lineStart, x);
             }
 
             seenLetters = true;
+            lettered += letters;
             lineStart = -1;
             lined = 0;
         }
@@ -2024,9 +2044,10 @@ function reduceBox(box: Box, factor: number): Box
  *
  * @param mask - Ink.
  * @param box - Box of the piece.
+ * @param share - Share of the box's height the ink must climb by.
  * @returns Whether the piece climbs.
  */
-function climbsAcross(mask: Mask, box: Box): boolean
+function climbsAcross(mask: Mask, box: Box, share = 0.5): boolean
 {
     const quarter = Math.max(1, Math.round((box.x1 - box.x0) / 4));
 
@@ -2050,7 +2071,7 @@ function climbsAcross(mask: Mask, box: Box): boolean
         return count === 0 ? (box.y0 + box.y1) / 2 : sum / count;
     }
 
-    return Math.abs(measureMeanRow(box.x0, box.x0 + quarter) - measureMeanRow(box.x1 - quarter, box.x1)) >= (box.y1 - box.y0) / 2;
+    return Math.abs(measureMeanRow(box.x0, box.x0 + quarter) - measureMeanRow(box.x1 - quarter, box.x1)) >= share * (box.y1 - box.y0);
 }
 
 /**
@@ -2544,7 +2565,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     // In a figure with thick colored branches the rough rows are parted where a line runs
     // through them; elsewhere a row with a stretch of line in it is a label with its bar.
-    for (const line of knownLines === null ? roughLines : splitRowsAtLines(roughLines, glyphMask, knownLines, glyphHeight))
+    for (const line of splitRowsAtLines(roughLines, glyphMask, knownLines ?? lineInk, glyphHeight, knownLines === null))
     {
         // Touching letters, or an underscore joining words, can make a whole label one component.
         const width = line.box.x1 - line.box.x0;

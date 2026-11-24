@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- At a small fork, the short riser to a tip is the size of a letter and began the text row
+  of the tip's name, which then covered the tip's branch. A row is parted after a short,
+  sparse piece at its start that ends in a riser and is followed by a stretch of line
+  (Averianov 2018, fig. 6: 31 of 35 names to 34).
 - A short stretch of a branch drawn in another color than the rest is kept as line where it
   joins two ends of the colored line: where branches are colored by a rate, a stretch in a
   muted color was by itself too short for a line and left a gap (Meso 2024, figs 6 and 7:
