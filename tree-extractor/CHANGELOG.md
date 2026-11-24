@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Marks for character changes drawn on a branch no longer cut it (Serrano-Brañas 2016, 6 of
+  12 names to 12): a row of solid squares is not taken for a row of text, and a chain of
+  open rings joined by short pieces of the branch is taken out of the lettering and the
+  branch drawn through it.
 - Sen 2025 reads as one tree (21 of 38 names to 31): a stem is joined to the end of its
   run where a digit stands on its corner, and pieces of one run that touch are joined
   where a letter stands at the seam; a vertical cut by a name just under a node's dot is

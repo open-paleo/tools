@@ -15,7 +15,7 @@ import type { SlantedLabels } from "./slant.ts";
 import type { OrientationFind } from "./orientation.ts";
 import { assignAges, calibrateAxis } from "./timescale.ts";
 import type { ChartStripFind } from "./markers.ts";
-import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
+import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, findMarkChains, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, keepComponentsWithin, transposeMask } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
@@ -2278,6 +2278,39 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const inkForRuns: Mask = { width: runInk.width, height: runInk.height, data: new Uint8Array(runInk.data) };
     paintCrosses(inkForRuns, nodeDiscs, thickness, 1.2 * glyphHeight);
 
+    // A chain of open marks on a branch is taken out of the lettering and the branch drawn
+    // through it; a row that began with the chain begins after it, or is no row at all.
+    const markChains = parameters.nodeDiscs ? findMarkChains(textInk, lineInk, glyphHeight, thickness) : [];
+
+    for (const chain of markChains)
+    {
+        const middle = Math.round((chain.y0 + chain.y1) / 2);
+        const half = Math.max(1, Math.round(thickness / 2));
+
+        for (const mask of [lineArt, inkForRuns])
+        {
+            for (let y = Math.max(0, chain.y0); y < Math.min(mask.height, chain.y1); y++)
+            {
+                for (let x = Math.max(0, chain.x0 - 2); x < Math.min(mask.width, chain.x1 + 2); x++)
+                {
+                    mask.data[y * mask.width + x] = y >= middle - half && y < middle + half ? 1 : 0;
+                }
+            }
+        }
+
+        for (const line of roughLines)
+        {
+            const overlap = Math.min(chain.y1, line.box.y1) - Math.max(chain.y0, line.box.y0);
+
+            // Also a row that began a little before the chain, with the stub of branch the
+            // chain starts from.
+            if (2 * overlap >= chain.y1 - chain.y0 && line.box.x0 >= chain.x0 - 2 * glyphHeight && line.box.x0 <= chain.x1)
+            {
+                line.box = { x0: Math.min(line.box.x1, chain.x1 + 1), y0: line.box.y0, x1: line.box.x1, y1: line.box.y1 };
+            }
+        }
+    }
+
     // A support value printed on a node, in a gap left in the lines, is joined through too.
     const junctionNumbers = new Array<Box>();
 
@@ -2351,6 +2384,21 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const textRows = new Array<Box>();
     const letterRows = new Array<Box>();
     const reachRows = new Array<Box>();
+    // The ink of marks on branches: line ink, and with it the chains of open marks, which
+    // are lettering by their ink.
+    const marksInk: Mask = { width: lineInk.width, height: lineInk.height, data: new Uint8Array(lineInk.data) };
+
+    for (const chain of markChains)
+    {
+        for (let y = Math.max(0, chain.y0); y < Math.min(marksInk.height, chain.y1); y++)
+        {
+            for (let x = Math.max(0, chain.x0); x < Math.min(marksInk.width, chain.x1); x++)
+            {
+                marksInk.data[y * marksInk.width + x] = Math.max(marksInk.data[y * marksInk.width + x], textInk.data[y * marksInk.width + x]);
+            }
+        }
+    }
+
     const labelRows = new Array<Box>();
     const markerInk = unionMask(markers, paleMarkers);
 
@@ -2363,7 +2411,18 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         const wordsMerged = width >= 6 * glyphHeight;
         // A row that is a range bar or oval alone, with no letters, is no text row: it must
         // neither clip the branch that runs into it nor stand in for a label.
-        const marker = measureInkShare(markerInk, line.box) >= 0.5;
+        // Nor is a row of solid marks set on a branch, squares for the characters that change
+        // on it: they stand in a row like letters, and the row would clip the branch they are
+        // drawn on (Serrano-Branas 2016, six squares on a stem). Their ink is line ink.
+        // Half the box, and the row's own ink within a tenth or so: a label beside a thick
+        // bar has its letters besides, and one printed on a solid bar lies in line ink that
+        // is far more than its letters (Wang 2025, a clade's name on its bar).
+        const lineShare = measureInkShare(marksInk, line.box);
+        // And several marks, each no longer than two letters and a half: one long block that
+        // is all line ink is a range bar, and the row it makes is where its branch stops.
+        const inkShare = measureInkShare(textInk, line.box);
+        const marks = line.glyphCount >= 4 && width <= 2.5 * glyphHeight * line.glyphCount && lineShare >= 0.5 && lineShare >= 0.9 * inkShare && lineShare <= 1.15 * inkShare;
+        const marker = measureInkShare(markerInk, line.box) >= 0.5 || marks;
 
         if ((line.glyphCount >= 5 || wordsMerged) && width >= 3 * glyphHeight && !marker)
         {
@@ -2591,7 +2650,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const lineArtMask = slantedTrace === null
         ? dilate(keepInkInBoxes(lineArtBoxes, textInk, glyphMask, thickness), 1)
         : dilate(slantedTrace.skeleton, Math.max(1, Math.round(thickness / 2) + 1));
-    const text = detectTextLines(smallDiscs.length === 0 ? textInk : blankMaskAreas(textInk, smallDiscs), { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers) });
+    const text = detectTextLines(smallDiscs.length + markChains.length === 0 ? textInk : blankMaskAreas(textInk, [...smallDiscs, ...markChains]), { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers) });
 
     // Labels set at a slant are found again in a level frame of their own; the level rows in
     // that zone, fragments of the same labels, give way to them.

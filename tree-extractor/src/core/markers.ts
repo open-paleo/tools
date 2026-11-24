@@ -1194,6 +1194,183 @@ export function extendTipsThroughMarkers(document: ExtractionDocument, fat: Mask
 }
 
 /**
+ * Finds the chains of open marks drawn on branches: rings for the characters that change on a
+ * branch, joined by short pieces of the branch itself (Serrano-Branas 2016). No stretch of
+ * such a chain is long enough to be line, so the whole of it goes with the lettering and the
+ * branch has a hole as long as the chain. A chain is one piece of ink that is not line ink,
+ * a letter tall and at least a letter and a half long, made of thin pieces at its middle
+ * height and marks standing evenly about it, with line ink arriving at that height at both
+ * ends.
+ *
+ * @param textInk - Dark ink.
+ * @param lineInk - Line ink.
+ * @param glyphHeight - Glyph height in pixels.
+ * @param thickness - Line thickness in pixels.
+ * @returns Boxes of the chains.
+ */
+export function findMarkChains(textInk: Mask, lineInk: Mask, glyphHeight: number, thickness: number): Array<Box>
+{
+    const chains = new Array<Box>();
+    const { width, height } = textInk;
+    const letters = subtractMask(textInk, lineInk);
+    const reach = Math.max(3, Math.round(thickness));
+
+    function hasLineBeside(x0: number, x1: number, middle: number): boolean
+    {
+        for (let y = Math.max(0, middle - reach); y <= Math.min(height - 1, middle + reach); y++)
+        {
+            for (let x = Math.max(0, x0); x < Math.min(width, x1); x++)
+            {
+                if (lineInk.data[y * width + x] === 1)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Whether the three rows over a box and the three under it are all but white: a chain
+    // stands clear of the numbers printed about it, and a piece of a name in a speckled
+    // scan does not (Gohlich 2006).
+    function standsClear(box: Box): boolean
+    {
+        let inked = 0;
+        let all = 0;
+
+        for (const y0 of [box.y0 - 3, box.y1])
+        {
+            for (let y = Math.max(0, y0); y < Math.min(height, y0 + 3); y++)
+            {
+                for (let x = box.x0; x < box.x1; x++)
+                {
+                    inked += textInk.data[y * width + x];
+                    all++;
+                }
+            }
+        }
+
+        return 20 * inked <= all;
+    }
+
+    // Counts the white pixels of a box that ink closes in: the insides of the rings. All
+    // ink counts, since the branch itself may close the side of a ring.
+    function countEnclosed(box: Box): number
+    {
+        const wide = box.x1 - box.x0 + 2;
+        const tall = box.y1 - box.y0 + 2;
+        const seen = new Uint8Array(wide * tall);
+        const stack = [0];
+        let open = 0;
+        let white = 0;
+
+        seen[0] = 1;
+
+        function isInk(x: number, y: number): boolean
+        {
+            const atX = box.x0 - 1 + x;
+            const atY = box.y0 - 1 + y;
+
+            return x > 0 && y > 0 && x < wide - 1 && y < tall - 1 && textInk.data[atY * width + atX] === 1;
+        }
+
+        for (let y = 1; y < tall - 1; y++)
+        {
+            for (let x = 1; x < wide - 1; x++)
+            {
+                white += isInk(x, y) ? 0 : 1;
+            }
+        }
+
+        while (stack.length > 0)
+        {
+            const at = stack.pop() as number;
+            const x = at % wide;
+            const y = (at - x) / wide;
+
+            open += x > 0 && y > 0 && x < wide - 1 && y < tall - 1 ? 1 : 0;
+
+            for (const [nextX, nextY] of [[x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]])
+            {
+                if (nextX < 0 || nextY < 0 || nextX >= wide || nextY >= tall || seen[nextY * wide + nextX] === 1 || isInk(nextX, nextY))
+                {
+                    continue;
+                }
+
+                seen[nextY * wide + nextX] = 1;
+                stack.push(nextY * wide + nextX);
+            }
+        }
+
+        return white - open;
+    }
+
+    for (const component of findConnectedComponents(letters).components)
+    {
+        const { box } = component;
+        const wide = box.x1 - box.x0;
+        const tall = box.y1 - box.y0;
+
+        if (tall > 1.3 * glyphHeight || tall < 0.4 * glyphHeight || wide < 1.5 * glyphHeight)
+        {
+            continue;
+        }
+
+        // Every column is either a piece of the branch, thin and at the middle height, or
+        // part of a mark, standing above and below that height alike. A word that touches
+        // the lines has columns that are neither, and a dash has no marks.
+        const middle = Math.round((box.y0 + box.y1) / 2);
+        const band = Math.max(2, Math.round(tall / 4));
+        let thin = 0;
+        let marked = 0;
+
+        for (let x = box.x0; x < box.x1; x++)
+        {
+            let top = -1;
+            let bottom = -1;
+
+            for (let y = box.y0; y < box.y1; y++)
+            {
+                if (letters.data[y * width + x] === 1)
+                {
+                    top = top < 0 ? y : top;
+                    bottom = y;
+                }
+            }
+
+            if (top >= middle - band && bottom <= middle + band)
+            {
+                thin++;
+            }
+            else if (top < middle - band && bottom > middle + band && Math.abs((middle - top) - (bottom - middle)) <= band)
+            {
+                marked++;
+            }
+        }
+
+        // The rounded sides of a ring are neither, so three columns in five must fit.
+        const whole = 5 * (thin + marked) >= 3 * wide && 4 * thin >= wide && 5 * marked >= wide;
+
+        // And a ring closes in white, a tenth of the mark columns' area at the least; a bend
+        // in a line or a blot of a scan closes in none (Longrich 2024, Gohlich 2006).
+        if (whole && standsClear(box) && 10 * countEnclosed(box) >= marked * tall && hasLineBeside(box.x0 - reach - 1, box.x0, middle) && hasLineBeside(box.x1, box.x1 + reach + 1, middle))
+        {
+            chains.push(box);
+        }
+    }
+
+    // A figure that marks its characters so has many chains. One alone is an accident of
+    // the scan (Gohlich 2006, a piece of a name in a speckled panel).
+    if (chains.length < 2)
+    {
+        return [];
+    }
+
+    return chains;
+}
+
+/**
  * Finds the solid marks set on branches: a square, a triangle, an oval or a bar that stands
  * for a change of character on the branch it is drawn on (Senter 2012). The ink is eroded by
  * the line thickness, so the branches vanish and the cores of solid shapes remain, to be
