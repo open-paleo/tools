@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A band of a saturated color behind the tree, lighter than text ink but dark enough to
+  pass for a colored line, is cleared as a ground: it was one block of colored ink and
+  every branch on it was lost (Poole 2022, fig. 8, the blue of the Early Jurassic: 49 of 68
+  names to 64).
 - The rules of a time scale ruled across the plot in thin gray lines are erased before the
   tree is traced (`scale-rules-erased`). Turned on its side, an upward time tree has them
   as uprights the height of the tree, which were nodes with every branch they cross as a

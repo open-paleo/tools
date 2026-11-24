@@ -2260,7 +2260,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const unruled = eraseScaleRules(blanked);
     const undotted = eraseDottedLines(unruled.image);
     // So does a ground as dark as ink, which would be one solid block of it.
-    const cleared = clearDarkGrounds(undotted.image, parameters.maxChroma, parameters.lineThreshold, parameters.inkThreshold);
+    const cleared = clearDarkGrounds(undotted.image, parameters.maxChroma, parameters.lineThreshold, parameters.inkThreshold, parameters.coloredThreshold, parameters.coloredMinChroma);
     const sourceImage = cleared.image;
     const sourceRegion = options.region === undefined || options.region === null ? null : clampBox(options.region, sourceImage.width, sourceImage.height);
 

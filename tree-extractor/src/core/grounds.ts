@@ -68,9 +68,14 @@ const blackest = 80;
  * @param darkest - Luminance below which a neutral pixel counts as line ink.
  * @param darkText - Luminance below which a pixel of any color counts as text ink: a clade's
  *   box in a color that dark is one block in the text ink, and the names on it are lost.
+ * @param coloredDarkest - Luminance below which a strongly colored pixel counts as a colored
+ *   line. It lies above the text threshold, and a band of a saturated color between the two
+ *   is one block of colored ink with every branch on it lost (Poole 2022, a blue of
+ *   luminance 144 for the Early Jurassic).
+ * @param coloredChroma - Channel spread from which a pixel is strongly colored.
  * @returns The image with such grounds white, and how many there were.
  */
-export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: number, darkText: number): GroundResult
+export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: number, darkText: number, coloredDarkest = 0, coloredChroma = 255): GroundResult
 {
     const { width, height, data } = image;
     const cleaned = new Uint8ClampedArray(data);
@@ -85,7 +90,10 @@ export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: n
     // area (Sen 2025, a clade's box in gray 104); the rims are a pixel thick and wear away.
     // The worn mask alone would not do: the gray of a scan is speckled, and wears away whole
     // (Gohlich 2006).
-    for (const [gray, worn] of [[false, false], [true, false], [true, true]])
+    // A third kind is looked for by itself, last: a saturated color lighter than text ink
+    // and dark enough for a colored line. Taken with the deep colors it joined the bands of
+    // a stage chart into areas that passed where none had (Qiu 2025).
+    for (const [gray, worn, inkColored] of [[false, false, false], [true, false, false], [true, true, false], [false, false, true]])
     {
         const dark: Mask = { width, height, data: new Uint8Array(width * height) };
         let any = false;
@@ -99,7 +107,9 @@ export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: n
             const deepColor = chroma > maxChroma && (strongest <= darkestGround || luminance < darkText);
             const darkGray = chroma <= maxChroma && luminance < darkest && strongest >= blackest;
 
-            if (gray ? darkGray : deepColor)
+            const inkColor = chroma >= coloredChroma && luminance >= darkText && luminance < coloredDarkest && strongest > darkestGround;
+
+            if (inkColored ? inkColor : gray ? darkGray : deepColor)
             {
                 dark.data[index] = 1;
                 any = true;
