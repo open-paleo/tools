@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- A hollow range bar that ends at a thick node bar is read: its two lines and the node bar
+  were one piece of ink with two lines to a column, and no branch came out of it. Such a
+  bar is now found in the ink and drawn as one line before the segments are taken (Zaher
+  2011, where a clade of five hung on one: 17 of 24 names to 22).
+
 ## 0.14.0 (2026-11-24)
 
 - A range drawn as a hollow bar, two thin lines side by side closed at both ends, is read as

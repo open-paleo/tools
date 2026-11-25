@@ -2431,6 +2431,164 @@ export function dropCrossingStrokes(verticals: Array<Segment>, horizontals: Arra
 }
 
 /**
+ * Draws a hollow bar in the ink as one line through its middle. A range that is inferred and
+ * not observed may be drawn as an empty box along the branch: two thin lines side by side,
+ * closed at both ends, the branch arriving at the middle of one end and leaving from the
+ * middle of the other. As segments it is two branches from one short node; and where the bar
+ * ends at a thick node bar, its two lines and that bar are one piece of the level runs, two
+ * lines to a column, and no line comes out of it at all (Zaher 2011, three such bars, one
+ * with a clade of five hanging on it). So the bar is looked for in the ink itself: a thin level stretch, white under it for less
+ * than a letter's height and more than a line's breadth, a second thin stretch of the same
+ * extent, white beyond, ink closing the hollow at both ends, and ink going on past the far
+ * end.
+ *
+ * @param mask - Line ink; changed in place.
+ * @param thickness - Line thickness in pixels.
+ * @param tallest - Greatest breadth of the hollow.
+ * @param shortest - Shortest bar, in pixels.
+ * @returns How many bars were drawn as lines.
+ */
+export function drawHollowBars(mask: Mask, thickness: number, tallest: number, shortest: number): number
+{
+    const { width, height, data } = mask;
+    const thin = Math.max(2, Math.round(thickness) + 1);
+    let drawn = 0;
+
+    // Share of a row's stretch that is ink.
+    function measureCover(y: number, x0: number, x1: number): number
+    {
+        let inked = 0;
+
+        if (y < 0 || y >= height || x1 <= x0)
+        {
+            return 0;
+        }
+
+        for (let x = x0; x < x1; x++)
+        {
+            inked += data[y * width + x];
+        }
+
+        return inked / (x1 - x0);
+    }
+
+    // Whether ink closes the hollow near a column, over most of its rows.
+    function isClosedAt(x: number, top: number, bottom: number): boolean
+    {
+        let closed = 0;
+
+        for (let y = top; y < bottom; y++)
+        {
+            let inked = false;
+
+            for (let column = Math.max(0, x - 2); column <= Math.min(width - 1, x + 2) && !inked; column++)
+            {
+                inked = data[y * width + column] === 1;
+            }
+
+            closed += inked ? 1 : 0;
+        }
+
+        return 5 * closed >= 4 * (bottom - top);
+    }
+
+    for (let y = 1; y < height - 4; y++)
+    {
+        let x = 0;
+
+        while (x < width)
+        {
+            if (data[y * width + x] === 0)
+            {
+                x++;
+                continue;
+            }
+
+            let end = x;
+
+            while (end < width && data[y * width + end] === 1)
+            {
+                end++;
+            }
+
+            const x0 = x;
+            const x1 = end;
+            x = end;
+
+            // The top row of the upper line: long, with white over it.
+            if (x1 - x0 < shortest || measureCover(y - 1, x0 + 3, x1 - 3) > 0.1)
+            {
+                continue;
+            }
+
+            let row = y;
+
+            while (row < height && row - y <= thin && measureCover(row, x0 + 3, x1 - 3) >= 0.9)
+            {
+                row++;
+            }
+
+            const hollowTop = row;
+
+            while (row < height && row - hollowTop <= tallest && measureCover(row, x0 + 3, x1 - 3) <= 0.05)
+            {
+                row++;
+            }
+
+            const hollowBottom = row;
+
+            while (row < height && row - hollowBottom <= thin && measureCover(row, x0 + 3, x1 - 3) >= 0.9)
+            {
+                row++;
+            }
+
+            const hollow = hollowBottom - hollowTop;
+            // Broader than a line is thick: a branch drawn as two hairlines with white
+            // between, for a state of a character, is a branch already (Zanno 2009).
+            const sound = hollowTop - y <= thin && hollow > thin && hollow <= tallest && row > hollowBottom && row - hollowBottom <= thin && x1 - x0 >= 4 * hollow;
+
+            if (!sound || measureCover(row, x0 + 3, x1 - 3) > 0.1 || !isClosedAt(x0, hollowTop, hollowBottom) || !isClosedAt(x1 - 1, hollowTop, hollowBottom))
+            {
+                continue;
+            }
+
+            const middle = Math.round((hollowTop + hollowBottom) / 2);
+            const half = Math.max(1, Math.round(thickness / 2));
+
+            // And the branch goes on past the far end: a hollow bar at a tip, with the
+            // tip's name after it, is the tip's range and is read as bars are (Li 2011,
+            // Fiorillo 2012).
+            let leaves = false;
+
+            for (let column = x1 + 1; column <= Math.min(width - 1, x1 + thin + 2) && !leaves; column++)
+            {
+                for (let level = Math.max(0, middle - thin); level <= Math.min(height - 1, middle + thin) && !leaves; level++)
+                {
+                    leaves = data[level * width + column] === 1;
+                }
+            }
+
+            if (!leaves)
+            {
+                continue;
+            }
+
+            for (let clear = y; clear < row; clear++)
+            {
+                for (let column = x0 + 1; column < x1 - 1; column++)
+                {
+                    data[clear * width + column] = clear >= middle - half && clear < middle + half ? 1 : 0;
+                }
+            }
+
+            drawn++;
+        }
+    }
+
+    return drawn;
+}
+
+/**
  * Reads a range drawn as a hollow bar as one branch. A range that is inferred and not
  * observed may be drawn as an empty box along the branch: two thin lines side by side, closed
  * at both ends, with the branch arriving at the middle of one end and leaving from the middle

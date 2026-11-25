@@ -18,7 +18,7 @@ import type { ChartStripFind } from "./markers.ts";
 import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, findMarkChains, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, enlargeRgba, keepComponentsWithin, transposeMask } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { dropCrossedRules, mergeHollowBars, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
+import { dropCrossedRules, drawHollowBars, mergeHollowBars, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeNames } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -2519,6 +2519,9 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const inkBesideMarks = branchMarks.length === 0 ? lineInk : blankMaskAreas(lineInk, branchMarks);
     joinThroughNumbers(lineArt, inkBesideMarks, branchMarks, glyphHeight, thickness, true);
     joinThroughNumbers(inkForRuns, inkBesideMarks, branchMarks, glyphHeight, thickness, true);
+    // A range drawn as a hollow bar is drawn as a line, in both inks alike.
+    const hollowDrawn = drawHollowBars(lineArt, thickness, Math.round(0.8 * glyphHeight), 3 * glyphHeight);
+    drawHollowBars(inkForRuns, thickness, Math.round(0.8 * glyphHeight), 3 * glyphHeight);
     const probe = extractSegments(lineArt, minHorizontalRun, Number.MAX_SAFE_INTEGER);
     const thicknesses = new Array<number>();
 
@@ -2671,8 +2674,9 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         });
     }
 
-    // A range drawn as a hollow bar is one branch.
-    const hollowBars = mergeHollowBars(horizontals, verticals, Math.max(3, Math.round(thickness) + 1), Math.round(0.8 * glyphHeight));
+    // A range drawn as a hollow bar is one branch: what the ink did not show as a bar, two
+    // thin segments side by side with a cap at each end still may.
+    const hollowBars = hollowDrawn + mergeHollowBars(horizontals, verticals, Math.max(3, Math.round(thickness) + 1), Math.round(0.8 * glyphHeight));
 
     if (hollowBars > 0)
     {
