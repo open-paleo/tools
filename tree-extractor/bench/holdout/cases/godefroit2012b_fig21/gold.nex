@@ -1,0 +1,28 @@
+#NEXUS
+
+[ godefroit2012b_fig21: Hadrosaurid strict consensus, read by eye. The node letters (C-R) are keys for the text and are not encoded, nor are the support values. One three-way node: M (Kundurosaurus, the Edmontosaurus pair and the Prosaurolophus-Saurolophus clade). 15 tips, 1 polytomies (3 children). Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=15;
+    TAXLABELS
+        Probactrosaurus_gobiensis
+        Bactrosaurus_johnsoni
+        Parasaurolophus_walkeri
+        Olorotitan_arharensis
+        Maiasaura_peeblesorum
+        Brachylophosaurus_canadensis
+        Gryposaurus_latidens
+        Gryposaurus_notabilis
+        Gryposaurus_monumentensis
+        Kundurosaurus_nagornyi
+        Edmontosaurus_annectens
+        Edmontosaurus_regalis
+        Prosaurolophus_maximus
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+    ;
+END;
+
+BEGIN TREES;
+    TREE godefroit2012b_fig21 = [&R] (Probactrosaurus_gobiensis,(Bactrosaurus_johnsoni,((Parasaurolophus_walkeri,Olorotitan_arharensis),((Maiasaura_peeblesorum,Brachylophosaurus_canadensis),((Gryposaurus_latidens,(Gryposaurus_notabilis,Gryposaurus_monumentensis)),(Kundurosaurus_nagornyi,(Edmontosaurus_annectens,Edmontosaurus_regalis),(Prosaurolophus_maximus,(Saurolophus_osborni,Saurolophus_angustirostris))))))));
+END;

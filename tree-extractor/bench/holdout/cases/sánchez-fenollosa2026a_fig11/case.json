@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/sánchez-fenollosa2026a_fig11.png",
+  "names": "names.txt",
+  "source": "Sánchez-Fenollosa et al. 2026, Journal of Vertebrate Paleontology, Fig. 11: a time-calibrated tree of diplodocoids placing the El Castellar Diplodocus (bold) against a time scale with alternating grey and white bands for the epochs; rectangular, root left, thin lines, range bars coloured by continent, clade definitions marked as arrows (maximum-clade) and purple dots (minimum-clade) with names or numbers 1-8 keyed to a legend, silhouettes. Image: census 2 figure (2025x1296 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as printed, including 'D. hallorum', 'D. carnegii' and 'Diplodocus sp. (El Castellar specimen, CT-30)', and the genus-only tips Camarasaurus, Omeisaurus and Mamenchisaurus",
+  "gold": "gold.nex",
+  "gold_note": "Diplodocoid time tree, read by eye at 2-5x; fully resolved. Diplodocus, Diplodocinae and Diplodocidae, printed beside their dot or arrows, are kept as internal labels. The numbers 1-8 at the other clade marks are keys to the legend (Neosauropoda, Macronaria, Diplodocoidea, Diplodocimorpha, Rebbachisauridae, Flagellicaudata, Dicraeosauridae, Apatosaurinae) and are not encoded. Diplodocinae and Diplodocidae are maximum-clade (stem) definitions; each label is put on the node its arrow leads into. 36 tips, fully resolved; 3 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

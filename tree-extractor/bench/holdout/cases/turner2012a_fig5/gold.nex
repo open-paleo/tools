@@ -1,0 +1,21 @@
+#NEXUS
+
+[ turner2012a_fig5: Slanted cladogram of eight avialan groups, read by eye; fully resolved and pectinate. The skeletal drawings are not encoded. 8 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=8;
+    TAXLABELS
+        Archaeopteryx
+        Confuciusornis
+        Enantiornithes
+        Patagopteryx
+        Ichthyornis
+        Hesperornithiformes
+        Paleognathae
+        Neognathae
+    ;
+END;
+
+BEGIN TREES;
+    TREE turner2012a_fig5 = [&R] (Archaeopteryx,(Confuciusornis,(Enantiornithes,(Patagopteryx,(Ichthyornis,(Hesperornithiformes,(Paleognathae,Neognathae)))))));
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/rotatori2026a_fig4.png",
+  "names": "names.txt",
+  "source": "Rotatori et al. 2026, Palaeontology 69, Fig. 4: the strict consensus of ornithopods (iguanodontians); rectangular, root left, thin lines, Bremer values and stars at nodes, four clades on coloured boxes (blue, lilac, purple, peach) named at the right, and clade names in bold placed just left of their nodes; silhouettes. Image: census 2 figure (3736x3807 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including 'Rhabdodon spp.' and the specimen tip 'SHN specimen'",
+  "gold": "gold.nex",
+  "gold_note": "Ornithopod strict consensus, read by eye at 2x. Labels kept: Rhabdodontomorpha, Dryosauridae, Ouranosauria and Hadrosauroidea (coloured boxes each spanning one clade), and 'Ig.' (as printed, abbreviated), Ankylopollexia, Styracosterna, Neoiguanodontia and Hadrosauriformes, each printed just left of where its node's stem enters. Stars and Bremer values are not encoded. Polytomies: Rhabdodontomorpha (Iani, Rhabdodon spp., the Zalmoxes pair); Dryosauridae (Valdosaurus, Dysalotosaurus, the Eousdryosaurus-Dryosaurus pair); Ankylopollexia (Oblitosaurus, SHN specimen, Uteodon, Camptosaurus, Styracosterna); Styracosterna (Draconyx, Dakotadon, the rest); Hadrosauriformes (Iguanodon bernissartensis, the I. galvensis clade, Hadrosauroidea); Telmatosaurus-Tethyshadros-hadrosaurids. 51 tips, 6 polytomies (3, 3, 5, 3, 3, 3 children); 9 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/srivastava2026a_fig20.png",
+  "names": "names.txt",
+  "source": "Srivastava and Nesbitt 2026, Papers in Palaeontology 12, Fig. 20B: panel B, the strict consensus of the second analysis placing Ptychotherates (bold); rectangular, root left, thick lines, Bremer/bootstrap values at nodes, collapsed clades as black triangles with names on coloured gradient bands, two names (Herrerasauria, Morphoraptora) on coloured boxes behind their clades, arrows to Dinosauriformes and Dinosauria. Tips include five clade names (Lagerpetidae, Silesauridae, Sauropodomorpha, Theropoda, Ornithischia). Panel A (a large polytomy from the first analysis) is excluded. Image: census 2 figure (3933x3561 px), the embedded raster.",
+  "region": {
+    "x0": 1478,
+    "y0": 700,
+    "x1": 3933,
+    "y1": 2620
+  },
+  "region_note": "panel B (right); panel A (left) extends under it",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel B, including the triangle tips Lagerpetidae, Silesauridae, Sauropodomorpha, Theropoda and Ornithischia (clade names)",
+  "gold": "gold.nex",
+  "gold_note": "Panel B, read by eye. Each black triangle is a collapsed clade and one tip, named by the word beside it. Herrerasauria and Morphoraptora, on coloured boxes that each span exactly one clade, and Dinosauriformes and Dinosauria, on arrows pointing at the stems of their nodes, are kept as internal labels. Panel B is taken because panel A's tips run under it, so no rectangle holds A alone. One four-way node: Morphoraptora (Daemonosaurus, Chindesaurus, Tawa, Ptychotherates). 16 tips, 1 polytomies (4 children); 4 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

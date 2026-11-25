@@ -1,0 +1,37 @@
+#NEXUS
+
+[ turner2012a_fig79: Paravian tree, read by eye at 2x. The gold is the drawn tree, with Rahonavis in Unenlagiinae; the two curved arrows mark the alternative placements with the step cost of each (+7, +11) and are not part of the tree. The arrow on the root stem leads to the rest of the tree and is not a tip. Avialae and Troodontidae are open triangles, each one tip named by the word beside it. Paraves, Deinonychosauria, Dromaeosauridae and Unenlagiinae, printed at node brackets or a node circle, are kept as internal labels. Polytomies: the five microraptorines (Tianyuraptor to Hesperonychus), Dromaeosaurus-Achillobator-Atrociraptor-Utahraptor, and Deinonychus-Velociraptor-Balaur-Adasaurus. 24 tips, 3 polytomies (5, 4, 4 children); 4 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Avialae
+        Troodontidae
+        Mahakala_omnogovae
+        Rahonavis_ostromi
+        Buitreraptor_gonzalezorum
+        Unenlagia
+        Austroraptor_cabazai
+        Shanag_ashile
+        Tianyuraptor_ostromi
+        Graciliraptor_lujiatunensis
+        Microraptor_zhaoianus
+        Sinornithosaurus_millenii
+        Hesperonychus_elizabethae
+        Dromaeosaurus_albertensis
+        Achillobator_giganticus
+        Atrociraptor_marshalli
+        Utahraptor_ostrommaysorum
+        Bambiraptor_feinbergorum
+        Tsaagan_mangas
+        Saurornitholestes_langstoni
+        Deinonychus_antirrhopus
+        Velociraptor_mongoliensis
+        Balaur_bondoc
+        Adasaurus_mongoliensis
+    ;
+END;
+
+BEGIN TREES;
+    TREE turner2012a_fig79 = [&R] (Avialae,(Troodontidae,(Mahakala_omnogovae,((Rahonavis_ostromi,(Buitreraptor_gonzalezorum,(Unenlagia,Austroraptor_cabazai)))Unenlagiinae,(Shanag_ashile,((Tianyuraptor_ostromi,Graciliraptor_lujiatunensis,Microraptor_zhaoianus,Sinornithosaurus_millenii,Hesperonychus_elizabethae),((Dromaeosaurus_albertensis,Achillobator_giganticus,Atrociraptor_marshalli,Utahraptor_ostrommaysorum),(Bambiraptor_feinbergorum,(Tsaagan_mangas,(Saurornitholestes_langstoni,(Deinonychus_antirrhopus,Velociraptor_mongoliensis,Balaur_bondoc,Adasaurus_mongoliensis)))))))))Dromaeosauridae)Deinonychosauria)Paraves;
+END;

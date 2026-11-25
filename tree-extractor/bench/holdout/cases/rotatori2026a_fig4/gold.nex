@@ -1,0 +1,64 @@
+#NEXUS
+
+[ rotatori2026a_fig4: Ornithopod strict consensus, read by eye at 2x. Labels kept: Rhabdodontomorpha, Dryosauridae, Ouranosauria and Hadrosauroidea (coloured boxes each spanning one clade), and 'Ig.' (as printed, abbreviated), Ankylopollexia, Styracosterna, Neoiguanodontia and Hadrosauriformes, each printed just left of where its node's stem enters. Stars and Bremer values are not encoded. Polytomies: Rhabdodontomorpha (Iani, Rhabdodon spp., the Zalmoxes pair); Dryosauridae (Valdosaurus, Dysalotosaurus, the Eousdryosaurus-Dryosaurus pair); Ankylopollexia (Oblitosaurus, SHN specimen, Uteodon, Camptosaurus, Styracosterna); Styracosterna (Draconyx, Dakotadon, the rest); Hadrosauriformes (Iguanodon bernissartensis, the I. galvensis clade, Hadrosauroidea); Telmatosaurus-Tethyshadros-hadrosaurids. 51 tips, 6 polytomies (3, 3, 5, 3, 3, 3 children); 9 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=51;
+    TAXLABELS
+        Lesothosaurus_diagnosticus
+        Hypsilophodon_foxii
+        Iani_smithi
+        Rhabdodon_spp.
+        Zalmoxes_shqiperorum
+        Zalmoxes_robustus
+        Tenontosaurus_tilletti
+        Valdosaurus_canaliculatus
+        Dysalotosaurus_lettowvorbecki
+        Eousdryosaurus_nanohallucis
+        Dryosaurus_altus
+        Cumnoria_prestwichii
+        Oblitosaurus_bunnueli
+        SHN_specimen
+        Uteodon_aphanoecetes
+        Camptosaurus_dispar
+        Draconyx_loureiroi
+        Dakotadon_lakotaensis
+        Hippodraco_scutodens
+        Iguanacolossus_fortis
+        Proa_valdearinnoensis
+        Lanzhousaurus_magnidens
+        Hypselospinus_fittoni
+        Bayannurosaurus_perfectus
+        Morelladon_beltrani
+        Brighstoneus_simmondsi
+        Ouranosaurus_nigeriensis
+        Iguanodon_bernissartensis
+        Iguanodon_galvensis
+        Delapparentia_turolensis
+        Magnamanus_soriaensis
+        Barilium_dawsoni
+        Mantellisaurus_atherfieldensis
+        Jinzhousaurus_yangi
+        Bolong_yixianensis
+        Altirhinus_kurzanovi
+        Equijubus_normani
+        Penelopognathus_weishampeli
+        Batyrosaurus_rozhdestvenskyi
+        Sirindhorna_khoratensis
+        Probactrosaurus_gobiensis
+        Eolambia_caroljonesa
+        Levnesovia_transoxiana
+        Bactrosaurus_johnsoni
+        Gilmoreosaurus_mongoliensis
+        Telmatosaurus_transsylvanicus
+        Tethyshadros_insularis
+        Edmontosaurus_regalis
+        Saurolophus_osborni
+        Lambeosaurus_lambei
+        Hypacrosaurus_altispinus
+    ;
+END;
+
+BEGIN TREES;
+    TREE rotatori2026a_fig4 = [&R] (Lesothosaurus_diagnosticus,(Hypsilophodon_foxii,((Iani_smithi,Rhabdodon_spp.,(Zalmoxes_shqiperorum,Zalmoxes_robustus))Rhabdodontomorpha,(Tenontosaurus_tilletti,((Valdosaurus_canaliculatus,Dysalotosaurus_lettowvorbecki,(Eousdryosaurus_nanohallucis,Dryosaurus_altus))Dryosauridae,(Cumnoria_prestwichii,(Oblitosaurus_bunnueli,SHN_specimen,Uteodon_aphanoecetes,Camptosaurus_dispar,(Draconyx_loureiroi,Dakotadon_lakotaensis,(Hippodraco_scutodens,(Iguanacolossus_fortis,(Proa_valdearinnoensis,(Lanzhousaurus_magnidens,(Hypselospinus_fittoni,(Bayannurosaurus_perfectus,((Morelladon_beltrani,(Brighstoneus_simmondsi,Ouranosaurus_nigeriensis))Ouranosauria,(Iguanodon_bernissartensis,(Iguanodon_galvensis,(Delapparentia_turolensis,Magnamanus_soriaensis)),(Barilium_dawsoni,(Mantellisaurus_atherfieldensis,((Jinzhousaurus_yangi,Bolong_yixianensis),(Altirhinus_kurzanovi,(Equijubus_normani,((Penelopognathus_weishampeli,Batyrosaurus_rozhdestvenskyi),(Sirindhorna_khoratensis,(Probactrosaurus_gobiensis,(Eolambia_caroljonesa,(Levnesovia_transoxiana,(Bactrosaurus_johnsoni,(Gilmoreosaurus_mongoliensis,(Telmatosaurus_transsylvanicus,Tethyshadros_insularis,((Edmontosaurus_regalis,Saurolophus_osborni),(Lambeosaurus_lambei,Hypacrosaurus_altispinus)))))))))))))))Hadrosauroidea)Hadrosauriformes)))Neoiguanodontia)))))Styracosterna)Ankylopollexia))))Ig.));
+END;

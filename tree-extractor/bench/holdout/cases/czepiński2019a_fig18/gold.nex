@@ -1,0 +1,17 @@
+#NEXUS
+
+[ czepiński2019a_fig18: Ancestor-descendant diagram, read by eye. P. andrewsi sits on the main line where P. hellenikorhinus branches off, and is read as a child of that node (as for tips at a node in earlier batches), giving a three-way node. The vertical line from Bag. rozhdestvenskyi up to an unlabelled circle at the Baruungoyot level is read as the same taxon's range, not a further tip. The character lists and skull drawings are not encoded. 4 tips, 1 polytomies (3 children). Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=4;
+    TAXLABELS
+        P._andrewsi
+        P._hellenikorhinus
+        Br._kozlowskii
+        Bag._rozhdestvenskyi
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'czepiński2019a_fig18' = [&R] (P._andrewsi,P._hellenikorhinus,(Br._kozlowskii,Bag._rozhdestvenskyi));
+END;

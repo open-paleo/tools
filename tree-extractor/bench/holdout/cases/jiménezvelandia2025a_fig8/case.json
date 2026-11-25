@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/jiménezvelandia2025a_fig8.png",
+  "names": "names.txt",
+  "source": "Jiménez Velandia et al. 2025, Ameghiniana 62, Fig. 8: a time-calibrated tree of ceratosaurs drawn over coloured vertical bands for the periods, epochs and stages (purple, blue and green), with black range bars at the tips; rectangular, root left, thin lines. Coloured circles on branches (legend: Huinculsaurus, Kryptops, Rahiolisaurus, Afromimus, Quilmesaurus, Vitosaura) mark where six wildcard taxa fall in other trees; clade names below the circles near nodes. Image: census 2 figure (2554x3500 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the specimen tips 'MNN TIG 6', 'CCG20011' and 'MPM 99'. The six wildcard taxa in the legend are not tips and are not listed",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur time tree, read by eye at 2x. The coloured circles are alternative positions of six wildcard taxa named only in the legend; they are not tips or nodes and are not encoded. Five clade names, each printed under circles on the stem just before its node, are kept as internal labels (Ceratosauria, Abelisauroidea, Abelisauridae, Majungasaurinae, Brachyrostra). Polytomies: Dilophosaurus-Syntarsus-the rest; Ceratosauria (Genyodectes, Ceratosaurus, Berberosaurus, Abelisauroidea); the seven-way noasaurid node; Abelisauridae (five tips and the derived clade); Rajasaurus-Majungasaurus-Indosaurus; and the 14-way brachyrostran node. 40 tips, 6 polytomies (3, 4, 7, 6, 3, 14 children); 5 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

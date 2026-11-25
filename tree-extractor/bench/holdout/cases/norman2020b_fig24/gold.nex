@@ -1,0 +1,18 @@
+#NEXUS
+
+[ norman2020b_fig24: Cladogram of five higher taxa, read by eye; the tips are clade names. Sauropodomorpha, Ornithoscelida and Dinosauria, printed beside bars on the stems of their nodes, are kept as internal labels; 'no gastralia' marks a character shared by the Sauropoda and Ornithischia stems and is not a clade. Fully resolved. 5 tips, fully resolved; 3 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=5;
+    TAXLABELS
+        Dinosauromorpha
+        Prosauropoda
+        Sauropoda
+        Ornithischia
+        Theropoda
+    ;
+END;
+
+BEGIN TREES;
+    TREE norman2020b_fig24 = [&R] (Dinosauromorpha,((Prosauropoda,Sauropoda)Sauropodomorpha,(Ornithischia,Theropoda)Ornithoscelida)Dinosauria);
+END;

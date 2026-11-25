@@ -1,0 +1,36 @@
+#NEXUS
+
+[ sethapanichsakul2026a_fig14: Panel b, read by eye. EUHELOPODIDAE, on a grey box spanning exactly one clade, is kept as an internal label. Polytomies: Euhelopodidae (Gobititan, Huanghetitan ruyangensis, the rest) and ‘Paluxysaurus’-Sauroposeidon-Europatitan. Neither panel can be cut out by a rectangle alone: panel b is taken, and its region's lower-left corner holds the ends of panel a's DIAMANTINASAURIA and TITANOSAURIA labels. 23 tips, 2 polytomies (3, 3 children); 1 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=23;
+    TAXLABELS
+        Dongbeititan
+        Tastavinsaurus
+        Gobititan
+        Huanghetitan_ruyangensis
+        Tangvayosaurus
+        Nagatitan
+        Phuwiangosaurus
+        Qiaowanlong
+        Euhelopus
+        Yongjinglong
+        Huanghetitan_liujiaxiaensis
+        '‘Paluxysaurus’'
+        Sauroposeidon
+        Europatitan
+        '‘Cloverly titanosauriform’'
+        Ligabuesaurus
+        Baotianmansaurus
+        Padillasaurus
+        Wintonotitan
+        Angolatitan
+        Chubutisaurus
+        DIAMANTINASAURIA
+        TITANOSAURIA
+    ;
+END;
+
+BEGIN TREES;
+    TREE sethapanichsakul2026a_fig14 = [&R] (Dongbeititan,(Tastavinsaurus,((Gobititan,Huanghetitan_ruyangensis,(Tangvayosaurus,(Nagatitan,(Phuwiangosaurus,(Qiaowanlong,(Euhelopus,Yongjinglong))))))EUHELOPODIDAE,(Huanghetitan_liujiaxiaensis,(('‘Paluxysaurus’',Sauroposeidon,Europatitan),(('‘Cloverly titanosauriform’',Ligabuesaurus),((Baotianmansaurus,Padillasaurus),((Wintonotitan,(Angolatitan,Chubutisaurus)),(DIAMANTINASAURIA,TITANOSAURIA)))))))));
+END;

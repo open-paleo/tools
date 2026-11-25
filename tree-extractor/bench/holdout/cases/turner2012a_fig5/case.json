@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/turner2012a_fig5.png",
+  "names": "names.txt",
+  "source": "Turner et al. 2012, Bulletin of the American Museum of Natural History 371, Fig. 5: a generalized cladogram of birds; slanted, root at the upper left, thin lines, a skeletal drawing beside each tip. Half the tips are clade names, not taxa (Enantiornithes, Hesperornithiformes, Paleognathae, Neognathae); the others are genera. Image: census 2 figure (1697x2061 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names: four genera and four clade names",
+  "gold": "gold.nex",
+  "gold_note": "Slanted cladogram of eight avialan groups, read by eye; fully resolved and pectinate. The skeletal drawings are not encoded. 8 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

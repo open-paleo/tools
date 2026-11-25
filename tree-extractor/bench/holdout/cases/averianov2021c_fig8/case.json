@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/averianov2021c_fig8.png",
+  "names": "names.txt",
+  "source": "Averianov and Lopatin 2021, Historical Biology 34, Fig. 8a: panel a, one of two consensus trees of alvarezsaurids placing Khulsanurus (bold); nodes drawn as diagonal fans with short horizontal shoulders, root left, support values at the nodes, Parvicursorinae joined to its node by a leader line. Panel b (the other analysis, same taxa) is excluded. Image: census 2 figure (1400x539 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 690,
+    "y1": 539
+  },
+  "region_note": "panel a (left); panel b (right) is the other analysis",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel a, including the specimen tip 'PIN 5838/1'",
+  "gold": "gold.nex",
+  "gold_note": "Panel a, read by eye; every child leaves its node on a diagonal. Parvicursorinae, on a leader line to its node, is kept as an internal label. Polytomies: the root (Achillesaurus, Alvarezsaurus and the rest) and Parvicursorinae (ten children: nine tips and the Mononykus-Shuvuuia pair). 14 tips, 2 polytomies (3, 10 children); 1 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

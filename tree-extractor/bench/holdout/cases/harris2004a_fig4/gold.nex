@@ -1,0 +1,42 @@
+#NEXUS
+
+[ harris2004a_fig4: Panel A, read by eye at 3-4x. Dicraeosauridae, Diplodocinae, Diplodocidae and Diplodocoidea, each joined to its node by an arrow, are kept as internal labels. Polytomies: the root (Theropoda and Prosauropoda meet the sauropod line at one point), Haplocanthosaurus-Diplodocoidea-Macronaria (two lines converge into that node), and the four-way titanosaur node (Nemegtosaurus, “Titanosaurus” colberti, Opisthocoelicaudia-Alamosaurus, Neuquensaurus-Saltasaurus). 29 tips, 3 polytomies (3, 3, 4 children); 4 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Theropoda
+        Prosauropoda
+        Vulcanodon
+        Shunosaurus
+        Barapasaurus
+        Patagosaurus
+        Omeisaurus
+        Mamenchisaurus
+        Jobaria
+        Haplocanthosaurus
+        Rebbachisaurus
+        Nigersaurus
+        Rayososaurus
+        Dicraeosaurus
+        Amargasaurus
+        Apatosaurus
+        Barosaurus
+        Diplodocus
+        Camarasaurus
+        Brachiosaurus
+        Euhelopus
+        Malawisaurus
+        Rapetosaurus
+        Nemegtosaurus
+        '“Titanosaurus” colberti'
+        Opisthocoelicaudia
+        Alamosaurus
+        Neuquensaurus
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE harris2004a_fig4 = [&R] (Theropoda,Prosauropoda,(Vulcanodon,(Shunosaurus,(Barapasaurus,(Patagosaurus,((Omeisaurus,Mamenchisaurus),(Jobaria,(Haplocanthosaurus,((Rebbachisaurus,(Nigersaurus,Rayososaurus)),((Dicraeosaurus,Amargasaurus)Dicraeosauridae,(Apatosaurus,(Barosaurus,Diplodocus)Diplodocinae)Diplodocidae))Diplodocoidea,(Camarasaurus,(Brachiosaurus,(Euhelopus,(Malawisaurus,(Rapetosaurus,(Nemegtosaurus,'“Titanosaurus” colberti',(Opisthocoelicaudia,Alamosaurus),(Neuquensaurus,Saltasaurus)))))))))))))));
+END;

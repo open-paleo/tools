@@ -1,0 +1,18 @@
+{
+  "image": "../../../../../../corpus/census2/figures/sethapanichsakul2026a_fig14.png",
+  "names": "names.txt",
+  "source": "Sethapanichsakul et al. 2026, Scientific Reports 16, Fig. 14b: panel b, the second of two trees of somphospondylans placing Nagatitan (highlighted); rectangular, root left, thin lines, Euhelopodidae on a grey box spanning its clade with the name written vertically at the right. Two tips are clade names, not taxa (DIAMANTINASAURIA, TITANOSAURIA). Panel a (the other analysis) is excluded. Image: census 2 figure (1514x1095 px), the embedded raster.",
+  "region": {
+    "x0": 700,
+    "y0": 0,
+    "x1": 1514,
+    "y1": 1095
+  },
+  "region_note": "panel b (right); the lower-left corner holds the ends of two panel-a labels",
+  "license": "CC BY-NC-ND 4.0",
+  "attribution": "Sethapanichsakul, T.; Khansubha, S. O.; Manitkoon, S.; Hanta, R.; Mannion, P. D.; Upchurch, P. (2026). The first sauropod dinosaur from the Lower Cretaceous Khok Kruat Formation of Thailand enriches the diversity of somphospondylan titanosauriforms in southeast Asia. Scientific Reports. https://doi.org/10.1038/s41598-026-47482-x. Fig. 14b. CC BY-NC-ND 4.0.",
+  "names_note": "no matrix held; list = the printed tip names of panel b, including the clade tips DIAMANTINASAURIA and TITANOSAURIA and the quoted tips '‘Paluxysaurus’' and '‘Cloverly titanosauriform’' (curly quotes, as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Panel b, read by eye. EUHELOPODIDAE, on a grey box spanning exactly one clade, is kept as an internal label. Polytomies: Euhelopodidae (Gobititan, Huanghetitan ruyangensis, the rest) and ‘Paluxysaurus’-Sauroposeidon-Europatitan. Neither panel can be cut out by a rectangle alone: panel b is taken, and its region's lower-left corner holds the ends of panel a's DIAMANTINASAURIA and TITANOSAURIA labels. 23 tips, 2 polytomies (3, 3 children); 1 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

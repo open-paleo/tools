@@ -1,0 +1,25 @@
+#NEXUS
+
+[ fanti2012a_fig8: Oviraptorid strict consensus, read by eye; no clade names are printed. One three-way node: Oviraptor, the Rinchenia-Citipati clade and the Khaan clade. 12 tips, 1 polytomies (3 children). Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=12;
+    TAXLABELS
+        Velociraptor_mongoliensis
+        Avimimus_portentosus
+        Oviraptor_philoceratops
+        Rinchenia_mongoliensis
+        Citipati_osmolskae
+        'Citipati n.sp. MPC-D 100/42'
+        Khaan_mckennai
+        Conchoraptor_gracilis
+        Machairasaurus_leptonychus
+        Ingenia_yanshini
+        Nemegtomaia_barsboldi
+        Heyuannia_huangi
+    ;
+END;
+
+BEGIN TREES;
+    TREE fanti2012a_fig8 = [&R] (Velociraptor_mongoliensis,(Avimimus_portentosus,(Oviraptor_philoceratops,(Rinchenia_mongoliensis,(Citipati_osmolskae,'Citipati n.sp. MPC-D 100/42')),(Khaan_mckennai,(Conchoraptor_gracilis,(Machairasaurus_leptonychus,(Ingenia_yanshini,(Nemegtomaia_barsboldi,Heyuannia_huangi))))))));
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/cruzado-caballero2017a_fig14.png",
+  "names": "names.txt",
+  "source": "Cruzado-Caballero and Powell 2017, Journal of Vertebrate Paleontology 37, Fig. 14: a time-calibrated tree of hadrosaurids placing Bonapartesaurus against Santonian, Campanian and Maastrichtian columns (grey dashed boundaries), with a continent symbol (square, circle, star) after each tip and a map of the Americas with dispersal arrows; rectangular, root left, black dots on every node. Image: census 2 figure (2055x828 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (binomials)",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosaurid time tree, read by eye at 3-4x; fully resolved, no clade names printed. The node dots, continent symbols and map are not encoded. 20 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

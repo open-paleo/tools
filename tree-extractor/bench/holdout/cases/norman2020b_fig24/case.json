@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/norman2020b_fig24.png",
+  "names": "names.txt",
+  "source": "Norman 2020, Zoological Journal of the Linnean Society 191, Fig. 24: a simplified cladogram of the main dinosaur groups whose tips are clade names, not taxa; vertical, root at the bottom, thick lines, tip names written vertically with stacked letters, short bars on stems with clade names beside them and a bar pair joined by the label 'no gastralia'. Image: census 2 figure (555x470 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, all clade names (Dinosauromorpha, Prosauropoda, Sauropoda, Ornithischia, Theropoda)",
+  "gold": "gold.nex",
+  "gold_note": "Cladogram of five higher taxa, read by eye; the tips are clade names. Sauropodomorpha, Ornithoscelida and Dinosauria, printed beside bars on the stems of their nodes, are kept as internal labels; 'no gastralia' marks a character shared by the Sauropoda and Ornithischia stems and is not a clade. Fully resolved. 5 tips, fully resolved; 3 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

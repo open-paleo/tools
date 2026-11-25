@@ -1,0 +1,60 @@
+#NEXUS
+
+[ raven2023a_fig3: Thyreophoran tree, read by eye; fully resolved. Stegosauria, Struthiosauridae, Panoplosauridae, Polacanthidae and Ankylosauridae, each named beside a coloured box that spans exactly one clade, are kept as internal labels. The boxes and silhouettes are not encoded. 47 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=47;
+    TAXLABELS
+        Lesothosaurus
+        Emausaurus
+        Scutellosaurus
+        Scelidosaurus
+        Huayangosaurus
+        Chungkingosaurus
+        Tuojiangosaurus
+        Dacentrurus
+        Hesperosaurus
+        Stegosaurus_stenops
+        Miragaia
+        Kentrosaurus
+        Cedarpelta
+        Gargoyleosaurus
+        Sauropelta
+        Silvisaurus
+        Europelta
+        Struthiosaurus_austriacus
+        Pawpawsaurus
+        Hungarosaurus
+        Edmontonia_rugosidens
+        Panoplosaurus
+        Edmontonia_longiceps
+        Animantarx
+        Gastonia_burgei
+        Peloroplites
+        Kunbarrasaurus
+        Gastonia_lorriemcwhinnyae
+        Chuanqilong
+        Jinyunpelta
+        Shamosaurus
+        Gobisaurus
+        Tsagantegia
+        Talarurus
+        Akainacephalus
+        Pinacosaurus_mephistocephalus
+        Pinacosaurus_grangeri
+        Ziapelta
+        Saichania
+        Tarchia_teresae
+        Minotaurasaurus
+        Anodontosaurus
+        Ankylosaurus
+        Zuul
+        Euoplocephalus
+        Scolosaurus
+        Dyoplosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE raven2023a_fig3 = [&R] (Lesothosaurus,(Emausaurus,(Scutellosaurus,(Scelidosaurus,((Huayangosaurus,(Chungkingosaurus,(Tuojiangosaurus,(Dacentrurus,(Hesperosaurus,(Stegosaurus_stenops,(Miragaia,Kentrosaurus)))))))Stegosauria,(Cedarpelta,(Gargoyleosaurus,(Sauropelta,(Silvisaurus,((Europelta,(Struthiosaurus_austriacus,(Pawpawsaurus,Hungarosaurus)))Struthiosauridae,((Edmontonia_rugosidens,(Panoplosaurus,Edmontonia_longiceps))Panoplosauridae,((Animantarx,(Gastonia_burgei,(Peloroplites,(Kunbarrasaurus,Gastonia_lorriemcwhinnyae))))Polacanthidae,(Chuanqilong,(Jinyunpelta,((Shamosaurus,Gobisaurus),((Tsagantegia,Talarurus),(Akainacephalus,(Pinacosaurus_mephistocephalus,(Pinacosaurus_grangeri,(Ziapelta,((Saichania,(Tarchia_teresae,Minotaurasaurus)),((Anodontosaurus,Ankylosaurus),(Zuul,(Euoplocephalus,(Scolosaurus,Dyoplosaurus)))))))))))))Ankylosauridae))))))))))));
+END;

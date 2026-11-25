@@ -1,0 +1,29 @@
+#NEXUS
+
+[ srivastava2026a_fig20: Panel B, read by eye. Each black triangle is a collapsed clade and one tip, named by the word beside it. Herrerasauria and Morphoraptora, on coloured boxes that each span exactly one clade, and Dinosauriformes and Dinosauria, on arrows pointing at the stems of their nodes, are kept as internal labels. Panel B is taken because panel A's tips run under it, so no rectangle holds A alone. One four-way node: Morphoraptora (Daemonosaurus, Chindesaurus, Tawa, Ptychotherates). 16 tips, 1 polytomies (4 children); 4 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=16;
+    TAXLABELS
+        Euparkeria
+        Postosuchus
+        Lagerpetidae
+        Marasuchus
+        Silesauridae
+        Eodromaeus
+        Staurikosaurus
+        Sanjuansaurus
+        Herrerasaurus
+        Daemonosaurus
+        Chindesaurus
+        Tawa
+        Ptychotherates
+        Sauropodomorpha
+        Theropoda
+        Ornithischia
+    ;
+END;
+
+BEGIN TREES;
+    TREE srivastava2026a_fig20 = [&R] (Euparkeria,(Postosuchus,(Lagerpetidae,(Marasuchus,(Silesauridae,(((Eodromaeus,((Staurikosaurus,(Sanjuansaurus,Herrerasaurus)),(Daemonosaurus,Chindesaurus,Tawa,Ptychotherates)Morphoraptora))Herrerasauria,Sauropodomorpha),(Theropoda,Ornithischia)))Dinosauria)Dinosauriformes)));
+END;

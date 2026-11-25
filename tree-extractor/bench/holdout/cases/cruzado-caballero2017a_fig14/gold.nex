@@ -1,0 +1,33 @@
+#NEXUS
+
+[ cruzado-caballero2017a_fig14: Hadrosaurid time tree, read by eye at 3-4x; fully resolved, no clade names printed. The node dots, continent symbols and map are not encoded. 20 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=20;
+    TAXLABELS
+        Kerberosaurus_manakini
+        Lophorhothon_atopus
+        Prosaurolophus_maximus
+        Bonapartesaurus_rionegrensis
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+        Shantungosaurus_giganteus
+        Edmontosaurus_regalis
+        Edmontosaurus_saskatchewanensis
+        Edmontosaurus_annectens
+        Kritosaurus_navajovius
+        Gryposaurus_incurvimanus
+        Gryposaurus_notabilis
+        Gryposaurus_monumentensis
+        Gryposaurus_latidens
+        Hadrosaurus_foulkii
+        Wulagasaurus_dongi
+        Maiasaura_peeblesorum
+        Brachylophosaurus_canadensis
+        Acristavus_gagslarsoni
+    ;
+END;
+
+BEGIN TREES;
+    TREE cruzado-caballero2017a_fig14 = [&R] (((Kerberosaurus_manakini,((Lophorhothon_atopus,(Prosaurolophus_maximus,(Bonapartesaurus_rionegrensis,(Saurolophus_osborni,Saurolophus_angustirostris)))),(Shantungosaurus_giganteus,(Edmontosaurus_regalis,(Edmontosaurus_saskatchewanensis,Edmontosaurus_annectens))))),(Kritosaurus_navajovius,((Gryposaurus_incurvimanus,(Gryposaurus_notabilis,Gryposaurus_monumentensis)),Gryposaurus_latidens))),(Hadrosaurus_foulkii,((Wulagasaurus_dongi,(Maiasaura_peeblesorum,Brachylophosaurus_canadensis)),Acristavus_gagslarsoni)));
+END;

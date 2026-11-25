@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/pinheiro2018a_fig11.png",
+  "names": "names.txt",
+  "source": "Pinheiro et al. 2018, PLoS ONE 13, Fig. 11: a time-calibrated tree of crocodyliforms placing Roxochampsa (bold, larger type) drawn over coloured background bands (blue-grey for the Mesozoic, pink for the Cenozoic, split at a dotted K-Pg line), with a stage column at the left; root at the bottom, thin lines, range bars coloured by habit (legend), clade names in capitals beside short bars across their stems, tip names written vertically. Image: census 2 figure (3500x2084 px), the embedded raster.",
+  "license": "CC BY 4.0",
+  "attribution": "Pinheiro, A. E. P.; Pereira, P. V. L. G. C.; de Souza, R. G.; Brum, A. S.; Lopes, R. T.; Machado, A. S.; Bergqvist, L. P.; Simbras, F. M. (2018). Reassessment of the enigmatic crocodyliform \"Goniopholis\" paulistanus Roxo, 1936: historical approach, systematic, and description by new materials. PLoS ONE. https://doi.org/10.1371/journal.pone.0199984. Fig. 11. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names (genera and binomials)",
+  "gold": "gold.nex",
+  "gold_note": "Crocodyliform time tree, 85 tips. Read from the image's own black lines by a tracer (root at the bottom; only the connected tree ink, with short tip lines kept where a coloured range bar sits on them), then checked against the figure node by node and the tips named in printed order. Twenty-one clade names are kept as internal labels, each on the node above the bar that crosses its stem (SUCHIA at the root; 'advanced notosuchians' as printed, lower case); MESOEUCROCODYLIA excludes Hsisosuchus and THALATTOSUCHIA excludes Hyposaurus, as their bars show. Polytomies: Crocodylomorpha (Terrestrisuchus, Dibothrosuchus, Crocodyliformes); Notosuchia (Libycosuchus, Uruguaysuchidae and the rest, on one bar); four Baurusuchus/Stratiotosuchus tips; Sphagesauridae (four children); Caryonosuchus-Sphagesaurus-Armadillosuchus; Itasuchidae (four tips); and five sebecids (Pehuenchesuchus to Bergisuchus). 85 tips, 7 polytomies (3, 3, 4, 4, 3, 4, 5 children); 21 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

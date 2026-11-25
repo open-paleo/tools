@@ -1,0 +1,53 @@
+#NEXUS
+
+[ jiménezvelandia2025a_fig8: Ceratosaur time tree, read by eye at 2x. The coloured circles are alternative positions of six wildcard taxa named only in the legend; they are not tips or nodes and are not encoded. Five clade names, each printed under circles on the stem just before its node, are kept as internal labels (Ceratosauria, Abelisauroidea, Abelisauridae, Majungasaurinae, Brachyrostra). Polytomies: Dilophosaurus-Syntarsus-the rest; Ceratosauria (Genyodectes, Ceratosaurus, Berberosaurus, Abelisauroidea); the seven-way noasaurid node; Abelisauridae (five tips and the derived clade); Rajasaurus-Majungasaurus-Indosaurus; and the 14-way brachyrostran node. 40 tips, 6 polytomies (3, 4, 7, 6, 3, 14 children); 5 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=40;
+    TAXLABELS
+        Herrerasaurus
+        Dilophosaurus
+        Syntarsus
+        Allosaurus
+        Genyodectes
+        Ceratosaurus
+        Berberosaurus
+        Vespersaurus
+        Velocisaurus
+        MNN_TIG_6
+        Noasaurus
+        Masiakasaurus
+        Laevisuchus
+        Limusaurus
+        Elaphrosaurus
+        CCG20011
+        Xenotarsosaurus
+        Spectrovenator
+        Rugops
+        Eoabelisaurus
+        Dahalokely
+        Abelisaurus
+        Rajasaurus
+        Majungasaurus
+        Indosaurus
+        MPM_99
+        Koleken
+        Kurupi
+        Elemgasem
+        Niebla
+        Llukalkan
+        Viavenator
+        Skorpiovenator
+        Pycnonemosaurus
+        Ilokelesia
+        Genusaurus
+        Ekrixinatosaurus
+        Carnotaurus
+        Arcovenator
+        Aucasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'jiménezvelandia2025a_fig8' = [&R] (Herrerasaurus,(Dilophosaurus,Syntarsus,(Allosaurus,(Genyodectes,Ceratosaurus,Berberosaurus,((Vespersaurus,Velocisaurus,MNN_TIG_6,Noasaurus,Masiakasaurus,Laevisuchus,(Limusaurus,(Elaphrosaurus,CCG20011))),(Xenotarsosaurus,Spectrovenator,Rugops,Eoabelisaurus,Dahalokely,((Abelisaurus,(Rajasaurus,Majungasaurus,Indosaurus))Majungasaurinae,(MPM_99,(Koleken,Kurupi,Elemgasem,Niebla,Llukalkan,Viavenator,Skorpiovenator,Pycnonemosaurus,Ilokelesia,Genusaurus,Ekrixinatosaurus,Carnotaurus,Arcovenator,Aucasaurus))Brachyrostra))Abelisauridae)Abelisauroidea)Ceratosauria)));
+END;

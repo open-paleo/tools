@@ -1,0 +1,98 @@
+#NEXUS
+
+[ pinheiro2018a_fig11: Crocodyliform time tree, 85 tips. Read from the image's own black lines by a tracer (root at the bottom; only the connected tree ink, with short tip lines kept where a coloured range bar sits on them), then checked against the figure node by node and the tips named in printed order. Twenty-one clade names are kept as internal labels, each on the node above the bar that crosses its stem (SUCHIA at the root; 'advanced notosuchians' as printed, lower case); MESOEUCROCODYLIA excludes Hsisosuchus and THALATTOSUCHIA excludes Hyposaurus, as their bars show. Polytomies: Crocodylomorpha (Terrestrisuchus, Dibothrosuchus, Crocodyliformes); Notosuchia (Libycosuchus, Uruguaysuchidae and the rest, on one bar); four Baurusuchus/Stratiotosuchus tips; Sphagesauridae (four children); Caryonosuchus-Sphagesaurus-Armadillosuchus; Itasuchidae (four tips); and five sebecids (Pehuenchesuchus to Bergisuchus). 85 tips, 7 polytomies (3, 3, 4, 4, 3, 4, 5 children); 21 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=85;
+    TAXLABELS
+        Gracilisuchus
+        Terrestrisuchus
+        Dibothrosuchus
+        Hemiprotosuchus
+        Protosuchus
+        Orthosuchus
+        Gobiosuchus
+        Zaraasuchus
+        Shichuanosuchus
+        Zosuchus
+        Hsisosuchus
+        Pholidosaurus
+        Sarcosuchus
+        Terminonaris
+        Hyposaurus
+        Pelagosaurus
+        Steneosaurus
+        Metriorhynchus
+        Cricosaurus
+        Dakosaurus
+        Goniopholis
+        Sunosuchus
+        Calsoyasuchus
+        Eutretauranosuchus
+        Theriosuchus
+        Boverisuchus
+        Hylaeochampsa
+        Rugosuchus
+        Shamosuchus
+        Diplocynodon
+        Alligator
+        Crocodylus
+        Gavialis
+        Libycosuchus
+        Candidodon
+        Uruguaysuchus
+        Araripesuchus_gomesii
+        Anatosuchus
+        Araripesuchus_wegeneri
+        Pakasuchus
+        Malawisuchus
+        Simosuchus
+        Pabhwehshi
+        Campinasuchus
+        Pissarrachampsa
+        Stratiotosuchus
+        Baurusuchus_salgadoensis
+        Baurusuchus_pachecoi
+        Baurusuchus_albertoi
+        Comahuesuchus
+        Notosuchus
+        Mariliasuchus
+        Caipirasuchus_stenognathus
+        Adamantinasuchus
+        Yacarerani
+        Caipirasuchus_paulistanus
+        Caipirasuchus_montealtensis
+        Caryonosuchus
+        Sphagesaurus_huenei
+        Armadillosuchus
+        Stolokrosuchus
+        Barreirosuchus
+        Ayllusuchus
+        Caririsuchus
+        Roxochampsa_paulistanus
+        Pepesuchus
+        Itasuchus
+        Hamadasuchus
+        Lomasuchus
+        Montealtosuchus
+        Bayomesasuchus
+        Gasparinisuchus
+        Uberabasuchus
+        Kaprosuchus
+        Mahajangasuchus
+        Sahitisuchus
+        Bretesuchus
+        Barinasuchus
+        Sebecus_icaeorhinus
+        Sebecus_huilensis
+        Pehuenchesuchus
+        Lorosuchus
+        Sebecus_querejazus
+        Iberosuchus
+        Bergisuchus
+    ;
+END;
+
+BEGIN TREES;
+    TREE pinheiro2018a_fig11 = [&R] (Gracilisuchus,(Terrestrisuchus,Dibothrosuchus,((Hemiprotosuchus,Protosuchus),(Orthosuchus,((Gobiosuchus,Zaraasuchus),((Shichuanosuchus,Zosuchus),(Hsisosuchus,((((Pholidosaurus,(Sarcosuchus,Terminonaris))PHOLIDOSAURIDAE,(Hyposaurus,((Pelagosaurus,Steneosaurus),(Metriorhynchus,(Cricosaurus,Dakosaurus)))THALATTOSUCHIA)),((Goniopholis,(Sunosuchus,(Calsoyasuchus,Eutretauranosuchus)))GONIOPHOLIDIDAE,(Theriosuchus,((Boverisuchus,Hylaeochampsa),((Rugosuchus,Shamosuchus),(Diplocynodon,(Alligator,(Crocodylus,Gavialis)))CROCODYLIA))EUSUCHIA)))NEOSUCHIA,((Libycosuchus,((Candidodon,Uruguaysuchus),(Araripesuchus_gomesii,(Anatosuchus,Araripesuchus_wegeneri)))URUGUAYSUCHIDAE,((Pakasuchus,Malawisuchus),(Simosuchus,((Pabhwehshi,(Campinasuchus,(Pissarrachampsa,(Stratiotosuchus,Baurusuchus_salgadoensis,Baurusuchus_pachecoi,Baurusuchus_albertoi))))BAURUSUCHIDAE,(Comahuesuchus,(Notosuchus,(Mariliasuchus,(Caipirasuchus_stenognathus,(Adamantinasuchus,Yacarerani),(Caipirasuchus_paulistanus,Caipirasuchus_montealtensis),(Caryonosuchus,Sphagesaurus_huenei,Armadillosuchus))SPHAGESAURIDAE)))advanced_notosuchians))))NOTOSUCHIA,((Stolokrosuchus,((Barreirosuchus,Ayllusuchus),(Caririsuchus,Roxochampsa_paulistanus,Pepesuchus,Itasuchus)ITASUCHIDAE)),((Hamadasuchus,((Lomasuchus,Montealtosuchus),(Bayomesasuchus,(Gasparinisuchus,Uberabasuchus))))PEIROSAURIDAE,((Kaprosuchus,Mahajangasuchus)MAHAJANGASUCHIDAE,(Sahitisuchus,(Bretesuchus,((Barinasuchus,(Sebecus_icaeorhinus,Sebecus_huilensis)),(Pehuenchesuchus,Lorosuchus,Sebecus_querejazus,Iberosuchus,Bergisuchus))))SEBECIDAE)))SEBECIA)ZIPHOSUCHIA)MESOEUCROCODYLIA)))))CROCODYLIFORMES)CROCODYLOMORPHA)SUCHIA;
+END;

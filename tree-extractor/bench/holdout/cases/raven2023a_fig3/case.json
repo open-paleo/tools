@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/raven2023a_fig3.png",
+  "names": "names.txt",
+  "source": "Raven et al. 2023, Journal of Systematic Palaeontology 21, Fig. 3: a thyreophoran tree drawn over coloured boxes (blue, light blue, purple, green, yellow), each box spanning one clade's tips and named at the right beside a coloured bar and a silhouette; rectangular, root left, thin lines, tip names in the box colour. Image: census 2 figure (2041x1153 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genera and binomials)",
+  "gold": "gold.nex",
+  "gold_note": "Thyreophoran tree, read by eye; fully resolved. Stegosauria, Struthiosauridae, Panoplosauridae, Polacanthidae and Ankylosauridae, each named beside a coloured box that spans exactly one clade, are kept as internal labels. The boxes and silhouettes are not encoded. 47 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

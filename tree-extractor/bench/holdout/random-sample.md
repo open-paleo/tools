@@ -661,3 +661,75 @@ Run before any change was made for these figures.
 - The `reading-doubtful` warning marked three of those four (not zaher2011a_fig7) and none of the 14 at 90 percent or more.
 - The commit the batch ran at is one after 0.12.0: it reads a figure of small type at twice its size as well, made for pretto2018a_fig11 an hour before the batch arrived and without sight of it. moore2020a_fig25 was read that way and named 89 of 92; without the step it names 76. At 0.12.0 as tagged the batch would so have named 544 of 633 (86%).
 - Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%.
+
+
+# Sample 7 (census 2)
+
+Drawn from the 26 readable census-2 trees left without gold after sample 6 (corpus `census2/`; images at `../../../../../../corpus/census2/figures/{id}.png`).
+
+## How the sample was drawn
+
+- **Population:** census 2's 94 trees, minus those with cases, minus the six recorded unreadable (ramírez-velasco2022a_fig4, mcphee2018a_fig2, morrison2026a_fig5, morrison2026a_fig6, samathi2019a_fig1, turner2012a_fig59): 26 trees, all in the three layout strata.
+- **Strata:** layout by time axis, largest remainder: rectangular 4 + 9, slanted 0 + 3, vertical 2 + 2 (with + without time axis), from pools of 5, 12, 0, 4, 3 and 2.
+- **Draw:** `random.Random(20261241)`, `rng.sample` per stratum; a skip would be replaced from the stratum's remaining pool by `random.Random(20261241 + k)`. Strict on size. Script: `census2/scripts/gold_draw7.py`; picks and pools: `census2/scripts/gold_draw7_result.json`.
+
+Pools:
+
+- rectangular, no time axis (12): averianov2021c_fig8 cau2015a_fig6 fanti2012a_fig8 godefroit2012b_fig21 müller2018b_fig39 prieto-márquez2011b_fig3 raven2023a_fig3 rotatori2026a_fig4 sethapanichsakul2026a_fig14 srivastava2026a_fig20 turner2012a_fig62 turner2012a_fig79
+- slanted, no time axis (4): czepiński2019a_fig18 harris2004a_fig4 otero2010a_fig15 turner2012a_fig5
+- rectangular, time axis (5): cruzado-caballero2017a_fig14 fernández2022a_fig21 jiménezvelandia2025a_fig8 salgado2017a_fig4 sánchez-fenollosa2026a_fig11
+- vertical, time axis (3): fanti2013a_fig4 langer2019a_fig13 pinheiro2018a_fig11
+- vertical, no time axis (2): knoll2019z_fig4 norman2020b_fig24
+
+Drawn: cruzado-caballero2017a_fig14 fernández2022a_fig21 jiménezvelandia2025a_fig8 sánchez-fenollosa2026a_fig11 | averianov2021c_fig8 srivastava2026a_fig20 godefroit2012b_fig21 raven2023a_fig3 müller2018b_fig39 fanti2012a_fig8 turner2012a_fig79 rotatori2026a_fig4 sethapanichsakul2026a_fig14 | czepiński2019a_fig18 harris2004a_fig4 turner2012a_fig5 | fanti2013a_fig4 pinheiro2018a_fig11 | norman2020b_fig24 knoll2019z_fig4
+
+## Sample 7 (20 cases, no skips)
+
+| Case | Layout | Time axis | Tips | Polytomies (children) | Clade labels | names.txt | Gold method | Open licence |
+|---|---|---|---:|---|---:|---|---|---|
+| cruzado-caballero2017a_fig14 | rectangular | yes | 20 | - | - | printed | image-transcription | ? |
+| fernández2022a_fig21 | rectangular | yes | 14 | - | - | printed | image-transcription | ? |
+| jiménezvelandia2025a_fig8 | rectangular | yes | 40 | 3, 4, 7, 6, 3, 14 | 5 | printed | image-transcription | ? |
+| sánchez-fenollosa2026a_fig11 | rectangular | yes | 36 | - | 3 | printed | image-transcription | ? |
+| averianov2021c_fig8 | rectangular | no | 14 | 3, 10 | 1 | printed | image-transcription | ? |
+| srivastava2026a_fig20 | rectangular | no | 16 | 4 | 4 | printed | image-transcription | ? |
+| godefroit2012b_fig21 | rectangular | no | 15 | 3 | - | printed | image-transcription | yes |
+| raven2023a_fig3 | rectangular | no | 47 | - | 5 | printed | image-transcription | ? |
+| müller2018b_fig39 | rectangular | no | 39 | 4, 3, 4, 3, 3 | 5 | printed | image-transcription | ? |
+| fanti2012a_fig8 | rectangular | no | 12 | 3 | - | printed | image-transcription | yes |
+| turner2012a_fig79 | rectangular | no | 24 | 5, 4, 4 | 4 | printed | image-transcription | ? |
+| rotatori2026a_fig4 | rectangular | no | 51 | 3, 3, 5, 3, 3, 3 | 9 | printed | image-transcription | ? |
+| sethapanichsakul2026a_fig14 | rectangular | no | 23 | 3, 3 | 1 | printed | image-transcription | yes |
+| czepiński2019a_fig18 | slanted | no | 4 | 3 | - | printed | image-transcription | ? |
+| harris2004a_fig4 | slanted | no | 29 | 3, 3, 4 | 4 | printed | image-transcription | ? |
+| turner2012a_fig5 | slanted | no | 8 | - | - | printed | image-transcription | ? |
+| fanti2013a_fig4 | vertical | yes | 12 | 3, 3 | 1 | printed | image-transcription | ? |
+| pinheiro2018a_fig11 | vertical | yes | 85 | 3, 3, 4, 4, 3, 4, 5 | 21 | printed | image-transcription | yes |
+| norman2020b_fig24 | vertical | no | 5 | - | 3 | printed | image-transcription | ? |
+| knoll2019z_fig4 | vertical | no | 6 | - | - | printed | image-transcription | yes |
+
+No figure was skipped.
+
+Notes on sample 7:
+
+- **Drawn over grey or coloured bands or boxes** (said in each source line): fernández2022a_fig21 (stage chart in coloured bands above the tree), jiménezvelandia2025a_fig8 (coloured period and stage bands under the whole tree), sánchez-fenollosa2026a_fig11 (alternating grey and white epoch bands), pinheiro2018a_fig11 (blue-grey Mesozoic and pink Cenozoic backgrounds), raven2023a_fig3 and rotatori2026a_fig4 (one coloured box per named clade), sethapanichsakul2026a_fig14 b (grey box behind Euhelopodidae), srivastava2026a_fig20 B (coloured boxes behind two clades, gradient bands behind triangle tips), cruzado-caballero2017a_fig14 (grey dashed stage boundaries).
+- **Tips that are clade names, not taxa** (said in each source line): norman2020b_fig24 (all five), turner2012a_fig5 (four of eight), turner2012a_fig79 (Avialae, Troodontidae), knoll2019z_fig4 (three locality-and-clade specimen labels), harris2004a_fig4 A (Theropoda, Prosauropoda), fanti2013a_fig4 h (Flagellicaudata), srivastava2026a_fig20 B (five triangle tips), sethapanichsakul2026a_fig14 b (DIAMANTINASAURIA, TITANOSAURIA).
+- Panels, each with a `region`: averianov2021c_fig8 a, harris2004a_fig4 A, fanti2013a_fig4 h (a-g are photographs), müller2018b_fig39 A (one of four analyses), srivastava2026a_fig20 B, sethapanichsakul2026a_fig14 b. For srivastava2026a and sethapanichsakul2026a no rectangle holds one panel alone: srivastava's B region is clean (panel A runs under it), sethapanichsakul's b region has the ends of two panel-a labels in its lower-left corner.
+- Not encoded: node letters (godefroit2012b, C-R), character marks (fanti2013a a-l; norman2020b's 'no gastralia'), the alternative-placement arrows with step costs in turner2012a_fig79 (+7, +11), the LAB/XII arrows in knoll2019z, stars and Bremer values (rotatori2026a and others), and jiménezvelandia2025a's coloured circles for six wildcard taxa named only in the legend (not tips; not in names.txt).
+- Stem-based names (triangles, arrows, maximum-clade marks, bars across stems) are put on the node at the end of their stem: müller2018b_fig39, sánchez-fenollosa2026a_fig11 (Diplodocinae, Diplodocidae), srivastava2026a_fig20 (Dinosauriformes, Dinosauria), pinheiro2018a_fig11. rotatori2026a_fig4's bold names sit just left of where each node's stem enters, and go on that node; 'Ig.' is kept as printed.
+- czepiński2019a_fig18 is an ancestor-descendant diagram (morphology against time): P. andrewsi sits on the main line where P. hellenikorhinus branches, read as a child of that node; the line from Bag. rozhdestvenskyi up to an unlabelled circle is that taxon's range.
+- pinheiro2018a_fig11 (85 tips) was read from the image's black lines by a tracer (root at the bottom, only the tree's connected ink, short tip lines kept where a coloured range bar sits on them), then checked against the figure; MESOEUCROCODYLIA excludes Hsisosuchus and THALATTOSUCHIA excludes Hyposaurus, as their bars show.
+- None of these census images cuts off tips.
+
+What is left in census 2 after sample 7: 6 trees without gold (salgado2017a_fig4, cau2015a_fig6, prieto-márquez2011b_fig3, turner2012a_fig62, otero2010a_fig15, langer2019a_fig13), plus the six recorded unreadable.
+
+### Sample 7 baseline (tree extractor 0.14.0 plus the hollow bar in the ink, commit bf31ee3, run cold on 2026-11-25)
+
+Run before any change was made for these figures.
+
+- Names: 429 of 500 (86%). Exact matches: 6 of 20 (srivastava2026a_fig20, godefroit2012b_fig21, müller2018b_fig39, fanti2012a_fig8, sethapanichsakul2026a_fig14, turner2012a_fig5).
+- Splits, among the tips named: 303 of 312 (97%), with 4 wrong splits, three of them on harris2004a_fig4.
+- Five figures named under 70% of their tips: fernández2022a_fig21 0 of 14, norman2020b_fig24 0 of 5, knoll2019z_fig4 0 of 6, czepiński2019a_fig18 1 of 4, averianov2021c_fig8 8 of 14. Three of the five have tips that are clade names, or are not a cladogram in the usual sense (czepiński2019a_fig18 is an ancestor-descendant diagram of four tips).
+- The `reading-doubtful` warning marked all 5 of those and none of the 15 others.
+- Four of the steps added for sample 6 ran on this batch unprompted: gray bands were lifted on four figures (sánchez-fenollosa2026a_fig11, rotatori2026a_fig4, sethapanichsakul2026a_fig14, pinheiro2018a_fig11), hollow bars read on one, and two figures were read reduced.
+- Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%.

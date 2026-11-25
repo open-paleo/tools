@@ -1,0 +1,19 @@
+#NEXUS
+
+[ knoll2019z_fig4: Titanosaur cladogram, read by eye; fully resolved and pectinate. The arrows labelled LAB and XII mark character changes at two nodes and are not clade names; they are not encoded. The braincase reconstructions are not encoded. 6 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=6;
+    TAXLABELS
+        Sarmientosaurus
+        Dzharakuduk_Titanosauria
+        'Métisson Titanosauria'
+        Lohuecotitan
+        Lo_Hueco_Lithostrotia
+        Jainosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE knoll2019z_fig4 = [&R] (Sarmientosaurus,(Dzharakuduk_Titanosauria,('Métisson Titanosauria',(Lohuecotitan,(Lo_Hueco_Lithostrotia,Jainosaurus)))));
+END;

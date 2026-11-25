@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/knoll2019z_fig4.png",
+  "names": "names.txt",
+  "source": "Knoll et al. 2019, PeerJ, Fig. 4: a cladogram of six titanosaurs with 3D reconstructions of each braincase above the tips; rectangular, root at the bottom, thick lines. Three tips are specimens named by locality and clade ('Dzharakuduk Titanosauria', 'Métisson Titanosauria', 'Lo Hueco Lithostrotia'), not taxa; two coloured arrows (LAB, XII) point at nodes. Image: census 2 figure (3272x2394 px), a 599 dpi page render of the image.",
+  "license": "CC BY 4.0",
+  "attribution": "Knoll, F.; Lautenschlager, S.; Valentin, X.; Díez Díaz, V.; Pereda Suberbiola, X.; Garcia, G. (2019). First palaeoneurological study of a sauropod dinosaur from France and its phylogenetic significance. PeerJ. https://doi.org/10.7717/peerj.7991. Fig. 4. CC BY 4.0.",
+  "names_note": "no matrix held; list = the printed tip names, each two-line label joined into one ('Dzharakuduk Titanosauria', 'Métisson Titanosauria', 'Lo Hueco Lithostrotia')",
+  "gold": "gold.nex",
+  "gold_note": "Titanosaur cladogram, read by eye; fully resolved and pectinate. The arrows labelled LAB and XII mark character changes at two nodes and are not clade names; they are not encoded. The braincase reconstructions are not encoded. 6 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

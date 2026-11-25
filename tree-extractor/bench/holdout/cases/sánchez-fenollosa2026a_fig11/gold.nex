@@ -1,0 +1,49 @@
+#NEXUS
+
+[ sánchez-fenollosa2026a_fig11: Diplodocoid time tree, read by eye at 2-5x; fully resolved. Diplodocus, Diplodocinae and Diplodocidae, printed beside their dot or arrows, are kept as internal labels. The numbers 1-8 at the other clade marks are keys to the legend (Neosauropoda, Macronaria, Diplodocoidea, Diplodocimorpha, Rebbachisauridae, Flagellicaudata, Dicraeosauridae, Apatosaurinae) and are not encoded. Diplodocinae and Diplodocidae are maximum-clade (stem) definitions; each label is put on the node its arrow leads into. 36 tips, fully resolved; 3 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=36;
+    TAXLABELS
+        Shunosaurus_lii
+        Jobaria_tiguidensis
+        Haplocanthosaurus_priscus
+        Kaatedocus_siberi
+        Tornieria_africana
+        Leinkupal_laticauda
+        D._hallorum
+        'Diplodocus sp. (El Castellar specimen, CT-30)'
+        D._carnegii
+        Barosaurus_lentus
+        Galeamopus_hayi
+        Galeamopus_pabsti
+        Supersaurus_vivianae
+        Supersaurus_lourinhanensis
+        Apatosaurus_ajax
+        Apatosaurus_louisae
+        Brontosaurus_excelsus
+        Amphicoelias_altus
+        Brontosaurus_yahnahpin
+        Brontosaurus_parvus
+        Suuwassea_emilieae
+        Dicraeosaurus_hansemanni
+        Brachytrachelopan_mesai
+        Amargasaurus_cazaui
+        Zapalasaurus_bonapartei
+        Limaysaurus_tessonei
+        Cathartesaura_anaerobica
+        Nigersaurus_taqueti
+        Demandasaurus_darwini
+        Camarasaurus
+        Isisaurus_colberti
+        Giraffatitan_brancai
+        Brachiosaurus_altithorax
+        Ligabuesaurus_leanzai
+        Omeisaurus
+        Mamenchisaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'sánchez-fenollosa2026a_fig11' = [&R] (Shunosaurus_lii,((Jobaria_tiguidensis,((Haplocanthosaurus_priscus,((((Kaatedocus_siberi,(Tornieria_africana,((Leinkupal_laticauda,((((D._hallorum,'Diplodocus sp. (El Castellar specimen, CT-30)'),D._carnegii)Diplodocus,Barosaurus_lentus),(Galeamopus_hayi,Galeamopus_pabsti))),(Supersaurus_vivianae,Supersaurus_lourinhanensis))))Diplodocinae,(Apatosaurus_ajax,(Apatosaurus_louisae,(Brontosaurus_excelsus,(Amphicoelias_altus,(Brontosaurus_yahnahpin,Brontosaurus_parvus))))))Diplodocidae,(Suuwassea_emilieae,(Dicraeosaurus_hansemanni,(Brachytrachelopan_mesai,Amargasaurus_cazaui)))),(Zapalasaurus_bonapartei,((Limaysaurus_tessonei,Cathartesaura_anaerobica),(Nigersaurus_taqueti,Demandasaurus_darwini))))),(Camarasaurus,(Isisaurus_colberti,((Giraffatitan_brancai,Brachiosaurus_altithorax),Ligabuesaurus_leanzai))))),(Omeisaurus,Mamenchisaurus)));
+END;

@@ -1,0 +1,25 @@
+#NEXUS
+
+[ fanti2013a_fig4: Panel h, read by eye at 3x. 'Rebbachisauridae', printed under the tree below the stem of the clade that excludes Flagellicaudata, is kept as that clade's label. The Bremer values and the letters a-l (character marks on stems) are not encoded. Polytomies: Histriasaurus-Zapalasaurus-the rest (both join one bar), and Rayosaurus-Rebbachisaurus-the Cathartesaura-Limaysaurus pair. 12 tips, 2 polytomies (3, 3 children); 1 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=12;
+    TAXLABELS
+        Flagellicaudata
+        Amazonsaurus
+        Histriasaurus
+        Zapalasaurus
+        Comahesaurus
+        Rayosaurus
+        Rebbachisaurus
+        Cathartesaura
+        Limaysaurus
+        Nigersaurus
+        Demandasaurus
+        Tataouinea
+    ;
+END;
+
+BEGIN TREES;
+    TREE fanti2013a_fig4 = [&R] (Flagellicaudata,(Amazonsaurus,(Histriasaurus,Zapalasaurus,(Comahesaurus,((Rayosaurus,Rebbachisaurus,(Cathartesaura,Limaysaurus)),(Nigersaurus,(Demandasaurus,Tataouinea))))))Rebbachisauridae);
+END;

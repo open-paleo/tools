@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/godefroit2012b_fig21.png",
+  "names": "names.txt",
+  "source": "Godefroit et al. 2012, PLoS ONE 7, Fig. 21: strict consensus of hadrosaurids placing Kundurosaurus; rectangular, root left, thin lines, a node letter above and Bremer/bootstrap values below each node, a 'clade bd/bs' key at the root. Image: census 2 figure (1678x882 px), the embedded raster.",
+  "license": "CC BY (no version stated)",
+  "attribution": "Godefroit, P.; Bolotsky, Y. L.; Lauters, P. (2012). A New Saurolophine Dinosaur from the Latest Cretaceous of Far Eastern Russia. PLoS ONE. https://doi.org/10.1371/journal.pone.0036849. Fig. 21. CC BY (no version stated).",
+  "names_note": "no matrix held; list = the printed tip names (binomials)",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosaurid strict consensus, read by eye. The node letters (C-R) are keys for the text and are not encoded, nor are the support values. One three-way node: M (Kundurosaurus, the Edmontosaurus pair and the Prosaurolophus-Saurolophus clade). 15 tips, 1 polytomies (3 children). Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

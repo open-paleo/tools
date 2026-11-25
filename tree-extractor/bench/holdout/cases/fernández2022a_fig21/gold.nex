@@ -1,0 +1,27 @@
+#NEXUS
+
+[ fernández2022a_fig21: Sauropodomorph time tree, read by eye at 3x; fully resolved, no clade names printed. The dashed leaders, silhouettes and histology panels are not encoded. 14 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=14;
+    TAXLABELS
+        Pantydraco
+        Thecodontosaurus
+        Efraasia
+        Ruehleia
+        '''Sellosaurus'''
+        Plateosaurus
+        Riojasaurus
+        Lufengosaurus
+        Massospondylus
+        Anchisaurus
+        Lessemsaurus
+        Meroktenos
+        Tuebingosaurus
+        Volkheimeria
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'fernández2022a_fig21' = [&R] (Pantydraco,(Thecodontosaurus,(Efraasia,(Ruehleia,(('''Sellosaurus''',Plateosaurus),(Riojasaurus,((Lufengosaurus,Massospondylus),(Anchisaurus,(Lessemsaurus,((Meroktenos,Tuebingosaurus),Volkheimeria))))))))));
+END;

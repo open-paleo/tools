@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/müller2018b_fig39.png",
+  "names": "names.txt",
+  "source": "Müller et al. 2018, Zoological Journal of the Linnean Society 184, Fig. 39A: panel A, the abbreviated strict consensus of the first of four analyses, placing CAPPA/UFSM 0035; rectangular, root left, thin lines, Bremer/bootstrap values at nodes, a black dot (node-based) and black triangles (stem-based) on nodes joined by grey dashed leaders to clade names at the left. Panels B-D (the other analyses, same taxa) are excluded. Image: census 2 figure (3877x3479 px), the embedded raster.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2000,
+    "y1": 1720
+  },
+  "region_note": "panel A (top left); B-D are the other three analyses",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A, including the informal tips 'Petrified forest theropod' and 'CAPPA/UFSM 0035'",
+  "gold": "gold.nex",
+  "gold_note": "Panel A, read by eye at 2x. Dinosauria (black dot) and Ornithischia, Saurischia, Theropoda and Sauropodomorpha (black triangles on the stems of their nodes), joined to the names by dashed leaders, are kept as internal labels; each stem-based name is put on the node at the end of its stem. Polytomies: Pseudolagosuchus-Lewisuchus-Saltopus-Dinosauria; Sacisaurus-Silesaurus-Diodorus; Eocursor-Lesothosaurus-Scutellosaurus-the Heterodontosaurus pair; Dilophosaurus-Petrified forest theropod-the rest; Panphagia-the Chromogisaurus pair-the Pantydraco clade. 39 tips, 5 polytomies (4, 3, 4, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

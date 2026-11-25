@@ -1,0 +1,11 @@
+{
+  "image": "../../../../../../corpus/census2/figures/fanti2012a_fig8.png",
+  "names": "names.txt",
+  "source": "Fanti et al. 2012, PLOS ONE 7, Fig. 8: strict consensus of oviraptorids placing Nemegtomaia; rectangular, root left, thick lines, bootstrap/Bremer values at the nodes. Image: census 2 figure (897x917 px), the embedded raster.",
+  "license": "CC BY (no version stated)",
+  "attribution": "Fanti, F.; Currie, P. J.; Badamgarav, D.; Lalueza-Fox, C. (2012). New specimens of Nemegtomaia from the Baruungoyot and Nemegt Formations (Late Cretaceous) of Mongolia. PLOS ONE. https://doi.org/10.1371/journal.pone.0031330. Fig. 8. CC BY (no version stated).",
+  "names_note": "no matrix held; list = the printed tip names, including the specimen tip 'Citipati n.sp. MPC-D 100/42'",
+  "gold": "gold.nex",
+  "gold_note": "Oviraptorid strict consensus, read by eye; no clade names are printed. One three-way node: Oviraptor, the Rinchenia-Citipati clade and the Khaan clade. 12 tips, 1 polytomies (3 children). Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

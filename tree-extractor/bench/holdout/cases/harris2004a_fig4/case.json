@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/harris2004a_fig4.png",
+  "names": "names.txt",
+  "source": "Harris and Dodson 2004, Acta Palaeontologica Polonica 49, Fig. 4A: panel A, a published sauropod cladogram; slanted, root at the bottom, thin lines, four clade names joined to nodes by thin curved arrows. Tips include the clade names Theropoda and Prosauropoda as outgroups. Panel B (another analysis, with support values) is excluded. Image: census 2 figure (2010x2652 px), a 300 dpi page render of the vector figure.",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2010,
+    "y1": 1310
+  },
+  "region_note": "panel A (top); panel B below is another analysis",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A, including the outgroup tips Theropoda and Prosauropoda (clade names) and '“Titanosaurus” colberti' (curly quotes, as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Panel A, read by eye at 3-4x. Dicraeosauridae, Diplodocinae, Diplodocidae and Diplodocoidea, each joined to its node by an arrow, are kept as internal labels. Polytomies: the root (Theropoda and Prosauropoda meet the sauropod line at one point), Haplocanthosaurus-Diplodocoidea-Macronaria (two lines converge into that node), and the four-way titanosaur node (Nemegtosaurus, “Titanosaurus” colberti, Opisthocoelicaudia-Alamosaurus, Neuquensaurus-Saltasaurus). 29 tips, 3 polytomies (3, 3, 4 children); 4 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

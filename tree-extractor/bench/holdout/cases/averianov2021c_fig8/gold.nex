@@ -1,0 +1,27 @@
+#NEXUS
+
+[ averianov2021c_fig8: Panel a, read by eye; every child leaves its node on a diagonal. Parvicursorinae, on a leader line to its node, is kept as an internal label. Polytomies: the root (Achillesaurus, Alvarezsaurus and the rest) and Parvicursorinae (ten children: nine tips and the Mononykus-Shuvuuia pair). 14 tips, 2 polytomies (3, 10 children); 1 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=14;
+    TAXLABELS
+        Achillesaurus_manazzonei
+        Alvarezsaurus_calvoi
+        Albertonykus_borealis
+        Albinykus_baatar
+        Ceratonykus_oculatus
+        Linhenykus_monodactylus
+        Parvicursor_remotus
+        Xixianykus_zhangi
+        Qiupanykus_zhangi
+        Nemegtonykus_citus
+        'PIN 5838/1'
+        Khulsanurus_magnificus
+        Mononykus_olecranus
+        Shuvuuia_deserti
+    ;
+END;
+
+BEGIN TREES;
+    TREE averianov2021c_fig8 = [&R] (Achillesaurus_manazzonei,Alvarezsaurus_calvoi,(Albertonykus_borealis,(Albinykus_baatar,Ceratonykus_oculatus,Linhenykus_monodactylus,Parvicursor_remotus,Xixianykus_zhangi,Qiupanykus_zhangi,Nemegtonykus_citus,'PIN 5838/1',Khulsanurus_magnificus,(Mononykus_olecranus,Shuvuuia_deserti))Parvicursorinae));
+END;

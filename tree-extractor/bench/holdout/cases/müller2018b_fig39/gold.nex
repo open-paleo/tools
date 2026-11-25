@@ -1,0 +1,52 @@
+#NEXUS
+
+[ müller2018b_fig39: Panel A, read by eye at 2x. Dinosauria (black dot) and Ornithischia, Saurischia, Theropoda and Sauropodomorpha (black triangles on the stems of their nodes), joined to the names by dashed leaders, are kept as internal labels; each stem-based name is put on the node at the end of its stem. Polytomies: Pseudolagosuchus-Lewisuchus-Saltopus-Dinosauria; Sacisaurus-Silesaurus-Diodorus; Eocursor-Lesothosaurus-Scutellosaurus-the Heterodontosaurus pair; Dilophosaurus-Petrified forest theropod-the rest; Panphagia-the Chromogisaurus pair-the Pantydraco clade. 39 tips, 5 polytomies (4, 3, 4, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=39;
+    TAXLABELS
+        Marasuchus_lilloensis
+        Pseudolagosuchus_major
+        Lewisuchus_admixtus
+        Saltopus_elginensis
+        Asilisaurus_kongwe
+        Eucoelophysis_baldiwni
+        Sacisaurus_agudoensis
+        Silesaurus_opolensis
+        Diodorus_scytobrachion
+        Eocursor_parvus
+        Lesothosaurus_diagnosticus
+        Scutellosaurus_lawleri
+        Heterodontosaurus_tucki
+        Pisanosaurus_mertii
+        Staurikosaurus_pricei
+        Sanjuansaurus_gordilloi
+        Herrerasaurus_ischigualastensis
+        Daemonosaurus_chauliodus
+        Tawa_hallae
+        Chindesaurus_briansmalli
+        Eodromaeus_murphi
+        Guaibasaurus_candelariensis
+        Zupaysaurus_rougieri
+        Dilophosaurus_wetherelli
+        Petrified_forest_theropod
+        Liliensternus_liliensterni
+        Syntarsus_kayentakatae
+        Syntarsus_rhodesiensis
+        Coelophysis_bauri
+        'CAPPA/UFSM 0035'
+        Buriolestes_schultzi
+        Eoraptor_lunesis
+        Pampadromaeus_barberenai
+        Panphagia_protos
+        Chromogisaurus_novasi
+        Saturnalia_tupiniquim
+        Pantydraco_caducus
+        Efraasia_minor
+        Plateosaurus_engelhardti
+    ;
+END;
+
+BEGIN TREES;
+    TREE 'müller2018b_fig39' = [&R] (Marasuchus_lilloensis,(Pseudolagosuchus_major,Lewisuchus_admixtus,Saltopus_elginensis,((Asilisaurus_kongwe,((Eucoelophysis_baldiwni,(Sacisaurus_agudoensis,Silesaurus_opolensis,Diodorus_scytobrachion)),(Eocursor_parvus,Lesothosaurus_diagnosticus,Scutellosaurus_lawleri,(Heterodontosaurus_tucki,Pisanosaurus_mertii))))Ornithischia,((Staurikosaurus_pricei,(Sanjuansaurus_gordilloi,Herrerasaurus_ischigualastensis)),(Daemonosaurus_chauliodus,((Tawa_hallae,Chindesaurus_briansmalli),(Eodromaeus_murphi,(Guaibasaurus_candelariensis,((Zupaysaurus_rougieri,(Dilophosaurus_wetherelli,Petrified_forest_theropod,(Liliensternus_liliensterni,(Syntarsus_kayentakatae,(Syntarsus_rhodesiensis,Coelophysis_bauri)))))Theropoda,(('CAPPA/UFSM 0035',Buriolestes_schultzi),(Eoraptor_lunesis,(Pampadromaeus_barberenai,(Panphagia_protos,(Chromogisaurus_novasi,Saturnalia_tupiniquim),(Pantydraco_caducus,(Efraasia_minor,Plateosaurus_engelhardti))))))Sauropodomorpha))))))Saurischia)Dinosauria));
+END;

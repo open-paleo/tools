@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/turner2012a_fig79.png",
+  "names": "names.txt",
+  "source": "Turner et al. 2012, Bulletin of the American Museum of Natural History 371, Fig. 79: the paravian tree showing the alternative positions of Rahonavis; rectangular, root left at the Paraves node (an arrow leads off its stem), thick grey lines with the Avialae stem and Rahonavis in black, Avialae and Troodontidae collapsed to open triangles, node brackets and a circle with clade names, and two black curved arrows from Rahonavis to the Avialae node and stem labelled with extra steps (+7, +11). Image: census 2 figure (1467x1592 px), a 300 dpi page render of the vector figure.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, including the triangle tips Avialae and Troodontidae (clade names) and 'Unenlagia' (genus only, as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Paravian tree, read by eye at 2x. The gold is the drawn tree, with Rahonavis in Unenlagiinae; the two curved arrows mark the alternative placements with the step cost of each (+7, +11) and are not part of the tree. The arrow on the root stem leads to the rest of the tree and is not a tip. Avialae and Troodontidae are open triangles, each one tip named by the word beside it. Paraves, Deinonychosauria, Dromaeosauridae and Unenlagiinae, printed at node brackets or a node circle, are kept as internal labels. Polytomies: the five microraptorines (Tianyuraptor to Hesperonychus), Dromaeosaurus-Achillobator-Atrociraptor-Utahraptor, and Deinonychus-Velociraptor-Balaur-Adasaurus. 24 tips, 3 polytomies (5, 4, 4 children); 4 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

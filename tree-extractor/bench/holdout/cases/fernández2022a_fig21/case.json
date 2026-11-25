@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/fernández2022a_fig21.png",
+  "names": "names.txt",
+  "source": "Regalado Fernández and Werneburg 2022, Vertebrate Zoology 72, Fig. 21: a time-scaled tree of sauropodomorphs (bottom left) under a period/epoch/stage chart in coloured bands, with thick range bars at the tips, dashed leaders from four tips to silhouettes and bone-histology drawings at the right; rectangular, root left, thin lines. Image: census 2 figure (2248x1800 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genera), including \"'Sellosaurus'\" with its quotation marks",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph time tree, read by eye at 3x; fully resolved, no clade names printed. The dashed leaders, silhouettes and histology panels are not encoded. 14 tips, fully resolved. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}
