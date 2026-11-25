@@ -194,6 +194,8 @@ export function eraseScaleRules(image: RgbaImage): ScaleRuleResult
         const slack = Math.max(3, Math.round(long / 100));
         let erased = -10;
 
+        const inFamily = new Array<boolean>();
+
         for (const candidate of candidates)
         {
             // Rules begin and end together. Two rows of one rule count once.
@@ -209,7 +211,21 @@ export function eraseScaleRules(image: RgbaImage): ScaleRuleResult
                 }
             }
 
-            if (family < 3)
+            inFamily.push(family >= 3);
+        }
+
+        for (let index = 0; index < candidates.length; index++)
+        {
+            const candidate = candidates[index];
+
+            // A rule two pixels broad is two candidates, and goes whole: its other row may
+            // begin elsewhere for a gray pixel of a heading that happens to lie in it
+            // (Rotatori 2023, where the row left standing made one upright of the tree's
+            // nodes on that rule).
+            const beside = (index > 0 && inFamily[index - 1] && candidate.at - candidates[index - 1].at <= 2)
+                || (index + 1 < candidates.length && inFamily[index + 1] && candidates[index + 1].at - candidate.at <= 2);
+
+            if (!inFamily[index] && !beside)
             {
                 continue;
             }

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A rule of a time scale two pixels broad is erased whole. One of its rows was left when a
+  gray pixel of a heading lay in it, and the nodes of the tree standing on that rule were
+  joined by it into one upright the height of the figure, which was dropped as a chart
+  line. Rotatori 2023 goes from 60 of 73 names to 69.
 - Two tips that claim one name of the list are settled: the tip whose label is nearest the
   name keeps it, and the other is offered the best name that no tip holds, or is left
   unmatched. A name held twice counted as not found, so the tip that was that taxon was
