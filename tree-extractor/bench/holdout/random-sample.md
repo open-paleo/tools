@@ -733,3 +733,4 @@ Run before any change was made for these figures.
 - The `reading-doubtful` warning marked all 5 of those and none of the 15 others.
 - Four of the steps added for sample 6 ran on this batch unprompted: gray bands were lifted on four figures (sánchez-fenollosa2026a_fig11, rotatori2026a_fig4, sethapanichsakul2026a_fig14, pinheiro2018a_fig11), hollow bars read on one, and two figures were read reduced.
 - Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%.
+- Out of scope, by Sarah's decision of 2026-11-25: czepiński2019a_fig18. It is an ancestor-descendant scenario plotted as morphology against time, with taxa as circles on slanted lines and no nodes in a cladogram's sense. It was drawn in the sample and stays in it, and in the cold figure above; it is not a failure to be worked on.
