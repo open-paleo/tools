@@ -51,11 +51,6 @@ const ruleDarkest = 110;
 const ruleLightest = 215;
 
 /**
- * How many thin gray lines across the rules make the tree itself one drawn in thin gray.
- */
-const thinLinesOfTree = 8;
-
-/**
  * Erases the rules of a time scale: thin gray lines ruled across the whole plot. Turned on
  * its side such a figure has them as uprights the height of the tree, which pass for nodes
  * with every branch they cross as a child (Lamanna 2014, eighteen rules). A rule is a row or
@@ -189,39 +184,6 @@ export function eraseScaleRules(image: RgbaImage): ScaleRuleResult
         return candidates;
     }
 
-    // Counts the stretches of thin gray line, a twenty-fifth of the image long or more,
-    // that run one way.
-    function countThinLines(alongX: boolean): number
-    {
-        const lines = alongX ? height : width;
-        const long = alongX ? width : height;
-        const least = Math.max(30, Math.round(long / 25));
-        let found = 0;
-
-        for (let at = 0; at < lines; at++)
-        {
-            let run = 0;
-
-            for (let along = 0; along <= long; along++)
-            {
-                const x = alongX ? along : at;
-                const y = alongX ? at : along;
-
-                if (along < long && gray[y * width + x] === 1 && isThin(x, y, alongX))
-                {
-                    run++;
-                }
-                else
-                {
-                    found += run >= least ? 1 : 0;
-                    run = 0;
-                }
-            }
-        }
-
-        return found;
-    }
-
     let result: RgbaImage | null = null;
     let rules = 0;
 
@@ -229,15 +191,6 @@ export function eraseScaleRules(image: RgbaImage): ScaleRuleResult
     {
         const candidates = findCandidates(alongX);
         const long = alongX ? width : height;
-
-        // A tree drawn in thin gray lines has its branches across the rules in the same
-        // gray, and a node that stands on a rule cannot be told from it: the rules are
-        // then left for the steps that drop them as segments (Rauhut 2016).
-        if (candidates.length === 0 || countThinLines(!alongX) >= thinLinesOfTree)
-        {
-            continue;
-        }
-
         const slack = Math.max(3, Math.round(long / 100));
         let erased = -10;
 

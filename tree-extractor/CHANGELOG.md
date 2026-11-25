@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A range drawn as a hollow bar, two thin lines side by side closed at both ends, is read as
+  one branch (`hollow-bars-read`); it was two branches from one short node. And the rules
+  of a time scale are erased on a figure whose tree is itself drawn in thin gray lines,
+  which a guard had left alone: with gray bands lifted first it is no longer needed.
+  Zaher 2011: 10 of 13 scored splits with 1 wrong to 13 of 14 with none.
 - Gray bands behind a figure are lifted to white before it is read (`gray-bands-flattened`),
   each pixel set against the ground about it. Where a tree is drawn over the bands of a
   stage chart, the darkest band was ink in patches and the edge between two bands a line

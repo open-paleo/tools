@@ -2431,6 +2431,141 @@ export function dropCrossingStrokes(verticals: Array<Segment>, horizontals: Arra
 }
 
 /**
+ * Reads a range drawn as a hollow bar as one branch. A range that is inferred and not
+ * observed may be drawn as an empty box along the branch: two thin lines side by side, closed
+ * at both ends, with the branch arriving at the middle of one end and leaving from the middle
+ * of the other. As segments it is two branches from one short node, and the tree stops at it
+ * (Zaher 2011, two tips each read as two). Two thin horizontals that begin and end together,
+ * under a letter's height apart and several times longer than that, with an upright closing
+ * each end, are replaced by one horizontal through the middle, and the branches that arrive
+ * at it and leave it are joined to it.
+ *
+ * @param horizontals - Horizontal segments; changed in place.
+ * @param verticals - Vertical segments; changed in place.
+ * @param tolerance - How far two ends may lie apart and still be together.
+ * @param tallest - Greatest breadth of a bar, between its two lines.
+ * @returns How many bars were replaced.
+ */
+export function mergeHollowBars(horizontals: Array<Segment>, verticals: Array<Segment>, tolerance: number, tallest: number): number
+{
+    const gone = new Set<Segment>();
+    let merged = 0;
+
+    // The far cap may stand a little past the lines' end: a label after the bar clips them
+    // short of it.
+    function findCap(x: number, top: number, bottom: number, beyond: number): Segment | null
+    {
+        for (const vertical of verticals)
+        {
+            const { box } = vertical;
+            const center = (box.x0 + box.x1) / 2;
+
+            if (!gone.has(vertical) && center >= x - tolerance - 1 && center <= x + tolerance + 1 + beyond && box.y0 >= top - tolerance && box.y1 <= bottom + tolerance && box.y1 - box.y0 >= (bottom - top) / 2)
+            {
+                return vertical;
+            }
+        }
+
+        return null;
+    }
+
+    for (const upper of horizontals)
+    {
+        if (gone.has(upper))
+        {
+            continue;
+        }
+
+        for (const lower of horizontals)
+        {
+            const between = lower.box.y0 - upper.box.y1;
+            const long = Math.min(upper.box.x1 - upper.box.x0, lower.box.x1 - lower.box.x0);
+
+            if (lower === upper || gone.has(lower) || between < 2 || between > tallest || long < 4 * between)
+            {
+                continue;
+            }
+
+            // The two lines are thin, thinner than the hollow between them: the solid range
+            // bars of two sister tips lie side by side as well, closer than they are thick
+            // (Ramirez-Velasco 2021).
+            if (Math.max(upper.box.y1 - upper.box.y0, lower.box.y1 - lower.box.y0) > Math.min(between, tolerance))
+            {
+                continue;
+            }
+
+            if (Math.abs(lower.box.x0 - upper.box.x0) > tolerance || Math.abs(lower.box.x1 - upper.box.x1) > tolerance)
+            {
+                continue;
+            }
+
+            const before = findCap(Math.min(upper.box.x0, lower.box.x0), upper.box.y0, lower.box.y1, 0);
+            const after = findCap(Math.max(upper.box.x1, lower.box.x1), upper.box.y0, lower.box.y1, tallest);
+
+            if (before === null || after === null || before === after)
+            {
+                continue;
+            }
+
+            const thick = Math.max(1, upper.box.y1 - upper.box.y0);
+            const middle = Math.round((upper.box.y0 + lower.box.y1) / 2);
+
+            upper.box = { x0: Math.min(upper.box.x0, lower.box.x0, before.box.x0), y0: middle - Math.floor(thick / 2), x1: Math.max(upper.box.x1, lower.box.x1, after.box.x1), y1: middle - Math.floor(thick / 2) + thick };
+            gone.add(lower);
+            gone.add(before);
+            gone.add(after);
+
+            // The branch that arrives at the bar and the one that leaves it run on at its
+            // middle height, and are one line with it: with the caps gone nothing else
+            // would join them.
+            for (const other of horizontals)
+            {
+                const level = (other.box.y0 + other.box.y1) / 2;
+
+                if (other === upper || gone.has(other) || level < upper.box.y0 - between || level > upper.box.y1 + between)
+                {
+                    continue;
+                }
+
+                if (Math.abs(other.box.x1 - upper.box.x0) <= 2 * tolerance)
+                {
+                    upper.box.x0 = other.box.x0;
+                    gone.add(other);
+                }
+                else if (Math.abs(other.box.x0 - upper.box.x1) <= 2 * tolerance)
+                {
+                    upper.box.x1 = other.box.x1;
+                    gone.add(other);
+                }
+            }
+
+            merged++;
+            break;
+        }
+    }
+
+    if (merged === 0)
+    {
+        return 0;
+    }
+
+    function isKept(segment: Segment): boolean
+    {
+        return !gone.has(segment);
+    }
+
+    const keptHorizontals = horizontals.filter(isKept);
+    const keptVerticals = verticals.filter(isKept);
+
+    horizontals.length = 0;
+    horizontals.push(...keptHorizontals);
+    verticals.length = 0;
+    verticals.push(...keptVerticals);
+
+    return merged;
+}
+
+/**
  * Removes the verticals that branches cross and none ends at: a guide line ruled across the
  * figure at a height or a date. A node's vertical is where its branches begin and its stem
  * ends, and no branch of the tree runs through it; left in, a rule cuts every branch it meets

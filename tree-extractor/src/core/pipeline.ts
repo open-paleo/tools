@@ -18,7 +18,7 @@ import type { ChartStripFind } from "./markers.ts";
 import { bridgeUnderLettering, bridgeUnderShapes, createColoredMask, findBranchMarks, findMarkChains, extendTipsThroughMarkers, keepColoredLines, findFatShapes, findOffColorLines, findNodeDiscs, joinThroughNumbers, keepSmallShapes, measureInkShare, paintCrosses, removeChartLines, removeChartStrips, removeFrameSegments, splitColoredInk } from "./markers.ts";
 import { applyHysteresis, closeMask, invertMask, compareNumbers, convertToGray, createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, erode, estimateBackground, estimateLineThickness, keepComponentsTouching, paintMask, rotateRgbaQuarter, subtractMask, unionMask, measureThinInkLuminance, computeMedian, createMaskFromComponents, findConnectedComponents, reduceRgba, enlargeRgba, keepComponentsWithin, transposeMask } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
-import { dropCrossedRules, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
+import { dropCrossedRules, mergeHollowBars, dropCrossingStrokes, dropInsets, partAtCrossings, squareRoundedCorners, extractSegments, findMarkerStubs, findShortConnectors, splitJoggedVerticals, trimBranchesAtCorners, findBarBranches } from "./segments.ts";
 import { traceRectangularTree } from "./tracer.ts";
 import { assignLabels, readLabels, isCladeName, isHigherTaxonName, restoreCladeNames } from "./labels.ts";
 import { getTipDisplayName } from "./newick.ts";
@@ -2669,6 +2669,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
             message: `a boxed inset at x ${inset.x0}-${inset.x1}, y ${inset.y0}-${inset.y1}, such as a legend or a time scale, was left out of the tree`,
             subject: null,
         });
+    }
+
+    // A range drawn as a hollow bar is one branch.
+    const hollowBars = mergeHollowBars(horizontals, verticals, Math.max(3, Math.round(thickness) + 1), Math.round(0.8 * glyphHeight));
+
+    if (hollowBars > 0)
+    {
+        frameIssues.push({ severity: "info", code: "hollow-bars-read", message: `${hollowBars} range(s) drawn as hollow bars were read as branches`, subject: null });
     }
 
     // A guide line ruled across the branches goes.
