@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.14.0 (2026-11-24)
 
 - A range drawn as a hollow bar, two thin lines side by side closed at both ends, is read as
   one branch (`hollow-bars-read`); it was two branches from one short node. And the rules

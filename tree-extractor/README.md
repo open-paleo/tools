@@ -38,7 +38,7 @@ draws and each batch's cold result. The last six batches of twenty named 67, 74,
 and 88 percent of their tips cold, the last three of those being the ones from the second
 census. Four more were picked for a feature, marks for character changes drawn on the
 branches, and count in no estimate. Over all 219 figures with gold trees the pipeline now
-names 6,774 of 7,194 tips, and 78 figures come out identical.
+names 6,792 of 7,194 tips, and 81 figures come out identical.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
 (`bench/holdout/census.md` gives the sampling), run with the batch runner and not scored
@@ -75,8 +75,8 @@ every reading is judged by what it shows of itself: how many tips the tree has, 
 named, how many of the tips found are joined to it, and how many rows that look like labels
 were left over. A reading that fails one of these begins its quality checks with the warning
 `reading-doubtful` and the reason; the viewer shows it above the results. Over the gold
-figures the warning marks 11 of the 16 readings that named under 70 percent of their tips and
-4 of the 167 that named 90 percent or more.
+figures the warning marks 10 of the 14 readings that named under 70 percent of their tips and
+4 of the 170 that named 90 percent or more.
 
 ## Use
 
