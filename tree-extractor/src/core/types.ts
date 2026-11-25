@@ -397,6 +397,13 @@ export type ImageInfo = {
      * in the document, and the width and height here, refer to the turned image.
      */
     quarterTurns: number;
+
+    /**
+     * Areas the extractor left out of its own accord: pictures in full color set beside the
+     * tree. In the coordinates of the image as it was given, before any turning, as the areas
+     * a caller asks to leave out are. Absent when it found none or was told not to look.
+     */
+    foundExclusions?: Array<Box>;
 };
 
 /**

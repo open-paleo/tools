@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Pictures in full color set beside a tree, photographs or drawings, are blanked before the
+  figure is read (`pictures-blanked`): their texture outnumbered the figure's letters and
+  pieces of them passed for a tree larger than the tree (Regalado Fernández 2022, four
+  micrographs beside a tree of fourteen tips: no names to 13).
 - A hollow range bar that ends at a thick node bar is read: its two lines and the node bar
   were one piece of ink with two lines to a column, and no branch came out of it. Such a
   bar is now found in the ink and drawn as one line before the segments are taken (Zaher

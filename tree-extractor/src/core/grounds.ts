@@ -6,7 +6,7 @@
  */
 
 import type { Box, Mask, RgbaImage } from "./types.ts";
-import { convertToGray, erode, estimateBackground, findConnectedComponents } from "./raster.ts";
+import { convertToGray, dilate, erode, estimateBackground, findConnectedComponents } from "./raster.ts";
 
 /**
  * What clearing the dark grounds did.
@@ -21,6 +21,11 @@ export type GroundResult = {
      * Number of grounds cleared.
      */
     grounds: number;
+
+    /**
+     * Where they were, when the step gives that: the boxes it painted white.
+     */
+    boxes?: Array<Box>;
 };
 
 /**
@@ -279,4 +284,179 @@ export function flattenGrayBands(image: RgbaImage, maxChroma: number): GroundRes
     }
 
     return { image: { width, height, data: flattened }, grounds: 1 };
+}
+
+/**
+ * Blanks the pictures set beside a tree: a photograph or a drawing in full color, a block of
+ * the page a tenth of its shorter side both ways, colored all over and textured in its
+ * colors. Its texture is hundreds of small shapes, which outnumber the letters of the figure
+ * and set its letter height, and pieces of it pass for a tree larger than the tree (Regalado
+ * Fernandez 2022, four micrographs of bone beside a tree of fourteen tips, of which none was
+ * named). A colored band with a tree drawn over it, or a stage chart, is as large and as
+ * colored, and flat.
+ *
+ * @param image - Image.
+ * @param maxChroma - Largest channel spread still neutral.
+ * @returns The image with such pictures white, and how many there were.
+ */
+export function blankPictures(image: RgbaImage, maxChroma: number): GroundResult
+{
+    const { width, height, data } = image;
+    const colored: Mask = { width, height, data: new Uint8Array(width * height) };
+    const black: Mask = { width, height, data: new Uint8Array(width * height) };
+    let any = 0;
+
+    for (let index = 0; index < width * height; index++)
+    {
+        const offset = 4 * index;
+        const strongest = Math.max(data[offset], data[offset + 1], data[offset + 2]);
+        const chroma = strongest - Math.min(data[offset], data[offset + 1], data[offset + 2]);
+
+        colored.data[index] = chroma > maxChroma + 10 ? 1 : 0;
+        black.data[index] = chroma <= maxChroma && strongest < 110 ? 1 : 0;
+        any += colored.data[index];
+    }
+
+    const shorter = Math.min(width, height);
+
+    if (any < 0.01 * width * height)
+    {
+        return { image, grounds: 0 };
+    }
+
+    const radius = Math.max(4, Math.round(0.008 * shorter));
+    const labeling = findConnectedComponents(erode(dilate(colored, radius), radius));
+    const boxes = new Array<Box>();
+
+    for (const component of labeling.components)
+    {
+        const { box, area } = component;
+        const boxWidth = box.x1 - box.x0;
+        const boxHeight = box.y1 - box.y0;
+
+        if (Math.min(boxWidth, boxHeight) < 0.1 * shorter || area < 0.85 * boxWidth * boxHeight)
+        {
+            continue;
+        }
+
+        // A picture is textured in its colors: neighboring pixels both colored and far
+        // apart in tone, all over it. It holds little black, and a good part of it is off
+        // its commonest tone. A band is one flat color and what is drawn on it is black
+        // (Poole 2022, Foth 2017, Moutrille 2025).
+        const tones = new Array<number>(16).fill(0);
+        let textured = 0;
+        let inked = 0;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                const index = y * width + x;
+                const here = 0.299 * data[4 * index] + 0.587 * data[4 * index + 1] + 0.114 * data[4 * index + 2];
+
+                tones[Math.min(15, Math.floor(here / 16))]++;
+                inked += black.data[index];
+
+                if (x > box.x0 && colored.data[index] === 1 && colored.data[index - 1] === 1)
+                {
+                    const before = 0.299 * data[4 * index - 4] + 0.587 * data[4 * index - 3] + 0.114 * data[4 * index - 2];
+
+                    textured += Math.abs(here - before) >= 40 ? 1 : 0;
+                }
+            }
+        }
+
+        let commonest = 0;
+
+        for (let tone = 1; tone < 16; tone++)
+        {
+            commonest = tones[tone] > tones[commonest] ? tone : commonest;
+        }
+
+        const size = boxWidth * boxHeight;
+        const onTone = tones[commonest] + (tones[commonest - 1] ?? 0) + (tones[commonest + 1] ?? 0);
+
+        if (100 * textured < size || 100 * inked >= 3 * size || 5 * onTone > 4 * size)
+        {
+            continue;
+        }
+
+        // And it stands by itself. A clade's box laid over the tree in a wash of color is
+        // textured too, by the tree's lines tinted in it, and has little black; but the
+        // branches run into it from outside (Raven 2023).
+        let crossings = 0;
+        let inDark = false;
+
+        // A branch that runs into the box comes from well outside it: dark ink six pixels
+        // out that goes on outward for a fiftieth of the image. The picture's own rim, and
+        // the letters of a caption under it, do not.
+        const far = Math.max(30, Math.round(0.02 * shorter));
+
+        function isDark(x: number, y: number): boolean
+        {
+            return x >= 0 && y >= 0 && x < width && y < height && Math.max(data[4 * (y * width + x)], data[4 * (y * width + x) + 1], data[4 * (y * width + x) + 2]) < 110;
+        }
+
+        function countAt(x: number, y: number, stepX: number, stepY: number): void
+        {
+            let reach = 0;
+
+            while (reach <= far && isDark(x + reach * stepX, y + reach * stepY))
+            {
+                reach++;
+            }
+
+            const entering = reach > far;
+
+            crossings += entering && !inDark ? 1 : 0;
+            inDark = entering;
+        }
+
+        for (let x = box.x0; x < box.x1; x++)
+        {
+            countAt(x, box.y0 - 6, 0, -1);
+        }
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            countAt(box.x1 + 5, y, 1, 0);
+        }
+
+        for (let x = box.x1 - 1; x >= box.x0; x--)
+        {
+            countAt(x, box.y1 + 5, 0, 1);
+        }
+
+        for (let y = box.y1 - 1; y >= box.y0; y--)
+        {
+            countAt(box.x0 - 6, y, -1, 0);
+        }
+
+        if (crossings <= 1)
+        {
+            boxes.push(box);
+        }
+    }
+
+    if (boxes.length === 0)
+    {
+        return { image, grounds: 0 };
+    }
+
+    const blanked = new Uint8ClampedArray(data);
+
+    for (const box of boxes)
+    {
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                blanked[4 * (y * width + x)] = 255;
+                blanked[4 * (y * width + x) + 1] = 255;
+                blanked[4 * (y * width + x) + 2] = 255;
+            }
+        }
+    }
+
+    return { image: { width, height, data: blanked }, grounds: boxes.length, boxes };
 }

@@ -28,7 +28,7 @@ import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
 import { eraseScaleRules } from "./rules.ts";
 import { flattenWedges } from "./wedges.ts";
 import { joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
-import { clearDarkGrounds, flattenGrayBands } from "./grounds.ts";
+import { blankPictures, clearDarkGrounds, flattenGrayBands } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
@@ -321,6 +321,13 @@ export type ExtractOptions = {
      * pie chart, a legend or a silhouette beside the tree leaves no ink to trace.
      */
     exclude?: Array<Box>;
+
+    /**
+     * Whether to look for pictures beside the tree and leave them out as well. False when
+     * the caller has settled the areas to leave out: the ones the extractor found on an
+     * earlier run, as a person has since moved or removed them.
+     */
+    findPictures?: boolean;
 
     /**
      * Receives stage progress, or null.
@@ -2276,7 +2283,8 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const blanked = excluded.length === 0 ? readable : blankAreas(readable, excluded);
     // Gray bands behind the figure are lifted to white first of all: the rules ruled over
     // them are then thin gray on white.
-    const banded = flattenGrayBands(blanked, parameters.maxChroma);
+    const pictured = options.findPictures === false ? { image: blanked, grounds: 0 } : blankPictures(blanked, parameters.maxChroma);
+    const banded = flattenGrayBands(pictured.image, parameters.maxChroma);
     // The rules of a time scale go next: turned, they are uprights the height of the tree.
     const unruled = eraseScaleRules(banded.image);
     // Then dotted guide lines: their dots pass for letters, hundreds of them, and a
@@ -2320,6 +2328,18 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const flattened = flattenWedges(hatched.image, parameters.inkThreshold);
     const image = flattened.image;
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (pictured.grounds > 0)
+    {
+        const places = new Array<string>();
+
+        for (const box of pictured.boxes ?? [])
+        {
+            places.push(`x ${box.x0}-${box.x1}, y ${box.y0}-${box.y1}`);
+        }
+
+        orientationIssues.push({ severity: "info", code: "pictures-blanked", message: `${pictured.grounds} picture(s) in full color beside the tree were left out, at ${places.join("; ")} of the image as given`, subject: null });
+    }
 
     if (banded.grounds > 0)
     {
@@ -2869,7 +2889,9 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     const document: ExtractionDocument = {
         version: 1,
-        image: { width: fullWidth, height: fullHeight, source: options.source ?? null, region, quarterTurns },
+        image: pictured.boxes === undefined
+            ? { width: fullWidth, height: fullHeight, source: options.source ?? null, region, quarterTurns }
+            : { width: fullWidth, height: fullHeight, source: options.source ?? null, region, quarterTurns, foundExclusions: pictured.boxes },
         horizontals,
         verticals,
         textLines,

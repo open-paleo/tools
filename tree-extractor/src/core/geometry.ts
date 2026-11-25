@@ -158,6 +158,11 @@ export function scaleDocument(document: ExtractionDocument, factor: number, widt
 {
     const pixelLengths = document.profile.timeScaled.calibration === null;
 
+    for (const box of document.image.foundExclusions ?? [])
+    {
+        scaleBox(box, factor);
+    }
+
     for (const segment of document.horizontals)
     {
         scaleBox(segment.box, factor);
