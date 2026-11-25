@@ -3,7 +3,7 @@
  * against a name list.
  */
 
-import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, OcrResult, ProgressReporter, RotatedFrame, TextLine, Tip, TreeNode } from "./types.ts";
+import type { ExtractionDocument, GrayImage, NameMatch, OcrEngine, OcrResult, ProgressReporter, RotatedFrame, Segment, TextLine, Tip, TreeNode } from "./types.ts";
 import { compareNumbers, computeMedian, cropAndScale } from "./raster.ts";
 import { createId, sortChildren } from "./edit.ts";
 import { mapPointToFrame } from "./geometry.ts";
@@ -1129,6 +1129,162 @@ export async function readLabels(
         }
     }
 
+    // Makes a tip where a branch ends at a name of the list and none was left: the trace
+    // found the branch, and the tip it made went as debris or was never joined, because its
+    // name had not been paired with it when that was decided. The evidence asked for is
+    // strong on both sides: a level segment that ends free just before the row and starts
+    // at the vertical of a node of the tree, and a row that reads as a name of the list
+    // which no tip holds.
+    async function recoverNamedTips(): Promise<void>
+    {
+        const glyph = document.glyphHeight;
+        const reach = document.profile.lineThickness + 3;
+        const touch = Math.max(2, Math.round(document.profile.lineThickness / 2) + 1);
+        const inTree = new Set<string>();
+        const pending = document.root === null ? [] : [document.root];
+
+        while (pending.length > 0)
+        {
+            const id = pending.pop() as string;
+
+            for (const node of document.nodes)
+            {
+                if (node.id === id)
+                {
+                    inTree.add(id);
+                    pending.push(...node.children);
+                }
+            }
+        }
+
+        for (const row of document.textLines)
+        {
+            if (row.role !== "unassigned" || row.frame !== undefined || !isLabelSized(row, glyph))
+            {
+                continue;
+            }
+
+            const middle = (row.box.y0 + row.box.y1) / 2;
+            const tall = row.box.y1 - row.box.y0;
+            let taken = false;
+
+            for (const tip of document.tips)
+            {
+                taken = taken || (Math.abs(tip.y - middle) <= tall && row.box.x0 - tip.x >= -glyph && row.box.x0 - tip.x <= 3 * glyph);
+            }
+
+            if (taken)
+            {
+                continue;
+            }
+
+            // The branch: level with the row, ending within three glyphs before it, with no
+            // vertical at that end, which would make the row a node's name.
+            let branch: Segment | null = null;
+
+            for (const horizontal of document.horizontals)
+            {
+                const level = (horizontal.box.y0 + horizontal.box.y1) / 2;
+                const short = row.box.x0 - horizontal.box.x1;
+
+                if (Math.abs(level - middle) > 0.6 * tall || short < -glyph || short > 3 * glyph)
+                {
+                    continue;
+                }
+
+                let closed = false;
+
+                for (const vertical of document.verticals)
+                {
+                    closed = closed || (Math.abs((vertical.box.x0 + vertical.box.x1) / 2 - horizontal.box.x1) <= reach && vertical.box.y0 - reach <= level && vertical.box.y1 + reach >= level);
+                }
+
+                if (!closed && (branch === null || horizontal.box.x1 > branch.box.x1))
+                {
+                    branch = horizontal;
+                }
+            }
+
+            if (branch === null)
+            {
+                continue;
+            }
+
+            // The node it hangs from: the one whose vertical the branch starts at. A branch
+            // that only crosses a vertical does not say which node is its own: taking the
+            // one furthest right gave half the tips so made a wrong parent (Rauhut 2019,
+            // Turner 2012).
+            const level = (branch.box.y0 + branch.box.y1) / 2;
+            let parent: TreeNode | null = null;
+
+            for (const node of document.nodes)
+            {
+                // Starting on it, to within the line's own breadth: a branch that begins a
+                // few pixels off hangs from a node of its own that the trace did not find,
+                // and the node in the next column is its grandparent (Turner 2012).
+                const reached = Math.abs(node.x - branch.box.x0) <= touch && node.x <= branch.box.x1 - glyph && node.y0 - reach <= level && node.y1 + reach >= level;
+
+                // Of several in one column, the one with the shortest vertical: where one
+                // broad upright was taken apart into the nodes that share it, the outer
+                // node's vertical spans all the inner ones (Rauhut 2019).
+                if (inTree.has(node.id) && reached && (parent === null || node.y1 - node.y0 < parent.y1 - parent.y0))
+                {
+                    parent = node;
+                }
+            }
+
+            if (parent === null)
+            {
+                continue;
+            }
+
+            // The node has no child at that height already. Where it has, the branch found
+            // is the far part of that child's own line, past a node the trace did not find,
+            // and the tip belongs under that node: hung here it would sit a node too high
+            // (Turner 2012, Poropat 2023, Sen 2025, each with a wrong split for it).
+            let occupied = false;
+
+            for (const childId of parent.children)
+            {
+                let height: number | null = null;
+
+                for (const tip of document.tips)
+                {
+                    height = tip.id === childId ? tip.y : height;
+                }
+
+                for (const node of document.nodes)
+                {
+                    height = node.id === childId ? node.attachY ?? (node.y0 + node.y1) / 2 : height;
+                }
+
+                occupied = occupied || (height !== null && Math.abs(height - level) <= reach + glyph / 2);
+            }
+
+            if (occupied)
+            {
+                continue;
+            }
+
+            const reading = await ocr.recognize(cropAndScale(chooseSource(row), row.box, 3, scale, scale * document.profile.font.condensing), "text");
+            const label = cleanTaxonText(reading.text);
+            const match = chooseMatch(label.length > 0 ? label : null, names, knownNames, knownClades);
+
+            if (match === null || !match.accepted || match.source !== "list" || isNameHeld(document, match.name))
+            {
+                continue;
+            }
+
+            const tip: Tip = { id: createId(document, "t"), x: branch.box.x1, y: level, parent: parent.id, textLine: row.id, label, match, source: "traced", age: null, length: branch.box.x1 - parent.x };
+            document.tips.push(tip);
+            parent.children.push(tip.id);
+            sortChildren(document, parent);
+            row.role = "tip";
+            row.ocr = reading;
+            document.qc.push({ severity: "info", code: "named-tip-recovered", message: `tip ${tip.id} added under ${parent.id} for "${match.name}": a branch ends at its name and no tip was left there`, subject: tip.id });
+        }
+    }
+
     // Pairs the tips with their names by order where the names stand apart from the branch
     // ends: beside a drawing of each taxon, say, some way from the tip and not at its height
     // (Gomez 2024, where every name is set by a skull). Only when most tips of the tree are
@@ -1474,6 +1630,7 @@ export async function readLabels(
     // and pairing some of them here would leave it too few to go by (Zanno 2009).
     await pairLabelsInOrder();
     await pairLabelsOverBranches();
+    await recoverNamedTips();
     settleNameClashes();
 
     for (const node of document.nodes)

@@ -7,6 +7,9 @@
   unmatched. A name held twice counted as not found, so the tip that was that taxon was
   lost with the one that was not. 16 names on seven figures, among them Turner 2007 (56
   of 58 to 58) and Maidment 2020 (21 of 23 to 23, identical to its gold tree).
+- A tip is made where a traced branch ends at a name of the list and none was left
+  (`named-tip-recovered`): the branch starts on the vertical of a node of the tree that has
+  no child at that height, and the row reads as a name no tip holds.
 - The pictures the extractor leaves out by itself are shown and can be put back. The
   document records them (`image.foundExclusions`). The viewer adds them to the areas left
   out after an extraction, in another color, to be clicked away like any other; extracting
