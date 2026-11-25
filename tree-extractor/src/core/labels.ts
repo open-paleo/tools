@@ -1072,6 +1072,63 @@ export async function readLabels(
         }
     }
 
+    // Settles two tips that claim one name of the list. A label cut short, or a genus read
+    // without its species, matches the name of a neighbor that reads in full: both then
+    // hold it, and a name held twice is a name not found, so the tip that is that taxon is
+    // lost with the one that is not (Turner 2007, "Saurornithoides mongc" beside
+    // "Sauromithoides junior"). The tip whose label is nearest the name keeps it. The other
+    // is offered the best name of the list that no tip holds; with none, its match stands
+    // unaccepted, to be seen and put right.
+    function settleNameClashes(): void
+    {
+        const claimed = new Map<string, Array<Tip>>();
+
+        for (const tip of document.tips)
+        {
+            if (tip.match !== null && tip.match.accepted && tip.match.source === "list")
+            {
+                const key = normalizeName(tip.match.name);
+                const holders = claimed.get(key) ?? [];
+                holders.push(tip);
+                claimed.set(key, holders);
+            }
+        }
+
+        function compareBySimilarity(first: Tip, second: Tip): number
+        {
+            return (second.match as NameMatch).similarity - (first.match as NameMatch).similarity;
+        }
+
+        for (const holders of claimed.values())
+        {
+            if (holders.length < 2)
+            {
+                continue;
+            }
+
+            holders.sort(compareBySimilarity);
+
+            for (let index = 1; index < holders.length; index++)
+            {
+                const tip = holders[index];
+                const first = tip.match as NameMatch;
+                const free = new Array<string>();
+
+                for (const name of names)
+                {
+                    if (!isNameHeld(document, name))
+                    {
+                        free.push(name);
+                    }
+                }
+
+                const second = free.length === 0 || tip.label === null ? null : matchName(tip.label, free);
+
+                tip.match = second !== null && second.accepted ? second : { ...first, accepted: false };
+            }
+        }
+    }
+
     // Pairs the tips with their names by order where the names stand apart from the branch
     // ends: beside a drawing of each taxon, say, some way from the tip and not at its height
     // (Gomez 2024, where every name is set by a skull). Only when most tips of the tree are
@@ -1417,6 +1474,7 @@ export async function readLabels(
     // and pairing some of them here would leave it too few to go by (Zanno 2009).
     await pairLabelsInOrder();
     await pairLabelsOverBranches();
+    settleNameClashes();
 
     for (const node of document.nodes)
     {

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Two tips that claim one name of the list are settled: the tip whose label is nearest the
+  name keeps it, and the other is offered the best name that no tip holds, or is left
+  unmatched. A name held twice counted as not found, so the tip that was that taxon was
+  lost with the one that was not. 16 names on seven figures, among them Turner 2007 (56
+  of 58 to 58) and Maidment 2020 (21 of 23 to 23, identical to its gold tree).
 - The pictures the extractor leaves out by itself are shown and can be put back. The
   document records them (`image.foundExclusions`). The viewer adds them to the areas left
   out after an extraction, in another color, to be clicked away like any other; extracting
