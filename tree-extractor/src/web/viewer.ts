@@ -246,7 +246,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         regionModeButton.disabled = !loaded;
         clearRegionButton.disabled = state.region === null;
         excludeModeButton.disabled = !loaded;
-        clearExcludedButton.disabled = state.exclusions.length === 0;
+        clearExcludedButton.disabled = state.exclusions.length + state.foundExclusions.length === 0;
         excludeModeButton.setAttribute("aria-pressed", String(state.mode === "exclude"));
         excludeModeButton.classList.toggle("active", state.mode === "exclude");
         const extracted = state.extraction !== null;
@@ -571,6 +571,8 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         state.region = null;
         state.draftRegion = null;
         state.exclusions = [];
+        state.foundExclusions = [];
+        state.exclusionsSettled = false;
         state.draftExclusion = null;
         state.draftSpan = null;
         state.selection = null;
@@ -671,12 +673,24 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
                 knownNames,
                 knownClades,
                 region: state.region,
-                exclude: state.exclusions,
+                exclude: [...state.exclusions, ...state.foundExclusions],
+                findPictures: !state.exclusionsSettled,
                 ocr: chooseOcrEngine(),
                 source: state.fileStem,
             }, { onProgress: handleProgress });
             state.selection = null;
             clearHistory();
+            // The pictures the extractor left out by itself join the areas left out, where
+            // they can be seen and put back. They are in the frame of the image as it was
+            // sent, so they go in before the image is turned and turn with it.
+            const found = state.extraction.image.foundExclusions ?? [];
+
+            for (const area of found)
+            {
+                state.foundExclusions.push({ x0: area.x0, y0: area.y0, x1: area.x1, y1: area.y1 });
+            }
+
+            state.exclusionsSettled = true;
             const turns = state.extraction.image.quarterTurns;
 
             if (turns !== 0)
@@ -688,7 +702,8 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
             }
 
             const turned = turns === 0 ? "" : ` Figure turned ${turns === 1 ? "clockwise" : "counterclockwise"} to put the root on the left.`;
-            setStatus(`${state.extraction.tips.length} tips, ${state.extraction.nodes.length} nodes. ${formatTimings(state.extraction.timings)}.${turned}`);
+            const pictures = found.length === 0 ? "" : ` ${found.length} picture${found.length === 1 ? "" : "s"} beside the tree left out; choose Exclude area and click one to put it back, then extract again.`;
+            setStatus(`${state.extraction.tips.length} tips, ${state.extraction.nodes.length} nodes. ${formatTimings(state.extraction.timings)}.${turned}${pictures}`);
         }
         catch (error)
         {
@@ -739,6 +754,14 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
         }
 
         state.exclusions = turnedAreas;
+        const turnedFound = new Array<Box>();
+
+        for (const area of state.foundExclusions)
+        {
+            turnedFound.push(rotateBox(area, state.bitmap.width, state.bitmap.height, quarterTurns));
+        }
+
+        state.foundExclusions = turnedFound;
         state.draftExclusion = null;
         state.bitmap = await createImageBitmap(scratch);
         state.image = { width: data.width, height: data.height, data: data.data };
@@ -895,6 +918,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
     function handleClearExcludedClick(): void
     {
         state.exclusions = [];
+        state.foundExclusions = [];
         state.draftExclusion = null;
         setStatus("Nothing is left out now. Extract again to analyze the whole area.");
         redraw();
@@ -907,7 +931,7 @@ export function mountTreeExtractor(root: HTMLElement, options: TreeExtractorOpti
      */
     function handleExclusionsChanged(added: boolean): void
     {
-        const count = state.exclusions.length;
+        const count = state.exclusions.length + state.foundExclusions.length;
         setStatus(`${added ? "Area left out" : "Area put back"}: ${count} area${count === 1 ? "" : "s"} left out. Extract to apply.`);
         updateToolbar();
     }

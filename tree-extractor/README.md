@@ -102,8 +102,12 @@ makes no request to any other host.
 `--crop x,y,w,h` restricts the analysis to one region of the image (for example to leave out a
 time scale or a second panel); results are still reported in full-image coordinates.
 `--exclude "x,y,w,h;x,y,w,h"` leaves areas out of the analysis, a legend, a pie chart or a
-silhouette beside the tree; each is painted out before the figure is read. `--no-rotation`
-takes the figure as drawn where the tool would turn a tree on its side.
+silhouette beside the tree; each is painted out before the figure is read. The tool also
+leaves out, by itself, pictures in full color that stand beside the tree, a photograph or a
+shaded drawing: it lists where they were in its notes (`pictures-blanked`) and records them in
+the document as `image.foundExclusions`, and `--no-auto-exclude` stops it looking, so that the
+areas wanted can be given with `--exclude` alone. `--no-rotation` takes the figure as drawn
+where the tool would turn a tree on its side.
 
 `--names` is a text file with one taxon name per line (for example the taxa of the paper's
 character matrix). OCR output is fuzzy-matched against it, which turns imperfect reads of small
@@ -120,7 +124,11 @@ Scroll to zoom, drag to pan (or use the view controls on the figure), and use *S
 beside the extract button to mark where the tree is when the figure holds more than the tree.
 *Exclude area* marks things to leave out, a legend, a pie chart or a silhouette beside the tree:
 drag a rectangle over each, and click one to take it away. They are painted out before the
-figure is read.
+figure is read. A picture in full color beside the tree is left out without being asked for:
+after an extraction such an area is shown among those left out, in another color and an
+unbroken outline, and is taken away with a click like the rest. Extracting again then uses
+the areas as they stand and does not look for pictures a second time, so one that was put
+back stays in.
 
 Clicking a tip or node on the canvas selects it in the lists and the other way round; labels
 are editable in place and the Newick updates. Missed or spurious

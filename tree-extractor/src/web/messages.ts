@@ -64,6 +64,11 @@ export type ExtractRequest = {
     exclude: Array<Box>;
 
     /**
+     * Whether the extractor should look for pictures beside the tree and leave them out too.
+     */
+    findPictures: boolean;
+
+    /**
      * Whether labels should be read; OCR requests come back to the page.
      */
     readLabels: boolean;

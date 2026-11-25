@@ -435,14 +435,25 @@ export class PointerController
         }
         else if (!moved)
         {
-            for (let index = this.state.exclusions.length - 1; index >= 0; index--)
+            // The areas a person drew lie over those the extractor found, and go first.
+            for (const areas of [this.state.exclusions, this.state.foundExclusions])
             {
-                const area = this.state.exclusions[index];
+                let removed = false;
 
-                if (draft.x0 >= area.x0 && draft.x0 <= area.x1 && draft.y0 >= area.y0 && draft.y0 <= area.y1)
+                for (let index = areas.length - 1; index >= 0 && !removed; index--)
                 {
-                    this.state.exclusions.splice(index, 1);
-                    this.callbacks.onExclusionsChanged(false);
+                    const area = areas[index];
+
+                    if (draft.x0 >= area.x0 && draft.x0 <= area.x1 && draft.y0 >= area.y0 && draft.y0 <= area.y1)
+                    {
+                        areas.splice(index, 1);
+                        this.callbacks.onExclusionsChanged(false);
+                        removed = true;
+                    }
+                }
+
+                if (removed)
+                {
                     break;
                 }
             }

@@ -55,6 +55,11 @@ export type ExtractionRequest = {
     exclude: Array<Box>;
 
     /**
+     * Whether the extractor should look for pictures beside the tree and leave them out too.
+     */
+    findPictures: boolean;
+
+    /**
      * OCR engine for labels, or null to skip them.
      */
     ocr: OcrEngine | null;
@@ -148,6 +153,7 @@ export class ExtractionClient
             knownClades: request.knownClades,
             region: request.region,
             exclude: request.exclude,
+            findPictures: request.findPictures,
             readLabels: request.ocr !== null,
             secondOpinion: request.ocr !== null && request.ocr.recognizeAgain !== undefined,
             source: request.source,

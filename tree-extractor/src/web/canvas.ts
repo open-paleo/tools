@@ -458,27 +458,33 @@ export class CanvasView
      */
     private drawExclusions(context: CanvasRenderingContext2D, state: ViewerState, unit: number): void
     {
-        const areas = state.draftExclusion === null ? state.exclusions : [...state.exclusions, state.draftExclusion];
+        const drawn = state.draftExclusion === null ? state.exclusions : [...state.exclusions, state.draftExclusion];
         context.lineWidth = 2 * unit;
-        context.setLineDash([4 * unit, 3 * unit]);
 
-        for (const area of areas)
+        // Those the extractor found by itself are drawn in another color and an unbroken
+        // line, so that a person sees which they did not draw.
+        for (const [areas, found] of [[state.foundExclusions, true], [drawn, false]] as const)
         {
-            const x0 = Math.min(area.x0, area.x1);
-            const y0 = Math.min(area.y0, area.y1);
-            const width = Math.abs(area.x1 - area.x0);
-            const height = Math.abs(area.y1 - area.y0);
-            context.fillStyle = "rgba(207, 34, 46, 0.22)";
-            context.fillRect(x0, y0, width, height);
-            context.strokeStyle = "rgba(207, 34, 46, 0.95)";
-            context.strokeRect(x0, y0, width, height);
-            // A cross corner to corner says "left out" without relying on the color.
-            context.beginPath();
-            context.moveTo(x0, y0);
-            context.lineTo(x0 + width, y0 + height);
-            context.moveTo(x0 + width, y0);
-            context.lineTo(x0, y0 + height);
-            context.stroke();
+            context.setLineDash(found ? [] : [4 * unit, 3 * unit]);
+
+            for (const area of areas)
+            {
+                const x0 = Math.min(area.x0, area.x1);
+                const y0 = Math.min(area.y0, area.y1);
+                const width = Math.abs(area.x1 - area.x0);
+                const height = Math.abs(area.y1 - area.y0);
+                context.fillStyle = found ? "rgba(154, 103, 0, 0.22)" : "rgba(207, 34, 46, 0.22)";
+                context.fillRect(x0, y0, width, height);
+                context.strokeStyle = found ? "rgba(154, 103, 0, 0.95)" : "rgba(207, 34, 46, 0.95)";
+                context.strokeRect(x0, y0, width, height);
+                // A cross corner to corner says "left out" without relying on the color.
+                context.beginPath();
+                context.moveTo(x0, y0);
+                context.lineTo(x0 + width, y0 + height);
+                context.moveTo(x0 + width, y0);
+                context.lineTo(x0, y0 + height);
+                context.stroke();
+            }
         }
 
         context.setLineDash([]);

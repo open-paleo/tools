@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- The pictures the extractor leaves out by itself are shown and can be put back. The
+  document records them (`image.foundExclusions`). The viewer adds them to the areas left
+  out after an extraction, in another color, to be clicked away like any other; extracting
+  again uses the areas as they stand and does not look a second time. On the command line
+  they are listed in the notes, and `--no-auto-exclude` stops the search.
 - Pictures in full color set beside a tree, photographs or drawings, are blanked before the
   figure is read (`pictures-blanked`): their texture outnumbered the figure's letters and
   pieces of them passed for a tree larger than the tree (Regalado Fernández 2022, four

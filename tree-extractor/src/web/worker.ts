@@ -159,6 +159,7 @@ async function runExtraction(request: Extract<PageMessage, { type: "extract" }>)
             knownClades: request.knownClades,
             region: request.region,
             exclude: request.exclude,
+            findPictures: request.findPictures,
             source: request.source,
             progress: new MessageProgressReporter(),
         });

@@ -184,6 +184,19 @@ export type ViewerState = {
     exclusions: Array<Box>;
 
     /**
+     * Areas the extractor left out of its own accord on the last run: pictures beside the
+     * tree. They are shown apart from those the person drew and can be put back the same way.
+     */
+    foundExclusions: Array<Box>;
+
+    /**
+     * Whether the areas to leave out are settled: an extraction has run on this image and
+     * has had its chance to find pictures. From then on the lists are sent as they stand,
+     * and the extractor is not asked to look again, or an area put back would be found anew.
+     */
+    exclusionsSettled: boolean;
+
+    /**
      * Excluded area being dragged out, or null.
      */
     draftExclusion: Box | null;
@@ -248,6 +261,8 @@ export function createViewerState(): ViewerState
         region: null,
         draftRegion: null,
         exclusions: [],
+        foundExclusions: [],
+        exclusionsSettled: false,
         draftExclusion: null,
         draftSpan: null,
         draftMove: null,

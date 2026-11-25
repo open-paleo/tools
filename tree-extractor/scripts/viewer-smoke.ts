@@ -11,9 +11,11 @@
 import * as fs from "node:fs";
 import * as http from "node:http";
 import { createRequire } from "node:module";
+import * as os from "node:os";
 import * as path from "node:path";
 import * as url from "node:url";
 import { chromium } from "playwright";
+import sharp from "sharp";
 import type { Page } from "playwright";
 
 const root = path.join(path.dirname(url.fileURLToPath(import.meta.url)), "..");
@@ -151,6 +153,43 @@ function findDots(page: Page, color: [number, number, number], tolerance: number
 
         return clusters.filter((cluster) => cluster.n >= 3).map((cluster) => ({ x: cluster.x * rect.width / width + rect.left, y: cluster.y * rect.height / height + rect.top }));
     }, [color, tolerance] as [typeof color, number]);
+}
+
+/**
+ * Writes a figure with a picture in full color beside its tree: the benchmark's open figure
+ * with white added on its right and a block textured in brown and tan set there, as a
+ * micrograph would be.
+ *
+ * @returns Path of the image, in a temporary folder of its own.
+ */
+async function createPicturedFigure(): Promise<string>
+{
+    const width = 520;
+    const height = 420;
+    const block = Buffer.alloc(width * height * 3);
+
+    for (let y = 0; y < height; y++)
+    {
+        for (let x = 0; x < width; x++)
+        {
+            const dark = (Math.floor(x / 7) * 31 + Math.floor(y / 5) * 17) % 5 < 2;
+            const offset = 3 * (y * width + x);
+
+            block[offset] = dark ? 120 : 230;
+            block[offset + 1] = dark ? 70 : 190;
+            block[offset + 2] = dark ? 40 : 120;
+        }
+    }
+
+    const folder = fs.mkdtempSync(path.join(os.tmpdir(), "tree-extractor-smoke-"));
+    const file = path.join(folder, "pictured.png");
+    await sharp(figure)
+        .extend({ right: 800, background: { r: 255, g: 255, b: 255, alpha: 1 } })
+        .composite([{ input: block, raw: { width, height, channels: 3 }, left: 4499 + 140, top: 300 }])
+        .png()
+        .toFile(file);
+
+    return file;
 }
 
 const { server, port } = await serve();
@@ -346,6 +385,25 @@ try
     expect(element.before === 0 && element.mounted > 10, "the tree-extractor element mounts the viewer when defined");
     expect(element.names !== null && element.names[0] === "Haya griva" && element.newick === null, "a property set before definition is kept");
     expect(element.left === 0, "removing the element removes the viewer");
+    // A picture beside the tree: the extractor leaves it out, the viewer shows the area among
+    // those left out, and once it is put back a second extraction does not find it again.
+    const pictured = await createPicturedFigure();
+    await page.goto(`http://localhost:${port}/src/web/`);
+    await page.setInputFiles("#te-file", pictured);
+    await page.waitForFunction(() => !(document.querySelector("#te-run") as HTMLButtonElement).disabled, null, { timeout: 30000 });
+    await page.uncheck("#te-ocr");
+    expect(!(await page.isEnabled("#te-clear-excluded")), "nothing is left out of a figure just loaded");
+    await page.click("#te-run");
+    await page.waitForFunction(() => ((document.querySelector("#te-status") as HTMLElement).textContent ?? "").includes(" tips, "), null, { timeout: 120000 });
+    expect(((await page.textContent("#te-status")) ?? "").includes("1 picture beside the tree left out"), "the picture the extractor left out is reported");
+    expect(await page.isEnabled("#te-clear-excluded"), "the area it left out is among those that can be cleared");
+    await page.click("#te-clear-excluded");
+    expect(((await page.textContent("#te-status")) ?? "").includes("Nothing is left out now"), "the found area is put back with the rest");
+    await page.click("#te-run");
+    await page.waitForFunction(() => ((document.querySelector("#te-status") as HTMLElement).textContent ?? "").includes(" tips, "), null, { timeout: 120000 });
+    expect(!((await page.textContent("#te-status")) ?? "").includes("picture"), "a second extraction does not look for pictures again");
+    expect(!(await page.isEnabled("#te-clear-excluded")), "and leaves nothing out that the person put back");
+    fs.rmSync(path.dirname(pictured), { recursive: true });
     expect(errors.length === 0, `no page errors (${errors.join("; ")})`);
 }
 finally
