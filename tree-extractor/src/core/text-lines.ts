@@ -428,7 +428,22 @@ function clusterIntoLines(glyphs: Array<Component>, uprights: Array<Component>, 
         {
             const gap = glyph.box.x0 - line.x1;
 
-            if (Math.abs(center - line.center) < 0.5 * glyphHeight && gap < 1.6 * glyphHeight && gap > -8 && gap < bestGap)
+            // A row that begins with a quotation mark has two small glyphs high on the
+            // line before its first letter, and their centers are the row's: the lowercase
+            // letter after the capital then lies too far under it and began a row of its
+            // own (Averianov 2018, a name in quotation marks cut after its first letter).
+            // While a row has four glyphs or fewer, a glyph that stands within the height
+            // of a full letter already in it belongs to it too.
+            // Only where the row's center does stand high: over the middle of the row's
+            // own height by a fifth of a letter. A digit beside a name, or a row of type so
+            // large that its letters differ by more than the allowance, has its center in
+            // the middle, and joining glyphs to those rows by their height cost Sen 2025
+            // nine names.
+            const high = (line.y0 + line.y1) / 2 - line.center >= 0.2 * glyphHeight;
+            const begun = high && line.glyphs.length <= 4 && line.y1 - line.y0 >= 0.8 * glyphHeight && line.y1 - line.y0 <= 1.5 * glyphHeight;
+            const within = begun && glyph.box.y0 >= line.y0 - 2 && glyph.box.y1 <= line.y1 + 2;
+
+            if ((Math.abs(center - line.center) < 0.5 * glyphHeight || within) && gap < 1.6 * glyphHeight && gap > -8 && gap < bestGap)
             {
                 best = line;
                 bestGap = gap;

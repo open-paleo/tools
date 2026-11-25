@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A label that begins with a quotation mark is one row. The mark's two small strokes stand
+  high on the line and set the row's center there, so the lowercase letter after the capital
+  began a row of its own. A glyph now joins a row that has just begun and whose center
+  stands high when it lies within the height of a letter already in it (Averianov 2018,
+  fig. 6, now identical to its gold tree; Gasca 2015 as well; Poropat 2014 and 2023 and
+  Arbour 2015 gain names).
 - At a small fork, the short riser to a tip is the size of a letter and began the text row
   of the tip's name, which then covered the tip's branch. A row is parted after a short,
   sparse piece at its start that ends in a riser and is followed by a stretch of line
