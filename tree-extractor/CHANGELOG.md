@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Gray bands behind a figure are lifted to white before it is read (`gray-bands-flattened`),
+  each pixel set against the ground about it. Where a tree is drawn over the bands of a
+  stage chart, the darkest band was ink in patches and the edge between two bands a line
+  the length of the figure. Zaher 2011 goes from 3 of 12 scored splits with 5 wrong to 10
+  of 13 with 1; Apaldetti 2018 from 5 of 11 names to 11; Voris 2020 from 15 of 18 to 18,
+  identical to its gold tree; Gohlich 2006 from 4 wrong splits to none.
 - A label that begins with a quotation mark is one row. The mark's two small strokes stand
   high on the line and set the row's center there, so the lowercase letter after the capital
   began a row of its own. A glyph now joins a row that has just begun and whose center

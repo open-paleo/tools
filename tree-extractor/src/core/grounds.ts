@@ -6,7 +6,7 @@
  */
 
 import type { Box, Mask, RgbaImage } from "./types.ts";
-import { erode, findConnectedComponents } from "./raster.ts";
+import { convertToGray, erode, estimateBackground, findConnectedComponents } from "./raster.ts";
 
 /**
  * What clearing the dark grounds did.
@@ -211,4 +211,72 @@ export function clearDarkGrounds(image: RgbaImage, maxChroma: number, darkest: n
     }
 
     return grounds === 0 ? { image, grounds: 0 } : { image: { width, height, data: cleaned }, grounds };
+}
+
+/**
+ * Share of the image that gray bands must cover for them to be flattened.
+ */
+const bandShare = 0.15;
+
+/**
+ * Lifts gray bands behind a figure to white. A time tree drawn over the bands of a stage
+ * chart, each a different gray and the darkest shaded from one edge to the other, has no one
+ * threshold that tells its lines from its ground: the darkest band is ink in patches, and
+ * the edge between two bands is a line the length of the figure (Zaher 2011, where two such
+ * edges were nodes with the whole tree under them). Each neutral pixel is set against the
+ * ground about it, the image with everything dark and narrower than twice the radius taken
+ * out, and takes the share of white that it has of that ground: the band comes out white,
+ * a black line on it black, and a rule a little darker than its band a light gray.
+ *
+ * Nothing is done unless the gray ground is a good part of the figure. Every gray ground is
+ * then lifted, a clade's box or a shaded shape with the bands: keeping to what is broad both
+ * ways was tried, and lost more than it kept (Scannella 2014, Gohlich 2006).
+ *
+ * @param image - Image.
+ * @param maxChroma - Largest channel spread still neutral.
+ * @returns The image with its bands white, and whether any were found.
+ */
+export function flattenGrayBands(image: RgbaImage, maxChroma: number): GroundResult
+{
+    const { width, height, data } = image;
+    const radius = Math.max(12, Math.round(0.02 * Math.min(width, height)));
+    const gray = convertToGray(image);
+    const ground = estimateBackground(gray, radius);
+    let banded = 0;
+
+    for (let index = 0; index < width * height; index++)
+    {
+        const offset = 4 * index;
+        const chroma = Math.max(data[offset], data[offset + 1], data[offset + 2]) - Math.min(data[offset], data[offset + 1], data[offset + 2]);
+
+        // A pixel of a band: neutral, at the level of its ground, and that level a gray.
+        banded += chroma <= maxChroma && ground.data[index] >= 130 && ground.data[index] < 250 && ground.data[index] - gray.data[index] <= 6 ? 1 : 0;
+    }
+
+    if (banded < bandShare * width * height)
+    {
+        return { image, grounds: 0 };
+    }
+
+    const flattened = new Uint8ClampedArray(data);
+
+    for (let index = 0; index < width * height; index++)
+    {
+        const offset = 4 * index;
+        const chroma = Math.max(data[offset], data[offset + 1], data[offset + 2]) - Math.min(data[offset], data[offset + 1], data[offset + 2]);
+        const level = ground.data[index];
+
+        if (chroma > maxChroma || level < 130 || level >= 250)
+        {
+            continue;
+        }
+
+        const value = Math.min(255, Math.round((255 * gray.data[index]) / level));
+
+        flattened[offset] = value;
+        flattened[offset + 1] = value;
+        flattened[offset + 2] = value;
+    }
+
+    return { image: { width, height, data: flattened }, grounds: 1 };
 }

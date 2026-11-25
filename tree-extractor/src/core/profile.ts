@@ -45,6 +45,12 @@ export type ProfileInput = {
     image: RgbaImage;
 
     /**
+     * The image as it was before gray bands behind the figure were lifted to white, when
+     * they were: the tint of the background is measured on it.
+     */
+    tintImage?: RgbaImage;
+
+    /**
      * Dark pixels at the text threshold.
      */
     textInk: Mask;
@@ -798,7 +804,7 @@ export function measureSlant(glyphMask: Mask, lines: Array<TextLine>, glyphHeigh
  */
 function measureTimeScale(input: ProfileInput, connected: Set<string>): TimeScaleProfile
 {
-    const tint = measureTint(input.image);
+    const tint = measureTint(input.tintImage ?? input.image);
     const axis = findAxis(input.document, input.textInk, input.glyphHeight, input.thickness);
 
     return {

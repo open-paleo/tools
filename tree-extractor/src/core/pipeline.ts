@@ -28,7 +28,7 @@ import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
 import { eraseScaleRules } from "./rules.ts";
 import { flattenWedges } from "./wedges.ts";
 import { joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
-import { clearDarkGrounds } from "./grounds.ts";
+import { clearDarkGrounds, flattenGrayBands } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
@@ -2274,11 +2274,13 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const excluded = options.exclude ?? [];
     const readable = inverted ? invertImage(givenImage) : givenImage;
     const blanked = excluded.length === 0 ? readable : blankAreas(readable, excluded);
-    // Dotted guide lines go first of all: their dots pass for letters, hundreds of them, and
-    // a figure's letter height is then the height of a dot (Fiorillo 2014).
-    // The rules of a time scale go before the dots: turned, they are uprights the height of
-    // the tree.
-    const unruled = eraseScaleRules(blanked);
+    // Gray bands behind the figure are lifted to white first of all: the rules ruled over
+    // them are then thin gray on white.
+    const banded = flattenGrayBands(blanked, parameters.maxChroma);
+    // The rules of a time scale go next: turned, they are uprights the height of the tree.
+    const unruled = eraseScaleRules(banded.image);
+    // Then dotted guide lines: their dots pass for letters, hundreds of them, and a
+    // figure's letter height is then the height of a dot (Fiorillo 2014).
     const undotted = eraseDottedLines(unruled.image);
     // So does a ground as dark as ink, which would be one solid block of it.
     const cleared = clearDarkGrounds(undotted.image, parameters.maxChroma, parameters.lineThreshold, parameters.inkThreshold, parameters.coloredThreshold, parameters.coloredMinChroma);
@@ -2307,6 +2309,10 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const slantedFigure = parameters.slantedTrees && orientationFind !== null && orientationFind.slanted;
     const quarterTurns = orientation === "root-bottom" ? 1 : orientation === "root-top" ? 3 : 0;
     const turnedImage = quarterTurns === 0 ? sourceCrop : rotateRgbaQuarter(sourceCrop, quarterTurns === 1);
+    // The figure's profile says whether it is drawn over bands, which it reads off the image
+    // as it was before they were lifted.
+    const bandedCrop = banded.grounds === 0 ? null : sourceRegion === null ? blanked : cropImage(blanked, sourceRegion);
+    const tintImage = bandedCrop === null ? undefined : quarterTurns === 0 ? bandedCrop : rotateRgbaQuarter(bandedCrop, quarterTurns === 1);
     // Branches drawn in dashes are drawn solid, now that the way the tree runs is known.
     const dashed = joinDashedLines(turnedImage, parameters.inkThreshold);
     // And bars drawn in hatching are filled.
@@ -2314,6 +2320,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const flattened = flattenWedges(hatched.image, parameters.inkThreshold);
     const image = flattened.image;
     const orientationIssues = describeOrientation(orientationFind, quarterTurns);
+
+    if (banded.grounds > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "gray-bands-flattened", message: "gray bands behind the figure were lifted to white before it was read", subject: null });
+    }
 
     if (unruled.rules > 0)
     {
@@ -2947,7 +2958,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     // The profile is measured before labels are read, since reading them uses it (how far to
     // condense the crops); the parts that the read text can change are measured again after.
-    document.profile = measureProfile({ image, textInk, lineInk, glyphMask, glyphHeight, thickness, fragmented, widened, bridgedGaps, document });
+    document.profile = measureProfile({ image, tintImage, textInk, lineInk, glyphMask, glyphHeight, thickness, fragmented, widened, bridgedGaps, document });
     document.profile.orientation = orientation;
 
     if (slantedTrace !== null)
