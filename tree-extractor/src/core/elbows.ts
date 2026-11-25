@@ -28,7 +28,11 @@ function findVerticalEndingAt(document: ExtractionDocument, row: TextLine): Segm
         const gap = row.box.x0 - vertical.box.x1;
         const atEnd = Math.abs(center - vertical.box.y0) <= 0.8 * glyph || Math.abs(center - vertical.box.y1) <= 0.8 * glyph;
 
-        if (gap >= -2 && gap <= 2.5 * glyph && atEnd && (best === null || vertical.box.x1 > best.box.x1))
+        // The row may begin on the vertical itself: a stub shorter than a letter is wide
+        // goes with the letters, and the corner with it (Rotatori 2023, Isaberrysaura).
+        const breadth = vertical.box.x1 - vertical.box.x0;
+
+        if (gap >= -(breadth + 2) && gap <= 2.5 * glyph && atEnd && (best === null || vertical.box.x1 > best.box.x1))
         {
             best = vertical;
         }
@@ -53,7 +57,33 @@ function hasBranchBetween(document: ExtractionDocument, vertical: Segment, tip: 
     {
         const { box } = horizontal;
 
-        if (tip.y >= box.y0 - reach && tip.y <= box.y1 + reach && box.x0 <= vertical.box.x1 + reach && Math.abs(box.x1 - tip.x) <= reach)
+        if (tip.y >= box.y0 - reach && tip.y <= box.y1 + reach && box.x0 <= vertical.box.x1 + reach && Math.abs(box.x1 - tip.x) <= Math.max(reach, document.glyphHeight))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Whether a horizontal runs from a vertical to a point to its right.
+ *
+ * @param document - Extraction document.
+ * @param vertical - The vertical.
+ * @param x - The point's x.
+ * @param y - The point's height.
+ * @returns True when a branch joins the two.
+ */
+function hasBranchTo(document: ExtractionDocument, vertical: Segment, x: number, y: number): boolean
+{
+    const reach = Math.max(3, document.profile.lineThickness + 2);
+
+    for (const horizontal of document.horizontals)
+    {
+        const { box } = horizontal;
+
+        if (y >= box.y0 - reach && y <= box.y1 + reach && Math.abs(box.x0 - vertical.box.x1) <= reach && Math.abs(box.x1 - x) <= Math.max(reach, document.glyphHeight))
         {
             return true;
         }
@@ -125,11 +155,29 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
             }
         }
 
+        // Or a node: the branch that leaves the far end leads on to a clade (Rotatori 2023,
+        // Scelidosaurus beside the stem of the armored dinosaurs).
+        let elbowNode: TreeNode | null = null;
+
+        if (elbowTip === null)
+        {
+            for (const node of document.nodes)
+            {
+                const height = node.attachY ?? (node.y0 + node.y1) / 2;
+
+                if (node.parent !== null && node.x > vertical.box.x1 + glyph && Math.abs(height - farY) <= reach && hasBranchTo(document, vertical, node.x, height))
+                {
+                    elbowNode = elbowNode === null || node.x < elbowNode.x ? node : elbowNode;
+                }
+            }
+        }
+
+        const far = elbowTip ?? elbowNode;
         let parent: TreeNode | null = null;
 
         for (const node of document.nodes)
         {
-            if (elbowTip !== null && node.id === elbowTip.parent)
+            if (far !== null && node.id === far.parent)
             {
                 parent = node;
             }
@@ -145,7 +193,7 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
             occupied = occupied || (Math.abs(node.x - x) <= document.profile.lineThickness + 2 && node.y0 <= vertical.box.y1 && node.y1 >= vertical.box.y0);
         }
 
-        if (elbowTip === null || parent === null || occupied)
+        if (far === null || parent === null || occupied)
         {
             continue;
         }
@@ -169,17 +217,17 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
             y1: vertical.box.y1,
             attachY: nearY,
             parent: parent.id,
-            children: [elbowTip.id, tip.id],
+            children: [far.id, tip.id],
             textLine: null,
             label: null,
             source: "traced",
             age: null,
         };
         tip.parent = node.id;
-        parent.children[parent.children.indexOf(elbowTip.id)] = node.id;
-        elbowTip.parent = node.id;
+        parent.children[parent.children.indexOf(far.id)] = node.id;
+        far.parent = node.id;
 
-        if (!branched)
+        if (!branched && elbowTip !== null)
         {
             elbowTip.x = vertical.box.x1;
         }
@@ -201,7 +249,7 @@ export function recoverElbowTips(document: ExtractionDocument): Array<QcIssue>
         issues.push({
             severity: "info",
             code: "elbow-tip-recovered",
-            message: `tip ${tip.id} added for a label beside the end of a vertical the trace had as a corner of tip ${elbowTip.id}'s branch; node ${node.id} now holds the two`,
+            message: `tip ${tip.id} added for a label beside the end of a vertical the trace had as a corner of ${far.id}'s branch; node ${node.id} now holds the two`,
             subject: tip.id,
         });
     }

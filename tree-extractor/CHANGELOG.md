@@ -6,6 +6,11 @@
   gray pixel of a heading lay in it, and the nodes of the tree standing on that rule were
   joined by it into one upright the height of the figure, which was dropped as a chart
   line. Rotatori 2023 goes from 60 of 73 names to 69.
+- A tip on a stub too short to trace, at the end of an upright, is recovered in more cases:
+  where the upright's other end leads to a clade and not a tip, where the label's row
+  begins on the upright itself, and where the branch stops a letter's height short of the
+  tip it leads to. Nine names on seven figures, among them Rotatori 2023 (69 to 72 of 73)
+  and Alarcón-Muñoz 2023 (76 to 77 of 77).
 - Two tips that claim one name of the list are settled: the tip whose label is nearest the
   name keeps it, and the other is offered the best name that no tip holds, or is left
   unmatched. A name held twice counted as not found, so the tip that was that taxon was
