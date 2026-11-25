@@ -27,7 +27,7 @@ import { assessReading } from "./assess.ts";
 import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
 import { eraseScaleRules } from "./rules.ts";
 import { flattenWedges } from "./wedges.ts";
-import { joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
+import { joinInterruptedBranches, joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
 import { blankPictures, clearDarkGrounds, flattenGrayBands } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
@@ -2963,6 +2963,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     {
         document.qc.push(...recoverElbowTips(document));
         document.qc.push(...joinWrappedBranches(document));
+        document.qc.push(...joinInterruptedBranches(document));
     }
 
     // A clade's name printed on the box or band that shades it. A slanted figure's rows are

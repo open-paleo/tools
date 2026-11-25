@@ -537,3 +537,146 @@ export function joinWrappedBranches(document: ExtractionDocument): Array<QcIssue
 
     return issues;
 }
+
+/**
+ * Joins a clade to the tree across a break in its stem: a picture set on the branch hides
+ * the middle of it, and the trace has an end with no name on one side and a piece with no
+ * parent on the other, level with each other (Pei 2020, a skeleton on each of two stems).
+ * The piece takes the place of the end.
+ *
+ * @param document - Extraction document, after labels were assigned; changed in place.
+ * @returns Notes on the joins made.
+ */
+export function joinInterruptedBranches(document: ExtractionDocument): Array<QcIssue>
+{
+    const issues = new Array<QcIssue>();
+    const glyph = document.glyphHeight;
+    const level = glyph / 2;
+
+    for (const root of document.nodes)
+    {
+        if (root.parent !== null || root.id === document.root)
+        {
+            continue;
+        }
+
+        // The piece's stem: a line into its root's vertical from the left, whose left end
+        // stands free.
+        let stem: Segment | null = null;
+
+        for (const horizontal of document.horizontals)
+        {
+            const { box } = horizontal;
+            const height = (box.y0 + box.y1) / 2;
+
+            if (box.x0 < root.x - glyph && box.x1 >= root.x - glyph && height >= root.y0 - level && height <= root.y1 + level && !hasVerticalAt(document, box.x0, height, glyph) && (stem === null || box.x0 < stem.box.x0))
+            {
+                stem = horizontal;
+            }
+        }
+
+        if (stem === null)
+        {
+            continue;
+        }
+
+        // The end the break left on the other side: no name, level with the stem, nearest
+        // on its left, with no upright of the drawing between the two.
+        const height = (stem.box.y0 + stem.box.y1) / 2;
+        let end: Tip | null = null;
+
+        for (const tip of document.tips)
+        {
+            if (tip.parent !== null && tip.textLine === null && tip.x < stem.box.x0 && Math.abs(tip.y - height) <= level && findPieceRoot(document, tip.parent) !== root && (end === null || tip.x > end.x))
+            {
+                end = tip;
+            }
+        }
+
+        if (end === null || stem.box.x0 - end.x > 0.25 * document.image.width || hasVerticalBetween(document, end.x, stem.box.x0, height, glyph))
+        {
+            continue;
+        }
+
+        const joined = end;
+        let parent: TreeNode | null = null;
+
+        for (const node of document.nodes)
+        {
+            parent = node.id === joined.parent ? node : parent;
+        }
+
+        if (parent === null)
+        {
+            continue;
+        }
+
+        function isKept(tip: Tip): boolean
+        {
+            return tip !== joined;
+        }
+
+        parent.children[parent.children.indexOf(joined.id)] = root.id;
+        root.parent = parent.id;
+        root.attachY = height;
+        document.tips = document.tips.filter(isKept);
+        sortChildren(document, parent);
+        issues.push({
+            severity: "info",
+            code: "interrupted-branch-joined",
+            message: `node ${root.id} joined under ${parent.id}: its stem and a branch end with no name are level, ${Math.round(stem.box.x0 - joined.x)} px apart, with nothing of the drawing between`,
+            subject: root.id,
+        });
+    }
+
+    return issues;
+}
+
+/**
+ * Whether a vertical stands at a point, to within a line's breadth.
+ *
+ * @param document - Extraction document.
+ * @param x - The point's x.
+ * @param y - The point's height.
+ * @param glyph - Letter height.
+ * @returns True when one does.
+ */
+function hasVerticalAt(document: ExtractionDocument, x: number, y: number, glyph: number): boolean
+{
+    for (const vertical of document.verticals)
+    {
+        const { box } = vertical;
+
+        if (x >= box.x0 - glyph / 2 && x <= box.x1 + glyph / 2 && y >= box.y0 - glyph / 2 && y <= box.y1 + glyph / 2)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Whether a vertical of some height crosses a level between two points.
+ *
+ * @param document - Extraction document.
+ * @param x0 - Left end.
+ * @param x1 - Right end.
+ * @param y - The level.
+ * @param glyph - Letter height.
+ * @returns True when one does.
+ */
+function hasVerticalBetween(document: ExtractionDocument, x0: number, x1: number, y: number, glyph: number): boolean
+{
+    for (const vertical of document.verticals)
+    {
+        const { box } = vertical;
+
+        if (box.x0 > x0 + glyph / 2 && box.x1 < x1 - glyph / 2 && box.y0 <= y && box.y1 >= y && box.y1 - box.y0 >= 2 * glyph)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A clade whose stem is broken by a picture set on the branch is joined to the tree
+  (`interrupted-branch-joined`): a branch end with no name and a piece with no parent,
+  level with each other and under a quarter of the figure apart with no upright between,
+  are one branch. Pei 2020 goes from 30 of 37 names to 37.
 - A rule of a time scale two pixels broad is erased whole. One of its rows was left when a
   gray pixel of a heading lay in it, and the nodes of the tree standing on that rule were
   joined by it into one upright the height of the figure, which was dropped as a chart
