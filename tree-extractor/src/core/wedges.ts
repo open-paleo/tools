@@ -56,6 +56,7 @@ export function flattenWedges(image: RgbaImage, threshold: number): DashedLineRe
     }
 
     const wedges = new Array<Box>();
+    const stout = new Set<Box>();
 
     for (const component of findConnectedComponents(erode(dark, wedgeWear)).components)
     {
@@ -63,10 +64,12 @@ export function flattenWedges(image: RgbaImage, threshold: number): DashedLineRe
         const wide = core.x1 - core.x0;
         const tall = core.y1 - core.y0;
 
-        if (wide < 60 || wide < 4 * tall || tall < 6)
+        if (wide < 60 || 2 * wide < tall || tall < 6)
         {
             continue;
         }
+
+        const long = wide >= 4 * tall;
 
         // The shape the core is worn from: the core's box, grown by what was worn away.
         const box: Box = { x0: core.x0, y0: Math.max(0, core.y0 - wedgeWear - 1), x1: Math.min(width, core.x1 + wedgeWear), y1: Math.min(height, core.y1 + wedgeWear + 1) };
@@ -76,9 +79,20 @@ export function flattenWedges(image: RgbaImage, threshold: number): DashedLineRe
         const full = measureColumn(dark, box, core.x1 - 1);
         const grows = quarter < half && half < most && most < full && full >= 2 * quarter;
 
-        if (grows && 10 * component.area >= 3 * wide * tall && 10 * component.area <= 7 * wide * tall)
+        // A clade may also be collapsed to a plain triangle, about as tall as long, set at
+        // the end of its branch (Brusatte 2014, seven of them, run off the edge of the
+        // figure). Short as it is, it must be a triangle and nothing else: its height
+        // grows in proportion along it. A silhouette or an arrowhead's barbs do not.
+        const even = Math.abs(quarter - full / 4) <= 0.08 * full && Math.abs(half - full / 2) <= 0.08 * full && Math.abs(most - (3 * full) / 4) <= 0.08 * full;
+
+        if (grows && (long || even) && 10 * component.area >= 3 * wide * tall && 10 * component.area <= 7 * wide * tall)
         {
             wedges.push(box);
+
+            if (!long)
+            {
+                stout.add(box);
+            }
         }
     }
 
@@ -154,7 +168,10 @@ export function flattenWedges(image: RgbaImage, threshold: number): DashedLineRe
                 }
             }
 
-            for (let y = Math.max(0, axis - half); y <= Math.min(height - 1, axis + half); y++)
+            // A long wedge becomes a branch to its broad end, where its name stands. A
+            // stout triangle is taken out and the branch ends at its point: its name is
+            // printed along the branch before it.
+            for (let y = Math.max(0, axis - half); y <= Math.min(height - 1, axis + half) && !stout.has(box); y++)
             {
                 paint(x, y, 0);
             }

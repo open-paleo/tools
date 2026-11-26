@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A clade collapsed to a plain triangle at the end of its branch is read: the wedge step,
+  which took only wedges four times as long as tall, also takes a triangle about as tall
+  as long whose height grows in proportion along it. The triangle is taken out and the
+  branch ends at its point, where the name printed along the branch is paired with it.
+  Brusatte 2014 goes from 46 of 55 names to 53, with all 32 splits.
 - A flat ground of muted color behind a clade is lifted to white (`flat-grounds-lifted`): a
   box darker than faint ink is taken to be, which made the whole box count as lettering.
   The pieces the lines cut it into are taken together, and everything in the box is
