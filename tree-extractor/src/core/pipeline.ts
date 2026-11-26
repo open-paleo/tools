@@ -1906,6 +1906,29 @@ function invertImage(image: RgbaImage): RgbaImage
 }
 
 /**
+ * Finds a number no segment of a list has in its identifier yet. The list's length will not
+ * do: segments are dropped along the way, and a number below the highest in use names two
+ * segments alike (Wilson 2020, where a connector took the identifier of a branch and the
+ * branch's node was lost).
+ *
+ * @param segments - Segments with identifiers of a letter and a number.
+ * @returns One more than the highest number in use.
+ */
+function findNextSegmentNumber(segments: Array<Segment>): number
+{
+    let highest = segments.length;
+
+    for (const segment of segments)
+    {
+        const number = Number(segment.id.slice(1));
+
+        highest = Number.isFinite(number) && number > highest ? number : highest;
+    }
+
+    return highest + 1;
+}
+
+/**
  * Runs the full pipeline on one image.
  *
  * @param givenImage - Decoded RGBA image, as drawn.
@@ -2742,7 +2765,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const connectorGap = parameters.shortConnectors ? minHorizontalRun : 3;
     const bareGap = Math.max(connectorGap, Math.round(2.5 * thickness));
 
-    for (const connector of findShortConnectors(lineInk, verticals, horizontals, connectorGap, thickness, horizontals.length + 1, !parameters.shortConnectors, bareGap))
+    for (const connector of findShortConnectors(lineInk, verticals, horizontals, connectorGap, thickness, findNextSegmentNumber(horizontals), !parameters.shortConnectors, bareGap))
     {
         horizontals.push(connector);
         connectors.add(connector.id);

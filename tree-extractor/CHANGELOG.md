@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fixed: a connector added between two verticals could take the identifier of a segment
+  already there, and that segment's node was lost.
 - A stem that steps aside into the next node's vertical is followed across a step of up
   to two and a half line widths, where a branch arrives at that stem and none leaves it.
   The limit was three pixels. Hendrickx 2024 goes from 8 of 27 names to 15, with one
