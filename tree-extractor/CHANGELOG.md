@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A tip is carried through a range bar too pale to be ink to the name at its end
+  (`tips-carried-through-bars`): from a branch's end the image is followed for as long as
+  the pixels at its height are one color that differs from the rows above and below. A
+  row that took such a bar in with its letters is cut back to the letters. Pol 2020 goes
+  from 36 of 46 names to 42.
 - A tree of ancestral ranges is read: a figure with a lettered box of color on every node
   and a lettered bar on every tip, where the lines stop at the boxes' edges. Before
   anything else reads the image, each node's box is replaced by a junction of the lines

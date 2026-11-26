@@ -28,6 +28,7 @@ import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
 import { eraseScaleRules } from "./rules.ts";
 import { flattenWedges } from "./wedges.ts";
 import { resolveNodeBoxes } from "./node-boxes.ts";
+import { carryTipsThroughBars } from "./range-bars.ts";
 import { joinInterruptedBranches, joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
 import { blankPictures, clearDarkGrounds, flattenGrayBands } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
@@ -2991,6 +2992,12 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     }
 
     assignLabels(document);
+
+    // A range bar too pale to be ink stands between a branch's end and its name.
+    if (slantedTrace === null)
+    {
+        document.qc.push(...carryTipsThroughBars(document, image));
+    }
 
     // A label left without a tip beside the end of an elbow gives away a second tip there.
     if (slantedTrace === null)
