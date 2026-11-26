@@ -500,6 +500,11 @@ type FlatGround = {
      * Pixels of the color, over all pieces.
      */
     area: number;
+
+    /**
+     * Extent and pixels of the large pieces alone, before small ones were added.
+     */
+    core?: FlatGround;
 };
 
 /**
@@ -522,6 +527,17 @@ export function flattenFlatGrounds(image: RgbaImage): GroundResult
     const seen = new Uint8Array(count);
     const stack = new Array<number>();
     const found = new Array<FlatGround>();
+    const scraps = new Array<FlatGround>();
+
+    function isSameColor(first: Array<number>, second: Array<number>): boolean
+    {
+        return Math.abs(first[0] - second[0]) + Math.abs(first[1] - second[1]) + Math.abs(first[2] - second[2]) <= flatSpread;
+    }
+
+    function uniteBoxes(first: Box, second: Box): Box
+    {
+        return { x0: Math.min(first.x0, second.x0), y0: Math.min(first.y0, second.y0), x1: Math.max(first.x1, second.x1), y1: Math.max(first.y1, second.y1) };
+    }
 
     function isCandidate(index: number): boolean
     {
@@ -581,20 +597,28 @@ export function flattenFlatGrounds(image: RgbaImage): GroundResult
             }
         }
 
+        const color = [sums[0] / area, sums[1] / area, sums[2] / area];
+
+        // A large piece begins a ground, or is more of one of its color already met. A
+        // small piece is kept for later: where many lines cross a ground, most of it lies
+        // in pieces too small to begin one.
         if (area < flatShare * count)
         {
+            if (area >= 0.04 * flatShare * count)
+            {
+                scraps.push({ color, box, area });
+            }
+
             continue;
         }
 
-        const color = [sums[0] / area, sums[1] / area, sums[2] / area];
         let joined = false;
 
-        // A piece of a color already met is more of the same ground.
         for (const ground of found)
         {
-            if (!joined && Math.abs(ground.color[0] - color[0]) + Math.abs(ground.color[1] - color[1]) + Math.abs(ground.color[2] - color[2]) <= flatSpread)
+            if (!joined && isSameColor(ground.color, color))
             {
-                ground.box = { x0: Math.min(ground.box.x0, box.x0), y0: Math.min(ground.box.y0, box.y0), x1: Math.max(ground.box.x1, box.x1), y1: Math.max(ground.box.y1, box.y1) };
+                ground.box = uniteBoxes(ground.box, box);
                 ground.area += area;
                 joined = true;
             }
@@ -606,11 +630,49 @@ export function flattenFlatGrounds(image: RgbaImage): GroundResult
         }
     }
 
-    let result: Uint8ClampedArray | null = null;
-    let grounds = 0;
+    // The small pieces of a ground's color that lie against it are part of it (Hu 2009: a
+    // gray band with the tree's nodes in it, cut by thirteen branches into strips, of which
+    // the pieces large enough filled six tenths of what they spanned, short of a ground).
+    const near = Math.max(4, Math.round(0.01 * Math.min(width, height)));
+    let grown = true;
 
     for (const ground of found)
     {
+        ground.core = { color: ground.color, box: ground.box, area: ground.area };
+    }
+
+    while (grown)
+    {
+        grown = false;
+
+        for (const ground of found)
+        {
+            for (let index = scraps.length - 1; index >= 0; index--)
+            {
+                const scrap = scraps[index];
+                const apart = scrap.box.x0 > ground.box.x1 + near || scrap.box.x1 < ground.box.x0 - near || scrap.box.y0 > ground.box.y1 + near || scrap.box.y1 < ground.box.y0 - near;
+
+                if (!apart && isSameColor(ground.color, scrap.color))
+                {
+                    ground.box = uniteBoxes(ground.box, scrap.box);
+                    ground.area += scrap.area;
+                    scraps.splice(index, 1);
+                    grown = true;
+                }
+            }
+        }
+    }
+
+    let result: Uint8ClampedArray | null = null;
+    let grounds = 0;
+
+    for (const whole of found)
+    {
+        // Small pieces may lie far along a figure from the ground they were added to, and
+        // the box they span is then mostly something else: the large pieces alone are the
+        // ground (Xu 2018, Jimenez-Velandia 2025, each of which lost a name to it).
+        const core = whole.core ?? whole;
+        const ground = whole.area >= 0.6 * (whole.box.x1 - whole.box.x0) * (whole.box.y1 - whole.box.y0) ? whole : core;
         const { box, color } = ground;
         const boxArea = (box.x1 - box.x0) * (box.y1 - box.y0);
 

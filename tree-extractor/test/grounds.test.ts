@@ -187,3 +187,23 @@ test("a flat block of muted color with nothing drawn on it is left as it is", ()
 
     assert.equal(flattenFlatGrounds(image).image, image);
 });
+
+test("a ground cut into strips by many branches is lifted whole", () =>
+{
+    const image = createImage(2000, 1500);
+
+    // One strip wide enough to begin a ground, then narrow ones between the branches.
+    paintBlock(image, 100, 100, 700, 220, [178, 180, 182]);
+
+    for (let x = 240; x < 700; x += 36)
+    {
+        paintBlock(image, x, 60, x + 4, 260, [10, 10, 10]);
+    }
+
+    const result = flattenFlatGrounds(image);
+
+    assert.equal(result.grounds, 1);
+    assert.ok(result.image.data[4 * (150 * 2000 + 620)] >= 250);
+    assert.ok(result.image.data[4 * (150 * 2000 + 150)] >= 250);
+    assert.ok(result.image.data[4 * (150 * 2000 + 241)] <= 10);
+});

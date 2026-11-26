@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A flat ground that many branches cut into strips is lifted whole: the small pieces of a
+  ground's color that lie against it are counted as part of it, where before only the
+  pieces large enough to begin a ground were. Hu 2009, whose nodes all lie in a gray band
+  across the plot, goes from 11 of 18 names and 2 of 8 splits to 17 and 12 of 14.
 - A node with a support value printed on it is mended where its children leave close
   above and below the number: the stub of upright between a child's corner and the number
   is too short to be a line. With the stem ending at the number's left and a branch
