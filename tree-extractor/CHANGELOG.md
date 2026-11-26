@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A node with a support value printed on it is mended where its children leave close
+  above and below the number: the stub of upright between a child's corner and the number
+  is too short to be a line. With the stem ending at the number's left and a branch
+  beginning over it and under it in the column that runs beneath the number, the upright
+  is drawn back in. Hwang 2004 goes from 48 of 55 names to 55 and is identical to its
+  gold tree.
 - A clade collapsed to a plain triangle at the end of its branch is read: the wedge step,
   which took only wedges four times as long as tall, also takes a triangle about as tall
   as long whose height grows in proportion along it. The triangle is taken out and the

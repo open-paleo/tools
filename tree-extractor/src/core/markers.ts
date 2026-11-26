@@ -2043,12 +2043,146 @@ export function joinThroughNumbers(lineArt: Mask, ink: Mask, boxes: Array<Box>, 
         }
     }
 
+    // Where a child's branch begins above or below a number, at a corner whose upright is
+    // too short to be a line: the left end of a level run of line ink, with nothing to its
+    // left, in the columns of the number and within two glyphs of it. The nearest is taken.
+    function findBranchStart(box: Box, above: boolean): LineEnd | null
+    {
+        const { width, height, data } = ink;
+        const run = 2 * least;
+
+        for (let step = 1; step <= 2 * glyphHeight; step++)
+        {
+            const y = above ? box.y0 - step : box.y1 - 1 + step;
+
+            if (y < 0 || y >= height)
+            {
+                break;
+            }
+
+            for (let x = Math.max(reach, box.x0 - reach); x <= Math.min(width - run - 1, box.x1 + reach); x++)
+            {
+                if (data[y * width + x] === 0 || data[y * width + x - 1] === 1)
+                {
+                    continue;
+                }
+
+                let length = 0;
+                let clear = true;
+
+                while (length < run && data[y * width + x + length] === 1)
+                {
+                    length++;
+                }
+
+                for (let back = 1; back <= reach; back++)
+                {
+                    clear = clear && data[y * width + x - back] === 0;
+                }
+
+                if (length >= run && clear)
+                {
+                    // The row met first is the line's near edge, which a rounded corner
+                    // begins late: the line's own start is the leftmost over its breadth.
+                    let start = x;
+
+                    for (let deeper = 1; deeper <= thickness + 1; deeper++)
+                    {
+                        const row = above ? y - deeper : y + deeper;
+
+                        if (row < 0 || row >= height || data[row * width + x + run - 1] === 0)
+                        {
+                            break;
+                        }
+
+                        let first = x + run - 1;
+
+                        while (first > 0 && data[row * width + first - 1] === 1)
+                        {
+                            first--;
+                        }
+
+                        start = Math.min(start, Math.max(first, x - reach));
+                    }
+
+                    return { x: start + half, y };
+                }
+            }
+        }
+
+        return null;
+    }
+
     for (const box of boxes)
     {
-        const left = findLineEndAt(ink, box, "left", reach, least);
+        let left = findLineEndAt(ink, box, "left", reach, least);
         const right = findLineEndAt(ink, box, "right", reach, least);
-        const top = findLineEndAt(ink, box, "top", reach, least);
-        const bottom = findLineEndAt(ink, box, "bottom", reach, least);
+        let top = findLineEndAt(ink, box, "top", reach, least);
+        let bottom = findLineEndAt(ink, box, "bottom", reach, least);
+
+        // A number set on a node whose children leave close above and below it leaves no
+        // upright long enough to be a line on one side or on both: the stub between the
+        // child's corner and the number goes with the lettering (Hwang 2004, where seven
+        // tips hung from such corners). With the stem ending at the number's left, a
+        // branch that begins over the number and one under it, in one column, are the
+        // node's children, and the upright is drawn back in.
+        let mended = false;
+
+        if (!clear && (top === null || bottom === null))
+        {
+            const over = top === null ? findBranchStart(box, true) : null;
+            const under = bottom === null ? findBranchStart(box, false) : null;
+            const column = top?.x ?? bottom?.x ?? (over !== null && under !== null && Math.abs(over.x - under.x) <= thickness + 2 ? over.x : null);
+
+            // The stem may stop a little further from a narrow number than a line does
+            // from a mark; without a stem there is no node here.
+            const stem = left ?? (column === null ? null : findLineEndAt(ink, box, "left", 3 * reach, least));
+
+            // A narrow number, a single 1, stands a pixel or two further from its stem
+            // than the reach allows: half as far again is still at the number. Looked for
+            // three times as far, with nothing mended, Moore 2020 lost two splits.
+            left = left ?? (column === null || column < box.x0 || column >= box.x1 ? null : findLineEndAt(ink, box, "left", Math.round(1.5 * reach), least));
+
+            // A value printed beside a node has the node's own upright standing next to
+            // it, whole: nothing is missing there, and the branches over and under the
+            // number are that node's already (Fonseca 2024, Moore 2020, Silva Junior 2022,
+            // which lost splits to an upright drawn in beside their own).
+            let standingBy = false;
+
+            for (let x = Math.max(0, box.x0 - 2 * reach); x < Math.min(ink.width, box.x1 + 2 * reach) && column !== null; x++)
+            {
+                let inked = 0;
+
+                for (let y = box.y0; y < box.y1; y++)
+                {
+                    inked += ink.data[y * ink.width + x];
+                }
+
+                standingBy = standingBy || 5 * inked >= 4 * (box.y1 - box.y0);
+            }
+
+            // The column runs under the number itself: a number set beside the column is
+            // a value printed by a node (Silva Junior 2022, one pixel clear of it).
+            if (!standingBy && stem !== null && column !== null && column >= box.x0 && column < box.x1)
+            {
+                if (over !== null && Math.abs(over.x - column) <= thickness + 2)
+                {
+                    paint(column, over.y, column, box.y0);
+                    top = { x: column, y: box.y0 };
+                    left = stem;
+                    mended = true;
+                }
+
+                if (under !== null && Math.abs(under.x - column) <= thickness + 2)
+                {
+                    paint(column, box.y1, column, under.y);
+                    bottom = { x: column, y: box.y1 };
+                    left = stem;
+                    mended = true;
+                }
+            }
+        }
+
         const level = left ?? right;
         const standing = top ?? bottom;
         const ends = (left === null ? 0 : 1) + (right === null ? 0 : 1) + (top === null ? 0 : 1) + (bottom === null ? 0 : 1);
@@ -2071,7 +2205,7 @@ export function joinThroughNumbers(lineArt: Mask, ink: Mask, boxes: Array<Box>, 
 
         // The lines meet under the number. A value printed beside a node has the node's lines
         // pass it by, and where they would meet lies outside its box (Fonseca 2024).
-        if (x < box.x0 || x >= box.x1 || y < box.y0 || y >= box.y1)
+        if (!mended && (x < box.x0 || x >= box.x1 || y < box.y0 || y >= box.y1))
         {
             continue;
         }
