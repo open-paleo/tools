@@ -30,7 +30,7 @@ import { flattenWedges } from "./wedges.ts";
 import { resolveNodeBoxes } from "./node-boxes.ts";
 import { carryTipsThroughBars } from "./range-bars.ts";
 import { joinInterruptedBranches, joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
-import { blankPictures, clearDarkGrounds, flattenGrayBands } from "./grounds.ts";
+import { blankPictures, clearDarkGrounds, flattenFlatGrounds, flattenGrayBands } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
@@ -2309,7 +2309,9 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     // Gray bands behind the figure are lifted to white first of all: the rules ruled over
     // them are then thin gray on white.
     const boxed = resolveNodeBoxes(blanked);
-    const pictured = options.findPictures === false ? { image: boxed.image, grounds: 0 } : blankPictures(boxed.image, parameters.maxChroma);
+    // A flat ground of muted color behind a clade is lifted before it passes for ink.
+    const leveled = flattenFlatGrounds(boxed.image);
+    const pictured = options.findPictures === false ? { image: leveled.image, grounds: 0 } : blankPictures(leveled.image, parameters.maxChroma);
     const banded = flattenGrayBands(pictured.image, parameters.maxChroma);
     // The rules of a time scale go next: turned, they are uprights the height of the tree.
     const unruled = eraseScaleRules(banded.image);
@@ -2370,6 +2372,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     if (banded.grounds > 0)
     {
         orientationIssues.push({ severity: "info", code: "gray-bands-flattened", message: "gray bands behind the figure were lifted to white before it was read", subject: null });
+    }
+
+    if (leveled.grounds > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "flat-grounds-lifted", message: `${leveled.grounds} flat ground(s) of color behind the drawing were lifted to white`, subject: null });
     }
 
     if (boxed.nodes > 0)

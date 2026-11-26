@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A flat ground of muted color behind a clade is lifted to white (`flat-grounds-lifted`): a
+  box darker than faint ink is taken to be, which made the whole box count as lettering.
+  The pieces the lines cut it into are taken together, and everything in the box is
+  redrawn in gray by how much darker than the ground it is. Raven 2023 goes from 34 of 47
+  names to 47, with all 44 splits; Rauhut 2019 and Xu 2018 gain a name each. Grounds in
+  strong colors, those of a time scale, are left alone.
 - A tip is carried through a range bar too pale to be ink to the name at its end
   (`tips-carried-through-bars`): from a branch's end the image is followed for as long as
   the pixels at its height are one color that differs from the rows above and below. A

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { RgbaImage } from "../src/core/types.ts";
-import { blankPictures } from "../src/core/grounds.ts";
+import { blankPictures, flattenFlatGrounds } from "../src/core/grounds.ts";
 
 /**
  * A white image.
@@ -123,4 +123,67 @@ test("a textured block that branches run into from outside is left in", () =>
     const result = blankPictures(image, 40);
 
     assert.equal(result.grounds, 0);
+});
+
+/**
+ * Draws a clade's branches over a block: one line across it and two names' worth of strokes.
+ *
+ * @param image - Image set in place.
+ * @param x0 - Left of the block.
+ * @param y0 - Top of the block.
+ * @param color - Color of the ink.
+ */
+function paintBranches(image: RgbaImage, x0: number, y0: number, color: Array<number>): void
+{
+    paintBlock(image, x0 + 20, y0 + 30, x0 + 300, y0 + 34, color);
+    paintBlock(image, x0 + 20, y0 + 70, x0 + 300, y0 + 74, color);
+    paintBlock(image, x0 + 20, y0 + 30, x0 + 24, y0 + 74, color);
+
+    for (let x = x0 + 310; x < x0 + 420; x += 8)
+    {
+        paintBlock(image, x, y0 + 24, x + 4, y0 + 40, color);
+        paintBlock(image, x, y0 + 64, x + 4, y0 + 80, color);
+    }
+}
+
+test("a flat ground of muted color behind a clade is lifted to white, its ink to black", () =>
+{
+    const image = createImage(800, 500);
+
+    paintBlock(image, 100, 100, 600, 220, [152, 166, 192]);
+    paintBranches(image, 100, 100, [23, 37, 63]);
+
+    const result = flattenFlatGrounds(image);
+
+    assert.equal(result.grounds, 1);
+    assert.ok(result.image.data[4 * (200 * 800 + 300)] >= 250);
+    assert.ok(result.image.data[4 * (131 * 800 + 200)] <= 10);
+    // Outside the ground nothing changes.
+    assert.equal(result.image.data[4 * (300 * 800 + 300)], 255);
+});
+
+test("a ground in a strong color, or too light to pass for ink, is left as it is", () =>
+{
+    const strong = createImage(800, 500);
+
+    paintBlock(strong, 100, 100, 600, 220, [22, 178, 224]);
+    paintBranches(strong, 100, 100, [10, 10, 10]);
+
+    assert.equal(flattenFlatGrounds(strong).image, strong);
+
+    const light = createImage(800, 500);
+
+    paintBlock(light, 100, 100, 600, 220, [225, 225, 215]);
+    paintBranches(light, 100, 100, [10, 10, 10]);
+
+    assert.equal(flattenFlatGrounds(light).image, light);
+});
+
+test("a flat block of muted color with nothing drawn on it is left as it is", () =>
+{
+    const image = createImage(800, 500);
+
+    paintBlock(image, 100, 100, 600, 220, [152, 166, 192]);
+
+    assert.equal(flattenFlatGrounds(image).image, image);
 });

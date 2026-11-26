@@ -460,3 +460,209 @@ export function blankPictures(image: RgbaImage, maxChroma: number): GroundResult
 
     return { image: { width, height, data: blanked }, grounds: boxes.length, boxes };
 }
+
+/**
+ * Least share of the image a flat ground covers.
+ */
+const flatShare = 0.005;
+
+/**
+ * Largest difference in color, summed over the channels, between a ground's pixel and the
+ * pixel the search for it began at.
+ */
+const flatSpread = 30;
+
+/**
+ * Luminance from which a flat ground is left alone: lighter than faint ink is taken to be.
+ */
+const lightestFlatGround = 200;
+
+/**
+ * Largest difference between the channels of a flat ground that is lifted.
+ */
+const mostFlatChroma = 60;
+
+/**
+ * A flat ground of color: its color and the box it lies in.
+ */
+type FlatGround = {
+    /**
+     * Mean red, green and blue.
+     */
+    color: Array<number>;
+
+    /**
+     * Extent of the pieces of this color.
+     */
+    box: Box;
+
+    /**
+     * Pixels of the color, over all pieces.
+     */
+    area: number;
+};
+
+/**
+ * Lifts flat grounds of color to white: a box of one plain color laid behind a clade, with
+ * the lines and the names over it. Such a ground is lighter than the lines and may still be
+ * darker than lettering is taken to be, so the whole box counts as lettering and the names
+ * on it are lost (Raven 2023: grounds in gray-blue, purple and gray-green). Only a muted
+ * ground that dark is lifted. The lines cut a
+ * ground into pieces, so pieces of one color are taken together and everything in the box
+ * they span is redrawn in gray by how much darker than the ground it is: the ground and
+ * what is lighter go white, the ink goes black whatever its color.
+ *
+ * @param image - The figure.
+ * @returns The image, and how many grounds were lifted.
+ */
+export function flattenFlatGrounds(image: RgbaImage): GroundResult
+{
+    const { width, height, data } = image;
+    const count = width * height;
+    const seen = new Uint8Array(count);
+    const stack = new Array<number>();
+    const found = new Array<FlatGround>();
+
+    function isCandidate(index: number): boolean
+    {
+        const offset = 4 * index;
+        const luminance = 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2];
+        const chroma = Math.max(data[offset], data[offset + 1], data[offset + 2]) - Math.min(data[offset], data[offset + 1], data[offset + 2]);
+
+        return luminance >= darkestGround && (luminance < 235 || chroma > 20);
+    }
+
+    for (let start = 0; start < count; start++)
+    {
+        if (seen[start] === 1 || !isCandidate(start))
+        {
+            continue;
+        }
+
+        const red = data[4 * start];
+        const green = data[4 * start + 1];
+        const blue = data[4 * start + 2];
+        const box = { x0: width, y0: height, x1: 0, y1: 0 };
+        const sums = [0, 0, 0];
+        let area = 0;
+        seen[start] = 1;
+        stack.push(start);
+
+        while (stack.length > 0)
+        {
+            const index = stack.pop() as number;
+            const x = index % width;
+            const y = (index - x) / width;
+            area++;
+            sums[0] += data[4 * index];
+            sums[1] += data[4 * index + 1];
+            sums[2] += data[4 * index + 2];
+            box.x0 = Math.min(box.x0, x);
+            box.y0 = Math.min(box.y0, y);
+            box.x1 = Math.max(box.x1, x + 1);
+            box.y1 = Math.max(box.y1, y + 1);
+
+            for (const step of [-1, 1, -width, width])
+            {
+                const next = index + step;
+
+                if (next < 0 || next >= count || (step === -1 && x === 0) || (step === 1 && x === width - 1) || seen[next] === 1)
+                {
+                    continue;
+                }
+
+                const offset = 4 * next;
+
+                if (Math.abs(data[offset] - red) + Math.abs(data[offset + 1] - green) + Math.abs(data[offset + 2] - blue) <= flatSpread)
+                {
+                    seen[next] = 1;
+                    stack.push(next);
+                }
+            }
+        }
+
+        if (area < flatShare * count)
+        {
+            continue;
+        }
+
+        const color = [sums[0] / area, sums[1] / area, sums[2] / area];
+        let joined = false;
+
+        // A piece of a color already met is more of the same ground.
+        for (const ground of found)
+        {
+            if (!joined && Math.abs(ground.color[0] - color[0]) + Math.abs(ground.color[1] - color[1]) + Math.abs(ground.color[2] - color[2]) <= flatSpread)
+            {
+                ground.box = { x0: Math.min(ground.box.x0, box.x0), y0: Math.min(ground.box.y0, box.y0), x1: Math.max(ground.box.x1, box.x1), y1: Math.max(ground.box.y1, box.y1) };
+                ground.area += area;
+                joined = true;
+            }
+        }
+
+        if (!joined)
+        {
+            found.push({ color, box, area });
+        }
+    }
+
+    let result: Uint8ClampedArray | null = null;
+    let grounds = 0;
+
+    for (const ground of found)
+    {
+        const { box, color } = ground;
+        const boxArea = (box.x1 - box.x0) * (box.y1 - box.y0);
+
+        // How much darker than the ground a pixel is, at its darkest channel.
+        function measureDepth(offset: number): number
+        {
+            return Math.max(0, color[0] - data[offset], color[1] - data[offset + 1], color[2] - data[offset + 2]);
+        }
+
+        // A ground behind a tree fills most of its box and has the tree's ink over it. A
+        // plain block of color has no ink, and a color scattered over the figure fills
+        // little of the box its pieces span.
+        let inked = 0;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                inked += measureDepth(4 * (y * width + x)) >= 90 ? 1 : 0;
+            }
+        }
+
+        // And it is dark enough to pass for ink. A lighter ground does no harm as it is,
+        // and there are many: bands of a time scale, the cells of a chart.
+        const luminance = 0.299 * color[0] + 0.587 * color[1] + 0.114 * color[2];
+
+        // And it is muted. The strong colors are those of a time scale's cells and strips;
+        // lifting them gained nine names and lost ten, on Jimenez-Velandia 2025,
+        // Sanchez-Fenollosa 2025 and four more.
+        const chroma = Math.max(color[0], color[1], color[2]) - Math.min(color[0], color[1], color[2]);
+
+        if (ground.area < 0.6 * boxArea || inked < 0.005 * boxArea || luminance >= lightestFlatGround || chroma > mostFlatChroma)
+        {
+            continue;
+        }
+
+        result = result ?? new Uint8ClampedArray(data);
+        grounds++;
+
+        for (let y = box.y0; y < box.y1; y++)
+        {
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                const offset = 4 * (y * width + x);
+                const gray = 255 - Math.min(255, Math.round(2.4 * Math.max(0, measureDepth(offset) - 12)));
+
+                result[offset] = gray;
+                result[offset + 1] = gray;
+                result[offset + 2] = gray;
+            }
+        }
+    }
+
+    return { image: result === null ? image : { width, height, data: result }, grounds };
+}
