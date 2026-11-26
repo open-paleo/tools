@@ -1789,9 +1789,13 @@ export function splitJoggedVerticals(verticals: Array<Segment>, horizontals: Arr
  *   ink between any two close verticals, which on most figures is something else.
  * @param bareGap - Largest gap to look across from a vertical that a branch arrives at and
  *   none leaves, where steps are kept only: such a riser has nowhere to go but the step.
+ * @param broadGap - Largest gap to look across between two verticals each as broad as a
+ *   line of the drawing, where steps are kept only.
+ * @param fullInk - Ink to look in across a gap wider than maxGap: a step that long and no
+ *   longer may be no run of the line ink.
  * @returns The connectors as horizontal segments.
  */
-export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, horizontals: Array<Segment>, maxGap: number, thickness: number, nextId: number, stepsOnly = false, bareGap = maxGap): Array<Segment>
+export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, horizontals: Array<Segment>, maxGap: number, thickness: number, nextId: number, stepsOnly = false, bareGap = maxGap, broadGap = maxGap, fullInk: Mask = lineInk): Array<Segment>
 {
     const { width, data } = lineInk;
     const found = new Array<Segment>();
@@ -1862,7 +1866,14 @@ export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, ho
         {
             const gap = right.box.x0 - left.box.x1;
 
-            if (left === right || gap < 1 || gap > (bare ? bareGap : maxGap) || (stepsOnly && hasStem(right)))
+            // Two verticals as broad as the drawing's lines are lines of it, and may stand a
+            // line's width apart (Hendrickx 2024: four nested nodes, each stepping into the
+            // next across 5 or 6 pixels). Thinner strokes that close are hatching or the
+            // sides of a box (Brusatte 2010, strokes 4 pixels broad where lines are 7).
+            const broad = stepsOnly && Math.min(left.box.x1 - left.box.x0, right.box.x1 - right.box.x0) >= 0.75 * thickness;
+            const limit = Math.max(maxGap, bare ? bareGap : 0, broad ? broadGap : 0);
+
+            if (left === right || gap < 1 || gap > limit || (stepsOnly && hasStem(right)))
             {
                 continue;
             }
@@ -1893,7 +1904,7 @@ export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, ho
 
                 for (let x = left.box.x1; x < right.box.x0 && inked; x++)
                 {
-                    inked = data[y * width + x] === 1;
+                    inked = (gap > maxGap ? fullInk.data : data)[y * width + x] === 1;
                 }
 
                 if (inked && runStart < 0)

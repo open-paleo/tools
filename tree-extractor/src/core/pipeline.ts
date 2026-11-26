@@ -2760,12 +2760,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         connectors.add(connector.id);
     }
 
-    // Everywhere, only the step of a staircase a few pixels long, or up to two and a half
-    // line widths from a riser with no branch of its own; the wider search is a setting.
+    // Everywhere, only the step of a staircase a few pixels long: up to a line's width
+    // between two verticals as broad as a line, or two and a half from a riser with no
+    // branch of its own. The wider search is a setting. The ink is the fuller one: a step
+    // that short is no run of the line ink.
     const connectorGap = parameters.shortConnectors ? minHorizontalRun : 3;
     const bareGap = Math.max(connectorGap, Math.round(2.5 * thickness));
 
-    for (const connector of findShortConnectors(lineInk, verticals, horizontals, connectorGap, thickness, findNextSegmentNumber(horizontals), !parameters.shortConnectors, bareGap))
+    for (const connector of findShortConnectors(lineInk, verticals, horizontals, connectorGap, thickness, findNextSegmentNumber(horizontals), !parameters.shortConnectors, bareGap, Math.max(connectorGap, Math.round(thickness)), inkForRuns))
     {
         horizontals.push(connector);
         connectors.add(connector.id);

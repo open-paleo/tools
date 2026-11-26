@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Nested nodes whose verticals stand a line's width apart are joined by their steps: the
+  step is looked for in the fuller ink, where it is too short to be a run of the line ink,
+  and across up to one line width between two verticals each as broad as a line.
+  Hendrickx 2024 goes from 15 of 27 names to 23; Pol 2020 gains two, Poole 2022 one, and
+  Poropat 2014 is identical to its gold tree.
 - Fixed: a connector added between two verticals could take the identifier of a segment
   already there, and that segment's node was lost.
 - A stem that steps aside into the next node's vertical is followed across a step of up
