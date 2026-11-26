@@ -268,6 +268,9 @@ const benchDir = path.dirname(url.fileURLToPath(import.meta.url));
 const outDir = path.join(benchDir, "out");
 const skipOcr = process.argv.includes("--no-ocr");
 const strict = process.argv.includes("--strict");
+
+// Cases whose image was there and whose extraction threw.
+const failures = new Array<string>();
 const withoutNames = process.argv.includes("--no-names");
 const expectedIdentical = new Set(JSON.parse(fs.readFileSync(path.join(benchDir, "expectations.json"), "utf8")).identical as Array<string>);
 const filter = process.argv.find((argument) => argument.startsWith("--only=")) ?? null;
@@ -412,6 +415,7 @@ for (const caseDir of caseDirs)
         console.log(`== ${caseName}`);
         console.log(`failed: ${error instanceof Error ? error.message : String(error)}`);
         coldRows.push({ name: caseName, tips: 0, inTree: 0, matched: 0, names: names.length, warnings: 0, errors: 1 });
+        failures.push(caseName);
         continue;
     }
 
@@ -573,5 +577,13 @@ for (const row of summary)
 if (strict && regressions.length > 0)
 {
     console.log(`\n${regressions.length} case(s) expected identical are not: ${regressions.join(", ")}`);
+    process.exitCode = 1;
+}
+
+// A case that could not be run is no pass: with the image library missing every case failed
+// this way, and the strict run reported nothing wrong.
+if (strict && failures.length > 0)
+{
+    console.log(`\n${failures.length} case(s) failed to run: ${failures.join(", ")}`);
     process.exitCode = 1;
 }
