@@ -1,0 +1,69 @@
+#NEXUS
+
+[ zhang2024a_fig7: Sauropodomorph tree with small pies on every node, read with the image as it stands (root at left). Most of it is a long ladder whose verticals run a few pixels apart and pass behind the neighbouring pies; each node was read by the rule the drawing follows (every pie sits halfway between its two children), which places every ladder tip without ambiguity: e.g. Mussaurus branches from the node above Seitaad's, its vertical hidden behind that node's pie. Substitute for gorscak2016a_fig6_4, whose doubled verticals the image alone does not settle. Picked case (pie charts on nodes; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the pies and squares are not encoded. 56 tips, 0 polytomies. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=56;
+    TAXLABELS
+        Euparkeria
+        Saturnalia
+        Chromogisaurus
+        Lishulong
+        Yunnanosaurus
+        Lessemsaurus
+        Antetonitrus
+        Cetiosaurus
+        Omeisaurus
+        Mamenchisaurus
+        Spinophorosaurus
+        Shunosaurus
+        Baraposaurus
+        Patagosaurus
+        Vulcanodon
+        Tazoudasaurus
+        Isanosaurus
+        Pulanesaura
+        Gongxianosaurus
+        Leonerasaurus
+        Camelotia
+        Blikanasaurus
+        Melanorosaurus_NMQR3314
+        Melanorosaurus_NMQR1551
+        Aardonyx
+        Yizhousaurus
+        Mussaurus
+        Seitaad
+        Eucnemesaurus_entaxonis
+        Eucnemesaurus_fortis
+        Riojasaurus
+        Jingshanosaurus
+        Xingxiulong
+        Lufengosaurus
+        Coloradisaurus
+        Massospondylus
+        Leyesaurus
+        Adeopapposaurus
+        Sarahsaurus
+        Anchisaurus
+        Ruehleia
+        Plateosauravus
+        Plateosaurus_engelhardti
+        Plateosaurus_gracilis
+        Unaysaurus
+        Efraasia
+        Thecodontosaurus
+        Pantydraco
+        Panphagia
+        Eoraptor
+        Guaibasaurus
+        Chindesaurus
+        Staurikosaurus
+        Herrerasaurus
+        Silesaurus
+        Marasuchus
+    ;
+END;
+
+BEGIN TREES;
+    TREE zhang2024a_fig7 = [&R] (Euparkeria,(((((((Saturnalia,Chromogisaurus),((((((((((((Lishulong,Yunnanosaurus),(((((((((((Lessemsaurus,Antetonitrus),((((((((((Cetiosaurus,Omeisaurus),Mamenchisaurus),Spinophorosaurus),(Shunosaurus,Baraposaurus)),Patagosaurus),(Vulcanodon,Tazoudasaurus)),Isanosaurus),Pulanesaura),Gongxianosaurus),Leonerasaurus)),Camelotia),Blikanasaurus),Melanorosaurus_NMQR3314),Melanorosaurus_NMQR1551),Aardonyx),Yizhousaurus),Mussaurus),Seitaad),((Eucnemesaurus_entaxonis,Eucnemesaurus_fortis),Riojasaurus))),Jingshanosaurus),Xingxiulong),(((Lufengosaurus,Coloradisaurus),Massospondylus),(Leyesaurus,Adeopapposaurus))),Sarahsaurus),Anchisaurus),(Ruehleia,Plateosauravus)),((Plateosaurus_engelhardti,Plateosaurus_gracilis),Unaysaurus)),Efraasia),(Thecodontosaurus,Pantydraco)),Panphagia)),Eoraptor),(Guaibasaurus,Chindesaurus)),(Staurikosaurus,Herrerasaurus)),Silesaurus),Marasuchus));
+END;

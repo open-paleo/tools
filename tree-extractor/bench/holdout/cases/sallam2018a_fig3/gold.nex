@@ -1,0 +1,33 @@
+#NEXUS
+
+[ sallam2018a_fig3: Saltasaur tree with pies on every node, read with the image as it stands (root at left; the stem arrow is not a tip). The pale HPD bars cross the branches and are not branches. Two places where a parent's vertical carries two pies: the 0.11 node is (Saltasaurus+Neuquensaurus, Paralititan) and sits with the 0.12 (Diamantinasaurus, Maxakalisaurus) under the 0.05 pie; the 0.21 node is (Paludititan+Ampelosaurus, 0.02), the 0.02 node being ((Lohuecotitan, Mansourasaurus), 0.32). Picked case (pie charts on nodes; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the pies, bars and support values are not encoded. 20 tips, 0 polytomies. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=20;
+    TAXLABELS
+        Saltasaurus
+        Neuquensaurus
+        Paralititan
+        Diamantinasaurus
+        Maxakalisaurus
+        Futalognkosaurus
+        Epachthosaurus
+        Mendozasaurus
+        Atsinganosaurus
+        Pellegrinisaurus
+        Alamosaurus
+        Baurutitan
+        Dreadnoughtus
+        Paludititan
+        Ampelosaurus
+        Lohuecotitan
+        Mansourasaurus
+        Lirainosaurus
+        Opisthocoelicaudia
+        Nemegtosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE sallam2018a_fig3 = [&R] ((((Saltasaurus,Neuquensaurus),Paralititan),(Diamantinasaurus,Maxakalisaurus)),((Futalognkosaurus,(Epachthosaurus,(Mendozasaurus,Atsinganosaurus))),((Pellegrinisaurus,((Alamosaurus,Baurutitan),Dreadnoughtus)),((Paludititan,Ampelosaurus),((Lohuecotitan,Mansourasaurus),(Lirainosaurus,(Opisthocoelicaudia,Nemegtosaurus)))))));
+END;

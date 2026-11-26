@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/picked/figures/zhang2024a_fig7.png",
+  "names": "names.txt",
+  "source": "Zhang et al. 2024, PeerJ 12: e18629, Fig. 7: time-calibrated tree of non-sauropodan sauropodomorphs with BioGeoBEARS (BAYAREALIKE+J) ancestral areas, drawn with the R package 'trap'; root at left, Triassic-Jurassic timescale below. A small pie chart on every node (relative probabilities of ancestral ranges) and a small coloured square on every tip (its area) just left of its name. Image: picked figure, corpus picked/figures/zhang2024a_fig7.png (2994x2379 px), a 402 dpi page render of the figure box.",
+  "license": "CC BY 4.0 (PeerJ open access)",
+  "names_note": "no matrix held; list = the printed tip names as printed (Melanorosaurus NMQR3314 and NMQR1551 as printed, specimen numbers without a space)",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph tree with small pies on every node, read with the image as it stands (root at left). Most of it is a long ladder whose verticals run a few pixels apart and pass behind the neighbouring pies; each node was read by the rule the drawing follows (every pie sits halfway between its two children), which places every ladder tip without ambiguity: e.g. Mussaurus branches from the node above Seitaad's, its vertical hidden behind that node's pie. Substitute for gorscak2016a_fig6_4, whose doubled verticals the image alone does not settle. Picked case (pie charts on nodes; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the pies and squares are not encoded. 56 tips, 0 polytomies.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2994,
+    "y1": 1910
+  },
+  "region_note": "the tree; the timescale is below. The area legend (six coloured squares, Africa to South America) is inside this region at the upper left, x 0-440, y 20-660; its labels are not tips."
+}

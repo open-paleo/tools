@@ -735,3 +735,34 @@ Run before any change was made for these figures.
 - Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%.
 - Out of scope, by Sarah's decision of 2026-11-25: czepiński2019a_fig18. It is an ancestor-descendant scenario plotted as morphology against time, with taxa as circles on slanted lines and no nodes in a cladogram's sense. It was drawn in the sample and stays in it, and in the cold figure above; it is not a failure to be worked on.
 - Out of scope as well, by Sarah's decision of 2026-11-25: yu2018a_fig5, from the first sample. It is a summary tree drawn at 45 degrees against a body-mass axis, with dots for tips and no rectangular branches; it reads 0 of 11. It stays in its sample and in that sample's cold figure, and is not a failure to be worked on. The paper's cladogram is its Fig. 4, which is a case of its own (yu2018a_fig4).
+
+
+# Picked cases: pie charts on nodes (not a sample)
+
+Four cases chosen for one feature: a tree of ancestral ranges with a pie chart set on every node. They were picked, not drawn, and count in no estimate of accuracy.
+
+- **Why.** A step added for vila2022a_fig3, a tree with a lettered box on every node, rested on that one figure. The corpus was searched for more (captions naming ancestral areas or ranges, DEC, DIVALIKE, BayArea, BioGeoBEARS, S-DIVA, BBM; about thirty candidates looked at). No other figure has a lettered box on every node. Ten relatives were picked into corpus `picked/figures` (commit bde7dd90, `picked_for` "ancestral-range trees, relatives of vila2022a_fig3"), and seven of the ten mark their nodes with pie charts.
+- **The four.** Chosen from the ten to span how badly they read.
+
+| Case | Image | What marks the nodes and tips | Tips | License |
+|---|---|---|---|---|
+| fanti2015a_fig22 | picked/figures | large pies on nodes, two pairs touching; a colored dot on each tip | 29 | CC BY 4.0 |
+| sallam2018a_fig3 | picked/figures | pies on nodes with a pale bar across each for its age; a colored bar on each tip (panel b) | 20 | not open |
+| poole2022a_fig9 | picked/figures | pies on nodes, often overlapping; a colored square on each tip; thirteen clade names beside nodes | 68 | CC BY 4.0 |
+| zhang2024a_fig7 | picked/figures | small pies on a long ladder of nodes; a colored square on each tip | 56 | CC BY 4.0 |
+
+- zhang2024a_fig7 stands in for gorscak2016a_fig6_4, where three junctions or more read more than one way and the corpus holds no other drawing of the tree to settle them. oyabu2026a_fig7 was looked at and left out: its polytomies are drawn as branches of no length with the pies stacked on them.
+- poole2022a_fig9 was checked node by node against the paper's Fig. 8, the same tree drawn without pies.
+- The gold tree of zhang2024a_fig7 rests on a rule of the drawing as well as on what is drawn: each pie sits halfway between its two children. Several of the ladder's uprights pass behind the neighboring pies, and the rule places the tips that hang from them.
+- sallam2018a_fig3 is not openly licensed; its image stays out of this repository, and the case runs only where the corpus is at hand.
+
+### Picked pie-chart cases, cold (tree extractor 0.16.0, commit 6bdc8c2, run on 2026-11-26)
+
+| Case | Tips found | Names | Splits | Wrong splits |
+|---|---|---|---|---|
+| fanti2015a_fig22 | 26 | 12 of 29 | 7 of 9 | 1 |
+| sallam2018a_fig3 | 16 | 2 of 20 | 0 of 0 | 0 |
+| poole2022a_fig9 | 49 | 35 of 68 | 18 of 32 | 4 |
+| zhang2024a_fig7 | 58 | 39 of 56 | 25 of 36 | 3 |
+
+88 of 173 names, 51 percent. The random samples came in cold between 67 and 89 percent.

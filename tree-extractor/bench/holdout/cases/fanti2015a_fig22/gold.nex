@@ -1,0 +1,42 @@
+#NEXUS
+
+[ fanti2015a_fig22: Eusauropod MCC tree with BBM pies on every node, read with the image as it stands (root at left). The tip dot is part of the tip, not a node. Where two pies touch on one vertical (Katepensaurus, Nigersaurus, the red pie below), the reading is Katepensaurus outermost, then Nigersaurus, then (Demandasaurus,(Rebbachisaurus,Tataouinea)), as the paper's own text gives it ('Katepensaurus as basalmost rebbachisaurine, and Nigersaurus as sister taxon of' the rest); likewise ((Amargasaurus,Brachytrachelopan),Dicraeosaurus) under the .86 pie. Picked case (pie charts on nodes; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the pies, bars and support values are not encoded. 29 tips, 0 polytomies. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Shunosaurus
+        Patagosaurus
+        Omeisaurus
+        Mamenchisaurus
+        Suuwassea
+        Amargasaurus
+        Brachytrachelopan
+        Dicraeosaurus
+        Apatosaurus
+        Barosaurus
+        Diplodocus
+        Comahuesaurus
+        Cathartesaura
+        Limaysaurus
+        Amazonsaurus
+        Katepensaurus
+        Nigersaurus
+        Demandasaurus
+        Rebbachisaurus
+        Tataouinea
+        Histriasaurus
+        Zapalasaurus
+        Jobaria
+        Europasaurus
+        Giraffatitan
+        Camarasaurus
+        Turiasaurus
+        Losillasaurus
+        Haplocanthosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE fanti2015a_fig22 = [&R] (Shunosaurus,(Patagosaurus,((Omeisaurus,Mamenchisaurus),((((Suuwassea,((Amargasaurus,Brachytrachelopan),Dicraeosaurus)),(Apatosaurus,(Barosaurus,Diplodocus))),((((Comahuesaurus,(Cathartesaura,Limaysaurus)),Amazonsaurus),(Katepensaurus,(Nigersaurus,(Demandasaurus,(Rebbachisaurus,Tataouinea))))),(Histriasaurus,Zapalasaurus))),(Jobaria,(((Europasaurus,Giraffatitan),Camarasaurus),((Turiasaurus,Losillasaurus),Haplocanthosaurus)))))));
+END;

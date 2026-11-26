@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/picked/figures/poole2022a_fig9.png",
+  "names": "names.txt",
+  "source": "Poole 2022, Palaeontologia Electronica 25(3): a30, Fig. 9: ancestral area reconstruction (DIVALIKE+J) on the MCC tree from Bayesian analysis, time-calibrated under a Triassic-Cretaceous timescale header; root at left. A pie chart on every node (likelihoods of ancestral ranges) and a small coloured square on every tip (its range) just left of its name; clade names printed beside nodes, some joined by curved arrows. Image: picked figure, corpus picked/figures/poole2022a_fig9.png (2637x2993 px), a 402 dpi page render of the figure box.",
+  "license": "CC BY 4.0 (Palaeontologia Electronica open access, Creative Commons Attribution License; copyright Society of Vertebrate Paleontology)",
+  "names_note": "no matrix held; list = the printed tip names as printed (genus names in italics; 'Shishugou taxon', 'Kirkwood taxon', 'Barilium holotype', 'Mantellisaurus holotype', 'RBINS R57' as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Iguanodontian MCC tree with pies on every node, read with the image as it stands (root at left). Pies often touch or overlap and several stretches run two parallel verticals side by side (Shishugou taxon/Clypeodonta, Uteodon/Camptosaurus/Styracosterna, the hadrosauroid ladder); every node was checked against the paper's Fig. 8, the same MCC tree drawn without pies, and against its text ('Uteodon is the most basal ankylopollexian', 'Camptosaurus is recovered as the sister to Styracosterna'). Printed clade names kept as internal labels: Neornithischia, Clypeodonta, Hypsilophodontidae, Thescelosauridae, Iguanodontia, Rhabdodontoidea, Rhabdodontidae, Dryomorpha, Dryosauridae, Ankylopollexia, Styracosterna, Iguanodontidae, Hadrosauroidea; 'Unnamed node' (an arrow to the Barilium-Jinzhousaurus clade) is not a name and is left out. Picked case (pie charts on nodes; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the pies, bars and support values are not encoded. 68 tips, 0 polytomies; 13 printed clade names kept as internal node labels.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 205,
+    "x1": 2637,
+    "y1": 2993
+  },
+  "region_note": "the tree, below the timescale header (y 0-205). The area legend (seven coloured squares: Africa ... North America) is inside this region at the lower left, x 0-390, y 2370-2985; its labels are not tips."
+}

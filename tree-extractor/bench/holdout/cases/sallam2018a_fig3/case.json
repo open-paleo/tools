@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/picked/figures/sallam2018a_fig3.png",
+  "names": "names.txt",
+  "source": "Sallam et al. 2018, Nature Ecology & Evolution 2: 445-451, Fig. 3b: tip-dated Bayesian tree of post-Cenomanian saltasaurs with BioGeoBEARS (DEC+j / DIVALIKE+j) ancestral areas, time-calibrated; root at left with a stem arrow pointing further left. A colour-coded pie chart on every node, a pale purple bar across each node for the 95% HPD of its age, and a colour-coded bar on each tip (its range and stratigraphic HPD) ending just left of its name; posterior probabilities beside nodes. Image: picked figure, corpus picked/figures/sallam2018a_fig3.png (2997x1594 px), a 414 dpi page render of panel b only.",
+  "license": "not open: © 2018 Macmillan Publishers Limited, part of Springer Nature. All rights reserved",
+  "names_note": "no matrix held; list = the printed tip names as printed (genus names only; Mansourasaurus in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Saltasaur tree with pies on every node, read with the image as it stands (root at left; the stem arrow is not a tip). The pale HPD bars cross the branches and are not branches. Two places where a parent's vertical carries two pies: the 0.11 node is (Saltasaurus+Neuquensaurus, Paralititan) and sits with the 0.12 (Diamantinasaurus, Maxakalisaurus) under the 0.05 pie; the 0.21 node is (Paludititan+Ampelosaurus, 0.02), the 0.02 node being ((Lohuecotitan, Mansourasaurus), 0.32). Picked case (pie charts on nodes; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the pies, bars and support values are not encoded. 20 tips, 0 polytomies.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2997,
+    "y1": 1370
+  },
+  "region_note": "the tree; the timescale is below. Inside the region: a hatched band (the Africa-South America separation interval, 105-95 Ma) crossing the tree, and the boxed label 'Africa-South America separation' (x 614-990, y 1020-1222); neither holds tips."
+}

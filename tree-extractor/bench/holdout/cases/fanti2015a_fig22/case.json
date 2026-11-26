@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/picked/figures/fanti2015a_fig22.png",
+  "names": "names.txt",
+  "source": "Fanti et al. 2015, PLOS ONE 10: e0123475, Fig. 22: BBM palaeobiogeographic analysis of Rebbachisauridae on the MCC tree from Bayesian inference, time-calibrated; root at left, tips at right. A pie chart (relative probabilities of ancestral areas A-E and their combinations) sits on every node, the largest about a third of the tree's height apart; each tip ends in a small colored dot (its area) just left of its name; posterior probabilities (.53, .91, 1) beside nodes. Image: picked figure, corpus picked/figures/fanti2015a_fig22.png (2997x2808 px), a 470 dpi page render of the figure box.",
+  "license": "CC BY 4.0 (PLOS ONE open access, Creative Commons Attribution License)",
+  "names_note": "no matrix held; list = the printed tip names as printed (genus names only; Tataouinea in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Eusauropod MCC tree with BBM pies on every node, read with the image as it stands (root at left). The tip dot is part of the tip, not a node. Where two pies touch on one vertical (Katepensaurus, Nigersaurus, the red pie below), the reading is Katepensaurus outermost, then Nigersaurus, then (Demandasaurus,(Rebbachisaurus,Tataouinea)), as the paper's own text gives it ('Katepensaurus as basalmost rebbachisaurine, and Nigersaurus as sister taxon of' the rest); likewise ((Amargasaurus,Brachytrachelopan),Dicraeosaurus) under the .86 pie. Picked case (pie charts on nodes; not a sample, not for accuracy estimates). Topology transcribed from the figure image and checked node by node; topology only; the pies, bars and support values are not encoded. 29 tips, 0 polytomies.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2997,
+    "y1": 2040
+  },
+  "region_note": "the tree; below it are the dispersal/vicariance curve and the timescale. The area legend (13 colored circles with codes A-nd) is inside this region at the left, x 0-225, y 825-2030; its letters are not tips."
+}
