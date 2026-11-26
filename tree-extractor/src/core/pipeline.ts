@@ -27,6 +27,7 @@ import { assessReading } from "./assess.ts";
 import { eraseDottedLines, fillHatchedBars, joinDashedLines } from "./dots.ts";
 import { eraseScaleRules } from "./rules.ts";
 import { flattenWedges } from "./wedges.ts";
+import { resolveNodeBoxes } from "./node-boxes.ts";
 import { joinInterruptedBranches, joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
 import { blankPictures, clearDarkGrounds, flattenGrayBands } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
@@ -2306,7 +2307,8 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const blanked = excluded.length === 0 ? readable : blankAreas(readable, excluded);
     // Gray bands behind the figure are lifted to white first of all: the rules ruled over
     // them are then thin gray on white.
-    const pictured = options.findPictures === false ? { image: blanked, grounds: 0 } : blankPictures(blanked, parameters.maxChroma);
+    const boxed = resolveNodeBoxes(blanked);
+    const pictured = options.findPictures === false ? { image: boxed.image, grounds: 0 } : blankPictures(boxed.image, parameters.maxChroma);
     const banded = flattenGrayBands(pictured.image, parameters.maxChroma);
     // The rules of a time scale go next: turned, they are uprights the height of the tree.
     const unruled = eraseScaleRules(banded.image);
@@ -2367,6 +2369,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     if (banded.grounds > 0)
     {
         orientationIssues.push({ severity: "info", code: "gray-bands-flattened", message: "gray bands behind the figure were lifted to white before it was read", subject: null });
+    }
+
+    if (boxed.nodes > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "node-boxes-read", message: `${boxed.nodes} lettered box(es) on nodes were read as junctions and ${boxed.bars} on tips as branches; the bars and bands behind the drawing were left out`, subject: null });
     }
 
     if (unruled.rules > 0)

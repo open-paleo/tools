@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- A tree of ancestral ranges is read: a figure with a lettered box of color on every node
+  and a lettered bar on every tip, where the lines stop at the boxes' edges. Before
+  anything else reads the image, each node's box is replaced by a junction of the lines
+  and bars that meet it, each tip's bar by a branch through it, and the pale bars and
+  bands behind the drawing are taken out (`node-boxes-read`). The step acts only where five
+  or more compact boxes of one height are met by lines on two sides and the tips are
+  lettered too. Vila 2022 goes from 3 of 21 names, in five pieces, to 20 with all 17
+  splits.
+
 ## 0.15.0 (2026-11-25)
 
 - The strict benchmark fails when a case cannot be run. With the image library missing on
