@@ -39,7 +39,7 @@ draws and each batch's cold result. The last seven batches of twenty named 67, 7
 census. Two of the two hundred are diagrams drawn on a slant against an axis, with no
 rectangular branches, and are kept as drawn but not worked on. Four more were picked for a feature, marks for character changes drawn on the
 branches, and count in no estimate. Over all 239 figures with gold trees the pipeline now
-names 7,298 of 7,694 tips, and 89 figures come out identical.
+names 7,357 of 7,694 tips, and 90 figures come out identical.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
 (`bench/holdout/census.md` gives the sampling), run with the batch runner and not scored

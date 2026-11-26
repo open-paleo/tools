@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.16.0 (2026-11-26)
+
 - A flat ground that many branches cut into strips is lifted whole: the small pieces of a
   ground's color that lie against it are counted as part of it, where before only the
   pieces large enough to begin a ground were. Hu 2009, whose nodes all lie in a gray band
