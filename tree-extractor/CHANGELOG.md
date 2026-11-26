@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A stem that steps aside into the next node's vertical is followed across a step of up
+  to two and a half line widths, where a branch arrives at that stem and none leaves it.
+  The limit was three pixels. Hendrickx 2024 goes from 8 of 27 names to 15, with one
+  split wrong at a node drawn as an open circle.
 - A clade whose stem is broken by a picture set on the branch is joined to the tree
   (`interrupted-branch-joined`): a branch end with no name and a piece with no parent,
   level with each other and under a quarter of the figure apart with no upright between,

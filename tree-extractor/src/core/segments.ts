@@ -1787,9 +1787,11 @@ export function splitJoggedVerticals(verticals: Array<Segment>, horizontals: Arr
  * @param stepsOnly - Whether to keep only the step of a staircase: a connector at one end of
  *   the left vertical, to a right vertical that no branch arrives at. The wider search finds
  *   ink between any two close verticals, which on most figures is something else.
+ * @param bareGap - Largest gap to look across from a vertical that a branch arrives at and
+ *   none leaves, where steps are kept only: such a riser has nowhere to go but the step.
  * @returns The connectors as horizontal segments.
  */
-export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, horizontals: Array<Segment>, maxGap: number, thickness: number, nextId: number, stepsOnly = false): Array<Segment>
+export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, horizontals: Array<Segment>, maxGap: number, thickness: number, nextId: number, stepsOnly = false, bareGap = maxGap): Array<Segment>
 {
     const { width, data } = lineInk;
     const found = new Array<Segment>();
@@ -1830,13 +1832,37 @@ export function findShortConnectors(lineInk: Mask, verticals: Array<Segment>, ho
         return false;
     }
 
+    // Whether a branch leaves a vertical to the right.
+    function hasChild(vertical: Segment): boolean
+    {
+        const reach = thickness + 2;
+
+        for (const segment of horizontals)
+        {
+            const { box } = segment;
+
+            if (box.x0 >= vertical.box.x0 - reach && box.x0 <= vertical.box.x1 + 2 && box.x1 > vertical.box.x1 + thickness && box.y1 > vertical.box.y0 - 2 && box.y0 < vertical.box.y1 + 2)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     for (const left of verticals)
     {
+        // A riser with a stem and no branch of its own is looked across further: its two
+        // ends lead on by steps or not at all (Hendrickx 2024, a step of 15 pixels). Across
+        // any other vertical a wider gap joined strokes that are no step, and cost five
+        // figures names.
+        const bare = stepsOnly && bareGap > maxGap && hasStem(left) && !hasChild(left);
+
         for (const right of verticals)
         {
             const gap = right.box.x0 - left.box.x1;
 
-            if (left === right || gap < 1 || gap > maxGap || (stepsOnly && hasStem(right)))
+            if (left === right || gap < 1 || gap > (bare ? bareGap : maxGap) || (stepsOnly && hasStem(right)))
             {
                 continue;
             }
