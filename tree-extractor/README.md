@@ -28,17 +28,18 @@ licensed and ship with the benchmark; `bench/README.md` says how to supply the r
 figures that must stay identical are listed in `bench/expectations.json` and checked on every
 change.
 
-**Gold sample** (`npm run bench:holdout`): 194 more figures with gold trees. A hundred and
-eighty of them were drawn at random, in batches of twenty and one of eighty: most from the
-census below, the last three batches from a second census of ninety-four trees drawn the
+**Gold sample** (`npm run bench:holdout`): 214 more figures with gold trees. Two hundred
+of them were drawn at random, in batches of twenty and one of eighty: most from the
+census below, the last four batches from a second census of ninety-four trees drawn the
 same way from captions the first had not drawn. Their scores so estimate accuracy on the typical
 figure and not on figures picked for being hard. Each batch was first run cold, before any
 change was made for it, and only then worked on; `bench/holdout/random-sample.md` gives the
-draws and each batch's cold result. The last six batches of twenty named 67, 74, 89, 68, 80
-and 88 percent of their tips cold, the last three of those being the ones from the second
-census. Four more were picked for a feature, marks for character changes drawn on the
-branches, and count in no estimate. Over all 219 figures with gold trees the pipeline now
-names 6,792 of 7,194 tips, and 81 figures come out identical.
+draws and each batch's cold result. The last seven batches of twenty named 67, 74, 89, 68, 80,
+88 and 86 percent of their tips cold, the last four of those being the ones from the second
+census. Two of the two hundred are diagrams drawn on a slant against an axis, with no
+rectangular branches, and are kept as drawn but not worked on. Four more were picked for a feature, marks for character changes drawn on the
+branches, and count in no estimate. Over all 239 figures with gold trees the pipeline now
+names 7,298 of 7,694 tips, and 89 figures come out identical.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
 (`bench/holdout/census.md` gives the sampling), run with the batch runner and not scored

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.15.0 (2026-11-25)
+
+- The strict benchmark fails when a case cannot be run. With the image library missing on
+  the build machine every case failed to run and the check passed.
 - Nested nodes whose verticals stand a line's width apart are joined by their steps: the
   step is looked for in the fuller ink, where it is too short to be a run of the line ink,
   and across up to one line width between two verticals each as broad as a line.
