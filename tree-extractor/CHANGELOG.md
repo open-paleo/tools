@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Line thickness is measured across the uprights where the usual estimate, from runs of
+  ink down the columns, comes out several letters tall: a tree of a few tips on long
+  uprights with short stubs has little level line to measure by.
 ## 0.17.0 (2026-11-26)
 
 - Names set at a slant are found where the figure's letter height is far off: where too

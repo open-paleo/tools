@@ -13,5 +13,68 @@
     "x1": 870,
     "y1": 1300
   },
-  "region_note": "the tree and its tip names; the skull drawings below the tips and the bone photographs to the right are not part of it"
+  "region_note": "the tree and its tip names; the skull drawings below the tips and the bone photographs to the right are not part of it",
+  "exclude": [
+    {
+      "x0": 431,
+      "y0": 209,
+      "x1": 684,
+      "y1": 336
+    },
+    {
+      "x0": 745,
+      "y0": 150,
+      "x1": 870,
+      "y1": 210
+    },
+    {
+      "x0": 585,
+      "y0": 205,
+      "x1": 870,
+      "y1": 419
+    },
+    {
+      "x0": 431,
+      "y0": 486,
+      "x1": 645,
+      "y1": 581
+    },
+    {
+      "x0": 730,
+      "y0": 427,
+      "x1": 870,
+      "y1": 487
+    },
+    {
+      "x0": 688,
+      "y0": 487,
+      "x1": 870,
+      "y1": 627
+    },
+    {
+      "x0": 451,
+      "y0": 775,
+      "x1": 645,
+      "y1": 886
+    },
+    {
+      "x0": 763,
+      "y0": 763,
+      "x1": 870,
+      "y1": 921
+    },
+    {
+      "x0": 455,
+      "y0": 1060,
+      "x1": 617,
+      "y1": 1158
+    },
+    {
+      "x0": 771,
+      "y0": 1056,
+      "x1": 870,
+      "y1": 1194
+    }
+  ],
+  "exclude_note": "the photographs and drawings of skulls and bones beside the tree, marked by hand as a person would in the viewer (Sarah's decision of 2026-11-26). The sample's cold result was taken without them: 0 of 5 names, the figure turned on its side for the photographs."
 }

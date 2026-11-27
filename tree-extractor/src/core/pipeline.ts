@@ -2469,7 +2469,13 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     // The shortest run that counts as a line must exceed the line thickness, or a thick vertical
     // reads as a stack of short horizontal runs and glues every branch it touches into one blob.
-    const thickness = estimateLineThickness(lineInk);
+    // The estimate counts the runs of ink down the columns, where a tree's level branches
+    // outnumber everything. A tree of a few tips on long uprights with short stubs has
+    // little level line, and the typical run is then an upright's length (Prieto-Marquez
+    // 2011, five tips: 432 pixels, and nothing was a line). Where the estimate is several
+    // letters tall, the lines are measured across the uprights instead.
+    const levelThickness = estimateLineThickness(lineInk);
+    const thickness = levelThickness > 3 * glyphHeight ? Math.min(levelThickness, estimateLineThickness(transposeMask(lineInk))) : levelThickness;
     const minHorizontalRun = Math.max(parameters.minHorizontalRun, 2 * thickness);
 
     // A numbered disc over a junction cuts the branches there; a cross painted through it, in
