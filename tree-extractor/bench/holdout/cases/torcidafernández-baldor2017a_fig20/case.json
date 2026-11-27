@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/torcidafernández-baldor2017a_fig20.png",
+  "names": "names.txt",
+  "source": "Torcida Fernández-Baldor et al. 2017, PeerJ 5: e3409 (Europatitan eastwoodi), Fig. 20: the constrained topology for a Templeton test, a small macronarian cladogram with the test results printed beside it; rectangular, root left. Image: census 3 figure (1639x653 px), a 300 dpi page render.",
+  "license": "CC BY 4.0 (PeerJ open access)",
+  "names_note": "no matrix held; list = the printed tip names ('Tendaguria tanzaniensis' and 'Sauroposeidon and all its descendants' as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Constrained topology, read by eye. Polytomies: Lusotitan, Europasaurus, Bellusaurus, Camarasaurus, (Euhelopus, Galvesaurus) and the rest (six); and the five brachiosaurid branches. MACRONARIA, printed in two lines on the root stem, is kept as the root's label. The Templeton-test text on the right is not part of the tree. 18 tips, 2 polytomies (6, 5 children); 1 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 60,
+    "x1": 1000,
+    "y1": 653
+  },
+  "region_note": "the tree; the test results to the right (x > 900) and the heading above are not part of it"
+}

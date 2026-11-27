@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/royo-torres2020a_fig18.png",
+  "names": "names.txt",
+  "source": "Royo-Torres et al. 2020, Zoological Journal of the Linnean Society 191: 201-227 (origin and evolution of turiasaurs; a new 'rosetta' specimen from Spain), Fig. 18: strict consensus of eusauropod relationships, clade names beside nodes (open circles on Eusauropoda, Neosauropoda, Titanosauriformes, Lithostrotia and Longkosauria); rectangular, root left. Image: census 3 figure (791x1415 px), the embedded raster at 175 dpi.",
+  "license": "CC BY-NC-ND (Zoological Journal of the Linnean Society open access; © 2020 The Linnean Society of London)",
+  "names_note": "no matrix held; list = the printed tip names (genera and species; 'El Chocon rebbachisaurid', 'IOW rebbachisaurid caudal', 'Cloverly titanosauriform', 'AODF 836', 'Haplocanthosaurus priscus/delfsi', 'Huanghetitan ruyangensis' as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Eusauropod strict consensus, read in five bands at 2x from the 175 dpi raster. Clade names (Eusauropoda, Mamenchisauridae, Turiasauria, Neosauropoda, Diplodocoidea, Dicraeosauridae, Diplodocidae, Rebbachisauridae, Khebbashia, Nigersaurinae, Macronaria, Brachiosauridae, Titanosauriformes, Somphospondyli, Titanosauria, Euhelopodidae, Lithostrotia, Longkosauria) are kept on the nodes beside which they are printed. Polytomies: the root (Shunosaurus, Omeisaurus and the rest), Khebbashia (five), the Abydosaurus group (four), the Andesaurus group (four), Titanosauria's inner node (five: Euhelopodidae, Angolatitan, Gobititan, Huanghetitan ruyangensis and the rest), the Longkosauria crown and the three-way Futalognkosaurus node. 112 tips, 8 polytomies (3, 3, 5, 4, 4, 5, 3, 3 children); 18 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

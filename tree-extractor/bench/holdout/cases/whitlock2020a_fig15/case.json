@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/whitlock2020a_fig15.png",
+  "names": "names.txt",
+  "source": "Whitlock and Wilson Mantilla 2020, Journal of Vertebrate Paleontology 40: e1780600 (Smitanosaurus agilis), Fig. 15: time-calibrated diplodocoid tree drawn vertically, root at the bottom and tip names written upwards above each taxon's range box, the boxes coloured by continent (legend upper right); stage column at left, clade names in capitals at dotted nodes with Bremer values. Image: census 3 figure (1063x805 px), the embedded raster.",
+  "license": "not open: © by the Society of Vertebrate Paleontology",
+  "names_note": "no matrix held; list = the printed tip names (genera; 'MOR 592' as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Vertical diplodocoid time tree, read by eye and by measuring the horizontal node bars and the stems that meet them in the image (the range boxes hide where some stems end). Polytomies: Rebbachisauridae (seven branches on one bar), (Demandasaurus, Tataouinea, Rebbachisaurus), and (Galeamopus, Tornieria, (Barosaurus, Diplodocus)). DIPLODOCOIDEA, REBBACHISAURIDAE, FLAGELLICAUDATA, DIPLODOCIDAE and DICRAEOSAURIDAE label dotted nodes and are kept, in title case. The range boxes are not branches. 29 tips, 3 polytomies (7, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 130,
+    "y0": 0,
+    "x1": 1063,
+    "y1": 805
+  },
+  "region_note": "the tree; the stage column at the left (x < 130) and the colour legend at upper right are not part of it"
+}

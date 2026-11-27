@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/longrich2010a_fig7.png",
+  "names": "names.txt",
+  "source": "Longrich, Currie and Dong 2010, Palaeontology 53: 945-960 (Machairasaurus leptonychus), Fig. 7: A, strict consensus of oviraptorosaur relationships with Oviraptoridae, Oviraptorinae and Ingeniinae named at their nodes; B, the ingeniine part of an alternative tree; rectangular, root left. Image: census 3 figure (3939x1846 px), a 600 dpi page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A (binomials, 'Zamyn Khondt oviraptorid' and 'Chirostenotes' as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Panel A only, read by eye. Polytomies: Herrerasaurus, Velociraptor and the rest at the root; and the four ingeniines from Nemegtomaia to Ingenia. Oviraptoridae, Oviraptorinae and Ingeniinae are printed beside the nodes they name and kept. 17 tips, 2 polytomies (3, 4 children); 3 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2400,
+    "y1": 1846
+  },
+  "region_note": "panel A; panel B to the right (x > 2450) is a second, partial tree"
+}

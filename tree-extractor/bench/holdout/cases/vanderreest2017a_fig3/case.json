@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/vanderreest2017a_fig3.png",
+  "names": "names.txt",
+  "source": "van der Reest and Currie 2017, Canadian Journal of Earth Sciences 54: 919-935 (Latenivenatrix mcmasterae), Fig. 3: time-calibrated troodontid tree under a Jurassic-Cretaceous stage header, branches coloured blue (Asia) or red (North America) with a small box at each tip, bootstrap and Bremer values at nodes, and continent maps as a legend; rectangular, root left. Image: census 3 figure (1750x1359 px), the embedded raster.",
+  "license": "CC BY 4.0 (Canadian Journal of Earth Sciences open access; copyright remains with the authors)",
+  "names_note": "no matrix held; list = the printed tip names ('MPC-D 100/44', 'TMF Troodontid'; Latenivenatrix in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Troodontid time tree, read by eye. Two trichotomies: Mei, Talos and the rest; MPC-D 100/44, Sinornithoides and the rest. No clade names are printed; the support values, tip boxes and colours are not encoded. 15 tips, 2 polytomies (3, 3 children). Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 380,
+    "x1": 1750,
+    "y1": 1359
+  },
+  "region_note": "the tree, below the stage header (y < 380); the continent maps at lower left are a legend, not part of it"
+}

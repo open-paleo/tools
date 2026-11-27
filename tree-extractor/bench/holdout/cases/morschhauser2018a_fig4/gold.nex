@@ -1,0 +1,23 @@
+#NEXUS
+
+[ morschhauser2018a_fig4: Panel A only, read by eye; vertical, root at the bottom; fully resolved. Panels B-F are five more trees of overlapping taxa (the vertical census stratum takes the figure, the gold takes its first panel). 10 tips, fully resolved. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=10;
+    TAXLABELS
+        Psittacosaurus
+        Chaoyangsaurus
+        Liaoceratops
+        Archaeoceratops
+        Triceratops
+        Centrosaurus
+        Montanoceratops
+        Leptoceratops
+        Bagaceratops
+        Protoceratops
+    ;
+END;
+
+BEGIN TREES;
+    TREE morschhauser2018a_fig4 = [&R] (Psittacosaurus,(Chaoyangsaurus,(Liaoceratops,(Archaeoceratops,(((Triceratops,Centrosaurus),(Montanoceratops,Leptoceratops)),(Bagaceratops,Protoceratops))))));
+END;

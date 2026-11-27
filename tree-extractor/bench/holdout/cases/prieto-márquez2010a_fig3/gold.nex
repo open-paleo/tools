@@ -1,0 +1,65 @@
+#NEXUS
+
+[ prieto-márquez2010a_fig3: Hadrosauroid strict consensus, read by eye; fully resolved. HADROSAUROIDEA, HADROSAURIDAE, SAUROLOPHIDAE, SAUROLOPHINAE and LAMBEOSAURINAE are kept, in title case, on the nodes their brackets or dot mark. The silhouette is not part of the tree. 52 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=52;
+    TAXLABELS
+        Iguanodon_bernissartensis
+        Jinzhousaurus_yangi
+        Fukuisaurus_tetoriensis
+        Penelopognathus_weishampeli
+        Equijubus_normani
+        Probactrosaurus_gobiensis
+        Protohadros_byrdi
+        Eolambia_caroljonesa
+        Tanius_sinensis
+        Bactrosaurus_johnsoni
+        Glishades_ericksoni
+        Gilmoreosaurus_mongoliensis
+        Telmatosaurus_transsylvanicus
+        Shuangmiaosaurus_gilmorei
+        Hadrosaurus_foulkii
+        Two_Medicine_saurolophine
+        Brachylophosaurus_canadensis
+        Maiasaura_peeblesorum
+        Shantungosaurus_giganteus
+        Edmontosaurus_regalis
+        Edmontosaurus_annectens
+        Wulagasaurus_dongi
+        Kritosaurus_navajovius
+        Gryposaurus_notabilis
+        Gryposaurus_monumentensis
+        Gryposaurus_latidens
+        Secernosaurus_koerneri
+        Salitral_Moreno_saurolophine
+        Big_Bend_UTEP_saurolophine
+        Prosaurolophus_maximus
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+        Kerberosaurus_manakini
+        Aralosaurus_tuberiferus
+        Jaxartosaurus_aralensis
+        Tsintaosaurus_spinorhinus
+        Pararhabdodon_isonensis
+        Olorotitan_ararhensis
+        Amurosaurus_riabinini
+        Sahaliyania_elunchunorum
+        Lambeosaurus_laticaudus
+        Hypacrosaurus_altispinus
+        Velafrons_coahuilensis
+        Hypacrosaurus_stebingeri
+        Corythosaurus_casuarius
+        Corythosaurus_intermedius
+        Lambeosaurus_lambei
+        Lambeosaurus_magnicristatus
+        Parasaurolophus_cyrtocristatus
+        Parasaurolophus_walkeri
+        Parasaurolophus_tubicen
+        Charonosaurus_jiayinensis
+    ;
+END;
+
+BEGIN TREES;
+    TREE prieto-márquez2010a_fig3 = [&R] (Iguanodon_bernissartensis,(Jinzhousaurus_yangi,(Fukuisaurus_tetoriensis,(Penelopognathus_weishampeli,(Equijubus_normani,(Probactrosaurus_gobiensis,((Protohadros_byrdi,Eolambia_caroljonesa),(Tanius_sinensis,((Bactrosaurus_johnsoni,Glishades_ericksoni),(Gilmoreosaurus_mongoliensis,(Telmatosaurus_transsylvanicus,(Shuangmiaosaurus_gilmorei,(Hadrosaurus_foulkii,(((Two_Medicine_saurolophine,(Brachylophosaurus_canadensis,Maiasaura_peeblesorum)),(Shantungosaurus_giganteus,((Edmontosaurus_regalis,Edmontosaurus_annectens),((Wulagasaurus_dongi,(Kritosaurus_navajovius,(((Gryposaurus_notabilis,Gryposaurus_monumentensis),Gryposaurus_latidens),((Secernosaurus_koerneri,Salitral_Moreno_saurolophine),Big_Bend_UTEP_saurolophine)))),((Prosaurolophus_maximus,(Saurolophus_osborni,Saurolophus_angustirostris)),Kerberosaurus_manakini)))))Saurolophinae,(Aralosaurus_tuberiferus,(Jaxartosaurus_aralensis,((Tsintaosaurus_spinorhinus,Pararhabdodon_isonensis),(Olorotitan_ararhensis,((((Amurosaurus_riabinini,Sahaliyania_elunchunorum),((Lambeosaurus_laticaudus,Hypacrosaurus_altispinus),Velafrons_coahuilensis)),(Hypacrosaurus_stebingeri,((Corythosaurus_casuarius,Corythosaurus_intermedius),(Lambeosaurus_lambei,Lambeosaurus_magnicristatus)))),((Parasaurolophus_cyrtocristatus,(Parasaurolophus_walkeri,Parasaurolophus_tubicen)),Charonosaurus_jiayinensis))))))Lambeosaurinae)Saurolophidae)Hadrosauridae))))))))))))Hadrosauroidea;
+END;

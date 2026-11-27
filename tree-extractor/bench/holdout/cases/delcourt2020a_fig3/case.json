@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/delcourt2020a_fig3.png",
+  "names": "names.txt",
+  "source": "Delcourt and Iori 2020, Historical Biology 32: 917-924 (Thanos simonattoi), Fig. 3: strict consensus of ceratosaur relationships with Bremer values above nodes, clade names beside dotted nodes (Noasauridae and Majungasaurinae by curved leaders), and a silhouette joined to Thanos; rectangular, root left. Image: census 3 figure (1505x1426 px), a 300 dpi page render.",
+  "license": "not open: © Informa UK Limited, trading as Taylor & Francis Group",
+  "names_note": "no matrix held; list = the printed tip names without the quotation marks of \"Kryptops\"; 'Gadoufaoua taxon', 'Pourcieux taxon', 'La Boucharde taxon' and 'Deltabromeus' (sic, for Deltadromeus) as printed",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur strict consensus, read by eye. Polytomies: Ceratosauria (five branches), the four elaphrosaurines, Noasauridae (four), Rajasaurus-Indosaurus-Majungasaurus, and Brachyrostra (twelve). Ceratosauria, Abelisauroidea, Noasauridae, Abelisauridae, Majungasaurinae and Brachyrostra are kept on their dotted nodes. The silhouette is not part of the tree. 42 tips, 5 polytomies (5, 4, 4, 3, 12 children); 6 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

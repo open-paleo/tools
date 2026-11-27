@@ -1,0 +1,28 @@
+#NEXUS
+
+[ vanderreest2017a_fig3: Troodontid time tree, read by eye. Two trichotomies: Mei, Talos and the rest; MPC-D 100/44, Sinornithoides and the rest. No clade names are printed; the support values, tip boxes and colours are not encoded. 15 tips, 2 polytomies (3, 3 children). Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=15;
+    TAXLABELS
+        Sinovenator
+        Anchiornis
+        Mei
+        Talos
+        Byronosaurus
+        MPC-D_100/44
+        Sinornithoides
+        Urbacodon
+        Gobivenator
+        Latenivenatrix
+        Philovenator
+        Linhevenator
+        TMF_Troodontid
+        Saurornithoides
+        Zanabazar
+    ;
+END;
+
+BEGIN TREES;
+    TREE vanderreest2017a_fig3 = [&R] (Sinovenator,(Anchiornis,(Mei,Talos,(Byronosaurus,(MPC-D_100/44,Sinornithoides,((Urbacodon,Gobivenator),((Latenivenatrix,(Philovenator,Linhevenator)),(TMF_Troodontid,(Saurornithoides,Zanabazar)))))))));
+END;

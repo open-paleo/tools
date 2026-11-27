@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/prieto-márquez2011c_fig3.png",
+  "names": "names.txt",
+  "source": "Prieto-Márquez 2011, Journal of Paleontology 85: 468-477 (Barsboldia sicinskii revised), Fig. 3: strict consensus of hadrosauroid relationships drawn as a rising staircase, with bootstrap values above and Bremer values below nodes, stars on some taxa, clade names in capitals beside dotted nodes or brackets; rectangular, root at lower left. Image: census 3 figure (1420x1575 px), the embedded raster.",
+  "license": "not open: © 2011 The Paleontological Society",
+  "names_note": "no matrix held; list = the printed tip names (binomials; 'Salitral Moreno hadrosaurid', 'UTEP hadrosaurid', 'Sabinas hadrosaurid' as printed; Barsboldia sicinskii boxed)",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosauroid strict consensus, root at the lower left, read by eye; fully resolved. Hadrosauroidea, Hadrosauridae, Saurolophidae, Saurolophinae and Lambeosaurinae are kept on their nodes; HADROSAURINAE, bracketed beside Hadrosaurus foulkii alone, is not encoded. Stars and support values are not encoded. The tree rises to the upper right; every node is rectangular. 48 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

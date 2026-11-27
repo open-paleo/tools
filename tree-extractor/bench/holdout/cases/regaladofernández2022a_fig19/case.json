@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/regaladofernández2022a_fig19.png",
+  "names": "names.txt",
+  "source": "Regalado Fernández and Werneburg 2022, Vertebrate Zoology 72: 771-822 (Tuebingosaurus maierfritzorum), Fig. 19: strict consensus trees of Analysis 1 and Analysis 2 and a pruned tree, each a slanted-looking staircase of rectangular nodes with bootstrap values, clade names joined to dotted nodes by leader lines, and a red triangle after Tuebingosaurus. Image: census 3 figure (1697x2595 px), the embedded raster.",
+  "license": "CC BY 4.0 (Vertebrate Zoology open access)",
+  "names_note": "no matrix held; list = the printed tip names of Analysis 1 (genera; the higher-taxon tips Crurotarsi, Ornithischia, Neotheropoda and Neosauropoda as printed; Ohmdenosaurus, Schleitheimia and Tuebingosaurus in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Analysis 1 only (the top tree), read by eye at 2x. The three trees overlap on the page (Analysis 2 begins beside Analysis 1's lower half, the pruned tree beside Analysis 2's), so no rectangle holds Analysis 1 alone; the extractor should be judged on the tree whose root is at the top left. Polytomies: Agnosphitys, (Chindesaurus, Neotheropoda) and Sauropodomorpha; Sauropodomorpha (five); Glacialisaurus, Coloradisaurus and Lufengosaurus; Sefapanosaurus, Aardonyx and the rest; and 'Sauropoda' (23 branches). Sauropodomorpha, Massopoda, Sauropodiformes and 'Sauropoda' (printed in quotation marks) label dotted nodes and are kept. Classed slanted in the census; the nodes are rectangular. 67 tips, 5 polytomies (3, 5, 3, 3, 23 children); 4 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1697,
+    "y1": 1700
+  },
+  "region_note": "Analysis 1 lies in this box together with the upper half of Analysis 2 (x < 1100, y > 870), which is not part of the gold tree"
+}

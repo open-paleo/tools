@@ -1,0 +1,34 @@
+#NEXUS
+
+[ godefroit2012b_fig20: Hadrosaurid strict consensus, read by eye; fully resolved. Node letters and support values are not encoded. Replacement for xu2010e_fig3 (unreadable: 18 branches, 17 names), drawn with seed 20261273 from its stratum. 21 tips, fully resolved. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=21;
+    TAXLABELS
+        Probactrosaurus_gobiensis
+        Bactrosaurus_johnsoni
+        Hadrosaurus_foulkii
+        Lophorhoton_atopus
+        Parasaurolophus_walkeri
+        Olorotitan_arharensis
+        Wulagasaurus_dongi
+        Acristavus_gaglarsoni
+        Maiasaura_peeblesorum
+        Brachylophosaurus_canadensis
+        Kritosaurus_navajovius
+        Gryposaurus_latidens
+        Gryposaurus_notabilis
+        Gryposaurus_monumentensis
+        Prosaurolophus_maximus
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+        Kerberosaurus_manakini
+        Kundurosaurus_nagornyi
+        Edmontosaurus_annectens
+        Edmontosaurus_regalis
+    ;
+END;
+
+BEGIN TREES;
+    TREE godefroit2012b_fig20 = [&R] (Probactrosaurus_gobiensis,(Bactrosaurus_johnsoni,((Hadrosaurus_foulkii,Lophorhoton_atopus),((Parasaurolophus_walkeri,Olorotitan_arharensis),(Wulagasaurus_dongi,((Acristavus_gaglarsoni,(Maiasaura_peeblesorum,Brachylophosaurus_canadensis)),(Kritosaurus_navajovius,((Gryposaurus_latidens,(Gryposaurus_notabilis,Gryposaurus_monumentensis)),((Prosaurolophus_maximus,(Saurolophus_osborni,Saurolophus_angustirostris)),((Kerberosaurus_manakini,Kundurosaurus_nagornyi),(Edmontosaurus_annectens,Edmontosaurus_regalis)))))))))));
+END;

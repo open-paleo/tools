@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/zhang2022a_fig16.png",
+  "names": "names.txt",
+  "source": "Zhang et al. 2022, Historical Biology 36: 49-75 (Xinjiangtitan shanshanesis), Fig. 16: a summary cladogram of mamenchisaurid relationships with a black dot on one node; rectangular, root left. Image: census 3 figure (1500x1354 px), the embedded raster.",
+  "license": "not open: © 2022 Informa UK Limited, trading as Taylor & Francis Group",
+  "names_note": "no matrix held; list = the printed tip names, with the printed parentheses dropped from '(referred)' and '(holotype)' (Newick does not allow them); Xinjiangtitan in bold",
+  "gold": "gold.nex",
+  "gold_note": "Mamenchisaurid summary tree, read by eye. Polytomies: Omeisaurus maoianus, Haute Mouloya taxon and the rest; and the 15-branch crown from Xinjiangtitan to Mamenchisaurus constructus. The black dot marks the node joining Tienshanosaurus to the rest and is not encoded; no clade names are printed. 24 tips, 2 polytomies (3, 15 children). Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

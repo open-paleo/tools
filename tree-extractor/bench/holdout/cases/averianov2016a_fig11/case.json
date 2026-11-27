@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/averianov2016a_fig11.png",
+  "names": "names.txt",
+  "source": "Averianov and Sues 2016, Cretaceous Research 59: 98-110, Fig. 11: troodontid relationships drawn as a slanted cladogram (diagonal stems, short horizontal tip branches), root at upper left. Image: census 3 figure (2008x939 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (binomials; 'Khamryn Us troodontid' and 'Urbacodon spp.' as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Slanted troodontid cladogram, read by eye; diagonal stems meet horizontal tip branches. One three-way node (Saurornithoides, Zanabazar, Troodon). 15 tips, 1 polytomies (3 children). Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

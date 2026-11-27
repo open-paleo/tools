@@ -1,0 +1,49 @@
+#NEXUS
+
+[ smith2007a_fig7: Sauropodomorph strict consensus, read by eye. Polytomies: Thecodontosaurus, Pantydraco and the rest; Sauropoda (Blikanasaurus, Antetonitrus + Lessemsaurus, and the rest); Isanosaurus, Vulcanodon, Tazoudasaurus and Eusauropoda; Eusauropoda (four). Plateosauridae and Massospondylidae (printed above their stems), and Plateosauria, Sauropoda and Eusauropoda (leader lines to nodes) are kept. Support values are not encoded. 36 tips, 4 polytomies (3, 3, 4, 4 children); 5 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=36;
+    TAXLABELS
+        outgroups
+        Saturnalia
+        Thecodontosaurus_antiquus
+        Pantydraco
+        Efraasia
+        Plateosauravus
+        Ruehleia
+        Unaysaurus
+        Plateosaurus_gracilis
+        Plateosaurus_engelhardti
+        Plateosaurus_ingens
+        Eucnemesaurus
+        Riojasaurus
+        Massospondylus
+        Coloradisaurus
+        Lufengosaurus
+        Glacialisaurus
+        Jingshanosaurus
+        Anchisaurus
+        Yunnanosaurus
+        Melanorosaurus
+        Blikanasaurus
+        Antetonitrus
+        Lessemsaurus
+        Camelotia
+        Gongxianosaurus
+        Isanosaurus
+        Vulcanodon
+        Tazoudasaurus
+        Shunosaurus
+        Barapasaurus
+        Patagosaurus
+        Omeisaurus
+        Mamenchisaurus
+        Cetiosaurus
+        Neosauropoda
+    ;
+END;
+
+BEGIN TREES;
+    TREE smith2007a_fig7 = [&R] (outgroups,(Saturnalia,(Thecodontosaurus_antiquus,Pantydraco,(Efraasia,(Plateosauravus,(Ruehleia,((Unaysaurus,(Plateosaurus_gracilis,(Plateosaurus_engelhardti,Plateosaurus_ingens)))Plateosauridae,((Eucnemesaurus,Riojasaurus),((Massospondylus,(Coloradisaurus,(Lufengosaurus,Glacialisaurus)))Massospondylidae,(Jingshanosaurus,(Anchisaurus,(Yunnanosaurus,(Melanorosaurus,(Blikanasaurus,(Antetonitrus,Lessemsaurus),(Camelotia,(Gongxianosaurus,(Isanosaurus,Vulcanodon,Tazoudasaurus,(Shunosaurus,(Barapasaurus,Patagosaurus),(Omeisaurus,Mamenchisaurus),(Cetiosaurus,Neosauropoda))Eusauropoda))))Sauropoda)))))))Plateosauria))))));
+END;

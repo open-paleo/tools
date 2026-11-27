@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/peyredefabrègues2020a_fig12.png",
+  "names": "names.txt",
+  "source": "Peyre de Fabrègues et al. 2020, Scientific Reports 10 (Irisosaurus yimenensis), Fig. 12: time-calibrated tree of early sauropodomorphs against a Triassic-Jurassic stage header, black range bars (dashed for uncertain ranges), numbered nodes 1-7 marked by small squares or a dot, and Sauropoda as an arrow; rectangular, root left. Image: census 3 figure (2008x2278 px), the embedded raster.",
+  "license": "CC BY 4.0 (Scientific Reports open access)",
+  "names_note": "no matrix held; list = the printed tip names (genera; Irisosaurus in red; Sauropoda the arrow tip)",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph time tree, read by eye at 1-2x; fully resolved. The node numbers 1-7 are not encoded; the range bars and the Sauropoda arrow are not branches (the arrow is the tip Sauropoda). 39 tips, fully resolved. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 420,
+    "x1": 2008,
+    "y1": 2278
+  },
+  "region_note": "the tree, below the stage header (y < 420)"
+}

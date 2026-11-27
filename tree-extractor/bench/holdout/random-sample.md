@@ -825,3 +825,47 @@ Pools and picks:
 - Of the steps added since sample 7 for kinds of figure, two ran: a tip was carried through a pale bar on díezdíaz2025a_fig64, and a broken stem was joined on meso2024a_fig5. The steps for lettered boxes, pies and flat grounds ran on none of the twenty.
 - Without otero2010a_fig15, which is out of scope: 626 of 831 names, 75 percent.
 - Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%, sample 7 86%.
+
+## Sample 9 (20 cases, one unreadable figure replaced)
+
+Drawn by the corpus session from a third census (corpus f3db12a0, `census3/README.md`): the same population rule as censuses 1 and 2, every figure they drew left out (1,306 remaining), shuffled with seed 20261271, the order kept in the repository. Census 2 could not be extended: the corpus has grown and its seed no longer gives the order its draws followed.
+
+- 60 draws: 17 lost (7 with no caption in the text layer, 5 numbered by chapter, 5 with no figure ink), 3 not trees (boyd2015a_fig4, barrett2014a_fig3, hunt2018a_fig7), 40 trees: 29 rectangular (7 with a time axis), 8 vertical (6 with a time axis), 3 slanted.
+- The draw: `census3/scripts/gold_draw9.py`, seed 20261272, stratified as samples 7 and 8; pools and picks in `gold_draw9_result.json`.
+- xu2010e_fig3 is unreadable as printed (18 tip branches for 17 names, the names drifting below their lines) and was replaced by godefroit2012b_fig20, drawn with seed 20261273 from the same stratum.
+- Panel A is taken on carballido2015a_fig6, longrich2010a_fig7, mcphee2015b_fig12 and morschhauser2018a_fig4; regaladofernández2022a_fig19 is the top one of three trees on its image.
+- 654 tips.
+
+### Sample 9 baseline (tree extractor 0.17.0 plus the thickness guard, commit a87f1e9, run cold on 2026-11-27)
+
+| Case | Layout | Tips found | Names | Splits | Wrong splits | Identical |
+|---|---|---:|---:|---:|---:|---|
+| arai2023a_fig3 | rectangular, time axis | 19 | 19 of 19 | 11 of 12 | 0 | no |
+| peyredefabrègues2020a_fig12 | rectangular, time axis | 32 | 14 of 39 | 8 of 11 | 3 | no |
+| vanderreest2017a_fig3 | rectangular, time axis | 15 | 15 of 15 | 10 of 10 | 0 | yes |
+| carballido2015a_fig6 | rectangular | 20 | 20 of 20 | 12 of 12 | 0 | yes |
+| delcourt2020a_fig3 | rectangular | 43 | 41 of 42 | 20 of 20 | 0 | no |
+| godefroit2012b_fig20 | rectangular | 21 | 21 of 21 | 18 of 18 | 0 | yes |
+| longrich2010a_fig7 | rectangular | 52 | 0 of 17 | 0 of 0 | 0 | no |
+| mcphee2015b_fig12 | rectangular | 37 | 37 of 37 | 29 of 29 | 0 | yes |
+| prieto-márquez2010a_fig3 | rectangular | 53 | 37 of 52 | 34 of 34 | 0 | no |
+| prieto-márquez2011c_fig3 | rectangular | 49 | 47 of 48 | 44 of 44 | 0 | no |
+| royo-torres2020a_fig18 | rectangular | 112 | 111 of 112 | 94 of 95 | 1 | no |
+| smith2007a_fig7 | rectangular | 36 | 36 of 36 | 27 of 27 | 0 | yes |
+| torcidafernández-baldor2017a_fig20 | rectangular | 18 | 18 of 18 | 8 of 8 | 0 | yes |
+| zhang2022a_fig16 | rectangular | 24 | 24 of 24 | 7 of 7 | 0 | yes |
+| averianov2016a_fig11 | slanted | 15 | 15 of 15 | 10 of 11 | 0 | no |
+| regaladofernández2022a_fig19 | slanted (rectangular nodes) | 100 | 41 of 67 | 16 of 16 | 1 | no |
+| herne2019a_fig28 | vertical, time axis | 9 | 5 of 16 | 0 of 0 | 0 | no |
+| martínez2017a_fig11 | vertical, time axis | 31 | 13 of 17 | 7 of 10 | 2 | no |
+| whitlock2020a_fig15 | vertical, time axis | 39 | 11 of 29 | 3 of 3 | 0 | no |
+| morschhauser2018a_fig4 | vertical | 9 | 8 of 10 | 5 of 5 | 0 | no |
+
+- 533 of 654 names, 81 percent; 363 of 372 scored splits, 7 wrong; 7 of 20 identical.
+- By figure: 9 of the 20 name every tip, and 12 name nine tenths or more.
+- One figure names none: longrich2010a_fig7, 17 tips, where 26 tips are found and none matches a name. Six more name between a third and three quarters: herne2019a_fig28 (5 of 16), whitlock2020a_fig15 (11 of 29), peyredefabrègues2020a_fig12 (14 of 39), regaladofernández2022a_fig19 (41 of 67), prieto-márquez2010a_fig3 (37 of 52), martínez2017a_fig11 (13 of 17). Those seven hold 116 of the 121 missing names.
+- The vertical figures with a time axis are the weak stratum: 29 of 62 names over the three. The other strata: rectangular with a time axis 48 of 73, rectangular 392 of 427, slanted 56 of 82, vertical 8 of 10.
+- `reading-doubtful` marked five: herne, longrich, martínez, peyre de fabrègues and whitlock. It did not mark regaladofernández2022a_fig19 (100 tips found for 67, the other trees of the image read with it) or prieto-márquez2010a_fig3 (53 tips found, 37 named).
+- averianov2016a_fig11, flagged by the corpus session as a slanted cladogram of the kind of otero2010a_fig15, names all 15 of its tips, with 10 of 11 splits.
+- royo-torres2020a_fig18, 112 tips with names about 8 pixels tall, names 111.
+- Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%, sample 7 86%, sample 8 74%.

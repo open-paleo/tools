@@ -1,0 +1,29 @@
+#NEXUS
+
+[ herne2019a_fig28: Vertical time tree, root at the bottom, read by eye at 2-3x; the basal nodes are dashed ghost lineages, each a horizontal dashed bar with one dashed stem down. One four-way node (Anabisetia, Diluvicursor, Leaellynasaura, Galleonosaurus). Elasmaria (printed on its stem) and Ornithopoda (at the root dot) are kept. The continent codes and range shading are not part of the tree. 16 tips, 1 polytomies (4 children); 2 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=16;
+    TAXLABELS
+        Talenkauen
+        Macrogryphosaurus
+        Gasparinisaura
+        Anabisetia
+        Diluvicursor
+        Leaellynasaura
+        Galleonosaurus
+        Muttaburrasaurus
+        Dryosauridae
+        Owenodon
+        Camptosaurus
+        Styracosterna
+        Tenontosaurus
+        Rhabdodontidae
+        Hypsilophodon
+        Parksosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE herne2019a_fig28 = [&R] (((Talenkauen,((Macrogryphosaurus,Gasparinisaura),(Anabisetia,Diluvicursor,Leaellynasaura,Galleonosaurus)))Elasmaria,(((Muttaburrasaurus,(((Dryosauridae,Owenodon),(Camptosaurus,Styracosterna)),Tenontosaurus)),Rhabdodontidae),Hypsilophodon)),Parksosaurus)Ornithopoda;
+END;

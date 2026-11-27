@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/mcphee2015b_fig12.png",
+  "names": "names.txt",
+  "source": "McPhee et al. 2015, Journal of Vertebrate Paleontology 35: e980504 (Eucnemesaurus entaxonis), Fig. 12: A, strict consensus of sauropodomorph relationships with Bremer values and clade names on branches or joined to nodes by leader lines; B, a majority-rule tree; rectangular, root left. Image: census 3 figure (2076x1475 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A ('E.entaxonis', 'E.fortis', 'P.gracilis', 'P.engelhardti' abbreviated as printed, no space after the point; Eusauropoda as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Panel A only, read by eye. Polytomies: Ruehleia, Plateosauravus and the Unaysaurus clade; Yunnanosaurus, Seitaad, Jingshanosaurus and the rest (Sauropodiformes); and Vulcanodon, Tazoudasaurus, Isanosaurus and Eusauropoda. Plateosauridae, 'Riojasauridae' (printed in quotation marks), Massospondylidae, Massopoda, Sauropodiformes and Sauropoda are kept. Bremer values are not encoded. 37 tips, 3 polytomies (3, 4, 4 children); 6 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1040,
+    "y1": 1475
+  },
+  "region_note": "panel A; panel B to the right (x > 1040) is a second tree of the same tips"
+}

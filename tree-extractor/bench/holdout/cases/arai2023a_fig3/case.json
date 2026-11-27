@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/arai2023a_fig3.png",
+  "names": "names.txt",
+  "source": "Arai and Dias-Brito 2023, Derbyana 44: e800 (a review of Brazilian Cretaceous dinosaurs, in Portuguese), Fig. 3: time-calibrated ceratosaur tree with range bars, Abelisauridae collapsed to a black wedge, Berthasaura and Vespersaurus in red, and a Triassic-Cretaceous period bar below; rectangular, root left, thin lines. Image: census 3 figure (1543x947 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names without '(holótipo)' after Vespersaurus; 'MNNtig6', 'CCG20011' and the collapsed clade Abelisauridae as printed",
+  "gold": "gold.nex",
+  "gold_note": "Ceratosaur time tree, read by eye at 3x; fully pectinate at the base. One polytomy of six: Afrominus, Velocisaurus, Vespersaurus, Noasaurus, Masiakasaurus and the Limusaurus clade. The Abelisauridae wedge is one tip. No clade names are printed; range bars are not branches. 19 tips, 1 polytomies (6 children). Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1543,
+    "y1": 830
+  },
+  "region_note": "the tree; the period bar below (y > 830) is not part of it"
+}

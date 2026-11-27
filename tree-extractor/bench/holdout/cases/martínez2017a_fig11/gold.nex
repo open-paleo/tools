@@ -1,0 +1,30 @@
+#NEXUS
+
+[ martínez2017a_fig11: Vertical time tree, read by measuring the horizontal node bars and the stems (box edges) that meet them in the image. One trichotomy: Co. rhodesiensis, Camposaurus and Lucianovenator meet one bar. Theropoda (on the node above Sauropodomorpha), Neotheropoda and Coelophysidae (joined to its node by a curved arrow) are kept as labels. The range boxes, maps and arrows of Sauropodomorpha and Averostra are not branches. 17 tips, 1 polytomies (3 children); 3 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=17;
+    TAXLABELS
+        Sauropodomorpha
+        Herrerasauridae
+        Chindesaurus
+        Tawa
+        Eodromaeus
+        Syntarsus_k.
+        Panguraptor
+        Lepidus
+        Co._bauri
+        Co._rhodesiensis
+        Camposaurus
+        Lucianovenator
+        Zupaysaurus
+        Liliensternus
+        Dilophosaurus
+        Cryolophosaurus
+        Averostra
+    ;
+END;
+
+BEGIN TREES;
+    TREE martínez2017a_fig11 = [&R] (Sauropodomorpha,(Herrerasauridae,(Chindesaurus,(Tawa,(Eodromaeus,((Syntarsus_k.,(Panguraptor,(Lepidus,(Co._bauri,(Co._rhodesiensis,Camposaurus,Lucianovenator)))))Coelophysidae,((Zupaysaurus,Liliensternus),(Dilophosaurus,(Cryolophosaurus,Averostra))))Neotheropoda))))Theropoda);
+END;

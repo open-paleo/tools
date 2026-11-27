@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/martínez2017a_fig11.png",
+  "names": "names.txt",
+  "source": "Martínez and Apaldetti 2017, Ameghiniana 54: 488-505 (Lucianovenator bonoi), Fig. 11: time-calibrated tree of early theropods drawn vertically, root at the bottom, tip names written upwards above each range box (green fossil, white ghost lineage), continent silhouettes above the tips, a Carnian-Middle Jurassic stage column at left and a legend below. Image: census 3 figure (969x1477 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names without the quotation marks of \"Syntarsus\" k.; abbreviated 'Co. bauri', 'Co. rhodesiensis' and the higher-taxon tips Sauropodomorpha, Herrerasauridae and Averostra as printed; Lucianovenator in bold",
+  "gold": "gold.nex",
+  "gold_note": "Vertical time tree, read by measuring the horizontal node bars and the stems (box edges) that meet them in the image. One trichotomy: Co. rhodesiensis, Camposaurus and Lucianovenator meet one bar. Theropoda (on the node above Sauropodomorpha), Neotheropoda and Coelophysidae (joined to its node by a curved arrow) are kept as labels. The range boxes, maps and arrows of Sauropodomorpha and Averostra are not branches. 17 tips, 1 polytomies (3 children); 3 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 100,
+    "y0": 0,
+    "x1": 969,
+    "y1": 1300
+  },
+  "region_note": "the tree; the stage column (x < 100) and the legend below (y > 1300) are not part of it"
+}

@@ -1,0 +1,36 @@
+outgroups
+Saturnalia
+Thecodontosaurus antiquus
+Pantydraco
+Efraasia
+Plateosauravus
+Ruehleia
+Unaysaurus
+Plateosaurus gracilis
+Plateosaurus engelhardti
+Plateosaurus ingens
+Eucnemesaurus
+Riojasaurus
+Massospondylus
+Coloradisaurus
+Lufengosaurus
+Glacialisaurus
+Jingshanosaurus
+Anchisaurus
+Yunnanosaurus
+Melanorosaurus
+Blikanasaurus
+Antetonitrus
+Lessemsaurus
+Camelotia
+Gongxianosaurus
+Isanosaurus
+Vulcanodon
+Tazoudasaurus
+Shunosaurus
+Barapasaurus
+Patagosaurus
+Omeisaurus
+Mamenchisaurus
+Cetiosaurus
+Neosauropoda

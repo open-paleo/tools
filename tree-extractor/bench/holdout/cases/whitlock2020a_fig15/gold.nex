@@ -1,0 +1,42 @@
+#NEXUS
+
+[ whitlock2020a_fig15: Vertical diplodocoid time tree, read by eye and by measuring the horizontal node bars and the stems that meet them in the image (the range boxes hide where some stems end). Polytomies: Rebbachisauridae (seven branches on one bar), (Demandasaurus, Tataouinea, Rebbachisaurus), and (Galeamopus, Tornieria, (Barosaurus, Diplodocus)). DIPLODOCOIDEA, REBBACHISAURIDAE, FLAGELLICAUDATA, DIPLODOCIDAE and DICRAEOSAURIDAE label dotted nodes and are kept, in title case. The range boxes are not branches. 29 tips, 3 polytomies (7, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Haplocanthosaurus
+        Amazonsaurus
+        Cathartesaura
+        Comahuesaurus
+        Histriasaurus
+        Limaysaurus
+        Zapalasaurus
+        Nigersaurus
+        Demandasaurus
+        Tataouinea
+        Rebbachisaurus
+        Apatosaurus
+        Leinkupal
+        Dinheirosaurus
+        Supersaurus
+        Galeamopus
+        Tornieria
+        Barosaurus
+        Diplodocus
+        Kaatedocus
+        Smitanosaurus
+        Bajadasaurus
+        Lingwulong
+        MOR_592
+        Suuwassea
+        Pilmatueia
+        Dicraeosaurus
+        Amargasaurus
+        Brachytrachelopan
+    ;
+END;
+
+BEGIN TREES;
+    TREE whitlock2020a_fig15 = [&R] (Haplocanthosaurus,((Amazonsaurus,Cathartesaura,Comahuesaurus,Histriasaurus,Limaysaurus,Zapalasaurus,(Nigersaurus,(Demandasaurus,Tataouinea,Rebbachisaurus)))Rebbachisauridae,((Apatosaurus,(Leinkupal,((Dinheirosaurus,Supersaurus),(Galeamopus,Tornieria,(Barosaurus,Diplodocus)))))Diplodocidae,(Kaatedocus,(Smitanosaurus,((Bajadasaurus,(Lingwulong,MOR_592)),(Suuwassea,(Pilmatueia,(Dicraeosaurus,(Amargasaurus,Brachytrachelopan)))))))Dicraeosauridae)Flagellicaudata))Diplodocoidea;
+END;

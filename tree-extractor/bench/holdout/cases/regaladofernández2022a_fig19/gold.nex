@@ -1,0 +1,80 @@
+#NEXUS
+
+[ regaladofernández2022a_fig19: Analysis 1 only (the top tree), read by eye at 2x. The three trees overlap on the page (Analysis 2 begins beside Analysis 1's lower half, the pruned tree beside Analysis 2's), so no rectangle holds Analysis 1 alone; the extractor should be judged on the tree whose root is at the top left. Polytomies: Agnosphitys, (Chindesaurus, Neotheropoda) and Sauropodomorpha; Sauropodomorpha (five); Glacialisaurus, Coloradisaurus and Lufengosaurus; Sefapanosaurus, Aardonyx and the rest; and 'Sauropoda' (23 branches). Sauropodomorpha, Massopoda, Sauropodiformes and 'Sauropoda' (printed in quotation marks) label dotted nodes and are kept. Classed slanted in the census; the nodes are rectangular. 67 tips, 5 polytomies (3, 5, 3, 3, 23 children); 4 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=67;
+    TAXLABELS
+        Euparkeria
+        Crurotarsi
+        Marasuchus
+        Silesaurus
+        Ornithischia
+        Staurikosaurus
+        Herrerasaurus
+        Eoraptor
+        Agnosphitys
+        Chindesaurus
+        Neotheropoda
+        Chromogisaurus
+        Pampadromaeus
+        Panphagia
+        Saturnalia
+        Guaibasaurus
+        Pantydraco
+        Thecodontosaurus
+        Efraasia
+        Plateosauravus
+        Ruehleia
+        Unaysaurus
+        Plateosaurus_gracilis
+        Plateosaurus_engelhardti
+        Eucnemesaurus
+        Riojasaurus
+        Sarahsaurus
+        Xingxiulong
+        Glacialisaurus
+        Coloradisaurus
+        Lufengosaurus
+        Massospondylus
+        Leyesaurus
+        Adeopapposaurus
+        Jingshanosaurus
+        Yunnanosaurus
+        Seitaad
+        Anchisaurus
+        Mussaurus
+        Sefapanosaurus
+        Aardonyx
+        Leonerasaurus
+        Blikanasaurus
+        Ingentia
+        Isanosaurus
+        Ohmdenosaurus
+        Amygdalodon
+        Gongxianosaurus
+        Tazoudasaurus
+        Spinophorosaurus
+        Lessemsaurus
+        Meroktenos
+        Volkheimeria
+        Vulcanodon
+        Antetonitrus
+        Shunosaurus
+        Cetiosaurus
+        Omeisaurus
+        Pulanesaura
+        Mamenchisaurus
+        Neosauropoda
+        Schleitheimia
+        Tuebingosaurus
+        Camelotia
+        Melanorosaurus
+        Barapasaurus
+        Patagosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE regaladofernández2022a_fig19 = [&R] (Euparkeria,(Crurotarsi,(Marasuchus,(Silesaurus,(Ornithischia,((Staurikosaurus,Herrerasaurus),(Eoraptor,(Agnosphitys,(Chindesaurus,Neotheropoda),(Chromogisaurus,Pampadromaeus,Panphagia,Saturnalia,(Guaibasaurus,(Pantydraco,(Thecodontosaurus,(Efraasia,(Plateosauravus,(Ruehleia,((Unaysaurus,(Plateosaurus_gracilis,Plateosaurus_engelhardti)),((Eucnemesaurus,Riojasaurus),(Sarahsaurus,(Xingxiulong,(((Glacialisaurus,Coloradisaurus,Lufengosaurus),(Massospondylus,(Leyesaurus,Adeopapposaurus))),(Jingshanosaurus,(Yunnanosaurus,(Seitaad,(Anchisaurus,(Mussaurus,(Sefapanosaurus,Aardonyx,(Leonerasaurus,(Blikanasaurus,Ingentia,Isanosaurus,Ohmdenosaurus,Amygdalodon,Gongxianosaurus,Tazoudasaurus,Spinophorosaurus,Lessemsaurus,Meroktenos,Volkheimeria,Vulcanodon,Antetonitrus,Shunosaurus,Cetiosaurus,Omeisaurus,Pulanesaura,Mamenchisaurus,Neosauropoda,Schleitheimia,Tuebingosaurus,(Camelotia,Melanorosaurus),(Barapasaurus,Patagosaurus))Sauropoda)))))))Sauropodiformes)Massopoda)))))))))))Sauropodomorpha))))))));
+END;

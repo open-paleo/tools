@@ -1,0 +1,37 @@
+#NEXUS
+
+[ zhang2022a_fig16: Mamenchisaurid summary tree, read by eye. Polytomies: Omeisaurus maoianus, Haute Mouloya taxon and the rest; and the 15-branch crown from Xinjiangtitan to Mamenchisaurus constructus. The black dot marks the node joining Tienshanosaurus to the rest and is not encoded; no clade names are printed. 24 tips, 2 polytomies (3, 15 children). Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Shunosaurus
+        Omeisaurus_maoianus
+        Haute_Mouloya_taxon
+        Cetiosaurus_oxoniensis
+        Cetiosauriscus_stewarti
+        Omeisaurus_tianfuensis
+        Tienshanosaurus_chitaiensis
+        Omeisaurus_junghiensis
+        Xinjiangtitan_shanshanesis
+        Rhomaleopakhus
+        Hudiesaurus_sinojapanorum
+        Chuanjiesaurus_referred
+        Chuanjiesaurus_holotype
+        Wamweracaudia
+        Mamenchisaurus_hochuanensis_referred
+        Mamenchisaurus_hochuanensis_holotype
+        Mamenchisaurus_youngi
+        Mamenchisaurus_sinocanadorum
+        Klamelisaurus_gobiensis
+        Qijianglong_guokr
+        Shishugou_cervicodorsals
+        Phu_Kradung_taxa
+        Mamenchisaurus_constructus
+        Other_eusauropods
+    ;
+END;
+
+BEGIN TREES;
+    TREE zhang2022a_fig16 = [&R] (Shunosaurus,(Omeisaurus_maoianus,Haute_Mouloya_taxon,(Cetiosaurus_oxoniensis,(((Cetiosauriscus_stewarti,Omeisaurus_tianfuensis),(Tienshanosaurus_chitaiensis,(Omeisaurus_junghiensis,(Xinjiangtitan_shanshanesis,Rhomaleopakhus,Hudiesaurus_sinojapanorum,Chuanjiesaurus_referred,Chuanjiesaurus_holotype,Wamweracaudia,Mamenchisaurus_hochuanensis_referred,Mamenchisaurus_hochuanensis_holotype,Mamenchisaurus_youngi,Mamenchisaurus_sinocanadorum,Klamelisaurus_gobiensis,Qijianglong_guokr,Shishugou_cervicodorsals,Phu_Kradung_taxa,Mamenchisaurus_constructus)))),Other_eusauropods))));
+END;

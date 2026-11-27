@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/prieto-márquez2010a_fig3.png",
+  "names": "names.txt",
+  "source": "Prieto-Márquez 2010, Zootaxa 2452 (Glishades ericksoni), Fig. 3: strict consensus of hadrosauroid relationships drawn as a descending staircase, with bootstrap values above and Bremer values below nodes, clade names in capitals at brackets or a dot, and a silhouette above Glishades; rectangular, root at upper left. Image: census 3 figure (1899x2709 px), a 300 dpi page render.",
+  "license": "not open: © 2010 Magnolia Press",
+  "names_note": "no matrix held; list = the printed tip names (binomials; 'Two Medicine saurolophine', 'Salitral Moreno saurolophine', 'Big Bend UTEP saurolophine' as printed; Glishades in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosauroid strict consensus, read by eye; fully resolved. HADROSAUROIDEA, HADROSAURIDAE, SAUROLOPHIDAE, SAUROLOPHINAE and LAMBEOSAURINAE are kept, in title case, on the nodes their brackets or dot mark. The silhouette is not part of the tree. 52 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

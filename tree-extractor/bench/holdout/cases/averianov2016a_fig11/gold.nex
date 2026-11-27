@@ -1,0 +1,28 @@
+#NEXUS
+
+[ averianov2016a_fig11: Slanted troodontid cladogram, read by eye; diagonal stems meet horizontal tip branches. One three-way node (Saurornithoides, Zanabazar, Troodon). 15 tips, 1 polytomies (3 children). Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=15;
+    TAXLABELS
+        Sinovenator_changae
+        Anchiornis_huxleyi
+        Talos_sampsoni
+        Mei_long
+        Byronosaurus_jaffei
+        Sinornithoides_youngi
+        Khamryn_Us_troodontid
+        Gobivenator_mongoliensis
+        Urbacodon_spp.
+        Xixiasaurus_henanensis
+        Linhevenator_tani
+        Philovenator_curriei
+        Saurornithoides_mongoliensis
+        Zanabazar_junior
+        Troodon_formosus
+    ;
+END;
+
+BEGIN TREES;
+    TREE averianov2016a_fig11 = [&R] (Sinovenator_changae,(Anchiornis_huxleyi,(Talos_sampsoni,(Mei_long,(Byronosaurus_jaffei,((Sinornithoides_youngi,Khamryn_Us_troodontid),((Gobivenator_mongoliensis,Urbacodon_spp.),(Xixiasaurus_henanensis,((Linhevenator_tani,Philovenator_curriei),(Saurornithoides_mongoliensis,Zanabazar_junior,Troodon_formosus))))))))));
+END;

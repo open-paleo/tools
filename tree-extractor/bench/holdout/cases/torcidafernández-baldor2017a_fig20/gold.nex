@@ -1,0 +1,31 @@
+#NEXUS
+
+[ torcidafernández-baldor2017a_fig20: Constrained topology, read by eye. Polytomies: Lusotitan, Europasaurus, Bellusaurus, Camarasaurus, (Euhelopus, Galvesaurus) and the rest (six); and the five brachiosaurid branches. MACRONARIA, printed in two lines on the root stem, is kept as the root's label. The Templeton-test text on the right is not part of the tree. 18 tips, 2 polytomies (6, 5 children); 1 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=18;
+    TAXLABELS
+        Haplocanthosaurus
+        Lusotitan
+        Europasaurus
+        Bellusaurus
+        Camarasaurus
+        Euhelopus
+        Galvesaurus
+        Tehuelchesaurus
+        Europatitan
+        Tastavinsaurus
+        Padillasaurus
+        Abydosaurus
+        Giraffatitan
+        Brachiosaurus
+        Cedarosaurus
+        Venenosaurus
+        Tendaguria_tanzaniensis
+        Sauroposeidon_and_all_its_descendants
+    ;
+END;
+
+BEGIN TREES;
+    TREE torcidafernández-baldor2017a_fig20 = [&R] (Haplocanthosaurus,(Lusotitan,Europasaurus,Bellusaurus,Camarasaurus,(Euhelopus,Galvesaurus),(Tehuelchesaurus,((Europatitan,Tastavinsaurus),((Padillasaurus,Abydosaurus,Giraffatitan,Brachiosaurus,(Cedarosaurus,Venenosaurus)),(Tendaguria_tanzaniensis,Sauroposeidon_and_all_its_descendants))))))Macronaria;
+END;

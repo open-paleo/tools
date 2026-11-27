@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/smith2007a_fig7.png",
+  "names": "names.txt",
+  "source": "Smith and Pol 2007, Acta Palaeontologica Polonica 52: 657-674 (Glacialisaurus hammeri), Fig. 7: strict consensus of sauropodomorph relationships with bootstrap values above and Bremer values below nodes, clade names in bold on branches or joined to nodes by leader lines; rectangular, root left. Image: census 3 figure (1792x2338 px), a 300 dpi page render.",
+  "license": "unverified: no licence statement in the text held (Acta Palaeontologica Polonica is published open access)",
+  "names_note": "no matrix held; list = the printed tip names ('outgroups' and Neosauropoda as printed; Glacialisaurus in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Sauropodomorph strict consensus, read by eye. Polytomies: Thecodontosaurus, Pantydraco and the rest; Sauropoda (Blikanasaurus, Antetonitrus + Lessemsaurus, and the rest); Isanosaurus, Vulcanodon, Tazoudasaurus and Eusauropoda; Eusauropoda (four). Plateosauridae and Massospondylidae (printed above their stems), and Plateosauria, Sauropoda and Eusauropoda (leader lines to nodes) are kept. Support values are not encoded. 36 tips, 4 polytomies (3, 3, 4, 4 children); 5 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

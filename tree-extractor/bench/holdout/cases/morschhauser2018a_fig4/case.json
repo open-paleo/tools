@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/morschhauser2018a_fig4.png",
+  "names": "names.txt",
+  "source": "Morschhauser et al. 2018, Journal of Vertebrate Paleontology 38 (Auroraceratops cranial anatomy), Fig. 4: six cladograms (A-F) of earlier ceratopsian hypotheses, each drawn vertically with the root at the bottom and tip names written upwards along the top. Image: census 3 figure (1400x1487 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of panel A (genera)",
+  "gold": "gold.nex",
+  "gold_note": "Panel A only, read by eye; vertical, root at the bottom; fully resolved. Panels B-F are five more trees of overlapping taxa (the vertical census stratum takes the figure, the gold takes its first panel). 10 tips, fully resolved. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 700,
+    "y1": 410
+  },
+  "region_note": "panel A; panels B-F (right of and below it) are separate trees"
+}

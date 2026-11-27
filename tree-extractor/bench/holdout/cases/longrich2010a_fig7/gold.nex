@@ -1,0 +1,30 @@
+#NEXUS
+
+[ longrich2010a_fig7: Panel A only, read by eye. Polytomies: Herrerasaurus, Velociraptor and the rest at the root; and the four ingeniines from Nemegtomaia to Ingenia. Oviraptoridae, Oviraptorinae and Ingeniinae are printed beside the nodes they name and kept. 17 tips, 2 polytomies (3, 4 children); 3 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=17;
+    TAXLABELS
+        Herrerasaurus_ischigualastensis
+        Velociraptor_mongoliensis
+        Archaeopteryx_lithographica
+        Caudipteryx_zhoui
+        Avimimus_portentosus
+        Chirostenotes
+        Gigantoraptor_erlianensis
+        Oviraptor_philoceratops
+        Rinchenia_mongoliensis
+        Zamyn_Khondt_oviraptorid
+        Citipati_osmolskae
+        Khaan_mckennai
+        Conchoraptor_gracilis
+        Nemegtomaia_barsboldi
+        Machairasaurus_leptonychus
+        Heyuannia_huangi
+        Ingenia_yanshini
+    ;
+END;
+
+BEGIN TREES;
+    TREE longrich2010a_fig7 = [&R] (Herrerasaurus_ischigualastensis,Velociraptor_mongoliensis,(Archaeopteryx_lithographica,(Caudipteryx_zhoui,(Avimimus_portentosus,((Chirostenotes,Gigantoraptor_erlianensis),((Oviraptor_philoceratops,(Rinchenia_mongoliensis,(Zamyn_Khondt_oviraptorid,Citipati_osmolskae)))Oviraptorinae,(Khaan_mckennai,(Conchoraptor_gracilis,(Nemegtomaia_barsboldi,Machairasaurus_leptonychus,Heyuannia_huangi,Ingenia_yanshini)))Ingeniinae)Oviraptoridae)))));
+END;

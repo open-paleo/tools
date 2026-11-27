@@ -1,0 +1,33 @@
+#NEXUS
+
+[ carballido2015a_fig6: Panel A only, read by eye. Polytomies: Camarasaurus, Bellusaurus and Camarasauromorpha; Brachiosauridae (five); Erketu, Chubutisaurus and Titanosauria. Neosauropoda, Macronaria, Camarasauromorpha, Titanosauriformes, Brachiosauridae and Somphospondyli are kept, each on the node its dot or stem arrow marks (Neosauropoda and Brachiosauridae are stem-based in the figure; encoded on the node). The open Lusotitan arrows and the legend are not part of the tree. 20 tips, 3 polytomies (3, 5, 3 children); 6 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=20;
+    TAXLABELS
+        Diplodocoidea
+        Haplocanthosaurus_priscus
+        Camarasaurus
+        Bellusaurus_sui
+        Europasaurus_holgeri
+        Galvesaurus_herreroi
+        Euhelopus_zdanskyi
+        Tehuelchesaurus_benitezii
+        Tastavinsaurus_sanzi
+        Padillasaurus_leivaensis
+        Brachiosaurus_altithorax
+        Giraffatitan_brancai
+        Abydosaurus_mcintoshi
+        Venenosaurus_dicrocei
+        Cedarosaurus_weiskopfe
+        Tendaguria_tanzaniensis
+        Sauroposeidon_proteles
+        Erketu_ellisoni
+        Chubutisaurus_insignis
+        Titanosauria
+    ;
+END;
+
+BEGIN TREES;
+    TREE carballido2015a_fig6 = [&R] (Diplodocoidea,(Haplocanthosaurus_priscus,(Camarasaurus,Bellusaurus_sui,(Europasaurus_holgeri,((Galvesaurus_herreroi,Euhelopus_zdanskyi),(Tehuelchesaurus_benitezii,(Tastavinsaurus_sanzi,((Padillasaurus_leivaensis,Brachiosaurus_altithorax,Giraffatitan_brancai,Abydosaurus_mcintoshi,(Venenosaurus_dicrocei,Cedarosaurus_weiskopfe))Brachiosauridae,(Tendaguria_tanzaniensis,(Sauroposeidon_proteles,(Erketu_ellisoni,Chubutisaurus_insignis,Titanosauria)))Somphospondyli)Titanosauriformes))))Camarasauromorpha))Macronaria)Neosauropoda;
+END;

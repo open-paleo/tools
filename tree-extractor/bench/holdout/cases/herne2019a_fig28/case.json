@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census3/figures/herne2019a_fig28.png",
+  "names": "names.txt",
+  "source": "Herne et al. 2019, Journal of Paleontology 93: 543-584 (Galleonosaurus dorisae), Fig. 28: time-calibrated ornithopod tree drawn vertically, root at the bottom (Ornithopoda dot) and tip names written upwards; solid range bars, dashed ghost lineages, continent codes (SA, AU, LA, AF-LA-NZ...) above the tips, and a Middle Jurassic-Late Cretaceous stage column at left. Image: census 3 figure (1024x2225 px), a 300 dpi page render.",
+  "license": "CC BY (open access, Creative Commons Attribution licence; © 2019 The Paleontological Society)",
+  "names_note": "no matrix held; list = the printed tip names without 'n. gen.' after Galleonosaurus (printed in bold) and without the continent codes; the higher-taxon tips Dryosauridae, Styracosterna and Rhabdodontidae as printed",
+  "gold": "gold.nex",
+  "gold_note": "Vertical time tree, root at the bottom, read by eye at 2-3x; the basal nodes are dashed ghost lineages, each a horizontal dashed bar with one dashed stem down. One four-way node (Anabisetia, Diluvicursor, Leaellynasaura, Galleonosaurus). Elasmaria (printed on its stem) and Ornithopoda (at the root dot) are kept. The continent codes and range shading are not part of the tree. 16 tips, 1 polytomies (4 children); 2 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 150,
+    "y0": 0,
+    "x1": 1024,
+    "y1": 2225
+  },
+  "region_note": "the tree; the stage column at the left (x < 150) is not part of it"
+}

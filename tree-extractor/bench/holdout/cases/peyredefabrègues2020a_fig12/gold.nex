@@ -1,0 +1,52 @@
+#NEXUS
+
+[ peyredefabrègues2020a_fig12: Sauropodomorph time tree, read by eye at 1-2x; fully resolved. The node numbers 1-7 are not encoded; the range bars and the Sauropoda arrow are not branches (the arrow is the tip Sauropoda). 39 tips, fully resolved. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=39;
+    TAXLABELS
+        Eoraptor
+        Panphagia
+        Chromogisaurus
+        Saturnalia
+        Pantydraco
+        Thecodontosaurus
+        Efraasia
+        Plateosaurus
+        Unaysaurus
+        Plateosauravus
+        Ruehleia
+        Anchisaurus
+        Sarahsaurus
+        Adeopapposaurus
+        Leyesaurus
+        Massospondylus
+        Coloradisaurus
+        Glacialisaurus
+        Lufengosaurus
+        Xingxiulong
+        Jingshanosaurus
+        Yunnanosaurus
+        Eucnemesaurus
+        Riojasaurus
+        Seitaad
+        Irisosaurus
+        Mussaurus
+        Yizhousaurus
+        Aardonyx
+        Melanorosaurus
+        Blikanasaurus
+        Camelotia
+        Antetonitrus
+        Lessemsaurus
+        Leonerasaurus
+        Gongxianosaurus
+        Pulanesaura
+        Isanosaurus
+        Sauropoda
+    ;
+END;
+
+BEGIN TREES;
+    TREE peyredefabrègues2020a_fig12 = [&R] (Eoraptor,(Panphagia,((Chromogisaurus,Saturnalia),((Pantydraco,Thecodontosaurus),(Efraasia,((Plateosaurus,Unaysaurus),((Plateosauravus,Ruehleia),(Anchisaurus,(Sarahsaurus,(((Adeopapposaurus,Leyesaurus),(Massospondylus,(Coloradisaurus,(Glacialisaurus,Lufengosaurus)))),(Xingxiulong,(Jingshanosaurus,(Yunnanosaurus,((Eucnemesaurus,Riojasaurus),(Seitaad,((Irisosaurus,Mussaurus),(Yizhousaurus,(Aardonyx,(Melanorosaurus,(Blikanasaurus,(Camelotia,((Antetonitrus,Lessemsaurus),(Leonerasaurus,(Gongxianosaurus,(Pulanesaura,(Isanosaurus,Sauropoda))))))))))))))))))))))))));
+END;

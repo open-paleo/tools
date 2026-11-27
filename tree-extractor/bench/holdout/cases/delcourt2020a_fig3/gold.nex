@@ -1,0 +1,55 @@
+#NEXUS
+
+[ delcourt2020a_fig3: Ceratosaur strict consensus, read by eye. Polytomies: Ceratosauria (five branches), the four elaphrosaurines, Noasauridae (four), Rajasaurus-Indosaurus-Majungasaurus, and Brachyrostra (twelve). Ceratosauria, Abelisauroidea, Noasauridae, Abelisauridae, Majungasaurinae and Brachyrostra are kept on their dotted nodes. The silhouette is not part of the tree. 42 tips, 5 polytomies (5, 4, 4, 3, 12 children); 6 printed clade names kept as internal node labels. Sample 9 case (census 3, seed 20261272). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=42;
+    TAXLABELS
+        Herrerasaurus
+        Coelophysis
+        Allosaurus
+        Gadoufaoua_taxon
+        Berberosaurus
+        Caramillasaurus
+        Ceratosaurus
+        Genyodectes
+        Limusaurus
+        Elaphrosaurus
+        Spinostropheus
+        Deltabromeus
+        Eoabelisaurus
+        Ligabueino
+        Noasaurus
+        Austrocheirus
+        Velocisaurus
+        Laevisuchus
+        Masiakasaurus
+        Chenanisaurus
+        Pourcieux_taxon
+        Kryptops
+        Rugops
+        Rajasaurus
+        Indosaurus
+        Majungasaurus
+        Genusaurus
+        Arcovenator
+        La_Boucharde_taxon
+        Thanos
+        Viavenator
+        Carnotaurus
+        Aucasaurus
+        Abelisaurus
+        Quilmesaurus
+        Pycnonemosaurus
+        Skorpiovenator
+        Ekrixinatosaurus
+        Ilokelesia
+        Xenotarsosaurus
+        Rahiolisaurus
+        Dahalokely
+    ;
+END;
+
+BEGIN TREES;
+    TREE delcourt2020a_fig3 = [&R] (Herrerasaurus,(Coelophysis,(Allosaurus,(Gadoufaoua_taxon,(Berberosaurus,Caramillasaurus,(Ceratosaurus,Genyodectes),(Limusaurus,Elaphrosaurus,Spinostropheus,Deltabromeus),(Eoabelisaurus,(Ligabueino,((Noasaurus,Austrocheirus,Velocisaurus,(Laevisuchus,Masiakasaurus))Noasauridae,((Chenanisaurus,Pourcieux_taxon),(Kryptops,(Rugops,(((Rajasaurus,Indosaurus,Majungasaurus),(Genusaurus,(Arcovenator,La_Boucharde_taxon)))Majungasaurinae,(Thanos,Viavenator,Carnotaurus,Aucasaurus,Abelisaurus,Quilmesaurus,Pycnonemosaurus,Skorpiovenator,Ekrixinatosaurus,Ilokelesia,Xenotarsosaurus,(Rahiolisaurus,Dahalokely))Brachyrostra))))Abelisauridae)))Abelisauroidea)Ceratosauria))));
+END;
