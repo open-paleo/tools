@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A name is numbered in the Newick only for the other tips of its own tree that carry it.
+  Tips of a piece left apart, such as a second tree on the image, were counted too, and
+  names in the tree written came out numbered for twins that were not in it.
 - A solid dot on a node is taken down to eight tenths of a letter's height, and the lines
   that stop a few pixels short of such a dot are carried in to it.
 - An upright cut by a clade's name is joined where the name stands in a strip cleared of

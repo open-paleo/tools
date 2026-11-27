@@ -68,12 +68,43 @@ export function getTipDisplayName(document: ExtractionDocument, tipId: string): 
 
     // A name printed at several tips of the tree (a species sampled several times) is
     // numbered in figure order, so that each tip keeps a name of its own in the Newick.
+    // Of its own tree: a second tree on the image that the reading left as a piece apart
+    // repeats the names of the first, and is not written with it (Regalado Fernandez 2022,
+    // where 26 tips of the tree read were numbered for their twins in the next).
+    const parents = new Map<string, string | null>();
+
+    for (const node of document.nodes)
+    {
+        parents.set(node.id, node.parent);
+    }
+
+    function findRoot(parent: string | null): string | null
+    {
+        let root = parent;
+        let next = root === null ? null : parents.get(root) ?? null;
+
+        for (let step = 0; next !== null && step < document.nodes.length; step++)
+        {
+            root = next;
+            next = parents.get(root) ?? null;
+        }
+
+        return root;
+    }
+
+    let ownRoot: string | null = null;
+
+    for (const tip of document.tips)
+    {
+        ownRoot = tip.id === tipId ? findRoot(tip.parent) : ownRoot;
+    }
+
     let count = 0;
     let ordinal = 0;
 
     for (const tip of document.tips)
     {
-        if (tip.parent !== null && describeTip(tip) === base)
+        if (tip.parent !== null && describeTip(tip) === base && findRoot(tip.parent) === ownRoot)
         {
             count++;
 
