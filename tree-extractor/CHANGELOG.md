@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- The upright strokes of a name printed large and bold are left out of the lines
+  (`bold-strokes-dropped`): short verticals near twice as broad as the drawing's lines,
+  two or more standing on one line and reaching one height. A stroke of such a name beside
+  a node was taken for the node's stem. Cau 2015 goes from 64 of 121 names to 121 and is
+  identical to its gold tree.
+- Gold sample 8: twenty cases drawn at random from census 2, 848 tips.
 - Small pies on nodes are found: where a figure has no pies of the usual size, discs are
   looked for again with a smaller square. On a ladder of nodes a few pixels apart such a
   pie lies over its neighbors' uprights too; the upright nearest its middle is its own,

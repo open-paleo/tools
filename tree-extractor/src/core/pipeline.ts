@@ -2762,6 +2762,57 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         frameIssues.push({ severity: "info", code: "forks-straightened", message: `${straightened} fork(s) drawn with slanted risers were read as nodes`, subject: null });
     }
 
+    // The upright strokes of a name printed large and bold are thick enough to be line
+    // ink: short verticals near twice as broad as the drawing's lines, two or more of them
+    // standing on one line and reaching one height, as letters do. Left in, a stroke of the
+    // E of a clade's name beside a node was taken for the node's stem, and half of a tree
+    // of 121 tips hung from the letter (Cau 2015). Broad short verticals taken out one by
+    // one, without a second to match, cost 37 names over the gold figures: a node drawn
+    // with a heavy bar is such a vertical too.
+    let boldStrokes = 0;
+
+    if (!slantedFigure)
+    {
+        const broad = Math.max(1.7 * thickness, thickness + 4);
+        const lettered = new Set<Segment>();
+
+        for (const first of verticals)
+        {
+            const tall = first.box.y1 - first.box.y0;
+
+            if (first.box.x1 - first.box.x0 < broad || tall > 4 * glyphHeight)
+            {
+                continue;
+            }
+
+            for (const second of verticals)
+            {
+                const level = Math.max(3, Math.round(0.08 * tall));
+                const apart = Math.max(second.box.x0 - first.box.x1, first.box.x0 - second.box.x1);
+
+                if (second !== first && second.box.x1 - second.box.x0 >= broad && Math.abs(second.box.y0 - first.box.y0) <= level && Math.abs(second.box.y1 - first.box.y1) <= level && apart > 0 && apart <= 4 * tall)
+                {
+                    lettered.add(first);
+                    lettered.add(second);
+                }
+            }
+        }
+
+        for (let index = verticals.length - 1; index >= 0; index--)
+        {
+            if (lettered.has(verticals[index]))
+            {
+                verticals.splice(index, 1);
+                boldStrokes++;
+            }
+        }
+    }
+
+    if (boldStrokes > 0)
+    {
+        frameIssues.push({ severity: "info", code: "bold-strokes-dropped", message: `${boldStrokes} short upright(s) broader than the drawing's lines were left out as strokes of bold lettering`, subject: null });
+    }
+
     // A stroke of a number printed against a branch is no node on it.
     const strokes = dropCrossingStrokes(verticals, horizontals, Math.max(3, Math.round(thickness) + 2), Math.round(1.5 * glyphHeight));
 
