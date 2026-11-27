@@ -81,6 +81,11 @@ export type NodeBoxResult = {
 const darkest = 90;
 
 /**
+ * Luminance below which a pixel is dark whatever its color.
+ */
+const darkestTinted = 45;
+
+/**
  * Largest difference between the channels of a dark pixel.
  */
 const darkChroma = 60;
@@ -196,6 +201,11 @@ type BoxSurvey = {
     thin: Uint8Array;
 
     /**
+     * Pixels of plain bars: level strips of one color with no outline.
+     */
+    plain: Uint8Array;
+
+    /**
      * Breadth of the lines of the drawing, in pixels.
      */
     thickness: number;
@@ -236,7 +246,9 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
         const luminance = 0.299 * red + 0.587 * green + 0.114 * blue;
         const chroma = Math.max(red, green, blue) - Math.min(red, green, blue);
 
-        dark[index] = luminance < darkest && chroma < darkChroma ? 1 : 0;
+        // Dark and nearly neutral, or very dark whatever its hue: a line drawn over a bar of
+        // color comes out navy, and is a line still (Sallam 2018, lines of 0, 0, 99).
+        dark[index] = luminance < darkest && (chroma < darkChroma || luminance < darkestTinted) ? 1 : 0;
         colored[index] = dark[index] === 0 && (luminance < 235 || chroma > 20) ? 1 : 0;
         solid[index] = dark[index] | colored[index];
     }
@@ -244,7 +256,87 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
     // A box is as thick as a letter is tall and more; the bars of an age's uncertainty and
     // the lines are thinner than that.
     const size = Math.max(12, Math.round(0.012 * Math.min(width, height)));
+
+    // A plain bar: a level strip of one color with no outline, laid behind the drawing for
+    // the uncertainty of a node's age. It may be as thick as the opening square, and a pie
+    // with such a bar across it is then no circle (Sallam 2018). Strips of one color at
+    // least three squares long and at most a square and a half thick, with no dark ink on
+    // both edges, are found row by row and left out of the solid ink.
+    const plain = new Uint8Array(count);
+
+    function isSameAt(first: number, second: number): boolean
+    {
+        return Math.abs(data[4 * first] - data[4 * second]) + Math.abs(data[4 * first + 1] - data[4 * second + 1]) + Math.abs(data[4 * first + 2] - data[4 * second + 2]) <= sameColor;
+    }
+
+    for (let y = 0; y < height; y++)
+    {
+        let runStart = -1;
+
+        for (let x = 0; x <= width; x++)
+        {
+            const index = y * width + x;
+            const chroma = x < width ? Math.max(data[4 * index], data[4 * index + 1], data[4 * index + 2]) - Math.min(data[4 * index], data[4 * index + 1], data[4 * index + 2]) : 0;
+            const on = x < width && colored[index] === 1 && chroma >= 25 && (runStart < 0 || isSameAt(index, y * width + runStart));
+
+            if (on && runStart < 0)
+            {
+                runStart = x;
+            }
+            else if (!on && runStart >= 0)
+            {
+                if (x - runStart >= 3 * size)
+                {
+                    // Its thickness and its edges, at a few places along it.
+                    let thin = 0;
+                    let bare = 0;
+                    let sampled = 0;
+
+                    for (let at = runStart + 2; at < x - 2; at += Math.max(4, Math.round(size / 2)))
+                    {
+                        let top = y;
+                        let bottom = y;
+
+                        while (top > 0 && y - top <= 2 * size && isSameAt((top - 1) * width + at, y * width + at))
+                        {
+                            top--;
+                        }
+
+                        while (bottom < height - 1 && bottom - y <= 2 * size && isSameAt((bottom + 1) * width + at, y * width + at))
+                        {
+                            bottom++;
+                        }
+
+                        const above = top > 1 && (dark[(top - 1) * width + at] === 1 || dark[(top - 2) * width + at] === 1);
+                        const below = bottom < height - 2 && (dark[(bottom + 1) * width + at] === 1 || dark[(bottom + 2) * width + at] === 1);
+
+                        sampled++;
+                        thin += bottom - top + 1 <= 1.5 * size ? 1 : 0;
+                        bare += above && below ? 0 : 1;
+                    }
+
+                    if (sampled > 0 && 5 * thin >= 4 * sampled && 5 * bare >= 4 * sampled)
+                    {
+                        plain.fill(1, y * width + runStart, y * width + x);
+                    }
+                }
+
+                runStart = on ? x : -1;
+            }
+        }
+    }
+
+    // Discs are looked for in the ink without those bars; boxes in all of it, as before:
+    // left out there too, a box of Vila 2022 was lost with the bar across it.
+    const bare = new Uint8Array(count);
+
+    for (let index = 0; index < count; index++)
+    {
+        bare[index] = plain[index] === 1 ? 0 : solid[index];
+    }
+
     const opened = openMask(solid, width, height, size);
+    const round = openMask(bare, width, height, size);
     const darkTable = sumMask(dark, width, height);
     const solidTable = sumMask(solid, width, height);
     const labels = new Uint8Array(count);
@@ -300,10 +392,11 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
     }
 
     const coloredTable = sumMask(tint, width, height);
+    const cornerTable = sumMask(round, width, height);
 
     for (let start = 0; start < count; start++)
     {
-        if (opened[start] === 0 || discLabels[start] !== 0)
+        if (round[start] === 0 || discLabels[start] !== 0)
         {
             continue;
         }
@@ -328,7 +421,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
             {
                 const next = index + step;
 
-                if (next >= 0 && next < count && !(step === -1 && x === 0) && !(step === 1 && x === width - 1) && opened[next] === 1 && discLabels[next] === 0)
+                if (next >= 0 && next < count && !(step === -1 && x === 0) && !(step === 1 && x === width - 1) && round[next] === 1 && discLabels[next] === 0)
                 {
                     discLabels[next] = 1;
                     stack.push(next);
@@ -340,7 +433,28 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
         const tall = box.y1 - box.y0;
         const boxArea = wide * tall;
         const tinted = sumOver(coloredTable, width, height, box.x0, box.y0, box.x1, box.y1);
-        if (wide >= size && wide <= 8 * size && 5 * wide >= 4 * tall && 5 * tall >= 4 * wide && area >= 0.68 * boxArea && area <= 0.93 * boxArea && tinted >= 0.3 * boxArea)
+        // A circle leaves the corners of its square empty. A box with something
+        // standing on one edge fills its square as much as a circle does, and is a box
+        // (Vila 2022, a lettered square taken for a disc with the bar across it left out).
+        const corner = Math.max(2, Math.round(0.14 * Math.min(wide, tall)));
+        const roundTable = cornerTable;
+        const corners = [
+            sumOver(roundTable, width, height, box.x0, box.y0, box.x0 + corner, box.y0 + corner),
+            sumOver(roundTable, width, height, box.x1 - corner, box.y0, box.x1, box.y0 + corner),
+            sumOver(roundTable, width, height, box.x0, box.y1 - corner, box.x0 + corner, box.y1),
+            sumOver(roundTable, width, height, box.x1 - corner, box.y1 - corner, box.x1, box.y1),
+        ];
+        let full = 0;
+
+        for (const filled of corners)
+        {
+            full += filled > 0.25 * corner * corner ? 1 : 0;
+        }
+
+        // One corner may hold the edge of the pie beside it.
+        const cornered = full >= 2;
+
+        if (!cornered && wide >= size && wide <= 8 * size && 5 * wide >= 4 * tall && 5 * tall >= 4 * wide && area >= 0.68 * boxArea && area <= 0.93 * boxArea && tinted >= 0.3 * boxArea)
         {
             discs.push({ box, links: [], round: true, radius: measureRadius(box) });
         }
@@ -354,7 +468,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
     // apart at the middles of its discs: the places where the largest square fits around a
     // point, which in a disc is its center. Each gives a disc of the radius that square
     // has inside it, and the next is looked for clear of those found.
-    const opening = sumMask(opened, width, height);
+    const opening = sumMask(round, width, height);
 
     function measureSquareAt(x: number, y: number, most: number): number
     {
@@ -390,7 +504,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
                 if ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY) <= radius * radius)
                 {
                     inside++;
-                    filled += x >= 0 && y >= 0 && x < width && y < height ? opened[y * width + x] : 0;
+                    filled += x >= 0 && y >= 0 && x < width && y < height ? round[y * width + x] : 0;
                 }
             }
         }
@@ -437,7 +551,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
         {
             for (let x = clump.x0; x < clump.x1; x += 2)
             {
-                if (opened[y * width + x] === 1)
+                if (round[y * width + x] === 1)
                 {
                     const half = measureSquareAt(x, y, most);
 
@@ -857,7 +971,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
 
     breadths.sort(compareNumbers);
 
-    return { boxes: found, thin, thickness: breadths.length === 0 ? 3 : Math.max(2, breadths[Math.floor(breadths.length / 2)]) };
+    return { boxes: found, thin, plain, thickness: breadths.length === 0 ? 3 : Math.max(2, breadths[Math.floor(breadths.length / 2)]) };
 }
 
 /**
@@ -1155,9 +1269,26 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
     {
         const offset = 4 * index;
 
+        // On a figure with pies the plain bars behind the nodes go, and no more.
         if (!ranged)
         {
-            break;
+            if (pied && survey.plain[index] === 1)
+            {
+                data[offset] = 255;
+                data[offset + 1] = 255;
+                data[offset + 2] = 255;
+                data[offset + 3] = 255;
+            }
+            else if (pied && 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2] < darkestTinted)
+            {
+                // A line that took its color from the bar it crossed is made black, as
+                // the other lines are.
+                data[offset] = 0;
+                data[offset + 1] = 0;
+                data[offset + 2] = 0;
+            }
+
+            continue;
         }
 
         if (survey.thin[index] === 1 && kept[index] === 0)

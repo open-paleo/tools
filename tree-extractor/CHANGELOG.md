@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A pie with a plain bar across it, for the uncertainty of its node's age, is found: level
+  strips of one color with no outline are left out where discs are looked for, and taken
+  out of a figure with pies. A line that crosses such a bar is drawn dark in the bar's
+  color, and is kept and made black. Sallam 2018 goes from 2 of 20 names to 7.
 - Pie charts set on the nodes of a tree of ancestral ranges are read (`node-pies-read`):
   each pie is taken out and the lines that met its rim are joined where the node is, as a
   lettered box on a node is. Pies that touch or overlap are taken apart into discs and
