@@ -223,3 +223,25 @@ test("resolveNodeBoxes: colored dots drawn on a branch are no pies, and are left
     assert.equal(result.pies, 0);
     assert.equal(result.image, image);
 });
+
+test("resolveNodeBoxes: small pies are found when the figure has none of the usual size", () =>
+{
+    // On an image this large the usual search asks for discs of 29 pixels or more.
+    const image = createImage(3000, 2400);
+
+    fill(image, 100, 1199, 2000, 1202, black);
+
+    for (let node = 0; node < 6; node++)
+    {
+        const x = 400 + 250 * node;
+
+        fill(image, x - 1, 1000, x + 2, 1400, black);
+        drawPie(image, x, 1200, 14);
+    }
+
+    const result = resolveNodeBoxes(image);
+
+    assert.equal(result.pies, 6);
+    assert.ok(readLuminance(result.image, 407, 1207) > 250);
+    assert.ok(readLuminance(result.image, 400, 1191) < 10);
+});

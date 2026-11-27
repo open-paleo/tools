@@ -206,6 +206,11 @@ type BoxSurvey = {
     plain: Uint8Array;
 
     /**
+     * Whether the discs were looked for at the smaller size.
+     */
+    small: boolean;
+
+    /**
      * Breadth of the lines of the drawing, in pixels.
      */
     thickness: number;
@@ -229,7 +234,7 @@ export function findLetteredBoxes(image: RgbaImage): Array<LetteredBox>
  * @param image - The figure.
  * @returns The survey.
  */
-function surveyBoxes(image: RgbaImage): BoxSurvey
+function surveyBoxes(image: RgbaImage, smallDiscs = false): BoxSurvey
 {
     const { width, height, data } = image;
     const count = width * height;
@@ -336,7 +341,11 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
     }
 
     const opened = openMask(solid, width, height, size);
-    const round = openMask(bare, width, height, size);
+    // Small pies are looked for with a smaller square, still thicker than any line, when
+    // the figure has none of the usual size (Zhang 2024: pies of 22 pixels where the
+    // square for boxes is 29).
+    const discSize = smallDiscs ? Math.max(8, Math.round(size / 2.5)) : size;
+    const round = openMask(bare, width, height, discSize);
     const darkTable = sumMask(dark, width, height);
     const solidTable = sumMask(solid, width, height);
     const labels = new Uint8Array(count);
@@ -454,7 +463,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
         // One corner may hold the edge of the pie beside it.
         const cornered = full >= 2;
 
-        if (!cornered && wide >= size && wide <= 8 * size && 5 * wide >= 4 * tall && 5 * tall >= 4 * wide && area >= 0.68 * boxArea && area <= 0.93 * boxArea && tinted >= 0.3 * boxArea)
+        if (!cornered && wide >= discSize && wide <= 8 * size && 5 * wide >= 4 * tall && 5 * tall >= 4 * wide && area >= 0.68 * boxArea && area <= 0.93 * boxArea && tinted >= 0.3 * boxArea)
         {
             discs.push({ box, links: [], round: true, radius: measureRadius(box) });
         }
@@ -537,7 +546,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
         return false;
     }
 
-    for (const clump of radii.length >= 5 ? clumps : [])
+    for (const clump of radii.length >= 5 && !smallDiscs ? clumps : [])
     {
         if (clump.x1 - clump.x0 > 3 * widest || clump.y1 - clump.y0 > 3 * widest)
         {
@@ -790,7 +799,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
     {
         const found = Math.max(box.x1 - box.x0, box.y1 - box.y0) / 2;
 
-        return found + Math.max(0, found - Math.sqrt(Math.max(0, found * found - (size * size) / 4))) + 1;
+        return found + Math.max(0, found - Math.sqrt(Math.max(0, found * found - (discSize * discSize) / 4))) + 1;
     }
 
     // The lines that meet a disc are looked for around its rim, not its square: the
@@ -971,7 +980,7 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
 
     breadths.sort(compareNumbers);
 
-    return { boxes: found, thin, plain, thickness: breadths.length === 0 ? 3 : Math.max(2, breadths[Math.floor(breadths.length / 2)]) };
+    return { boxes: found, thin, plain, small: smallDiscs, thickness: breadths.length === 0 ? 3 : Math.max(2, breadths[Math.floor(breadths.length / 2)]) };
 }
 
 /**
@@ -998,8 +1007,27 @@ function compareNumbers(first: number, second: number): number
  */
 export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
 {
+    const usual = resolveSurveyed(image, surveyBoxes(image));
+
+    if (usual.nodes > 0 || usual.pies > 0)
+    {
+        return usual;
+    }
+
+    return resolveSurveyed(image, surveyBoxes(image, true));
+}
+
+/**
+ * Replaces the boxes and discs of a survey by lines, where the figure is of a kind that has
+ * them on its nodes.
+ *
+ * @param image - The figure.
+ * @param survey - What was found on it.
+ * @returns The image, and how many marks were read.
+ */
+function resolveSurveyed(image: RgbaImage, survey: BoxSurvey): NodeBoxResult
+{
     const { width, height } = image;
-    const survey = surveyBoxes(image);
     const { boxes } = survey;
     const kinds = new Array<"node" | "bar" | "other">();
 
@@ -1385,6 +1413,52 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
             if (other === null || kinds[other] === "node" || (kinds[other] === "bar" && (chosen[other] as BoxLink).neighbor === index))
             {
                 met.push(link);
+            }
+        }
+
+        // On a ladder of nodes a few pixels apart, a small pie lies over its neighbors'
+        // uprights as well as its own. (Only with small pies: tried on larger ones, it cost
+        // Poole 2022 a third of its names, where two uprights run side by side.) Each upright that runs through, in at the top and out at the
+        // bottom at one place, is told from the others by where it is: the pie is set on
+        // its own node, so its own upright is the one nearest its middle. The others are
+        // drawn straight through and joined to nothing here.
+        const through = new Array<number>();
+
+        for (const first of met)
+        {
+            for (const second of met)
+            {
+                if (survey.small && boxes[index].round === true && first.neighbor === null && second.neighbor === null && first.side === "top" && second.side === "bottom" && Math.abs(first.at - second.at) <= 2 * survey.thickness)
+                {
+                    through.push(Math.round((first.at + second.at) / 2));
+                }
+            }
+        }
+
+        if (through.length >= 2)
+        {
+            const center = (box.x0 + box.x1 - 1) / 2;
+            let own = through[0];
+
+            for (const x of through)
+            {
+                own = Math.abs(x - center) < Math.abs(own - center) ? x : own;
+            }
+
+            for (const x of through)
+            {
+                if (x !== own)
+                {
+                    drawUpright(x, box.y0 - rim - survey.thickness, box.y1 + rim + survey.thickness);
+
+                    for (let at = met.length - 1; at >= 0; at--)
+                    {
+                        if (met[at].neighbor === null && (met[at].side === "top" || met[at].side === "bottom") && Math.abs(met[at].at - x) <= 2 * survey.thickness)
+                        {
+                            met.splice(at, 1);
+                        }
+                    }
+                }
             }
         }
 

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Small pies on nodes are found: where a figure has no pies of the usual size, discs are
+  looked for again with a smaller square. On a ladder of nodes a few pixels apart such a
+  pie lies over its neighbors' uprights too; the upright nearest its middle is its own,
+  and the others are drawn straight through. Zhang 2024 goes from 39 of 56 names to 42,
+  and from 25 to 31 correct splits.
 - A pie with a plain bar across it, for the uncertainty of its node's age, is found: level
   strips of one color with no outline are left out where discs are looked for, and taken
   out of a figure with pies. A line that crosses such a bar is drawn dark in the bar's
