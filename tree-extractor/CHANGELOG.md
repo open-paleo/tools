@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.17.0 (2026-11-26)
+
 - Names set at a slant are found where the figure's letter height is far off: where too
   few pairs of letters are found to measure the slant by, it is measured again with the
   height of the pieces of ink in the label zone itself. Norman 2020 fig. 41, an upward
