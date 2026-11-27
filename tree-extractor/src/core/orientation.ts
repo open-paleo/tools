@@ -13,8 +13,8 @@
  */
 
 import type { Mask, Orientation, RgbaImage } from "./types.ts";
-import { splitColoredInk } from "./markers.ts";
-import { createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, findConnectedComponents, subtractMask, transposeMask, unionMask } from "./raster.ts";
+import { createColoredMask, splitColoredInk } from "./markers.ts";
+import { createDarkMask, createDirectionalRunMask, createLongRunMask, dilate, estimateLineThickness, findConnectedComponents, subtractMask, transposeMask, unionMask } from "./raster.ts";
 import { detectTextLines } from "./text-lines.ts";
 import { findEndSide } from "./slanted.ts";
 
@@ -355,8 +355,17 @@ export function detectOrientation(image: RgbaImage, inkThreshold: number, lineTh
     // and its neutral ink is the subfamily brackets alone, which stand on their side), but only
     // the thin colored ink: a colored fill (Poust 2020's clade box) has edges that read as
     // dozens of free ends.
+    // Colored branches can be thicker than the radius that tells a line from a fill, and the
+    // colored ink's own thickness then sets it, as it does when the masks are made (Meso
+    // 2024 fig. 5: a tree drawn upward in blue lines 10 pixels thick, none of them thin, was
+    // left with two branch ends to judge by and was not turned).
     const neutralInk = createDarkMask(image, lineThreshold, true, maxChroma);
-    const lineInk = unionMask(neutralInk, splitColoredInk(image, coloredThreshold, coloredMinChroma, markerRadius).thin);
+    const coloredThickness = estimateLineThickness(createColoredMask(image, coloredThreshold, coloredMinChroma));
+    // Up to three and a half radii: thicker than that the colored ink is fills and bands,
+    // and taking those for lines turned a figure that stood right (Jasinski 2026, colored
+    // ink 74 pixels thick).
+    const thinRadius = coloredThickness >= 2 * markerRadius && coloredThickness <= 3.5 * markerRadius ? Math.round(coloredThickness) + 1 : markerRadius;
+    const lineInk = unionMask(neutralInk, splitColoredInk(image, coloredThreshold, coloredMinChroma, thinRadius).thin);
     const textInk = createDarkMask(image, inkThreshold, false, maxChroma);
     const text = measureTextEitherWay(textInk);
     const glyphHeight = text.glyphHeight;

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A tree drawn upward in thick colored lines is turned: the step that judges a figure's
+  orientation takes colored ink for lines up to the thickness the colored ink itself has,
+  as the masks do, where before only thin colored strokes counted. Meso 2024 fig. 5 was
+  read as drawn and named none of its 23 tips; it names all of them.
 - The upright strokes of a name printed large and bold are left out of the lines
   (`bold-strokes-dropped`): short verticals near twice as broad as the drawing's lines,
   two or more standing on one line and reaching one height. A stroke of such a name beside
