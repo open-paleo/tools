@@ -26,13 +26,24 @@ function findVerticalEndingAt(document: ExtractionDocument, row: TextLine): Segm
     for (const vertical of document.verticals)
     {
         const gap = row.box.x0 - vertical.box.x1;
+        const breadth = vertical.box.x1 - vertical.box.x0;
         const atEnd = Math.abs(center - vertical.box.y0) <= 0.8 * glyph || Math.abs(center - vertical.box.y1) <= 0.8 * glyph;
 
         // The row may begin on the vertical itself: a stub shorter than a letter is wide
         // goes with the letters, and the corner with it (Rotatori 2023, Isaberrysaura).
-        const breadth = vertical.box.x1 - vertical.box.x0;
+        //
+        // Or with a support value printed left of the vertical: the value, the corner and
+        // a stub no longer than a letter come out as one row with the name, which then
+        // begins a letter's width or more before the vertical and runs well past it (Arbour
+        // 2015, "100" and a stub of 12 pixels before Pinacosaurus grangeri). The vertical
+        // is then a line of the drawing that comes to the row from well outside it: the
+        // stem of a letter in the row is thinner and stands within it (Fiorillo 2014, three
+        // names lost to the uprights of their own letters).
+        const lead = vertical.box.x0 - row.box.x0;
+        const beyond = Math.max(row.box.y0 - vertical.box.y0, vertical.box.y1 - row.box.y1);
+        const valued = lead >= glyph && lead <= 2.5 * glyph && row.box.x1 - vertical.box.x1 >= 4 * glyph && beyond >= 0.75 * glyph && breadth >= 0.6 * document.profile.lineThickness;
 
-        if (gap >= -(breadth + 2) && gap <= 2.5 * glyph && atEnd && (best === null || vertical.box.x1 > best.box.x1))
+        if ((gap >= -(breadth + 2) || valued) && gap <= 2.5 * glyph && atEnd && (best === null || vertical.box.x1 > best.box.x1))
         {
             best = vertical;
         }

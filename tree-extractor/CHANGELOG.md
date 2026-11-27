@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A tip is made for a label beside the end of an upright also where the label's row begins
+  with a support value left of the upright: with a stub no longer than a letter, the
+  value, the corner, the stub and the name are one row.
 - In the viewer, a quality check about one tip or node is a list item holding a button, not
   a list item with a button's role: a list may hold only list items, and the old form
   failed the accessibility check wherever a reading had such a check.
