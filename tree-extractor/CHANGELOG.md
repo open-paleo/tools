@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Names set at a slant are found where the figure's letter height is far off: where too
+  few pairs of letters are found to measure the slant by, it is measured again with the
+  height of the pieces of ink in the label zone itself. Norman 2020 fig. 41, an upward
+  tree with slanted names whose letters of 16 pixels were taken for 81, goes from none of
+  its 18 names to 11.
 - A tree whose rows of names stand far apart is read. The spacing of the rows sets a floor
   under the letter height, for thin type that breaks into pieces; with rows five letter
   heights apart the floor was twice the letters' height and the names were dropped as

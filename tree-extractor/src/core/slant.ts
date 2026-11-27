@@ -346,7 +346,37 @@ export function detectSlantedLabels(textInk: Mask, lineArtMask: Mask, tips: Arra
     }
 
     const residue = subtractMask(textInk, lineArtMask);
-    const measure = measureLabelSlant(residue, measureZone, glyphHeight);
+    let measure = measureLabelSlant(residue, measureZone, glyphHeight);
+
+    // The figure's letter height may be far off where its names are set at a slant: read
+    // level, the names are no rows, and the height comes out several letters tall (Norman
+    // 2020, letters of 16 pixels taken for 81; three pairs of letters were then found to
+    // measure a slant by). The pieces of ink in the zone give the letters' own height, and
+    // the slant is measured again with it.
+    if (measure.pairs < 8)
+    {
+        const heights = new Array<number>();
+
+        for (const component of findConnectedComponents(residue).components)
+        {
+            const { box } = component;
+
+            if (box.x0 >= measureZone.x0 && box.x1 <= measureZone.x1 && box.y0 >= measureZone.y0 && box.y1 <= measureZone.y1 && component.area >= 6 && box.y1 - box.y0 >= 3)
+            {
+                heights.push(box.y1 - box.y0);
+            }
+        }
+
+        heights.sort(compareNumbers);
+
+        const own = heights.length < 24 ? 0 : heights[Math.floor(0.7 * heights.length)];
+
+        if (own >= 6 && 2 * own <= glyphHeight)
+        {
+            glyphHeight = own;
+            measure = measureLabelSlant(residue, measureZone, glyphHeight);
+        }
+    }
 
     // Half the pairs must agree on the angle. Labels set at a slant have 60 percent and more
     // over the gold figures; small italic type run together gives pairs at every angle, a
