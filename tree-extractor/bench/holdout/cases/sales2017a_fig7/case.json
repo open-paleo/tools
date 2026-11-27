@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/sales2017a_fig7.png",
+  "names": "names.txt",
+  "source": "Sales and Schultz 2017, PLOS ONE 12: e0187070 (spinosaur taxonomy and evolution), Fig. 7: strict consensus of theropod relationships drawn vertically, root at the bottom and tip names written upwards along the top, Bremer values at nodes, clade names beside nodes, spinosaurid tip names in bold under a silhouette and the label Spinosauridae. Image: census 2 figure (4400x2348 px), the embedded raster.",
+  "license": "CC BY 4.0 (PLOS ONE open access)",
+  "names_note": "no matrix held; list = the printed tip names without the quotation marks of \"Dilophosaurus\" sinensis; 'MSNM V4047' as printed",
+  "gold": "gold.nex",
+  "gold_note": "Vertical strict consensus, read by eye at half and full size. A tip whose line runs straight down through the middle of a bracket and on below it is that node's stem, so its tip belongs to the node (Marshosaurus with Condorraptor and Piatnitzkysaurus; Suchomimus in Spinosauridae; Megalosaurus with the nine megalosauroids and Spinosauridae; Chilantaisaurus with Aerosteon and the Australovenator pair; Siamotyrannus in the four-way sinraptorid node). Tetanurae and the node above it are polytomies (three and four). Neotheropoda, Averostra, Tetanurae, Megalosauroidea, Avetheropoda, Coelurosauria and Allosauroidea are printed beside their nodes and kept; Spinosauridae is printed under the silhouette above the bold tips and kept on their node. Bremer values are not encoded. 58 tips, 8 polytomies (3, 4, 3, 10, 7, 4, 3, 4 children); 8 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 4400,
+    "y1": 2348
+  },
+  "region_note": "the whole image; the spinosaur silhouette and the label Spinosauridae above the bold tips are not tips"
+}

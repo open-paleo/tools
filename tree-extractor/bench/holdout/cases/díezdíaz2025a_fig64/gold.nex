@@ -1,0 +1,56 @@
+#NEXUS
+
+[ díezdíaz2025a_fig64: Titanosaur time tree, read by eye at 3-4x where several short stems sit a few pixels apart (the basal Asian clade, the Nemegtosaurus-to-Tapuiasaurus ladder and the saltasaurid ladder). Fully resolved. Titanosauria, Eutitanosauria, Aeolosaurini, Lognkosauria, Rinconsauria, Lirainosaurinae, Saltasauridae, Opisthocoelicaudiinae and Saltasaurinae label circled nodes and are kept. The range bars are not branches. Replacement for moore2020a_fig27 (see the sample record). 43 tips, fully resolved; 9 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=43;
+    TAXLABELS
+        Mnyamawamtuka
+        Rapetosaurus
+        Aeolosaurus
+        Gondwanatitan
+        Malawisaurus
+        Daxiatitan
+        Xianshanosaurus
+        Andesaurus
+        Baotianmansaurus
+        Dongyangosaurus
+        Huabeisaurus
+        Abditosaurus
+        Argentinosaurus
+        Atsinganosaurus
+        Patagotitan
+        Nemegtosaurus
+        Epachthosaurus
+        Uberabatitan
+        Dreadnoughtus
+        Tapuiasaurus
+        Petrustitan
+        Antarctosaurus
+        Jainosaurus
+        Vahiny
+        Paludititan
+        Lohuecotitan
+        Mendozasaurus
+        Baurutitan
+        Rinconsaurus
+        Muyelensaurus
+        Normanniasaurus
+        Rukwatitan
+        Elaltitan
+        Bonatitan
+        Lirainosaurus
+        Mansourasaurus
+        Magyarosaurus
+        Pellegrinisaurus
+        Alamosaurus
+        Isisaurus
+        Opisthocoelicaudia
+        Neuquensaurus
+        Saltasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE díezdíaz2025a_fig64 = [&R] ((Mnyamawamtuka,((Rapetosaurus,(Aeolosaurus,Gondwanatitan)Aeolosaurini),(Malawisaurus,((Daxiatitan,Xianshanosaurus),(Andesaurus,(Baotianmansaurus,(Dongyangosaurus,Huabeisaurus))))))),(((Abditosaurus,Argentinosaurus),(Atsinganosaurus,Patagotitan)),(Nemegtosaurus,((Epachthosaurus,(Uberabatitan,(Dreadnoughtus,Tapuiasaurus))),((Petrustitan,(Antarctosaurus,(Jainosaurus,Vahiny))),((Paludititan,(Lohuecotitan,Mendozasaurus))Lognkosauria,(((Baurutitan,Rinconsaurus),(Muyelensaurus,(Normanniasaurus,Rukwatitan)))Rinconsauria,((Elaltitan,Bonatitan),((Lirainosaurus,Mansourasaurus)Lirainosaurinae,(Magyarosaurus,(Pellegrinisaurus,(Alamosaurus,((Isisaurus,Opisthocoelicaudia)Opisthocoelicaudiinae,(Neuquensaurus,Saltasaurus)Saltasaurinae)Saltasauridae)))))))))))Eutitanosauria)Titanosauria;
+END;

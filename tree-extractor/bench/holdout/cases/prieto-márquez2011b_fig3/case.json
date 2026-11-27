@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/prieto-márquez2011b_fig3.png",
+  "names": "names.txt",
+  "source": "Prieto-Márquez 2011, Zootaxa 2765: 61-68 (Saurolophidae, a new name), Fig. 3: a small summary cladogram of hadrosauroids at left with a skull below each tip, beside photographs of scapulae and ilia with measurements; rectangular, root left; clade names beside brackets or a dot on nodes. Image: census 2 figure (2008x1566 px), the embedded raster.",
+  "license": "not open: © 2011 Magnolia Press",
+  "names_note": "no matrix held; list = the printed tip names as printed ('Non-hadrosauroid IGUANODONTIA', 'Non-hadrosaurid HADROSAUROIDEA', LAMBEOSAURINAE and SAUROLOPHINAE in capitals; Hadrosaurus foulkii in bold italic)",
+  "gold": "gold.nex",
+  "gold_note": "Five-tip summary tree at the left of a figure that is mostly bone photographs, read by eye. HADROSAUROIDEA (bracket), HADROSAURIDAE (dot) and SAUROLOPHIDAE (bracket) label nodes and are kept, in title case. The skulls, bones, arrows and percentages are not part of the tree. 5 tips, fully resolved; 3 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 150,
+    "x1": 870,
+    "y1": 1300
+  },
+  "region_note": "the tree and its tip names; the skull drawings below the tips and the bone photographs to the right are not part of it"
+}

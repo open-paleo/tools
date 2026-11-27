@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/turner2012a_fig62.png",
+  "names": "names.txt",
+  "source": "Turner, Makovicky and Norell 2012, Bulletin of the American Museum of Natural History 371 (A review of dromaeosaurid systematics and paravian phylogeny), Fig. 62: summary of maniraptoran relationships outside Paraves, with Paraves collapsed to a triangle, clade names beside bracket marks on stems, and a stem arrow at upper left; rectangular, root left. Image: census 2 figure (1584x1562 px), a 300 dpi page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (binomials) and the collapsed clade Paraves as printed",
+  "gold": "gold.nex",
+  "gold_note": "Maniraptoran summary tree, read by eye. The Paraves triangle is one tip. Polytomies: Mononykus, Shuvuuia and Albinykus; the three therizinosaurs; Caudipteryx, Avimimus and the rest; and the four oviraptorids from Ingenia to Conchoraptor. Maniraptora, Alvarezsauroidea, Therizinosauria and Oviraptorosauria each sit beside a bracket on the stem of the node they name and are kept. 21 tips, 4 polytomies (3, 3, 3, 4 children); 4 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,34 @@
+#NEXUS
+
+[ turner2012a_fig62: Maniraptoran summary tree, read by eye. The Paraves triangle is one tip. Polytomies: Mononykus, Shuvuuia and Albinykus; the three therizinosaurs; Caudipteryx, Avimimus and the rest; and the four oviraptorids from Ingenia to Conchoraptor. Maniraptora, Alvarezsauroidea, Therizinosauria and Oviraptorosauria each sit beside a bracket on the stem of the node they name and are kept. 21 tips, 4 polytomies (3, 3, 3, 4 children); 4 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=21;
+    TAXLABELS
+        Ornitholestes_hermanni
+        Haplocheirus_sollers
+        Alvarezsaurus_calvoi
+        Patagonykus_puertai
+        Mononykus_olecranus
+        Shuvuuia_deserti
+        Albinykus_baatar
+        Segnosaurus_galbinensis
+        Erlikosaurus_andrewsi
+        Alxasaurus_elesitaiensis
+        Paraves
+        Incisivosaurus_gauthieri
+        Caudipteryx_zoui
+        Avimimus_portentosus
+        Microvenator_celer
+        Chirostenotes_pergracilis
+        Citipati_osmolskae
+        Ingenia_yanshani
+        Rinchenia_mongoliensis
+        Oviraptor_philoceratops
+        Conchoraptor_gracilis
+    ;
+END;
+
+BEGIN TREES;
+    TREE turner2012a_fig62 = [&R] (Ornitholestes_hermanni,((Haplocheirus_sollers,(Alvarezsaurus_calvoi,(Patagonykus_puertai,(Mononykus_olecranus,Shuvuuia_deserti,Albinykus_baatar))))Alvarezsauroidea,((Segnosaurus_galbinensis,Erlikosaurus_andrewsi,Alxasaurus_elesitaiensis)Therizinosauria,(Paraves,(Incisivosaurus_gauthieri,(Caudipteryx_zoui,Avimimus_portentosus,(Microvenator_celer,((Chirostenotes_pergracilis,Citipati_osmolskae),(Ingenia_yanshani,Rinchenia_mongoliensis,Oviraptor_philoceratops,Conchoraptor_gracilis)))))Oviraptorosauria))))Maniraptora;
+END;

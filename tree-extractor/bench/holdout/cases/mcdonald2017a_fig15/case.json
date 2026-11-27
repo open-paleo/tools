@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/mcdonald2017a_fig15.png",
+  "names": "names.txt",
+  "source": "McDonald et al. 2017, PLoS ONE 12(5): e0176896 (a new specimen of Eolambia caroljonesa), Fig. 15: strict consensus of styracosternan relationships with node numbers, coloured dots on named nodes (Styracosterna red, Hadrosauriformes blue, Hadrosauroidea green, Hadrosauromorpha grey, Hadrosauridae black); rectangular, root left. Image: census 2 figure (2028x2400 px), the embedded raster.",
+  "license": "CC BY 4.0 (PLOS ONE open access)",
+  "names_note": "no matrix held; list = the printed tip names (binomials)",
+  "gold": "gold.nex",
+  "gold_note": "Styracosternan strict consensus, read by eye in two halves. Polytomies at nodes 1 (five branches), 4 (four), 10 (four), 18 (Hadrosauromorpha, three), 24 (three) and 27 (three). The five coloured clade names label dotted nodes and are kept; node numbers are not encoded. 47 tips, 6 polytomies (5, 4, 4, 3, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

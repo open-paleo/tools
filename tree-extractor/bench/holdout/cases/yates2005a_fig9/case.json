@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/yates2005a_fig9.png",
+  "names": "names.txt",
+  "source": "Yates 2005, Palaeontologia Africana 41: 105-122 (Dracovenator regenti), Fig. 9: strict consensus of early theropod relationships drawn as a slanted cladogram, root at the bottom centre and tip names written upwards along the top, with Bremer support and bootstrap percentages at nodes and clade names beside nodes or joined to them by thin arrows. Image: census 2 figure (2134x1218 px), a 300 dpi page render.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names without the quotation marks of 'S.' kayentakatae, 'S.' zigongensis and 'P.' valesdunensis; abbreviated genera (L., C., S., P.) and higher taxa as printed",
+  "gold": "gold.nex",
+  "gold_note": "Slanted strict consensus, read by eye and by tracing each line from its join on the spine back to its tip with a script. 'S.' zigongensis and Piatnitzkysaurus both run to the Tetanurae node (their lines converge there), so Tetanurae is three-way; the Coelophysidae crown (Gojirasaurus, Segisaurus, C. rhodesiensis, 'S.' kayentakatae), Abelisauroidea, Eustreptospondylidae and Coelurosauria are polytomies. Each clade name sits beside, or points by arrow to, the node it names and is kept as a label (Liliensternus labels the L. liliensterni + L. airelensis node). Support values are not encoded. 37 tips, 5 polytomies (4, 3, 3, 3, 3 children); 17 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

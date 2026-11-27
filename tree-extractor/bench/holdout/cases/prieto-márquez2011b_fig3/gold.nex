@@ -1,0 +1,18 @@
+#NEXUS
+
+[ prieto-márquez2011b_fig3: Five-tip summary tree at the left of a figure that is mostly bone photographs, read by eye. HADROSAUROIDEA (bracket), HADROSAURIDAE (dot) and SAUROLOPHIDAE (bracket) label nodes and are kept, in title case. The skulls, bones, arrows and percentages are not part of the tree. 5 tips, fully resolved; 3 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=5;
+    TAXLABELS
+        Non-hadrosauroid_IGUANODONTIA
+        Non-hadrosaurid_HADROSAUROIDEA
+        Hadrosaurus_foulkii
+        LAMBEOSAURINAE
+        SAUROLOPHINAE
+    ;
+END;
+
+BEGIN TREES;
+    TREE prieto-márquez2011b_fig3 = [&R] (Non-hadrosauroid_IGUANODONTIA,(Non-hadrosaurid_HADROSAUROIDEA,(Hadrosaurus_foulkii,(LAMBEOSAURINAE,SAUROLOPHINAE)Saurolophidae)Hadrosauridae)Hadrosauroidea);
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/otero2010a_fig15.png",
+  "names": "names.txt",
+  "source": "Otero 2010, Acta Palaeontologica Polonica 55: 399-426 (the appendicular skeleton of Neuquensaurus), Fig. 15: a slanted cladogram of archosaurs to saltasaurine titanosaurs with numbered nodes along the spine and symbols for character changes, each with its description, beside the spine; no time axis. Image: census 2 figure (2181x1164 px), a 300 dpi page render.",
+  "license": "unverified: no licence statement in the text held (Acta Palaeontologica Polonica is published open access)",
+  "names_note": "no matrix held; list = the printed tip names, including the higher taxa (Pseudosuchia, Pterosauria, Lagerpetidae, Ornithischia, 'Theropoda + Aves', Prosauropoda, Diplodocoidea, Brachiosauridae) as printed",
+  "gold": "gold.nex",
+  "gold_note": "Fully pectinate slanted tree, read by eye: each numbered node 1-16 on the spine takes one tip in order from Euparkeria to Saltasaurus, with Neuquensaurus at the top. The character symbols and their descriptions along the spine are not branches. 17 tips, fully resolved. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

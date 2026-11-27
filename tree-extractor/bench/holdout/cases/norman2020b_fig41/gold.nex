@@ -1,0 +1,31 @@
+#NEXUS
+
+[ norman2020b_fig41: Thyreophoran summary tree, root at the bottom, read by eye. Jinyunpelta joins the ankylosaurid branch through a line marked '?' below the Pinacosaurus-Euoplocephalus node; it is encoded as their sister. Each clade name labels the node above its tick: Thyreophoroidea (printed 'Scutellosaurus + Thyreophora [Thyreophoroidea]'), Thyreophora, Stegosauria, Ankylosauromorpha, Ankylosauria. 18 tips, 1 polytomies (4 children); 5 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=18;
+    TAXLABELS
+        Silesaurus
+        Lesothosaurus
+        Hypsilophodon
+        Dryosaurus
+        Scutellosaurus
+        Huayangosaurus
+        Kentrosaurus
+        Stegosaurus
+        Emausaurus
+        Scelidosaurus
+        Kunbarrasaurus
+        Jinyunpelta
+        Pinacosaurus
+        Euoplocephalus
+        Sauropelta
+        Silvisaurus
+        Struthiosaurus
+        Edmontonia
+    ;
+END;
+
+BEGIN TREES;
+    TREE norman2020b_fig41 = [&R] (Silesaurus,(Lesothosaurus,((Hypsilophodon,Dryosaurus),(Scutellosaurus,((Huayangosaurus,(Kentrosaurus,Stegosaurus))Stegosauria,(Emausaurus,(Scelidosaurus,(Kunbarrasaurus,((Jinyunpelta,(Pinacosaurus,Euoplocephalus)),(Sauropelta,Silvisaurus,Struthiosaurus,Edmontonia)))Ankylosauria))Ankylosauromorpha)Thyreophora)Thyreophoroidea)));
+END;

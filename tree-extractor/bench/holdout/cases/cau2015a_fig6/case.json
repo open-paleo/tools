@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/cau2015a_fig6.png",
+  "names": "names.txt",
+  "source": "Cau, Brougham and Naish 2015, PeerJ 3: e1032 (Balaur bondoc as a bird), Fig. 6: strict consensus from the updated Lee et al. (2014) dataset, a long staircase of theropods to birds with Bremer values below nodes and AVIALAE printed in large bold beside its node; rectangular, root at upper left. Image: census 2 figure (3733x5113 px), the embedded raster.",
+  "license": "CC BY 4.0 (PeerJ open access)",
+  "names_note": "no matrix held; list = the printed tip names, with underscores printed in 'Syntarsus_kayentakatae', 'Sinraptor_dongi', 'Parvicursorinae_indet', 'Nothronychus_graffami', 'Caenagnathus_collinsi', 'Unenlagia_comahuensis' (spaces in names.txt); Balaur in bold",
+  "gold": "gold.nex",
+  "gold_note": "Theropod-to-bird strict consensus, read in six bands at native resolution and at 1.3-2x where verticals crowd (the Zuolong-Coelurus nodes, the maniraptoran backbone). Polytomies: Tanycolagreus, Coelurus, Tyrannosauroidea and the rest; the three therizinosaurines; Oviraptor, Khaan and Citipati; Jinfengopteryx, Aurornis, Troodontidae, Dromaeosauridae and Avialae (five); Sinovenator, Mei and the rest; Zanabazar, Troodon and Saurornithoides; the three unenlagiines; Tianyuraptor and two dromaeosaurid clades; the four basal ornithuromorphs with the rest; Ichthyornis, Gansus, Apsaravis and (Vegavis, Meleagris). AVIALAE is kept on its node; Bremer values are not encoded. 121 tips, 10 polytomies (4, 3, 3, 5, 3, 3, 3, 3, 5, 4 children); 1 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

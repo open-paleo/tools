@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/prieto-márquez2006b_fig11.png",
+  "names": "names.txt",
+  "source": "Prieto-Márquez et al. 2006, Journal of Vertebrate Paleontology 26: 929-943 (Koutalisaurus kohlerorum), Fig. 11: strict consensus of hadrosauroid relationships with node letters and Bremer numbers above branches and bootstrap/decay values below; rectangular, root left. Image: census 2 figure (1852x1947 px), the embedded raster.",
+  "license": "not open: © 2006 by the Society of Vertebrate Paleontology",
+  "names_note": "no matrix held; list = the printed tip names, 'spp.' kept where printed",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosauroid strict consensus, read by eye. Three polytomies: D9* (Bactrosaurus, Gilmoreosaurus and the rest), E1 (Telmatosaurus, Tanius and the rest) and Hadrosauridae (G11*, eight branches). HADROSAUROIDEA and HADROSAURIDAE label nodes A3 and G11* and are kept; the node letters and values are not encoded. 24 tips, 3 polytomies (3, 3, 8 children); 2 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

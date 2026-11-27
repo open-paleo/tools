@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/xing2014a_fig13.png",
+  "names": "names.txt",
+  "source": "Xing et al. 2014, PLoS ONE 9: e98821 (Zhanghenglong yangchengensis), Fig. 13: strict consensus of hadrosauroid relationships with bootstrap above and Bremer values below branches, a two-letter area code after each tip name, black dots on named nodes, a silhouette after Zhanghenglong and a world map of the area codes at lower left; rectangular, root left. Image: census 2 figure (2054x1946 px), the embedded raster.",
+  "license": "CC BY 4.0 (PLoS ONE open access)",
+  "names_note": "no matrix held; list = the printed tip names without the area codes '(as)', '(na)', '(eu)', '(af)', '(sa)' and the '(outgroup)' note that follow them; 'Charonosaurus' printed in quotation marks",
+  "gold": "gold.nex",
+  "gold_note": "Hadrosauroid strict consensus, read by eye in two halves. Polytomies: Jintasaurus with (Protohadros, Eolambia) and the rest; Zhanghenglong, Nanyangosaurus and Hadrosauridae; Wulagasaurus, Acristavus and (Brachylophosaurus, Maiasaura); and seven lambeosaurine branches from Velaphrons to Corythosaurus. Hadrosauriformes, Hadrosauroidea, Hadrosauridae, Hadrosaurinae and Lambeosaurinae label dotted nodes (the first two by arrows) and are kept. 61 tips, 4 polytomies (3, 3, 3, 7 children); 5 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 2054,
+    "y1": 1946
+  },
+  "region_note": "the whole image; the world map at lower left (x 0-1050, y 1480-1946) and the silhouette after Zhanghenglong are not tips"
+}

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/chokchaloemwong2019a_fig13.png",
+  "names": "names.txt",
+  "source": "Chokchaloemwong et al. 2019, PLOS ONE 14: e0222489 (Siamraptor suwati), Fig. 13: strict consensus of tetanuran relationships with Bremer values above and bootstrap/jackknife values below branches, clade names written vertically along the node lines, and coloured boxes with vertical family names over the tip names of Megalosauridae, Spinosauridae, Carcharodontosaurinae, Proceratosauridae and Megaraptoridae; rectangular, root left. Image: census 2 figure (1791x2283 px), the embedded raster.",
+  "license": "CC BY 4.0 (PLOS ONE open access)",
+  "names_note": "no matrix held; list = the printed tip names as printed, letter-spaced in the figure ('C. saharicus', 'C. iguidensis' abbreviated as printed; Siamraptor suwati in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Tetanuran strict consensus, read by eye in two halves. Polytomies: Spinosauridae (three), Carcharodontosauria (five), Carcharodontosaurinae (three), the coelurosaur node above Chilantaisaurus (three), the Proceratosaurus-Kileskus-Guanlong node and Megaraptoridae (five). Clade names written vertically just left of a node's line (Tetanurae, Megalosauroidea, Neotetanurae, Allosauroidea, Carcharodontosauria, Coelurosauria, Tyrannosauroidea, Megaraptora) and the five family names in the coloured boxes are kept as node labels. 46 tips, 7 polytomies (3, 5, 3, 3, 3, 3, 5 children); 13 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 1700,
+    "y1": 2283
+  },
+  "region_note": "the tree; the family names written vertically at the right edge (x > 1700) name the coloured boxes, not tips"
+}

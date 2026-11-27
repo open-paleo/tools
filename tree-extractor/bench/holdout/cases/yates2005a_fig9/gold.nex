@@ -1,0 +1,50 @@
+#NEXUS
+
+[ yates2005a_fig9: Slanted strict consensus, read by eye and by tracing each line from its join on the spine back to its tip with a script. 'S.' zigongensis and Piatnitzkysaurus both run to the Tetanurae node (their lines converge there), so Tetanurae is three-way; the Coelophysidae crown (Gojirasaurus, Segisaurus, C. rhodesiensis, 'S.' kayentakatae), Abelisauroidea, Eustreptospondylidae and Coelurosauria are polytomies. Each clade name sits beside, or points by arrow to, the node it names and is kept as a label (Liliensternus labels the L. liliensterni + L. airelensis node). Support values are not encoded. 37 tips, 5 polytomies (4, 3, 3, 3, 3 children); 17 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=37;
+    TAXLABELS
+        Outgroup
+        Herrerasaurus
+        Staurikosaurus
+        Eoraptor
+        Sauropodomorpha
+        L._liliensterni
+        L._airelensis
+        C._bauri
+        Gojirasaurus
+        Segisaurus
+        C._rhodesiensis
+        S._kayentakatae
+        Dilophosaurus
+        Zupaysaurus
+        Dracovenator
+        Ceratosaurus
+        Elaphrosaurus
+        Masiakasaurus
+        Deltadromeus
+        Abelisauridae
+        S._zigongensis
+        Piatnitzkysaurus
+        Magnosaurus
+        Afrovenator
+        P._valesdunensis
+        Torvosaurus
+        Chilantaisaurus
+        Spinosauridae
+        Tugulusaurus
+        Proceratosaurus
+        other_coelurosaurs
+        Monolophosaurus
+        Allosaurus
+        Sinraptoridae
+        Acrocanthosaurus
+        Neovenator
+        Carcharodontosauridae
+    ;
+END;
+
+BEGIN TREES;
+    TREE yates2005a_fig9 = [&R] (Outgroup,((Herrerasaurus,Staurikosaurus)Herrerasauridae,(Eoraptor,(Sauropodomorpha,(((L._liliensterni,L._airelensis)Liliensternus,(C._bauri,(Gojirasaurus,Segisaurus,C._rhodesiensis,S._kayentakatae))Coelophysidae)Coelophysoidea,((Dilophosaurus,(Zupaysaurus,Dracovenator)),((Ceratosaurus,(Elaphrosaurus,(Masiakasaurus,Deltadromeus)Noasauridae,Abelisauridae)Abelisauroidea)Ceratosauria,(S._zigongensis,Piatnitzkysaurus,((Magnosaurus,Afrovenator,P._valesdunensis)Eustreptospondylidae,((Torvosaurus,(Chilantaisaurus,Spinosauridae))Spinosauroidea,((Tugulusaurus,Proceratosaurus,other_coelurosaurs)Coelurosauria,(Monolophosaurus,(Allosaurus,(Sinraptoridae,(Acrocanthosaurus,(Neovenator,Carcharodontosauridae))))Allosauroidea)Carnosauria)Avetheropoda)))Tetanurae)))Theropoda)Eusaurischia))Saurischia);
+END;

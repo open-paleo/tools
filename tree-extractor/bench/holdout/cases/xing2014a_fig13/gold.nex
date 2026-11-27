@@ -1,0 +1,74 @@
+#NEXUS
+
+[ xing2014a_fig13: Hadrosauroid strict consensus, read by eye in two halves. Polytomies: Jintasaurus with (Protohadros, Eolambia) and the rest; Zhanghenglong, Nanyangosaurus and Hadrosauridae; Wulagasaurus, Acristavus and (Brachylophosaurus, Maiasaura); and seven lambeosaurine branches from Velaphrons to Corythosaurus. Hadrosauriformes, Hadrosauroidea, Hadrosauridae, Hadrosaurinae and Lambeosaurinae label dotted nodes (the first two by arrows) and are kept. 61 tips, 4 polytomies (3, 3, 3, 7 children); 5 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=61;
+    TAXLABELS
+        Ouranosaurus_nigeriensis
+        Mantellosaurus_atherfieldensis
+        Iguanodon_bernissartensis
+        Jinzhousaurus_yangi
+        Equijubus_normani
+        Xuwulong_yueluni
+        Probactrosaurus_gobiensis
+        Jintasaurus_meniscus
+        Protohadros_byrdi
+        Eolambia_caroljonesa
+        Levnesovia_transoxiana
+        Tanius_sinensis
+        Bactrosaurus_johnsoni
+        Gilmoreosaurus_mongoliensis
+        Shuangmiaosaurus_gilmorei
+        Nanningosaurus_dashiensis
+        Telmatosaurus_transsylvanicus
+        Tethyshadros_insularis
+        Claosaurus_agilis
+        Zhanghenglong_yangchengensis
+        Nanyangosaurus_zhugeii
+        Wulagasaurus_dongi
+        Acristavus_gagslarsoni
+        Brachylophosaurus_canadensis
+        Maiasaura_peeblesorum
+        Kritosaurus_navajovius
+        Secernosaurus_koerneri
+        Gryposaurus_latidens
+        Gryposaurus_incurvimanus
+        Gryposaurus_monumentensis
+        Gryposaurus_notabilis
+        Shantungosaurus_giganteus
+        Edmontosaurus_regalis
+        Edmontosaurus_annectens
+        Edmontosaurus_saskatchewanensis
+        Kerberosaurus_manakini
+        Lophorhothon_atopus
+        Prosaurolophus_maximus
+        Saurolophus_angustirostris
+        Saurolophus_osborni
+        Aralosaurus_tuberiferus
+        Tsintaosaurus_spinorhinus
+        Pararhabdodon_isonensis
+        Jaxartosaurus_aralensis
+        Parasaurolophus_cyrtocristatus
+        Parasaurolophus_tubicen
+        Parasaurolophus_walkeri
+        Charonosaurus_jiayinensis
+        Arenysaurus_ardevoli
+        Sahaliyania_elunchunorum
+        Amurosaurus_riabinini
+        Velaphrons_coahuilensis
+        Olorotitan_ararhensis
+        Nipponosaurus_sachalinensis
+        Magnapaulia_laticaudus
+        Lambeosaurus_magnicristatus
+        Lambeosaurus_lambei
+        Hypacrosaurus_altispinus
+        Hypacrosaurus_stebingeri
+        Corythosaurus_casuarius
+        Corythosaurus_intermedius
+    ;
+END;
+
+BEGIN TREES;
+    TREE xing2014a_fig13 = [&R] (Ouranosaurus_nigeriensis,((Mantellosaurus_atherfieldensis,Iguanodon_bernissartensis),(Jinzhousaurus_yangi,(Equijubus_normani,(Xuwulong_yueluni,(Probactrosaurus_gobiensis,(Jintasaurus_meniscus,(Protohadros_byrdi,Eolambia_caroljonesa),(Levnesovia_transoxiana,(Tanius_sinensis,(Bactrosaurus_johnsoni,(Gilmoreosaurus_mongoliensis,(Shuangmiaosaurus_gilmorei,(Nanningosaurus_dashiensis,((Telmatosaurus_transsylvanicus,Tethyshadros_insularis),(Claosaurus_agilis,(Zhanghenglong_yangchengensis,Nanyangosaurus_zhugeii,(((Wulagasaurus_dongi,Acristavus_gagslarsoni,(Brachylophosaurus_canadensis,Maiasaura_peeblesorum)),((Kritosaurus_navajovius,(Secernosaurus_koerneri,(Gryposaurus_latidens,(Gryposaurus_incurvimanus,(Gryposaurus_monumentensis,Gryposaurus_notabilis))))),((Shantungosaurus_giganteus,(Edmontosaurus_regalis,(Edmontosaurus_annectens,Edmontosaurus_saskatchewanensis))),(Kerberosaurus_manakini,(Lophorhothon_atopus,(Prosaurolophus_maximus,(Saurolophus_angustirostris,Saurolophus_osborni)))))))Hadrosaurinae,(Aralosaurus_tuberiferus,((Tsintaosaurus_spinorhinus,Pararhabdodon_isonensis),(Jaxartosaurus_aralensis,((Parasaurolophus_cyrtocristatus,(Parasaurolophus_tubicen,(Parasaurolophus_walkeri,Charonosaurus_jiayinensis))),(Arenysaurus_ardevoli,((Sahaliyania_elunchunorum,Amurosaurus_riabinini),(Velaphrons_coahuilensis,Olorotitan_ararhensis,Nipponosaurus_sachalinensis,Magnapaulia_laticaudus,(Lambeosaurus_magnicristatus,Lambeosaurus_lambei),(Hypacrosaurus_altispinus,Hypacrosaurus_stebingeri),(Corythosaurus_casuarius,Corythosaurus_intermedius))))))))Lambeosaurinae)Hadrosauridae)))))))))))))Hadrosauroidea))Hadrosauriformes);
+END;

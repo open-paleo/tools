@@ -1,0 +1,49 @@
+#NEXUS
+
+[ ezcurra2010a_fig15: Panel A only, read by eye at 4x. Panphagia's line and the stem of the Guaibasauridae node meet that node's vertical at the same height; Panphagia is read as one of its four branches (Agnosphitys, Guaibasaurus, Panphagia, Saturnalia + Chromogisaurus). Other polytomies: the herrerasaurs, the trichotomy of Chindesaurus, Theropoda and Sauropodomorpha (as the text says), and Pantydraco, Thecodontosaurus and the rest. The abbreviated bold clade names are kept as printed (Dino., Saur., Herr., Ther., Saurop., Guaiba., Satur., Plat.) along with Plateosauria, Massopoda and Anchisauria; Sauropoda is placed on the Melanorosaurus + other sauropods node, level with its stem (it could also be read as naming the node above). 36 tips, 4 polytomies (3, 3, 4, 3 children); 12 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=36;
+    TAXLABELS
+        Euparkeria
+        Crurotarsi
+        Marasuchus
+        Silesaurus
+        Ornithischia
+        Staurikosaurus
+        Herrerasaurus
+        MACN-PV_18649a
+        Chindesaurus
+        Eoraptor
+        Neotheropoda
+        Agnosphitys
+        Guaibasaurus
+        Panphagia
+        Saturnalia
+        Chromogisaurus
+        Pantydraco
+        Thecodontosaurus
+        Efraasia
+        Plateosauravus
+        Ruehleia
+        Unaysaurus
+        P._gracilis
+        P._engelhardti
+        P._ingens
+        Eucnemesaurus
+        Riojasaurus
+        Massospondylus
+        Coloradisaurus
+        Lufengosaurus
+        Glacialisaurus
+        Jingshanosaurus
+        Anchisaurus
+        Yunnanosaurus
+        Melanorosaurus
+        other_sauropods
+    ;
+END;
+
+BEGIN TREES;
+    TREE ezcurra2010a_fig15 = [&R] (Euparkeria,(Crurotarsi,(Marasuchus,(Silesaurus,(Ornithischia,((Staurikosaurus,Herrerasaurus,MACN-PV_18649a)Herr.,(Chindesaurus,(Eoraptor,Neotheropoda)Ther.,((Agnosphitys,Guaibasaurus,Panphagia,(Saturnalia,Chromogisaurus)Satur.)Guaiba.,(Pantydraco,Thecodontosaurus,(Efraasia,(Plateosauravus,(Ruehleia,((Unaysaurus,(P._gracilis,(P._engelhardti,P._ingens))Plat.),((Eucnemesaurus,Riojasaurus),((Massospondylus,(Coloradisaurus,(Lufengosaurus,Glacialisaurus))),(Jingshanosaurus,(Anchisaurus,(Yunnanosaurus,(Melanorosaurus,other_sauropods)Sauropoda))Anchisauria)))Massopoda)Plateosauria)))))Saurop.))Saur.)Dino.))));
+END;

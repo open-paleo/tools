@@ -766,3 +766,62 @@ Four cases chosen for one feature: a tree of ancestral ranges with a pie chart s
 | zhang2024a_fig7 | 58 | 39 of 56 | 25 of 36 | 3 |
 
 88 of 173 names, 51 percent. The random samples came in cold between 67 and 89 percent.
+
+
+# Sample 8 (census 2, extended to draw 160)
+
+Drawn from the census-2 trees with no gold case, after the census was extended for this sample (corpus `census2/`, commit 27b9a14d; images at `../../../../../../corpus/census2/figures/{id}.png`).
+
+## How the sample was drawn
+
+- **Census extension:** census 2 was continued along its own seeded order (`draw.py`, seed 20261130) with draws 121-160, located and classified with the same rules: 5 losses (prieto-márquez2020a_fig19 and _fig20, no figure ink beside the caption; norman2004z_fig15 and sereno2000a_fig25, chapter-numbered figures; bakker1988a_fig10, no caption in the text layer), 5 located non-trees (cruzado-caballero2010a_fig4, a photo plate; mcphee2017b_fig8, a phylomorphospace; chokchaloemwong2019a_fig12, a crop of the page header; hu2018a_fig6, scatter plots; evans2013b_fig5, a table) and 30 trees (rectangular 20, slanted 5, vertical 5). Census 2 is now 160 draws and 124 trees.
+- **Population:** the 36 census-2 trees with no gold case and no recorded unreadable topology.
+- **Strata:** layout by time axis, as for sample 7: rectangular 2 + 12, slanted 0 + 3, vertical 1 + 2 (with + without time axis), from pools of 3, 21, 0, 6, 2 and 4.
+- **Draw:** `random.Random(20261251)`, `rng.sample` per stratum. Script: `census2/scripts/gold_draw8.py`; picks and pools: `census2/scripts/gold_draw8_result.json`.
+
+Pools and picks:
+
+- rectangular, time axis (3): díezdíaz2025a_fig64 moore2020a_fig27 salgado2017a_fig4; drew salgado2017a_fig4 and moore2020a_fig27
+- rectangular, no time axis (21); drew 12: chokchaloemwong2019a_fig13 ezcurra2010a_fig15 poole2022z_fig3 paulina-carabajal2019a_fig6 prieto-márquez2011b_fig3 prieto-márquez2006b_fig11 cau2015a_fig6 cau2018a_fig3 martínez2012a_fig16 xing2014a_fig13 mcdonald2017a_fig15 turner2012a_fig62
+- slanted, no time axis (6): gay2010a_fig5 he2015a_fig13 kobayashi2025a_fig7 otero2010a_fig15 wilson2002a_fig10 yates2005a_fig9; drew otero2010a_fig15 yates2005a_fig9 he2015a_fig13
+- vertical, time axis (2): langer2019a_fig13 meso2024a_fig5; drew meso2024a_fig5
+- vertical, no time axis (4): gates2014a_fig9 norman2015a_fig48 norman2020b_fig41 sales2017a_fig7; drew norman2020b_fig41 sales2017a_fig7
+
+- **One loss:** moore2020a_fig27, a 150-dpi raster of about 95 tips with stacked short nodes and diagonal leaders for its support values, could not be settled and is recorded unreadable. It was replaced by díezdíaz2025a_fig64, the only other tree in its stratum.
+- he2015a_fig13 was classed slanted from its thumbnail, for its long leader lines; the tree is rectangular. It stays in the stratum it was drawn from.
+- otero2010a_fig15 is a slanted cladogram on a spine, fully pectinate, with character changes along the spine and no rectangular branches. Out of scope, by Sarah's decision of 2026-11-26, as czepiński2019a_fig18 and yu2018a_fig5 are. It was drawn in the sample and stays in it, and in the cold figure below; it is not a failure to be worked on.
+- Two-panel figures, panel A taken, each with a `region`: martínez2012a_fig16, ezcurra2010a_fig15. cau2018a_fig3 is two columns joined by an arrow and is encoded as one tree. prieto-márquez2011b_fig3 is a tree of five tips in a figure that is mostly photographs; its region leaves the photographs out.
+- Not openly licensed: ezcurra2010a_fig15, martínez2012a_fig16, norman2020b_fig41, paulina-carabajal2019a_fig6, prieto-márquez2006b_fig11, prieto-márquez2011b_fig3. No licence statement found: cau2018a_fig3, otero2010a_fig15, turner2012a_fig62, yates2005a_fig9. meso2024a_fig5 is CC BY-NC-ND 4.0. The cases hold no images.
+
+### Sample 8 baseline (tree extractor 0.16.0 plus the pie-chart steps, commit bf4d134, run cold on 2026-11-26)
+
+| Case | Layout | Tips found | Names | Splits | Wrong splits | Identical |
+|---|---|---:|---:|---:|---:|---|
+| salgado2017a_fig4 | rectangular, time axis | 30 | 29 of 29 | 10 of 10 | 0 | no |
+| díezdíaz2025a_fig64 | rectangular, time axis | 37 | 32 of 43 | 24 of 29 | 1 | no |
+| chokchaloemwong2019a_fig13 | rectangular | 48 | 46 of 46 | 32 of 32 | 0 | no |
+| ezcurra2010a_fig15 | rectangular | 36 | 36 of 36 | 28 of 28 | 0 | yes |
+| poole2022z_fig3 | rectangular | 61 | 61 of 69 | 46 of 49 | 2 | no |
+| paulina-carabajal2019a_fig6 | rectangular | 7 | 1 of 12 | 0 of 0 | 0 | no |
+| prieto-márquez2011b_fig3 | rectangular | 2 | 0 of 5 | 0 of 0 | 0 | no |
+| prieto-márquez2006b_fig11 | rectangular | 24 | 24 of 24 | 13 of 13 | 0 | yes |
+| cau2015a_fig6 | rectangular | 121 | 64 of 121 | 57 of 57 | 0 | no |
+| cau2018a_fig3 | rectangular | 120 | 60 of 131 | 24 of 47 | 14 | no |
+| martínez2012a_fig16 | rectangular | 16 | 16 of 16 | 6 of 6 | 0 | yes |
+| xing2014a_fig13 | rectangular | 61 | 61 of 61 | 50 of 50 | 0 | yes |
+| mcdonald2017a_fig15 | rectangular | 47 | 47 of 47 | 34 of 34 | 0 | yes |
+| turner2012a_fig62 | rectangular | 21 | 21 of 21 | 11 of 13 | 1 | no |
+| otero2010a_fig15 | slanted | 11 | 0 of 17 | 0 of 0 | 0 | no |
+| yates2005a_fig9 | slanted | 36 | 36 of 37 | 24 of 27 | 2 | no |
+| he2015a_fig13 | slanted (rectangular) | 34 | 34 of 34 | 31 of 31 | 0 | yes |
+| meso2024a_fig5 | vertical, time axis | 11 | 0 of 23 | 0 of 0 | 0 | no |
+| norman2020b_fig41 | vertical | 10 | 0 of 18 | 0 of 0 | 0 | no |
+| sales2017a_fig7 | vertical | 58 | 58 of 58 | 33 of 33 | 0 | yes |
+
+- 626 of 848 names, 74 percent; 423 of 459 scored splits, 20 wrong; 7 of 20 identical.
+- By figure and not by tip, half the figures name every tip: 10 of the 20 do, and 11 name nine tenths or more.
+- The sample is carried down by a few figures. Five name none or one of their tips: otero2010a_fig15, meso2024a_fig5, norman2020b_fig41, paulina-carabajal2019a_fig6 and prieto-márquez2011b_fig3, 75 tips between them. The two largest name half each: cau2015a_fig6 (64 of 121, every scored split right, 57 named tips off the tree) and cau2018a_fig3 (60 of 131, 14 splits wrong). Those seven hold 205 of the 222 names missing.
+- The `reading-doubtful` warning marked exactly those seven and none of the other thirteen.
+- Of the steps added since sample 7 for kinds of figure, two ran: a tip was carried through a pale bar on díezdíaz2025a_fig64, and a broken stem was joined on meso2024a_fig5. The steps for lettered boxes, pies and flat grounds ran on none of the twenty.
+- Without otero2010a_fig15, which is out of scope: 626 of 831 names, 75 percent.
+- Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%, sample 7 86%.

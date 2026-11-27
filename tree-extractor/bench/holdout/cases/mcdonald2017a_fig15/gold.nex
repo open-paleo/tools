@@ -1,0 +1,60 @@
+#NEXUS
+
+[ mcdonald2017a_fig15: Styracosternan strict consensus, read by eye in two halves. Polytomies at nodes 1 (five branches), 4 (four), 10 (four), 18 (Hadrosauromorpha, three), 24 (three) and 27 (three). The five coloured clade names label dotted nodes and are kept; node numbers are not encoded. 47 tips, 6 polytomies (5, 4, 4, 3, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=47;
+    TAXLABELS
+        Camptosaurus_dispar
+        Iguanacolossus_fortis
+        Hippodraco_scutodens
+        Theiophytalia_kerri
+        Dakotadon_lakotaensis
+        Delapparentia_turolensis
+        Lurdusaurus_arenatus
+        Lanzhousaurus_magnidens
+        Barilium_dawsoni
+        Hypselospinus_fittoni
+        Fukuisaurus_tetoriensis
+        Iguanodon_bernissartensis
+        Mantellisaurus_atherfieldensis
+        Ouranosaurus_nigeriensis
+        Altirhinus_kurzanovi
+        Morelladon_beltrani
+        Proa_valdearinnoensis
+        Batyrosaurus_rozhdestvenskyi
+        Sirindhorna_khoratensis
+        Koshisaurus_katsuyama
+        Jinzhousaurus_yangi
+        Bolong_yixianensis
+        Equijubus_normani
+        Xuwulong_yueluni
+        Gongpoquansaurus_mazongshanensis
+        Probactrosaurus_gobiensis
+        Jintasaurus_meniscus
+        Eolambia_caroljonesa
+        Protohadros_byrdi
+        Jeyawati_rugoculus
+        Nanningosaurus_dashiensis
+        Nanyangosaurus_zhugeii
+        Yunganglong_datongensis
+        Gilmoreosaurus_mongoliensis
+        Levnesovia_transoxiana
+        Bactrosaurus_johnsoni
+        Tanius_sinensis
+        Huehuecanauhtlus_tiquichensis
+        Zhanghenglong_yangchengensis
+        Plesiohadros_djadokhtaensis
+        Shuangmiaosaurus_gilmorei
+        Telmatosaurus_transsylvanicus
+        Tethyshadros_insularis
+        Claosaurus_agilis
+        Hadrosaurus_foulkii
+        Edmontosaurus_annectens
+        Corythosaurus_casuarius
+    ;
+END;
+
+BEGIN TREES;
+    TREE mcdonald2017a_fig15 = [&R] (Camptosaurus_dispar,(Iguanacolossus_fortis,((Hippodraco_scutodens,Theiophytalia_kerri),Dakotadon_lakotaensis,Delapparentia_turolensis,Lurdusaurus_arenatus,(Lanzhousaurus_magnidens,(Barilium_dawsoni,Hypselospinus_fittoni,Fukuisaurus_tetoriensis,(Iguanodon_bernissartensis,(Mantellisaurus_atherfieldensis,((Ouranosaurus_nigeriensis,(Altirhinus_kurzanovi,(Morelladon_beltrani,Proa_valdearinnoensis,Batyrosaurus_rozhdestvenskyi,(Sirindhorna_khoratensis,Koshisaurus_katsuyama)))),((Jinzhousaurus_yangi,Bolong_yixianensis),((Equijubus_normani,Xuwulong_yueluni),(Gongpoquansaurus_mazongshanensis,(Probactrosaurus_gobiensis,(Jintasaurus_meniscus,(Eolambia_caroljonesa,Protohadros_byrdi),(Jeyawati_rugoculus,(Nanningosaurus_dashiensis,(Nanyangosaurus_zhugeii,(Yunganglong_datongensis,(Gilmoreosaurus_mongoliensis,Levnesovia_transoxiana,(Bactrosaurus_johnsoni,(Tanius_sinensis,(Huehuecanauhtlus_tiquichensis,(Zhanghenglong_yangchengensis,(Plesiohadros_djadokhtaensis,Shuangmiaosaurus_gilmorei)),((Telmatosaurus_transsylvanicus,Tethyshadros_insularis),(Claosaurus_agilis,(Hadrosaurus_foulkii,(Edmontosaurus_annectens,Corythosaurus_casuarius))Hadrosauridae)))))))))))Hadrosauromorpha))))))Hadrosauroidea)Hadrosauriformes))))Styracosterna);
+END;

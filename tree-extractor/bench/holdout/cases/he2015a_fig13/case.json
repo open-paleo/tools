@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/he2015a_fig13.png",
+  "names": "names.txt",
+  "source": "He et al. 2015, PLOS ONE 10: e0144148, Fig. 13: ceratopsian relationships placing Ischioceratops, with node numbers above branches and support values below, black dots on named nodes joined to clade names by leader lines; rectangular, root left. Image: census 2 figure (1125x1115 px), the embedded raster.",
+  "license": "CC BY 4.0 (PLOS ONE open access)",
+  "names_note": "no matrix held; list = the printed tip names (Ischioceratops in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Ceratopsian tree, read by eye. The five clade names are joined by leader lines to dotted nodes and kept as labels: Ceratopsia, Neoceratopsia, Leptoceratopsidae, Coronosauria, and Ceratopsidae, whose dot sits on the node that joins Zuniceratops to the rest (so encoded, as printed). Classed slanted in census 2 from the thumbnail (the long leader lines); it is rectangular. 34 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/cau2018a_fig3.png",
+  "names": "names.txt",
+  "source": "Cau 2018, Bollettino della Società Paleontologica Italiana 57: 1-25 (the assembly of the avian body plan), Fig. 3: strict consensus of pan-avian relationships in two columns, the left from Teleocrater to Maniraptoriformes ending in an arrow labelled MANIRAPTORA, the right continuing with Maniraptora; Decay Index values at nodes and clade names in capitals at the stems of the nodes they name; rectangular, root left. Image: census 2 figure (3064x1545 px), the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names, with the underscores of 'Coelophysis_rhodesiensis', 'Syntarsus_kayentakatae', 'Sinraptor_dongi', 'Allosaurus_fragilis', 'Compsognathus_corallestris', 'Velociraptor_mongoliensis', 'Unenlagia_comahuensis', 'Anchiornis_type', 'Anchiornis_LPMB00169', 'Gansus_yumenensis' printed as such (spaces in names.txt)",
+  "gold": "gold.nex",
+  "gold_note": "Two-column strict consensus: the MANIRAPTORA arrow at the foot of the left column joins the Maniraptora node at the top of the right column, encoded as one tree. Read by eye in quadrants. Each capitalised clade name sits just left of the stem entering the node it names and is kept, in title case (MANIRAPTORA, printed twice, once). Polytomies: Dinosauria (four), the sauropodomorphs (Buriolestes, Eoraptor and the rest), the herrerasaurs (four), Bicentenaria-Compsognathus-Sinosauropteryx node (four), Paraves (four), Avialae (three), the anchiornithids, the Chongmingia trio, Ornithothoraces (three), Ornithuromorpha (five), the Gansus-Iteravis node and Carinatae. The unnamed node joining Chilesaurus to Neotetanurae and the Coelurus and Ornitholestes ladder carry no names. 131 tips, 12 polytomies (4, 3, 4, 4, 4, 3, 3, 3, 3, 5, 3, 3 children); 25 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 3064,
+    "y1": 1545
+  },
+  "region_note": "the whole image: two columns of one tree; the MANIRAPTORA arrow at the foot of the left column is the link to the right column, not a tip"
+}

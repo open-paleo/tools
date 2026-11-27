@@ -1,0 +1,59 @@
+#NEXUS
+
+[ chokchaloemwong2019a_fig13: Tetanuran strict consensus, read by eye in two halves. Polytomies: Spinosauridae (three), Carcharodontosauria (five), Carcharodontosaurinae (three), the coelurosaur node above Chilantaisaurus (three), the Proceratosaurus-Kileskus-Guanlong node and Megaraptoridae (five). Clade names written vertically just left of a node's line (Tetanurae, Megalosauroidea, Neotetanurae, Allosauroidea, Carcharodontosauria, Coelurosauria, Tyrannosauroidea, Megaraptora) and the five family names in the coloured boxes are kept as node labels. 46 tips, 7 polytomies (3, 5, 3, 3, 3, 3, 5 children); 13 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=46;
+    TAXLABELS
+        Ceratosaurus
+        Piatnitzkysaurus
+        Afrovenator
+        Megalosaurus
+        Torvosaurus
+        Suchomimus
+        Baryonyx
+        Irritator
+        Spinosaurus
+        Sinraptor
+        Monolophosaurus
+        Allosaurus
+        Siamraptor_suwati
+        Eocarcharia
+        Neovenator
+        Concavenator
+        Acrocanthosaurus
+        Shaochilong
+        C._saharicus
+        C._iguidensis
+        Tyrannotitan
+        Mapusaurus
+        Giganotosaurus
+        Chilantaisaurus
+        Sinosauropteryx
+        Compsognathus
+        Caudipteryx
+        Velociraptor
+        Sinornithomimus
+        Ornithomimus
+        Dilong
+        Tanycolagreus
+        Proceratosaurus
+        Kileskus
+        Guanlong
+        Santanaraptor
+        Xiongguanlong
+        Appalachiosaurus
+        Albertosaurus
+        Tyrannosaurus
+        Fukuiraptor
+        Megaraptor
+        Eotyrannus
+        Orkoraptor
+        Aerosteon
+        Australovenator
+    ;
+END;
+
+BEGIN TREES;
+    TREE chokchaloemwong2019a_fig13 = [&R] (Ceratosaurus,(Piatnitzkysaurus,(((Afrovenator,(Megalosaurus,Torvosaurus))Megalosauridae,(Suchomimus,Baryonyx,(Irritator,Spinosaurus))Spinosauridae)Megalosauroidea,(((Sinraptor,Monolophosaurus),(Allosaurus,(Siamraptor_suwati,Eocarcharia,Neovenator,Concavenator,(Acrocanthosaurus,(Shaochilong,(C._saharicus,C._iguidensis,(Tyrannotitan,(Mapusaurus,Giganotosaurus)))Carcharodontosaurinae)))Carcharodontosauria))Allosauroidea,(Chilantaisaurus,((Sinosauropteryx,Compsognathus),(Caudipteryx,Velociraptor,(Sinornithomimus,Ornithomimus)),((Dilong,(Tanycolagreus,(Proceratosaurus,Kileskus,Guanlong)))Proceratosauridae,(Santanaraptor,((Xiongguanlong,(Appalachiosaurus,(Albertosaurus,Tyrannosaurus))),(Fukuiraptor,(Megaraptor,Eotyrannus,Orkoraptor,Aerosteon,Australovenator)Megaraptoridae)Megaraptora)))Tyrannosauroidea))Coelurosauria)Neotetanurae))Tetanurae);
+END;

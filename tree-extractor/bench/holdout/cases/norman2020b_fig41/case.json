@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/norman2020b_fig41.png",
+  "names": "names.txt",
+  "source": "Norman 2020, Zoological Journal of the Linnean Society 191: 1-86 (Scelidosaurus harrisonii, part 3?), Fig. 41: a summary cladogram of thyreophoran relationships, vertical with the root at the bottom and tip names written upwards along the top; clade names beside ticks across branches. Image: census 2 figure (1167x837 px), the embedded raster.",
+  "license": "not open: © 2020 The Linnean Society of London",
+  "names_note": "no matrix held; list = the printed tip names (genera; the asterisk after Scutellosaurus and the bold Scelidosaurus are not part of the names)",
+  "gold": "gold.nex",
+  "gold_note": "Thyreophoran summary tree, root at the bottom, read by eye. Jinyunpelta joins the ankylosaurid branch through a line marked '?' below the Pinacosaurus-Euoplocephalus node; it is encoded as their sister. Each clade name labels the node above its tick: Thyreophoroidea (printed 'Scutellosaurus + Thyreophora [Thyreophoroidea]'), Thyreophora, Stegosauria, Ankylosauromorpha, Ankylosauria. 18 tips, 1 polytomies (4 children); 5 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

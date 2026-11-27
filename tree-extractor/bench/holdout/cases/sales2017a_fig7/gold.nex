@@ -1,0 +1,71 @@
+#NEXUS
+
+[ sales2017a_fig7: Vertical strict consensus, read by eye at half and full size. A tip whose line runs straight down through the middle of a bracket and on below it is that node's stem, so its tip belongs to the node (Marshosaurus with Condorraptor and Piatnitzkysaurus; Suchomimus in Spinosauridae; Megalosaurus with the nine megalosauroids and Spinosauridae; Chilantaisaurus with Aerosteon and the Australovenator pair; Siamotyrannus in the four-way sinraptorid node). Tetanurae and the node above it are polytomies (three and four). Neotheropoda, Averostra, Tetanurae, Megalosauroidea, Avetheropoda, Coelurosauria and Allosauroidea are printed beside their nodes and kept; Spinosauridae is printed under the silhouette above the bold tips and kept on their node. Bremer values are not encoded. 58 tips, 8 polytomies (3, 4, 3, 10, 7, 4, 3, 4 children); 8 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=58;
+    TAXLABELS
+        Eoraptor
+        Herrerasaurus
+        Dilophosaurus
+        Coelophysis_bauri
+        Coelophysis_rhodesiensis
+        Elaphrosaurus
+        Ceratosaurus
+        Majungasaurus
+        Masiakasaurus
+        Cryolophosaurus
+        Dilophosaurus_sinensis
+        Chuandongocoelurus
+        Monolophosaurus
+        Condorraptor
+        Marshosaurus
+        Piatnitzkysaurus
+        Afrovenator
+        Dubreuillosaurus
+        Duriavenator
+        Eustreptospondylus
+        Leshansaurus
+        Magnosaurus
+        Megalosaurus
+        Piveteausaurus
+        Torvosaurus
+        Angaturama
+        Baryonyx
+        Irritator
+        Suchomimus
+        Cristatusaurus
+        Oxalaia
+        MSNM_V4047
+        Lourinhanosaurus
+        Compsognathus
+        Ornitholestes
+        Proceratosaurus
+        Yangchuanosaurus_zigongensis
+        Yangchuanosaurus_magnus
+        Shidaisaurus
+        Metriacanthosaurus
+        Siamotyrannus
+        Sinraptor_dongi
+        Sinraptor_hepingensis
+        Allosaurus
+        Saurophaganax
+        Neovenator
+        Aerosteon
+        Chilantaisaurus
+        Australovenator
+        Fukuiraptor
+        Concavenator
+        Eocarcharia
+        Acrocanthosaurus
+        Shaochilong
+        Carcharodontosaurus
+        Giganotosaurus
+        Mapusaurus
+        Tyrannotitan
+    ;
+END;
+
+BEGIN TREES;
+    TREE sales2017a_fig7 = [&R] (Eoraptor,(Herrerasaurus,((Dilophosaurus,(Coelophysis_bauri,Coelophysis_rhodesiensis)),((Elaphrosaurus,(Ceratosaurus,(Majungasaurus,Masiakasaurus))),(Cryolophosaurus,Dilophosaurus_sinensis,(Chuandongocoelurus,Monolophosaurus,((Condorraptor,Marshosaurus,Piatnitzkysaurus),(Afrovenator,Dubreuillosaurus,Duriavenator,Eustreptospondylus,Leshansaurus,Magnosaurus,Megalosaurus,Piveteausaurus,Torvosaurus,(Angaturama,Baryonyx,Irritator,Suchomimus,Cristatusaurus,Oxalaia,MSNM_V4047)Spinosauridae))Megalosauroidea,((Lourinhanosaurus,(Compsognathus,(Ornitholestes,Proceratosaurus)))Coelurosauria,(((Yangchuanosaurus_zigongensis,Yangchuanosaurus_magnus),(Shidaisaurus,(Metriacanthosaurus,Siamotyrannus,Sinraptor_dongi,Sinraptor_hepingensis))),((Allosaurus,Saurophaganax),((Neovenator,(Aerosteon,Chilantaisaurus,(Australovenator,Fukuiraptor))),((Concavenator,Eocarcharia),(Acrocanthosaurus,(Shaochilong,(Carcharodontosaurus,Giganotosaurus,Mapusaurus,Tyrannotitan)))))))Allosauroidea)Avetheropoda))Tetanurae)Averostra)Neotheropoda));
+END;

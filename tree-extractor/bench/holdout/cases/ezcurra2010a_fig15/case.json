@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/ezcurra2010a_fig15.png",
+  "names": "names.txt",
+  "source": "Ezcurra 2010, Journal of Systematic Palaeontology 8: 371-425 (Chromogisaurus novasi), Fig. 15: A, strict consensus of basal dinosaur relationships with abbreviated clade names in bold beside nodes; B, reduced strict consensus with bootstrap and Bremer values; rectangular, root left. Image: census 2 figure (882x713 px), the embedded raster.",
+  "license": "not open: © 2010 The Natural History Museum",
+  "names_note": "no matrix held; list = the printed tip names of panel A ('MACN-PV 18649a', 'other sauropods', abbreviated P. as printed; higher-taxon tips Crurotarsi, Ornithischia, Neotheropoda)",
+  "gold": "gold.nex",
+  "gold_note": "Panel A only, read by eye at 4x. Panphagia's line and the stem of the Guaibasauridae node meet that node's vertical at the same height; Panphagia is read as one of its four branches (Agnosphitys, Guaibasaurus, Panphagia, Saturnalia + Chromogisaurus). Other polytomies: the herrerasaurs, the trichotomy of Chindesaurus, Theropoda and Sauropodomorpha (as the text says), and Pantydraco, Thecodontosaurus and the rest. The abbreviated bold clade names are kept as printed (Dino., Saur., Herr., Ther., Saurop., Guaiba., Satur., Plat.) along with Plateosauria, Massopoda and Anchisauria; Sauropoda is placed on the Melanorosaurus + other sauropods node, level with its stem (it could also be read as naming the node above). 36 tips, 4 polytomies (3, 3, 4, 3 children); 12 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 440,
+    "y1": 713
+  },
+  "region_note": "panel A; panel B to the right (x > 440) is a second tree of nearly the same tips"
+}

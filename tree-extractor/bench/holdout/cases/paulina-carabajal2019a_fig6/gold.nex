@@ -1,0 +1,25 @@
+#NEXUS
+
+[ paulina-carabajal2019a_fig6: Theropod braincase tree, read by eye. Averostra is a three-way node (Sinosaurus, Ceratosauria, Tetanurae). NEOTHEROPODA, AVEROSTRA, CERATOSAURIA and TETANURAE label nodes and are kept; SAUROPODOMORPHA and COELUROSAURIA sit on the terminal branches of Plateosaurus and Alioramus and are not encoded. The braincase images are not tips. 12 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=12;
+    TAXLABELS
+        Plateosaurus
+        Megapnosaurus
+        Zupaysaurus
+        Sinosaurus
+        Ceratosaurus
+        Majungasaurus
+        Sinraptor
+        Allosaurus
+        Acrocanthosaurus
+        Carcharodontosaurus
+        Giganotosaurus
+        Alioramus
+    ;
+END;
+
+BEGIN TREES;
+    TREE paulina-carabajal2019a_fig6 = [&R] (Plateosaurus,(Megapnosaurus,(Zupaysaurus,(Sinosaurus,(Ceratosaurus,Majungasaurus)Ceratosauria,((Sinraptor,(Allosaurus,(Acrocanthosaurus,(Carcharodontosaurus,Giganotosaurus)))),Alioramus)Tetanurae)Averostra))Neotheropoda);
+END;

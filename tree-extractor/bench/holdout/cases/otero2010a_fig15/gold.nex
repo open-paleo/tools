@@ -1,0 +1,30 @@
+#NEXUS
+
+[ otero2010a_fig15: Fully pectinate slanted tree, read by eye: each numbered node 1-16 on the spine takes one tip in order from Euparkeria to Saltasaurus, with Neuquensaurus at the top. The character symbols and their descriptions along the spine are not branches. 17 tips, fully resolved. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=17;
+    TAXLABELS
+        Euparkeria
+        Pseudosuchia
+        Pterosauria
+        Lagerpetidae
+        Ornithischia
+        Theropoda_+_Aves
+        Prosauropoda
+        Vulcanodon
+        Shunosaurus
+        Diplodocoidea
+        Camarasaurus
+        Brachiosauridae
+        Euhelopus
+        Malawisaurus
+        Opisthocoelicaudia
+        Saltasaurus
+        Neuquensaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE otero2010a_fig15 = [&R] (Euparkeria,(Pseudosuchia,(Pterosauria,(Lagerpetidae,(Ornithischia,(Theropoda_+_Aves,(Prosauropoda,(Vulcanodon,(Shunosaurus,(Diplodocoidea,(Camarasaurus,(Brachiosauridae,(Euhelopus,(Malawisaurus,(Opisthocoelicaudia,(Saltasaurus,Neuquensaurus))))))))))))))));
+END;

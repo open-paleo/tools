@@ -1,0 +1,37 @@
+#NEXUS
+
+[ prieto-márquez2006b_fig11: Hadrosauroid strict consensus, read by eye. Three polytomies: D9* (Bactrosaurus, Gilmoreosaurus and the rest), E1 (Telmatosaurus, Tanius and the rest) and Hadrosauridae (G11*, eight branches). HADROSAUROIDEA and HADROSAURIDAE label nodes A3 and G11* and are kept; the node letters and values are not encoded. 24 tips, 3 polytomies (3, 3, 8 children); 2 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Iguanodon_bernissartensis
+        Iguanodon_atherfieldensis
+        Probactrosaurus_gobiensis
+        Ouranosaurus_nigeriensis
+        Protohadros_byrdi
+        Bactrosaurus_johnsoni
+        Gilmoreosaurus_mongoliensis
+        Telmatosaurus_transsylvanicus
+        Tanius_sinensis
+        Pararhabdodon_isonensis
+        Brachylophosaurus_canadensis
+        Maiasaura_peeblesorum
+        Gryposaurus_spp.
+        Prosaurolophus_spp.
+        Saurolophus_spp.
+        Edmontosaurus_spp.
+        Lambeosaurus_spp.
+        Corythosaurus_casuarius
+        Hypacrosaurus_altispinus
+        Hypacrosaurus_stebingeri
+        Parasaurolophus_spp.
+        Olorotitan_arharensis
+        Amurosaurus_riabinini
+        Koutalisaurus_kohlerorum
+    ;
+END;
+
+BEGIN TREES;
+    TREE prieto-márquez2006b_fig11 = [&R] ((Iguanodon_bernissartensis,Iguanodon_atherfieldensis),(Probactrosaurus_gobiensis,(Ouranosaurus_nigeriensis,(Protohadros_byrdi,(Bactrosaurus_johnsoni,Gilmoreosaurus_mongoliensis,(Telmatosaurus_transsylvanicus,Tanius_sinensis,(Pararhabdodon_isonensis,(((Brachylophosaurus_canadensis,Maiasaura_peeblesorum),(Gryposaurus_spp.,(Prosaurolophus_spp.,Saurolophus_spp.))),Edmontosaurus_spp.,(Lambeosaurus_spp.,Corythosaurus_casuarius),Hypacrosaurus_altispinus,Hypacrosaurus_stebingeri,(Parasaurolophus_spp.,Olorotitan_arharensis),Amurosaurus_riabinini,Koutalisaurus_kohlerorum)Hadrosauridae))))))Hadrosauroidea);
+END;

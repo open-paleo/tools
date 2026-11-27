@@ -1,0 +1,42 @@
+#NEXUS
+
+[ salgado2017a_fig4: Ornithischian time tree, read by eye. Three polytomies: the eight branches off the node above Pisanosaurus, Ornithopoda (three), and the ten-branch node holding Hypsilophodon to the Marginocephalia group; the node joining Talenkauen, (Parksosaurus, Gasparinisaura) and Iguanodontia is three-way. Ornithischia, Thyreophora, Neornithischia and Ornithopoda label nodes and are kept. The range bars and ovals are not branches. 29 tips, 4 polytomies (8, 3, 10, 3 children); 4 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=29;
+    TAXLABELS
+        Pisanosaurus_mertii
+        Eocursor_parvus
+        Scutellosaurus_lawleri
+        Laquintasaura_venezuelae
+        Stormbergia_dangershoeki
+        Lesothosaurus_diagnosticus
+        Heterodontosauridae
+        Emausaurus_ernstii
+        Scelidosaurus_harrisonii
+        Ankylosauria
+        Stegosauria
+        Agilisaurus_louderbacki
+        Hexinlusaurus_multidens
+        Isaberrysaura_mollensis
+        Kulindadromeus_zabaikalicus
+        Hypsilophodon_foxii
+        Yandusaurus_hongheensis
+        Othnieliosaurus_consors
+        Jeholosaurus_shangyuanensis
+        Zephyrosaurus_schaffi
+        Changchunsaurus_parvus
+        Haya_griva
+        Orodromeus_makelai
+        Thescelosaurus_neglectus
+        Marginocephalia
+        Talenkauen_santacrucensis
+        Parksosaurus_warreni
+        Gasparinisaura_cincosaltensis
+        Iguanodontia
+    ;
+END;
+
+BEGIN TREES;
+    TREE salgado2017a_fig4 = [&R] (Pisanosaurus_mertii,(Eocursor_parvus,Scutellosaurus_lawleri,Laquintasaura_venezuelae,Stormbergia_dangershoeki,Lesothosaurus_diagnosticus,Heterodontosauridae,(Emausaurus_ernstii,(Scelidosaurus_harrisonii,(Ankylosauria,Stegosauria)))Thyreophora,(Agilisaurus_louderbacki,(Hexinlusaurus_multidens,(Isaberrysaura_mollensis,Kulindadromeus_zabaikalicus,(Hypsilophodon_foxii,Yandusaurus_hongheensis,Othnieliosaurus_consors,Jeholosaurus_shangyuanensis,Zephyrosaurus_schaffi,Changchunsaurus_parvus,Haya_griva,Orodromeus_makelai,Thescelosaurus_neglectus,(Marginocephalia,(Talenkauen_santacrucensis,(Parksosaurus_warreni,Gasparinisaura_cincosaltensis),Iguanodontia))))Ornithopoda))Neornithischia))Ornithischia;
+END;

@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/salgado2017a_fig4.png",
+  "names": "names.txt",
+  "source": "Salgado et al. 2017, Scientific Reports 7: 42778 (Isaberrysaura mollensis), Fig. 4: time-calibrated strict consensus of ornithischian relationships against a Triassic-Cretaceous timescale header, with a black bar or oval for each tip's range and Bremer/bootstrap values at a few nodes; rectangular, root left. Image: census 2 figure (1210x1036 px), the embedded raster.",
+  "license": "CC BY 4.0 (Scientific Reports open access)",
+  "names_note": "no matrix held; list = the printed tip names without 'gen. et sp. nov.' after Isaberrysaura mollensis (printed in bold); 'Othnieliosaurus' as printed; the clade tips Heterodontosauridae, Ankylosauria, Stegosauria, Marginocephalia and Iguanodontia as printed",
+  "gold": "gold.nex",
+  "gold_note": "Ornithischian time tree, read by eye. Three polytomies: the eight branches off the node above Pisanosaurus, Ornithopoda (three), and the ten-branch node holding Hypsilophodon to the Marginocephalia group; the node joining Talenkauen, (Parksosaurus, Gasparinisaura) and Iguanodontia is three-way. Ornithischia, Thyreophora, Neornithischia and Ornithopoda label nodes and are kept. The range bars and ovals are not branches. 29 tips, 4 polytomies (8, 3, 10, 3 children); 4 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 95,
+    "x1": 1210,
+    "y1": 1036
+  },
+  "region_note": "the tree, below the timescale header (y < 95)"
+}

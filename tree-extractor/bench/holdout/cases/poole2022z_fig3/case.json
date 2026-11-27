@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census2/figures/poole2022z_fig3.png",
+  "names": "names.txt",
+  "source": "Poole 2022, The Anatomical Record (ontogeny and phylogeny of iguanodontians), Fig. 3: strict consensus of ornithopod relationships with bootstrap values below nodes, black dots on named nodes, and four tip names highlighted in colour (Orodromeus, Dryosaurus, Iyuku, Hypacrosaurus); rectangular, root left. Image: census 2 figure (1026x1476 px), a 300 dpi page render of a vector figure (read at 600 dpi from the PDF).",
+  "license": "CC BY (open access under a Creative Commons licence; © 2022 American Association for Anatomy)",
+  "names_note": "no matrix held; list = the printed tip names ('Shishugou taxon', 'RBINS 1551' and the binomials as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Ornithopod strict consensus, read at 600 dpi from the vector PDF. Polytomies: Lesothosaurus, Stormbergia and the rest; Shishugou taxon, (Agilisaurus, Hexinlusaurus) and the rest; the seven-branch node from Haya to the Hypsilophodon node; Trinisaura, Kangnasaurus and (Rhabdodontoidea, Dryomorpha); and Owenodon, Theiophytalia, Iguanacolossus and the rest. Iguanodontia, Rhabdodontoidea, Dryomorpha, Dryosauridae, Ankylopollexia, Styracosterna and Hadrosauroidea label dotted nodes and are kept; the colour highlights are not encoded. 69 tips, 5 polytomies (3, 3, 7, 3, 4 children); 7 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,36 @@
+#NEXUS
+
+[ meso2024a_fig5: Vertical time tree, root at the bottom, read by eye. Branch colours change partway along some stems, which does not make a node. Albinykus's branch passes through the middle of the horizontal that joins Ondogurvel and Xixianykus and continues down to the node with Kol, so (Ondogurvel, Albinykus, Xixianykus) is read as one three-way node. No clade names are printed; the open circles mark nodes and are not encoded. 23 tips, 1 polytomies (3 children). Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=23;
+    TAXLABELS
+        Shishugounykus
+        Aorun
+        Haplocheirus
+        Bannykus
+        Xiyunykus
+        Tugulusaurus
+        Alnashetri
+        Bonapartenykus
+        Patagonykus
+        Achillesaurus
+        Alvarezsaurus
+        Ceratonykus
+        Khulsanurus
+        Qiupanykus
+        Dzharaonyx
+        Linhenykus
+        Parvicursor
+        Shuvuuia
+        Mononykus
+        Kol
+        Ondogurvel
+        Albinykus
+        Xixianykus
+    ;
+END;
+
+BEGIN TREES;
+    TREE meso2024a_fig5 = [&R] (Shishugounykus,(Aorun,(Haplocheirus,((Bannykus,(Xiyunykus,Tugulusaurus)),(Alnashetri,(((Bonapartenykus,Patagonykus),(Achillesaurus,Alvarezsaurus)),(Ceratonykus,(Khulsanurus,(Qiupanykus,(Dzharaonyx,((Linhenykus,Parvicursor),(Shuvuuia,(Mononykus,(Kol,(Ondogurvel,Albinykus,Xixianykus)))))))))))))));
+END;

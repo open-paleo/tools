@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/martínez2012a_fig16.png",
+  "names": "names.txt",
+  "source": "Martínez, Apaldetti and Abelín 2012, Journal of Vertebrate Paleontology 32 (Basal sauropodomorphs from the Ischigualasto Formation), Fig. 16: A, strict consensus; B, the same analysis with the Ischigualasto sauropodomorphs resolved, with Bremer values and bold branches; rectangular, root left. Image: census 2 figure (1983x792 px), the embedded raster.",
+  "license": "not open: © Society of Vertebrate Paleontology",
+  "names_note": "no matrix held; list = the printed tip names ('MACN-PV-18649A', 'other Sauropodomorpha' and the clade tips Ornithischia and Neotheropoda as printed)",
+  "gold": "gold.nex",
+  "gold_note": "Panel A only, read by eye: a strict consensus with two polytomies (the herrerasaurs, and the large saurischian polytomy of eight). Dinosauria and Saurischia label nodes and are kept. Panel B shows a second, better resolved tree of the same tips. 16 tips, 2 polytomies (3, 8 children); 2 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 0,
+    "x1": 965,
+    "y1": 792
+  },
+  "region_note": "panel A; panel B to the right (x > 965) is a second tree of the same tips"
+}

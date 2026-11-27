@@ -1,0 +1,17 @@
+{
+  "image": "../../../../../../corpus/census2/figures/díezdíaz2025a_fig64.png",
+  "names": "names.txt",
+  "source": "Díez Díaz, Mannion, Csiki-Sava and Upchurch 2025, Journal of Systematic Palaeontology 23 (revision of Romanian sauropods), Fig. 64: time-calibrated titanosaur tree against an Early-Late Cretaceous stage header, each tip with a bar coloured by continent (legend at lower left), open circles on named nodes; rectangular, root left. Image: census 2 figure (1495x2006 px), the embedded raster.",
+  "license": "CC BY 4.0 (open access, Creative Commons Attribution License)",
+  "names_note": "no matrix held; list = the printed tip names (genera; Petrustitan, Paludititan and Magyarosaurus in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Titanosaur time tree, read by eye at 3-4x where several short stems sit a few pixels apart (the basal Asian clade, the Nemegtosaurus-to-Tapuiasaurus ladder and the saltasaurid ladder). Fully resolved. Titanosauria, Eutitanosauria, Aeolosaurini, Lognkosauria, Rinconsauria, Lirainosaurinae, Saltasauridae, Opisthocoelicaudiinae and Saltasaurinae label circled nodes and are kept. The range bars are not branches. Replacement for moore2020a_fig27 (see the sample record). 43 tips, fully resolved; 9 printed clade names kept as internal node labels. Sample 8 case (census 2, seed 20261251). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription",
+  "region": {
+    "x0": 0,
+    "y0": 170,
+    "x1": 1495,
+    "y1": 2006
+  },
+  "region_note": "the tree, below the stage header (y < 170); the continent legend at lower left (x 60-370, y 1525-1825) is inside the region and is not part of the tree"
+}
