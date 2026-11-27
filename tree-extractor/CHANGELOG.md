@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.18.0 (2026-11-27)
+
 - A name is numbered in the Newick only for the other tips of its own tree that carry it.
   Tips of a piece left apart, such as a second tree on the image, were counted too, and
   names in the tree written came out numbered for twins that were not in it.

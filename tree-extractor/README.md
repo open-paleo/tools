@@ -28,19 +28,19 @@ licensed and ship with the benchmark; `bench/README.md` says how to supply the r
 figures that must stay identical are listed in `bench/expectations.json` and checked on every
 change.
 
-**Gold sample** (`npm run bench:holdout`): 238 more figures with gold trees. Two hundred and
-twenty of them were drawn at random, in batches of twenty and one of eighty: most from the
-census below, the last five batches from a second census of 124 trees drawn the same way
-from captions the first had not drawn. Their scores so estimate accuracy on the typical
+**Gold sample** (`npm run bench:holdout`): 258 more figures with gold trees. Two hundred and
+forty of them were drawn at random, in batches of twenty and one of eighty: most from the
+census below, five batches from a second census of 124 trees drawn the same way from
+captions the first had not drawn, and the last from a third of 40. Their scores so estimate accuracy on the typical
 figure and not on figures picked for being hard. Each batch was first run cold, before any
 change was made for it, and only then worked on; `bench/holdout/random-sample.md` gives the
-draws and each batch's cold result. The last eight batches of twenty named 67, 74, 89, 68, 80,
-88, 86 and 74 percent of their tips cold, the last five of those being the ones from the
-second census. Three of the two hundred and twenty are diagrams drawn on a slant, with no
-rectangular branches, and are kept as drawn but not worked on. Eight more were picked for a
+draws and each batch's cold result. The last nine batches of twenty named 67, 74, 89, 68, 80,
+88, 86, 74 and 81 percent of their tips cold, five of those being the ones from the second
+census and the last from a third. Three of the two hundred and forty are diagrams drawn on
+a slant, with no rectangular branches, and are kept as drawn but not worked on. Eight more were picked for a
 feature, four for marks for character changes drawn on the branches and four for pie charts
-set on the nodes, and count in no estimate. Over all 263 figures with gold trees the pipeline
-now names 8,207 of 8,715 tips, and 98 figures come out identical.
+set on the nodes, and count in no estimate. Over all 283 figures with gold trees the pipeline
+now names 8,816 of 9,369 tips, and 106 figures come out identical.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
 (`bench/holdout/census.md` gives the sampling), run with the batch runner and not scored
@@ -247,7 +247,7 @@ npm test                 # unit tests (node:test)
 npm run test:web         # drives the built viewer in headless Chromium through an editing session
 npm run bench            # benchmark against gold trees; see bench/README.md for supplying images
 npm run bench:strict     # the same, failing when a case expected identical is not
-npm run bench:holdout    # the gold sample: 194 more figures with gold trees
+npm run bench:holdout    # the gold sample: 258 more figures with gold trees
 npm run bench:census     # the corpus census, from a checkout named corpus beside this repository
 npm run bench:generate   # render synthetic figures in several styles for the benchmark
 npm run lint             # eslint, same style as the other Open Paleo repositories
