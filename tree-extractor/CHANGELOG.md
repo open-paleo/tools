@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Names in bold type of middling size are read: where the figure's pieces of ink are well
+  taller than the letters the first text pass found, the pass starts from their height.
+  Every stroke of such type is longer than the pass allowed a letter, and the names were
+  taken for line art.
 - Line thickness is measured across the uprights where the usual estimate, from runs of
   ink down the columns, comes out several letters tall: a tree of a few tips on long
   uprights with short stubs has little level line to measure by.

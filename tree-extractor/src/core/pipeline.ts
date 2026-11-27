@@ -510,6 +510,29 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters, rowsFarAp
         rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart, keepRows });
     }
 
+    // Bold type of middling size has no letter the first strip leaves whole: every stem and
+    // every curve runs longer than it, the pass learns its height from the scraps, and the
+    // strip never grows (Longrich 2010, bold italic names 35 pixels tall read as letters of
+    // 12, and every name was line art). The figure's pieces of ink give the height without
+    // a strip, and where that is well above what the pass found, the pass is run from it.
+    const printedHeight = measureTypeHeight(image, null, parameters).median;
+
+    if (printedHeight >= 1.5 * rough.glyphHeight && (2.3 * printedHeight > stripHorizontal || 1.7 * printedHeight > stripVertical))
+    {
+        const seededHorizontal = Math.max(stripHorizontal, Math.round(2.3 * printedHeight));
+        const seededVertical = Math.max(stripVertical, Math.round(1.7 * printedHeight));
+        const seededStrip = dilate(createLongRunMask(textInk, seededHorizontal, seededVertical), 1);
+        const seeded = detectTextLines(textInk, { lineArtMask: seededStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart, keepRows });
+
+        if (seeded.glyphHeight >= 0.7 * printedHeight)
+        {
+            stripHorizontal = seededHorizontal;
+            stripVertical = seededVertical;
+            roughStrip = seededStrip;
+            rough = seeded;
+        }
+    }
+
     // A thin font breaks into fragments at the strict threshold, and very small text always
     // loses strokes to it. Fainter pixels that touch certain text ink then rejoin the strokes.
     // Bold text at normal sizes is left alone, since its halo would merge letters and rows.
