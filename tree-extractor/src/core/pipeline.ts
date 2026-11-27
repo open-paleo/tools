@@ -913,6 +913,7 @@ function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask,
         let seenLetters = false;
         let lettered = 0;
         let letteredBefore = 0;
+        let crossed = false;
 
         for (let x = box.x0; x < box.x1; x++)
         {
@@ -928,6 +929,10 @@ function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask,
 
             if (letters < 3)
             {
+                const above = box.y0 - 3;
+                const below = box.y1 + 2;
+                const atEdge = (above >= 0 && lineInk.data[above * glyphMask.width + x] === 1 && lineInk.data[box.y0 * glyphMask.width + x] === 1) || (below < glyphMask.height && lineInk.data[below * glyphMask.width + x] === 1 && lineInk.data[(box.y1 - 1) * glyphMask.width + x] === 1);
+                crossed = (lineStart < 0 ? false : crossed) || (atEdge && 2 * line >= box.y1 - box.y0);
                 letteredBefore = lineStart < 0 ? lettered : letteredBefore;
                 lineStart = lineStart < 0 ? x : lineStart;
                 lined += line > 0 ? 1 : 0;
@@ -951,7 +956,29 @@ function splitRowsAtLines(rows: Array<TextLine>, glyphMask: Mask, lineInk: Mask,
             const rises = lineStart - riserFrom >= 6 && climbsAcross(glyphMask, { x0: riserFrom, y0: box.y0, x1: lineStart, y1: box.y1 }, 0.25);
             const led = cuts.length === 0 && before < 2.5 * glyphHeight && stretch >= 1.5 * glyphHeight && lined >= 0.9 * stretch && sparse && rises;
 
-            if (lineStart >= 0 && seenLetters && (parted || led) && box.x1 - x >= 2 * glyphHeight)
+            // A row that begins with a value and goes on, past a node's upright and the tip's
+            // stub, to the tip's name: a support value printed left of a short node, level
+            // with its lower tip (Poole 2022, seven tips lost so; Moore 2020, Cau 2018). The
+            // upright stands in the stretch without letters and runs on past the row, to the
+            // sister tip: the end of a bar the name is printed on does not (Wang 2025), nor a
+            // stroke between two words (Delcourt 2020). The piece before it is half a letter
+            // wide at least and holds no upright of its own: the risers of a staircase a few
+            // pixels apart are neither (Zheng 2018, Fonseca 2024).
+            let fenced = crossed && stretch >= glyphHeight && cuts.length === 0 && before >= 0.5 * glyphHeight && before < 2.5 * glyphHeight && sparse && lined >= 0.4 * stretch;
+
+            for (let column = box.x0; fenced && column < lineStart; column++)
+            {
+                let line = 0;
+
+                for (let y = box.y0; y < box.y1; y++)
+                {
+                    line += lineInk.data[y * glyphMask.width + column];
+                }
+
+                fenced = 2 * line < box.y1 - box.y0;
+            }
+
+            if (lineStart >= 0 && seenLetters && (parted || led || fenced) && box.x1 - x >= 2 * glyphHeight)
             {
                 cuts.push(lineStart, x);
             }
@@ -1993,7 +2020,11 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
         const plain = await extractTreeAtSize(givenImage, options);
         const placed = countPlacedTips(plain);
 
-        if (placed >= 4 && placed >= nearlyAllPlaced * plain.tips.length)
+        // Nearly all of the names of the paper's list too, where it is given: a reading
+        // that names all of its 87 tips has still not read a figure of 92 (Moore 2020).
+        const wanted = Math.max(plain.tips.length, (options.names ?? []).length);
+
+        if (placed >= 4 && placed >= nearlyAllPlaced * wanted)
         {
             return plain;
         }
@@ -2007,7 +2038,11 @@ export async function extractTree(givenImage: RgbaImage, options: Partial<Extrac
             }),
         });
 
-        if (countPlacedTips(document) < placed + Math.max(3, Math.round(placed / 10)))
+        // A reading that named nearly all of its own tips is good as far as it went, and the
+        // enlarged one replaces it for a twentieth more; a poor one for a tenth.
+        const sound = placed >= nearlyAllPlaced * plain.tips.length;
+
+        if (countPlacedTips(document) < placed + Math.max(3, Math.round(placed / (sound ? 20 : 10))))
         {
             return plain;
         }

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A row of text is parted where a support value, a node's upright, the tip's stub and the
+  tip's name stand in one row: the value printed left of a short node, level with its lower
+  tip, made the stub lettering and the tip was not made.
+- A figure of small type is read enlarged as well unless the reading as it stands placed
+  nearly all the names of the paper's list, not only nearly all of its own tips; and the
+  enlarged reading replaces a sound one for a twentieth more names.
 - Every tree of a reading is written, not the largest alone: one to a line in the Newick
   file and one `TREE` statement each in the Nexus file, the main tree first. A piece apart
   from the main tree is a tree when a label was read at four of its tips and at half of
