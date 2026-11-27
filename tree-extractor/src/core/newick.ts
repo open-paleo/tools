@@ -3,6 +3,7 @@
  */
 
 import type { ExtractionDocument, Tip, TreeNode } from "./types.ts";
+import { findTreeRoots } from "./tree.ts";
 
 /**
  * A node of a parsed Newick tree.
@@ -184,11 +185,12 @@ function formatLength(parentAge: number | null, childAge: number | null, pixels:
  *
  * @param document - Source document.
  * @param options - Output choices; by default lengths are written when there are ages.
+ * @param root - Root of the tree to write; the main tree's by default.
  * @returns Newick string with trailing semicolon, or null when there is no tree.
  */
-export function formatDocumentAsNewick(document: ExtractionDocument, options: NewickOptions = { branchLengths: true }): string | null
+export function formatDocumentAsNewick(document: ExtractionDocument, options: NewickOptions = { branchLengths: true }, root: string | null = document.root): string | null
 {
-    if (document.root === null)
+    if (root === null)
     {
         return null;
     }
@@ -232,7 +234,75 @@ export function formatDocumentAsNewick(document: ExtractionDocument, options: Ne
         return `(${parts.join(",")})${label === null ? "" : formatLabel(label)}${length}`;
     }
 
-    return `${render(document.root, null)};`;
+    return `${render(root, null)};`;
+}
+
+/**
+ * Serializes every tree of the document as Newick: the main tree, and each other piece of
+ * some size.
+ *
+ * @param document - Source document.
+ * @param options - Output choices.
+ * @returns One Newick string to a tree, the main tree's first; empty when there is no tree.
+ */
+export function formatDocumentTreesAsNewick(document: ExtractionDocument, options: NewickOptions = { branchLengths: true }): Array<string>
+{
+    const trees = new Array<string>();
+
+    for (const root of findTreeRoots(document))
+    {
+        const newick = formatDocumentAsNewick(document, options, root);
+
+        if (newick !== null)
+        {
+            trees.push(newick);
+        }
+    }
+
+    return trees;
+}
+
+/**
+ * Lists the names of the tips in the trees that are written, each once, in the order of the
+ * tips.
+ *
+ * @param document - Source document.
+ * @returns The names.
+ */
+export function collectTreeTaxa(document: ExtractionDocument): Array<string>
+{
+    const parents = new Map<string, string | null>();
+
+    for (const node of document.nodes)
+    {
+        parents.set(node.id, node.parent);
+    }
+
+    const roots = new Set<string>(findTreeRoots(document));
+    const seen = new Set<string>();
+    const taxa = new Array<string>();
+
+    for (const tip of document.tips)
+    {
+        let root = tip.parent;
+        let next = root === null ? null : parents.get(root) ?? null;
+
+        for (let step = 0; next !== null && step < document.nodes.length; step++)
+        {
+            root = next;
+            next = parents.get(root) ?? null;
+        }
+
+        const name = getTipDisplayName(document, tip.id);
+
+        if (root !== null && roots.has(root) && !seen.has(name))
+        {
+            seen.add(name);
+            taxa.push(name);
+        }
+    }
+
+    return taxa;
 }
 
 /**

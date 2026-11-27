@@ -4,8 +4,9 @@ import { test } from "node:test";
 import type { ExtractionDocument } from "../src/core/types.ts";
 import { createEmptyProfile } from "../src/core/profile.ts";
 import { addNode, addTip, deleteNode, deleteTip, moveUnder } from "../src/core/edit.ts";
-import { assignPixelLengths, refreshDisconnectedIssues } from "../src/core/tree.ts";
-import { formatDocumentAsNewick } from "../src/core/newick.ts";
+import { assignPixelLengths, findTreeRoots, refreshDisconnectedIssues } from "../src/core/tree.ts";
+import { collectTreeTaxa, formatDocumentAsNewick, formatDocumentTreesAsNewick } from "../src/core/newick.ts";
+import { formatNexus } from "../src/core/nexus.ts";
 
 /**
  * A root at x=50 with tips at heights 20, 60 and 120 ending at x=150.
@@ -174,4 +175,94 @@ test("assignPixelLengths measures each branch from its parent and the Newick car
     assert.equal(assignPixelLengths(document), 4);
     assert.equal(formatDocumentAsNewick(document), "(t1:70,(t2:50,t3:50):50);");
     assert.equal(formatDocumentAsNewick(document, { branchLengths: false }), "(t1,(t2,t3));");
+});
+
+/**
+ * The flat tree with a second tree beside it: five tips under n5, and a scrap of two under
+ * n9. Tips of both trees are named, two of them alike.
+ */
+function createTwoTrees(): ExtractionDocument
+{
+    const document = createFlatTree();
+    const names = ["Alpha", "Beta", "Gamma"];
+
+    for (let index = 0; index < 3; index++)
+    {
+        document.tips[index].label = names[index];
+        document.tips[index].match = { name: names[index], similarity: 1, margin: 1, accepted: true, source: "list" };
+    }
+
+    const second = ["Alpha", "Delta", "Epsilon", "Zeta", "Eta"];
+    const children = new Array<string>();
+
+    for (let index = 0; index < second.length; index++)
+    {
+        const id = `t${index + 4}`;
+        children.push(id);
+        document.tips.push({ id, x: 450, y: 20 + 20 * index, parent: "n5", textLine: null, label: second[index], match: { name: second[index], similarity: 1, margin: 1, accepted: true, source: "list" }, source: "traced", age: null });
+    }
+
+    document.nodes.push({ id: "n5", x: 350, y0: 20, y1: 100, attachY: null, parent: null, children, textLine: null, label: null, source: "traced", age: null });
+    document.tips.push({ id: "t10", x: 150, y: 140, parent: "n9", textLine: null, label: null, match: null, source: "traced", age: null });
+    document.tips.push({ id: "t11", x: 150, y: 148, parent: "n9", textLine: null, label: null, match: null, source: "traced", age: null });
+    document.nodes.push({ id: "n9", x: 120, y0: 140, y1: 148, attachY: null, parent: null, children: ["t10", "t11"], textLine: null, label: null, source: "traced", age: null });
+
+    return document;
+}
+
+test("every tree of a reading is written, and a scrap is not", () =>
+{
+    const document = createTwoTrees();
+
+    assert.deepEqual(findTreeRoots(document), ["n1", "n5"]);
+    assert.deepEqual(formatDocumentTreesAsNewick(document), ["(Alpha,Beta,Gamma);", "(Alpha,Delta,Epsilon,Zeta,Eta);"]);
+    assert.equal(formatDocumentAsNewick(document), "(Alpha,Beta,Gamma);");
+
+    // A piece whose tips have no labels is a legend or a drawing, whatever its size.
+    const unnamed = createTwoTrees();
+
+    for (const tip of unnamed.tips)
+    {
+        tip.label = tip.parent === "n5" ? null : tip.label;
+    }
+
+    assert.deepEqual(findTreeRoots(unnamed), ["n1"]);
+
+    // A name the two trees share is one taxon, and is numbered in neither.
+    assert.deepEqual(collectTreeTaxa(document), ["Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta"]);
+
+    const nexus = formatNexus(formatDocumentTreesAsNewick(document), collectTreeTaxa(document), "extracted", null);
+    assert.ok(nexus.includes("NTAX=7;"));
+    assert.ok(nexus.includes("TREE extracted = [&R] (Alpha,Beta,Gamma);"));
+    assert.ok(nexus.includes("TREE extracted_2 = [&R] (Alpha,Delta,Epsilon,Zeta,Eta);"));
+});
+
+test("a reading with several trees says so", () =>
+{
+    const document = createTwoTrees();
+    refreshDisconnectedIssues(document);
+
+    let several = 0;
+
+    for (const issue of document.qc)
+    {
+        several += issue.code === "several-trees" ? 1 : 0;
+    }
+
+    assert.equal(several, 1);
+
+    // Said once, however often the checks are refreshed.
+    refreshDisconnectedIssues(document);
+    several = 0;
+
+    for (const issue of document.qc)
+    {
+        several += issue.code === "several-trees" ? 1 : 0;
+    }
+
+    assert.equal(several, 1);
+
+    const single = createFlatTree();
+    refreshDisconnectedIssues(single);
+    assert.equal(single.qc.length, 0);
 });

@@ -1079,15 +1079,66 @@ export async function readLabels(
     // "Sauromithoides junior"). The tip whose label is nearest the name keeps it. The other
     // is offered the best name of the list that no tip holds; with none, its match stands
     // unaccepted, to be seen and put right.
+    //
+    // Each tree of the image by itself. A second tree on the image may repeat the taxa of
+    // the first, and its tips are no claimants of the first's names: where one read a name
+    // cleanly and the other a letter out, the cleaner reading took the name from the tree
+    // being read (Regalado Fernandez 2022, Pantydraco and Eucnemesaurus). A piece of fewer
+    // than four tips is a scrap of the main tree and settles with it.
     function settleNameClashes(): void
     {
         const claimed = new Map<string, Array<Tip>>();
+        const parents = new Map<string, string | null>();
+        const sizes = new Map<string, number>();
+        const pieces = new Map<string, string>();
+
+        for (const node of document.nodes)
+        {
+            parents.set(node.id, node.parent);
+        }
+
+        for (const tip of document.tips)
+        {
+            let root = tip.parent;
+            let next = root === null ? null : parents.get(root) ?? null;
+
+            for (let step = 0; next !== null && step < document.nodes.length; step++)
+            {
+                root = next;
+                next = parents.get(root) ?? null;
+            }
+
+            pieces.set(tip.id, root ?? "");
+            sizes.set(root ?? "", (sizes.get(root ?? "") ?? 0) + 1);
+        }
+
+        function findPiece(tip: Tip): string
+        {
+            const piece = pieces.get(tip.id) ?? "";
+
+            return piece === "" || piece === document.root || (sizes.get(piece) ?? 0) < 4 ? "" : piece;
+        }
+
+        function isNameHeldInPiece(name: string, piece: string): boolean
+        {
+            const wanted = normalizeName(name);
+
+            for (const tip of document.tips)
+            {
+                if (tip.match !== null && tip.match.accepted && normalizeName(tip.match.name) === wanted && findPiece(tip) === piece)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         for (const tip of document.tips)
         {
             if (tip.match !== null && tip.match.accepted && tip.match.source === "list")
             {
-                const key = normalizeName(tip.match.name);
+                const key = `${findPiece(tip)}|${normalizeName(tip.match.name)}`;
                 const holders = claimed.get(key) ?? [];
                 holders.push(tip);
                 claimed.set(key, holders);
@@ -1116,7 +1167,7 @@ export async function readLabels(
 
                 for (const name of names)
                 {
-                    if (!isNameHeld(document, name))
+                    if (!isNameHeldInPiece(name, findPiece(tip)))
                     {
                         free.push(name);
                     }

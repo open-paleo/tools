@@ -49,10 +49,21 @@ export function collectConnected(document: ExtractionDocument): Set<string>
  *
  * @param document - Document.
  * @param id - Node identifier.
+ * @param labelled - Whether to count only the tips with a label read.
  * @returns Number of tips reachable.
  */
-function countTipsUnder(document: ExtractionDocument, id: string): number
+function countTipsUnder(document: ExtractionDocument, id: string, labelled = false): number
 {
+    const withLabel = new Set<string>();
+
+    for (const tip of document.tips)
+    {
+        if (tip.label !== null && tip.label.trim() !== "")
+        {
+            withLabel.add(tip.id);
+        }
+    }
+
     const nodeById = new Map<string, TreeNode>();
 
     for (const node of document.nodes)
@@ -68,7 +79,7 @@ function countTipsUnder(document: ExtractionDocument, id: string): number
 
         if (node === undefined)
         {
-            count++;
+            count += !labelled || withLabel.has(current) ? 1 : 0;
 
             return;
         }
@@ -212,6 +223,120 @@ export function pruneDegenerateNodes(document: ExtractionDocument): number
 }
 
 /**
+ * Fewest tips with a label for a piece apart from the main tree to be a tree of its own: a
+ * scrap of two or three is a branch the trace lost hold of.
+ */
+const fewestTipsOfTree = 4;
+
+/**
+ * Finds the trees of a reading: the main one, and every other piece of some size. An image
+ * may hold several trees, or one drawn in two columns, and a reading may leave one tree in
+ * pieces; each is a tree to write, and joining them is left to the person.
+ *
+ * @param document - The document.
+ * @returns The roots, the main tree's first and the others by size; empty with no tree.
+ */
+export function findTreeRoots(document: ExtractionDocument): Array<string>
+{
+    if (document.root === null)
+    {
+        return [];
+    }
+
+    const others = new Array<TreeNode>();
+    const sizes = new Map<string, number>();
+
+    for (const node of document.nodes)
+    {
+        if (node.parent === null && node.id !== document.root)
+        {
+            const size = countTipsUnder(document, node.id);
+            const labelled = countTipsUnder(document, node.id, true);
+
+            // With a label read at four of its tips and at half of them: a legend, a chart or
+            // a drawing traced as branches has tips and no names (16 of the 24 gold figures
+            // with a second piece of four tips had such a piece and no second tree).
+            if (labelled >= fewestTipsOfTree && 2 * labelled >= size)
+            {
+                others.push(node);
+                sizes.set(node.id, size);
+            }
+        }
+    }
+
+    function compareSizes(first: TreeNode, second: TreeNode): number
+    {
+        return (sizes.get(second.id) ?? 0) - (sizes.get(first.id) ?? 0);
+    }
+
+    others.sort(compareSizes);
+    const roots = [document.root];
+
+    for (const node of others)
+    {
+        roots.push(node.id);
+    }
+
+    return roots;
+}
+
+/**
+ * Finds which panel of the figure holds most of a tree's tips.
+ *
+ * @param document - The document.
+ * @param root - The tree's root.
+ * @returns The panel's index, or -1 when none holds a tip of it.
+ */
+function findPanelOf(document: ExtractionDocument, root: string): number
+{
+    const nodeById = new Map<string, TreeNode>();
+    const tipById = new Map<string, Tip>();
+
+    for (const node of document.nodes)
+    {
+        nodeById.set(node.id, node);
+    }
+
+    for (const tip of document.tips)
+    {
+        tipById.set(tip.id, tip);
+    }
+
+    const counts = new Array<number>(document.profile.panels.length).fill(0);
+    const pending = [root];
+
+    while (pending.length > 0)
+    {
+        const id = pending.pop() as string;
+        const node = nodeById.get(id);
+        const tip = tipById.get(id);
+
+        if (node !== undefined)
+        {
+            pending.push(...node.children);
+        }
+        else if (tip !== undefined)
+        {
+            for (let index = 0; index < document.profile.panels.length; index++)
+            {
+                const panel = document.profile.panels[index];
+
+                counts[index] += tip.x >= panel.x0 && tip.x < panel.x1 && tip.y >= panel.y0 && tip.y < panel.y1 ? 1 : 0;
+            }
+        }
+    }
+
+    let best = -1;
+
+    for (let index = 0; index < counts.length; index++)
+    {
+        best = counts[index] > 0 && (best < 0 || counts[index] > counts[best]) ? index : best;
+    }
+
+    return best;
+}
+
+/**
  * Replaces the quality checks about disconnected pieces with ones that match the document as
  * it stands: the trace records them before later steps dissolve nodes, drop tips and choose
  * the root again, and an issue naming an element that no longer exists leads nowhere.
@@ -224,10 +349,33 @@ export function refreshDisconnectedIssues(document: ExtractionDocument): void
 
     for (const issue of document.qc)
     {
-        if (issue.code !== "disconnected-subtree" && issue.code !== "disconnected-tip")
+        if (issue.code !== "disconnected-subtree" && issue.code !== "disconnected-tip" && issue.code !== "several-trees")
         {
             kept.push(issue);
         }
+    }
+
+    // Several trees are said to be several, and whether they stand in separate parts of the
+    // image or in one: pieces of one tree, each written as a tidy tree, could be taken for
+    // trees of their own.
+    const roots = findTreeRoots(document);
+
+    if (roots.length > 1)
+    {
+        const sizes = new Array<number>();
+        const panels = new Set<number>();
+        let placed = true;
+
+        for (const root of roots)
+        {
+            const panel = findPanelOf(document, root);
+            sizes.push(countTipsUnder(document, root));
+            placed = placed && panel >= 0 && !panels.has(panel);
+            panels.add(panel);
+        }
+
+        const where = placed ? "each in a part of the image of its own, so they may be separate trees or one tree drawn in parts" : "not all in parts of the image of their own, so some may be pieces of one tree that the reading left apart";
+        kept.push({ severity: "warning", code: "several-trees", message: `the reading holds ${roots.length} trees, of ${sizes.join(", ")} tips, ${where}; each is written, and none is joined to another`, subject: null });
     }
 
     for (const node of document.nodes)

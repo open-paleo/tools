@@ -14,7 +14,7 @@ import type { Box, CladeMark, ExtractionDocument, FigureProfile, LayoutKind, Ocr
 import { collectConnected } from "../src/core/tree.ts";
 import { formatProfile } from "../src/core/profile.ts";
 import { extractTree, formatTimings } from "../src/core/pipeline.ts";
-import { formatDocumentAsNewick } from "../src/core/newick.ts";
+import { formatDocumentAsNewick, formatDocumentTreesAsNewick } from "../src/core/newick.ts";
 import { extractFirstTreeFromNexus, parseNewick } from "../src/core/newick.ts";
 import { compareTrees } from "../src/core/compare.ts";
 import { createTesseractOcr } from "../src/ocr/tesseract.ts";
@@ -423,7 +423,7 @@ for (const caseDir of caseDirs)
     const caseOut = path.join(outDir, caseName);
     fs.mkdirSync(caseOut, { recursive: true });
     fs.writeFileSync(path.join(caseOut, "document.json"), JSON.stringify(document, null, 2));
-    fs.writeFileSync(path.join(caseOut, "tree.nwk"), `${newick ?? ""}\n`);
+    fs.writeFileSync(path.join(caseOut, "tree.nwk"), `${newick === null ? "" : formatDocumentTreesAsNewick(document).join("\n")}\n`);
     await writeOverlay(imagePath, document, path.join(caseOut, "overlay.png"));
 
     console.log(`== ${caseName}`);
@@ -464,7 +464,22 @@ for (const caseDir of caseDirs)
         continue;
     }
 
-    const comparison = compareTrees(goldTree, parseNewick(newick));
+    // A reading may hold several trees, and the gold tree is one of them: the tree scored
+    // is the one that shares most names with it, the main tree where none shares more.
+    let comparison = compareTrees(goldTree, parseNewick(newick));
+    const trees = formatDocumentTreesAsNewick(document);
+
+    for (let index = 1; index < trees.length; index++)
+    {
+        const other = compareTrees(goldTree, parseNewick(trees[index]));
+
+        if (other.sharedLeaves.length > comparison.sharedLeaves.length)
+        {
+            comparison = other;
+            console.log(`scored: tree ${index + 1} of ${trees.length}, which shares more names with the gold tree than the main tree`);
+        }
+    }
+
     const profileCheck = benchCase.profile === undefined ? null : checkProfile(benchCase.profile, document.profile);
     summary.push({
         name: caseName,

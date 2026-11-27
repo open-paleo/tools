@@ -13,7 +13,7 @@ import * as tesseract from "tesseract.js";
 import type { Box, LayoutKind, ProfileOverrides, SupportLabelStyle } from "../core/types.ts";
 import { extractTree, formatTimings } from "../core/pipeline.ts";
 import { formatProfile } from "../core/profile.ts";
-import { formatDocumentAsNewick, getTipDisplayName } from "../core/newick.ts";
+import { collectTreeTaxa, formatDocumentTreesAsNewick } from "../core/newick.ts";
 import { renderTreeSvg } from "../core/render.ts";
 import { formatNexus } from "../core/nexus.ts";
 import { createTesseractOcr } from "../ocr/tesseract.ts";
@@ -323,22 +323,14 @@ async function extractOne(imagePath: string, job: ExtractJob): Promise<number>
     const document = await extractTree(image, { ocr: job.ocr, names: job.names, knownNames: job.knownNames, knownClades: job.knownClades, source: path.basename(imagePath), region: job.region, exclude: job.exclude, findPictures: job.findPictures, parameters: { profileOverrides: job.profileOverrides, rotation: job.rotation } });
     const stem = path.join(job.outDir, path.basename(imagePath, path.extname(imagePath)));
     fs.writeFileSync(`${stem}.json`, JSON.stringify(document, null, 2));
-    const newick = formatDocumentAsNewick(document, { branchLengths: job.lengths });
+    // Every tree of the reading is written, the main one first.
+    const trees = formatDocumentTreesAsNewick(document, { branchLengths: job.lengths });
+    const newick = trees.length === 0 ? null : trees[0];
 
     if (newick !== null)
     {
-        fs.writeFileSync(`${stem}.nwk`, `${newick}\n`);
-        const taxa = new Array<string>();
-
-        for (const tip of document.tips)
-        {
-            if (tip.parent !== null)
-            {
-                taxa.push(getTipDisplayName(document, tip.id));
-            }
-        }
-
-        fs.writeFileSync(`${stem}.nex`, formatNexus(newick, taxa, "extracted", `Extracted from ${path.basename(imagePath)} by tree-extractor`));
+        fs.writeFileSync(`${stem}.nwk`, `${trees.join("\n")}\n`);
+        fs.writeFileSync(`${stem}.nex`, formatNexus(trees, collectTreeTaxa(document), "extracted", `Extracted from ${path.basename(imagePath)} by tree-extractor`));
         const svg = renderTreeSvg(document, { branchLengths: job.lengths, stepWidth: job.lengths ? 0 : 24 });
 
         if (svg !== null)

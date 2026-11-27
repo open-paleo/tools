@@ -5,15 +5,16 @@
 import { formatLabel } from "./newick.ts";
 
 /**
- * Wraps a Newick tree in a Nexus file with TAXA and TREES blocks.
+ * Wraps Newick trees in a Nexus file with TAXA and TREES blocks.
  *
- * @param newick - Newick string with trailing semicolon.
+ * @param newick - Newick string with trailing semicolon, or several: the second and later
+ *   trees are named after the first with their number.
  * @param taxa - Tip names in the order they should be listed.
  * @param treeName - Name for the TREE statement.
  * @param comment - Optional comment placed after the header.
  * @returns Nexus file contents.
  */
-export function formatNexus(newick: string, taxa: Array<string>, treeName: string, comment: string | null): string
+export function formatNexus(newick: string | Array<string>, taxa: Array<string>, treeName: string, comment: string | null): string
 {
     const lines = ["#NEXUS", ""];
 
@@ -35,7 +36,13 @@ export function formatNexus(newick: string, taxa: Array<string>, treeName: strin
     lines.push("END;");
     lines.push("");
     lines.push("BEGIN TREES;");
-    lines.push(`    TREE ${treeName} = [&R] ${newick}`);
+    const trees = typeof newick === "string" ? [newick] : newick;
+
+    for (let index = 0; index < trees.length; index++)
+    {
+        lines.push(`    TREE ${index === 0 ? treeName : `${treeName}_${index + 1}`} = [&R] ${trees[index]}`);
+    }
+
     lines.push("END;");
     lines.push("");
 

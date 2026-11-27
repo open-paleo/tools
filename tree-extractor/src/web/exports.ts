@@ -3,7 +3,7 @@
  */
 
 import type { ExtractionDocument } from "../core/types.ts";
-import { formatDocumentAsNewick, getTipDisplayName } from "../core/newick.ts";
+import { collectTreeTaxa, formatDocumentTreesAsNewick } from "../core/newick.ts";
 import { formatNexus } from "../core/nexus.ts";
 import { renderTreeSvg } from "../core/render.ts";
 import type { RenderOptions } from "../core/render.ts";
@@ -26,42 +26,32 @@ function downloadText(name: string, text: string, type: string): void
 }
 
 /**
- * Downloads the tree as Newick.
+ * Downloads the trees as Newick, one to a line.
  *
  * @param extraction - Document with a tree.
  * @param fileStem - File name without extension.
  */
 export function downloadNewickFile(extraction: ExtractionDocument, fileStem: string): void
 {
-    downloadText(`${fileStem}.nwk`, `${formatDocumentAsNewick(extraction) ?? ""}\n`, "text/plain");
+    downloadText(`${fileStem}.nwk`, `${formatDocumentTreesAsNewick(extraction).join("\n")}\n`, "text/plain");
 }
 
 /**
- * Downloads the tree as Nexus.
+ * Downloads the trees as Nexus.
  *
  * @param extraction - Document with a tree.
  * @param fileStem - File name without extension.
  */
 export function downloadNexusFile(extraction: ExtractionDocument, fileStem: string): void
 {
-    const newick = formatDocumentAsNewick(extraction);
+    const trees = formatDocumentTreesAsNewick(extraction);
 
-    if (newick === null)
+    if (trees.length === 0)
     {
         return;
     }
 
-    const taxa = new Array<string>();
-
-    for (const tip of extraction.tips)
-    {
-        if (tip.parent !== null)
-        {
-            taxa.push(getTipDisplayName(extraction, tip.id));
-        }
-    }
-
-    downloadText(`${fileStem}.nex`, formatNexus(newick, taxa, "extracted", `Extracted from ${fileStem} by tree-extractor`), "text/plain");
+    downloadText(`${fileStem}.nex`, formatNexus(trees, collectTreeTaxa(extraction), "extracted", `Extracted from ${fileStem} by tree-extractor`), "text/plain");
 }
 
 /**

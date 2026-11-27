@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Every tree of a reading is written, not the largest alone: one to a line in the Newick
+  file and one `TREE` statement each in the Nexus file, the main tree first. A piece apart
+  from the main tree is a tree when a label was read at four of its tips and at half of
+  them. `formatDocumentTreesAsNewick`, `collectTreeTaxa` and `findTreeRoots` are exported,
+  and `formatNexus` takes several trees.
+- A reading with several trees says so (`several-trees`), and whether each stands in a part
+  of the image of its own or some may be pieces of one tree. The trees are not joined.
+- Two tips that claim one name are settled within their own tree: a second tree on the
+  image that repeats the first's taxa no longer takes names from it.
+- The benchmark scores the tree of a reading that shares most names with the gold tree.
+
 ## 0.18.0 (2026-11-27)
 
 - A name is numbered in the Newick only for the other tips of its own tree that carry it.

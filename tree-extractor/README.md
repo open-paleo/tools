@@ -89,6 +89,9 @@ npm install        # from the repository root or from this folder
 
 # Batch: one image in; Newick, Nexus, a redrawn SVG and the JSON document out, with a QC report on stdout
 npm run extract -- extract figure.png --names taxa.txt --out results/ --overlay
+# Where the image holds several trees, or one drawn in parts, each is written: one to a line
+# in the Newick file, one TREE statement each in the Nexus file, the main tree first. They are
+# not joined, and the QC report says there are several.
 
 # A folder of figures, each with its own name list beside it (figure.txt next to figure.png),
 # or a shared names.txt in the folder; one summary line per figure
