@@ -1171,8 +1171,17 @@ function isGapInsideRow(first: Box, second: Box, textRows: Array<Box>, ink: Mask
 
     for (const row of textRows)
     {
-        // The line art stops a few pixels short of the letters on each side.
-        const slack = Math.max(3, Math.round(0.4 * (row.y1 - row.y0)));
+        // The line art stops a few pixels short of the letters on each side. Further where
+        // the name is set in a cleared strip, up to half the row's height and a little
+        // (Prieto-Marquez 2010, a strip cleared 15 pixels above capitals 30 tall, which left
+        // sixteen tips at the tree's base in a piece of their own). That only for a name
+        // lying well across the line, a row's height of it on each side, since a tip's label
+        // that begins at the line has the next node's vertical just above it (Fonseca 2024);
+        // and only where both pieces stop clear of the letters, as a strip leaves them: a
+        // piece that runs in among the letters is cut by something else (Arbour 2015).
+        const tall = row.y1 - row.y0;
+        const cleared = row.x0 <= x - tall && row.x1 >= x + tall && first.y1 <= row.y0 && second.y0 >= row.y1;
+        const slack = Math.max(3, Math.round((cleared ? 0.55 : 0.4) * tall));
         const level = first.y1 >= row.y0 - slack && second.y0 <= row.y1 + slack;
 
         if (row.x0 <= x && row.x1 >= x && level)

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- An upright cut by a clade's name is joined where the name stands in a strip cleared of
+  line for up to half the letters' height and a little, when the name lies well across the
+  line and both pieces stop clear of its letters.
 - Names in bold type of middling size are read: where the figure's pieces of ink are well
   taller than the letters the first text pass found, the pass starts from their height.
   Every stroke of such type is longer than the pass allowed a letter, and the names were
