@@ -414,9 +414,11 @@ export type PreparedMasks = {
  * @param parameters - Thresholds.
  * @param rowsFarApart - Whether the labels are known to stand far apart, so that their
  *   spacing sets no floor for the letter height.
+ * @param keepRows - Whether the floor the row spacing sets on the letter height is dropped
+ *   where it loses the rows; not for a slanted figure, whose level frame has no rows to keep.
  * @returns The masks and the glyph height.
  */
-export function prepareMasks(image: RgbaImage, parameters: Parameters, rowsFarApart = false): PreparedMasks
+export function prepareMasks(image: RgbaImage, parameters: Parameters, rowsFarApart = false, keepRows = false): PreparedMasks
 {
     const gray = convertToGray(image);
     let textInk = createDarkMask(image, parameters.inkThreshold, false, parameters.maxChroma);
@@ -498,14 +500,14 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters, rowsFarAp
     let stripHorizontal = parameters.glyphStripHorizontalRun;
     let stripVertical = parameters.glyphStripVerticalRun;
     let roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
-    let rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart });
+    let rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart, keepRows });
 
     for (let pass = 0; pass < 6 && (2.3 * rough.glyphHeight > stripHorizontal || 1.7 * rough.glyphHeight > stripVertical); pass++)
     {
         stripHorizontal = Math.max(stripHorizontal, Math.round(2.3 * rough.glyphHeight));
         stripVertical = Math.max(stripVertical, Math.round(1.7 * rough.glyphHeight));
         roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
-        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart });
+        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart, keepRows });
     }
 
     // A thin font breaks into fragments at the strict threshold, and very small text always
@@ -539,7 +541,7 @@ export function prepareMasks(image: RgbaImage, parameters: Parameters, rowsFarAp
         runInk = applyHysteresis(textInk, faint);
         textInk = applyHysteresis(textInk, faintStrokes);
         roughStrip = dilate(createLongRunMask(textInk, stripHorizontal, stripVertical), 1);
-        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart });
+        rough = detectTextLines(textInk, { lineArtMask: roughStrip, minY: parameters.textMinY, markerMask: roughMarkers, rowsFarApart, keepRows });
 
         // Widening is meant to mend letters. Where it leaves fewer than half the rows the
         // plain ink gave, it has joined letters and rows instead, and the plain ink stands
@@ -2461,7 +2463,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     }
 
     announce("Preparing masks");
-    const { gray, textInk, runInk, lineInk, glyphMask, markers, paleMarkers, knownLines, fragmented, widened, glyphHeight, roughLines } = prepareMasks(image, parameters, flattened.lines >= wedgesForFarRows);
+    const { gray, textInk, runInk, lineInk, glyphMask, markers, paleMarkers, knownLines, fragmented, widened, glyphHeight, roughLines } = prepareMasks(image, parameters, flattened.lines >= wedgesForFarRows, !slantedFigure);
     recordLap("masks");
     announce("Finding segments");
 
@@ -2952,7 +2954,7 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const lineArtMask = slantedTrace === null
         ? dilate(keepInkInBoxes(lineArtBoxes, textInk, glyphMask, thickness), 1)
         : dilate(slantedTrace.skeleton, Math.max(1, Math.round(thickness / 2) + 1));
-    const text = detectTextLines(smallDiscs.length + markChains.length === 0 ? textInk : blankMaskAreas(textInk, [...smallDiscs, ...markChains]), { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers), rowsFarApart: flattened.lines >= wedgesForFarRows });
+    const text = detectTextLines(smallDiscs.length + markChains.length === 0 ? textInk : blankMaskAreas(textInk, [...smallDiscs, ...markChains]), { lineArtMask, minY: parameters.textMinY, markerMask: unionMask(markers, paleMarkers), rowsFarApart: flattened.lines >= wedgesForFarRows, keepRows: !slantedFigure });
 
     // Labels set at a slant are found again in a level frame of their own; the level rows in
     // that zone, fragments of the same labels, give way to them.

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A tree whose rows of names stand far apart is read. The spacing of the rows sets a floor
+  under the letter height, for thin type that breaks into pieces; with rows five letter
+  heights apart the floor was twice the letters' height and the names were dropped as
+  too small for rows. The floor is now kept only where most of the letters still stand
+  in rows with it, on a figure that is not slanted. Paulina-Carabajal 2019 goes from 1 of
+  12 names to 11.
 - A tree drawn upward in thick colored lines is turned: the step that judges a figure's
   orientation takes colored ink for lines up to the thickness the colored ink itself has,
   as the masks do, where before only thin colored strokes counted. Meso 2024 fig. 5 was

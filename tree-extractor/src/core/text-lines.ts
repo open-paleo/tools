@@ -33,6 +33,13 @@ export type TextLineOptions = {
      * height and sets no floor for it (Yu 2018, letters of 8 pixels taken for 26).
      */
     rowsFarApart?: boolean;
+
+    /**
+     * Whether the floor that the row spacing sets on the glyph height is to be dropped when
+     * it loses the rows. For the reading of a figure that is not slanted; the steps that
+     * judge a figure's orientation and the slant of its labels take each frame as it is.
+     */
+    keepRows?: boolean;
 };
 
 /**
@@ -278,6 +285,26 @@ function addGlyph(line: OpenLine, glyph: Component): void
     line.x1 = Math.max(line.x1, glyph.box.x1);
     line.y0 = Math.min(line.y0, glyph.box.y0);
     line.y1 = Math.max(line.y1, glyph.box.y1);
+}
+
+/**
+ * Counts the glyphs in the rows that would be kept as text lines: rows of three glyphs or
+ * more, half a glyph height tall.
+ *
+ * @param lines - Rows from a clustering pass.
+ * @param glyphHeight - The glyph height they were clustered with.
+ * @returns The number of glyphs in such rows.
+ */
+function countRows(lines: Array<OpenLine>, glyphHeight: number): number
+{
+    let rows = 0;
+
+    for (const line of lines)
+    {
+        rows += line.glyphs.length >= 3 && line.y1 - line.y0 >= 0.5 * glyphHeight ? line.glyphs.length : 0;
+    }
+
+    return rows;
 }
 
 /**
@@ -729,13 +756,32 @@ export function detectTextLines(ink: Mask, options: TextLineOptions): TextDetect
     let lines = clusterIntoLines(selected.glyphs, selected.uprights, glyphHeight);
     const pitch = estimateRowPitch(lines, glyphHeight);
     const floor = pitch === null ? 0 : Math.round(0.45 * pitch);
-    const fragmented = floor > glyphHeight + 1 && options.rowsFarApart !== true;
+    let fragmented = floor > glyphHeight + 1 && options.rowsFarApart !== true;
 
     if (fragmented)
     {
-        glyphHeight = floor;
-        selected = selectGlyphs(components, plausible, glyphHeight);
-        lines = clusterIntoLines(selected.glyphs, selected.uprights, glyphHeight);
+        // The floor mends rows broken into pieces: with it the same letters stand in rows,
+        // fewer and whole. A tree whose rows simply stand far apart has a floor well over
+        // its letters' height, and read with it loses its rows, the letters being under
+        // half the height asked of a row (Paulina-Carabajal 2019: rows five letter heights
+        // apart, 2 rows found of 17, and 1 name of 12). So the floor is kept only where
+        // most of the letters are still in rows. Not on a slanted figure: its level frame
+        // has pieces of slanted names for rows, and read without the floor two slanted
+        // trees lost every name (Turner 2012 figs. 1 and 5).
+        const before = countRows(lines, glyphHeight);
+        const floored = selectGlyphs(components, plausible, floor);
+        const flooredLines = clusterIntoLines(floored.glyphs, floored.uprights, floor);
+
+        if (options.keepRows !== true || 2 * countRows(flooredLines, floor) >= before)
+        {
+            glyphHeight = floor;
+            selected = floored;
+            lines = flooredLines;
+        }
+        else
+        {
+            fragmented = false;
+        }
     }
 
     const textLines = new Array<TextLine>();
