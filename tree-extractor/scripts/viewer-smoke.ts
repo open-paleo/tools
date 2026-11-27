@@ -320,6 +320,25 @@ try
     });
     expect(await page.isVisible("#te-second-ocr"), "the second-reading checkbox can be shown");
 
+    // A check about one tip or node is an entry that can be clicked. Whether a reading has
+    // one depends on the figure and on the machine, so one is put in the list for the
+    // accessibility check, made as the viewer makes it: a list item holding a button. As an
+    // item with the role of a button it broke the rule that a list holds list items, on the
+    // one machine whose reading had such a check.
+    await page.evaluate(() =>
+    {
+        const item = document.createElement("li");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "disconnected-tip: tip t1 is not connected to any node";
+        item.className = "warning subject";
+        item.dataset.kind = "tip";
+        item.dataset.id = "t1";
+        item.append(button);
+        (document.querySelector("#te-qc") as HTMLElement).append(item);
+    });
+    expect(await page.evaluate(() => document.querySelectorAll("#te-qc > :not(li), #te-qc > li[role]").length === 0), "the list of checks holds list items alone");
+
     // Accessibility, light and dark, and the narrow layout.
     await page.addScriptTag({ path: createRequire(import.meta.url).resolve("axe-core/axe.min.js") });
 

@@ -234,17 +234,24 @@ export function renderResults(elements: ResultElements, extraction: ExtractionDo
     {
         const item = document.createElement("li");
         item.className = issue.severity;
-        item.textContent = `${issue.code}: ${issue.message}`;
 
         // An issue about one tip or node selects it when clicked, so a loose piece the trace
-        // could not connect can be found on the figure and moved where it belongs.
+        // could not connect can be found on the figure and moved where it belongs. The
+        // entry holds a button: a list may hold only list items, and an item given the role
+        // of a button is one no longer.
         if (issue.subject !== null && (issue.subject.startsWith("t") || issue.subject.startsWith("n")))
         {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = `${issue.code}: ${issue.message}`;
             item.dataset.kind = issue.subject.startsWith("t") ? "tip" : "node";
             item.dataset.id = issue.subject;
             item.classList.add("subject");
-            item.tabIndex = 0;
-            item.setAttribute("role", "button");
+            item.append(button);
+        }
+        else
+        {
+            item.textContent = `${issue.code}: ${issue.message}`;
         }
 
         elements.qcList.append(item);

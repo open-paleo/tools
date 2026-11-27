@@ -192,8 +192,8 @@
 .tree-extractor ul#te-qc { padding: 4px 6px 4px 24px; font-size: var(--_small); max-height: 200px; }
 .tree-extractor ul#te-qc li.error { color: var(--_danger); }
 .tree-extractor ul#te-qc li.warning { color: var(--_caution); }
-.tree-extractor ul#te-qc li.subject { cursor: pointer; }
-.tree-extractor ul#te-qc li.subject:hover { text-decoration: underline; }
+.tree-extractor ul#te-qc li.subject button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; text-align: left; cursor: pointer; }
+.tree-extractor ul#te-qc li.subject button:hover { text-decoration: underline; }
 .tree-extractor ul#te-qc li.info { color: var(--_muted); }
 .tree-extractor .buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 

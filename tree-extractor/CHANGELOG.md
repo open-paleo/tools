@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- In the viewer, a quality check about one tip or node is a list item holding a button, not
+  a list item with a button's role: a list may hold only list items, and the old form
+  failed the accessibility check wherever a reading had such a check.
 - A piece right of the tree's tips whose own tips have labels is kept as a tree, not dropped
   as decoration: of a tree drawn in two columns, the right one went whenever the left was
   the larger.
