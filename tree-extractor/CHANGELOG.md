@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Pie charts set on the nodes of a tree of ancestral ranges are read (`node-pies-read`):
+  each pie is taken out and the lines that met its rim are joined where the node is, as a
+  lettered box on a node is. Pies that touch or overlap are taken apart into discs and
+  joined where they touch. A figure is one with pies when five or more of its discs are met
+  as a node is, by an upright through them or a stem and two branches, and those are half
+  of the discs that lines meet; dots drawn on a branch and round pictures are left alone.
+  Fanti 2015 fig. 22 goes from 12 of 29 names to 22, and Poole 2022 fig. 9 from 35 of 68
+  to 51.
+- Four gold cases picked for pie charts on nodes: fanti2015a_fig22, sallam2018a_fig3,
+  poole2022a_fig9 and zhang2024a_fig7.
+
 ## 0.16.0 (2026-11-26)
 
 - A flat ground that many branches cut into strips is lifted whole: the small pieces of a

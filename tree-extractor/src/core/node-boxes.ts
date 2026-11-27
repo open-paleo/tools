@@ -38,6 +38,16 @@ export type LetteredBox = {
      * The lines and boxes that meet it.
      */
     links: Array<BoxLink>;
+
+    /**
+     * True for a disc, such as a pie chart; its box is then the square around it.
+     */
+    round?: boolean;
+
+    /**
+     * Radius of a disc, in pixels.
+     */
+    radius?: number;
 };
 
 /**
@@ -58,6 +68,11 @@ export type NodeBoxResult = {
      * Number of boxes read as the bars of tips.
      */
     bars: number;
+
+    /**
+     * Number of discs on nodes, pie charts and the like, read as junctions.
+     */
+    pies: number;
 };
 
 /**
@@ -246,13 +261,233 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
         const tall = box.y1 - box.y0;
         const wide = box.x1 - box.x0;
 
-        if (tall >= size && wide >= size && tall <= 6 * size && filled >= 0.9 * boxArea && lettering >= 0.05 * size * size && lettering <= 0.45 * boxArea)
+        // A sector of a pie is a solid piece of one color too, and no box.
+        let sector = false;
+
+        for (const disc of discs)
+        {
+            const overlapX = Math.min(disc.box.x1, box.x1) - Math.max(disc.box.x0, box.x0);
+            const overlapY = Math.min(disc.box.y1, box.y1) - Math.max(disc.box.y0, box.y0);
+
+            sector = sector || (overlapX > 0 && overlapY > 0 && 2 * overlapX * overlapY >= boxArea);
+        }
+
+        if (!sector && tall >= size && wide >= size && tall <= 6 * size && filled >= 0.9 * boxArea && lettering >= 0.05 * size * size && lettering <= 0.45 * boxArea)
         {
             found.push({ box, links: [] });
         }
     }
 
     const stack = new Array<number>();
+
+    // The discs: a pie chart set on a node, in several colors, about as tall as wide and
+    // filling its square as a circle does. They are looked for in the solid ink of any
+    // color, since a pie's sectors differ; a disc that is all dark is a node's dot, which
+    // is read by other means.
+    const discLabels = new Uint8Array(count);
+    const discs = new Array<LetteredBox>();
+    const clumps = new Array<Box>();
+    const tint = new Uint8Array(count);
+
+    // Tinted is anything solid that is not black: a dark green sector is dark and tinted.
+    for (let index = 0; index < count; index++)
+    {
+        const offset = 4 * index;
+        const luminance = 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2];
+        const chroma = Math.max(data[offset], data[offset + 1], data[offset + 2]) - Math.min(data[offset], data[offset + 1], data[offset + 2]);
+
+        tint[index] = solid[index] === 1 && !(luminance < darkest && chroma < 25) ? 1 : 0;
+    }
+
+    const coloredTable = sumMask(tint, width, height);
+
+    for (let start = 0; start < count; start++)
+    {
+        if (opened[start] === 0 || discLabels[start] !== 0)
+        {
+            continue;
+        }
+
+        const box = { x0: width, y0: height, x1: 0, y1: 0 };
+        let area = 0;
+        discLabels[start] = 1;
+        stack.push(start);
+
+        while (stack.length > 0)
+        {
+            const index = stack.pop() as number;
+            const x = index % width;
+            const y = (index - x) / width;
+            area++;
+            box.x0 = Math.min(box.x0, x);
+            box.y0 = Math.min(box.y0, y);
+            box.x1 = Math.max(box.x1, x + 1);
+            box.y1 = Math.max(box.y1, y + 1);
+
+            for (const step of [-1, 1, -width, width])
+            {
+                const next = index + step;
+
+                if (next >= 0 && next < count && !(step === -1 && x === 0) && !(step === 1 && x === width - 1) && opened[next] === 1 && discLabels[next] === 0)
+                {
+                    discLabels[next] = 1;
+                    stack.push(next);
+                }
+            }
+        }
+
+        const wide = box.x1 - box.x0;
+        const tall = box.y1 - box.y0;
+        const boxArea = wide * tall;
+        const tinted = sumOver(coloredTable, width, height, box.x0, box.y0, box.x1, box.y1);
+        if (wide >= size && wide <= 8 * size && 5 * wide >= 4 * tall && 5 * tall >= 4 * wide && area >= 0.68 * boxArea && area <= 0.93 * boxArea && tinted >= 0.3 * boxArea)
+        {
+            discs.push({ box, links: [], round: true, radius: measureRadius(box) });
+        }
+        else if (wide >= size && tall >= size && wide <= 16 * size && tall <= 16 * size && area >= 0.45 * boxArea && tinted >= 0.3 * boxArea)
+        {
+            clumps.push(box);
+        }
+    }
+
+    // Pies that touch or overlap are one piece of ink and no circle. Such a piece is taken
+    // apart at the middles of its discs: the places where the largest square fits around a
+    // point, which in a disc is its center. Each gives a disc of the radius that square
+    // has inside it, and the next is looked for clear of those found.
+    const opening = sumMask(opened, width, height);
+
+    function measureSquareAt(x: number, y: number, most: number): number
+    {
+        let fits = 0;
+        let fails = most + 1;
+
+        while (fails - fits > 1)
+        {
+            const half = Math.floor((fits + fails) / 2);
+
+            if (sumOver(opening, width, height, x - half, y - half, x + half + 1, y + half + 1) === (2 * half + 1) * (2 * half + 1))
+            {
+                fits = half;
+            }
+            else
+            {
+                fails = half;
+            }
+        }
+
+        return fits;
+    }
+
+    function fitsDisc(centerX: number, centerY: number, radius: number): boolean
+    {
+        let inside = 0;
+        let filled = 0;
+
+        for (let y = centerY - radius; y <= centerY + radius; y += 2)
+        {
+            for (let x = centerX - radius; x <= centerX + radius; x += 2)
+            {
+                if ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY) <= radius * radius)
+                {
+                    inside++;
+                    filled += x >= 0 && y >= 0 && x < width && y < height ? opened[y * width + x] : 0;
+                }
+            }
+        }
+
+        return filled >= 0.95 * inside;
+    }
+
+    // Only on a figure that has pies standing alone, five or more, and only into discs of
+    // the sizes those have: any thick piece of ink has places where a square fits, and
+    // taken apart without this, a figure of range bars gave 204 discs (Maidment 2020).
+    const radii = new Array<number>();
+    let widest = 0;
+
+    for (const disc of discs)
+    {
+        radii.push(disc.radius as number);
+        widest = Math.max(widest, 2 * (disc.radius as number));
+    }
+
+    function isKnownRadius(radius: number): boolean
+    {
+        for (const known of radii)
+        {
+            if (Math.abs(known - radius) <= 0.12 * known)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    for (const clump of radii.length >= 5 ? clumps : [])
+    {
+        if (clump.x1 - clump.x0 > 3 * widest || clump.y1 - clump.y0 > 3 * widest)
+        {
+            continue;
+        }
+
+        const most = Math.ceil(Math.max(clump.x1 - clump.x0, clump.y1 - clump.y0) / 2);
+        const peaks = new Array<Array<number>>();
+
+        for (let y = clump.y0; y < clump.y1; y += 2)
+        {
+            for (let x = clump.x0; x < clump.x1; x += 2)
+            {
+                if (opened[y * width + x] === 1)
+                {
+                    const half = measureSquareAt(x, y, most);
+
+                    if (2 * half + 1 >= size)
+                    {
+                        peaks.push([half, x, y]);
+                    }
+                }
+            }
+        }
+
+        function comparePeaks(first: Array<number>, second: Array<number>): number
+        {
+            return second[0] - first[0];
+        }
+
+        peaks.sort(comparePeaks);
+
+        const parts = new Array<LetteredBox>();
+
+        for (const [half, x, y] of peaks)
+        {
+            // A square of that half-side inside a circle reaches its rim at the corners.
+            const radius = Math.round(half * Math.SQRT2);
+            let taken = false;
+
+            for (const part of parts)
+            {
+                const partX = (part.box.x0 + part.box.x1 - 1) / 2;
+                const partY = (part.box.y0 + part.box.y1 - 1) / 2;
+                const apart = 0.9 * Math.max(part.radius as number, radius);
+
+                taken = taken || (x - partX) * (x - partX) + (y - partY) * (y - partY) < apart * apart;
+            }
+
+            if (!taken && isKnownRadius(radius + 3) && fitsDisc(x, y, radius - 2))
+            {
+                parts.push({ box: { x0: x - radius, y0: y - radius, x1: x + radius + 1, y1: y + radius + 1 }, links: [], round: true, radius: radius + 3 });
+            }
+        }
+
+        // One disc found in a piece is the piece itself, and it was no circle.
+        if (parts.length >= 2)
+        {
+            for (const part of parts)
+            {
+                discs.push(part);
+            }
+        }
+    }
 
     for (let start = 0; start < count; start++)
     {
@@ -317,6 +552,11 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
                 bandTop = y;
             }
         }
+    }
+
+    for (const disc of discs)
+    {
+        found.push(disc);
     }
 
     // The lines that meet each box: dark ink just outside an edge that goes on away from it.
@@ -430,14 +670,140 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
         }
     }
 
+    // A disc is a little larger than the square it was found in: the square that opened
+    // the ink does not reach into the ends of a circle's diameters.
+    function measureRadius(box: Box): number
+    {
+        const found = Math.max(box.x1 - box.x0, box.y1 - box.y0) / 2;
+
+        return found + Math.max(0, found - Math.sqrt(Math.max(0, found * found - (size * size) / 4))) + 1;
+    }
+
+    // The lines that meet a disc are looked for around its rim, not its square: the
+    // corners of the square hold the lines of whatever stands beside it. A line shows as a
+    // short run of dark ink just off the rim that is still there a little further out. It
+    // may leave along a chord, level or upright, so further out it is looked for a little
+    // to either side as well as straight on.
+    function addRimLinks(lettered: LetteredBox): void
+    {
+        const { box } = lettered;
+        const centerX = (box.x0 + box.x1 - 1) / 2;
+        const centerY = (box.y0 + box.y1 - 1) / 2;
+        const radius = lettered.radius ?? measureRadius(box);
+        const steps = Math.max(16, Math.round(2 * Math.PI * (radius + 3)));
+        const near = new Uint8Array(steps);
+        const far = new Uint8Array(steps);
+
+        for (let step = 0; step < steps; step++)
+        {
+            const angle = (2 * Math.PI * step) / steps;
+
+            near[step] = isDark(Math.round(centerX + (radius + 3) * Math.cos(angle)), Math.round(centerY + (radius + 3) * Math.sin(angle))) ? 1 : 0;
+            far[step] = isDark(Math.round(centerX + (radius + 10) * Math.cos(angle)), Math.round(centerY + (radius + 10) * Math.sin(angle))) ? 1 : 0;
+        }
+
+        // Begin at a gap, so that a run across the first step is not cut in two.
+        let origin = 0;
+
+        while (origin < steps && near[origin] === 1)
+        {
+            origin++;
+        }
+
+        if (origin === steps)
+        {
+            return;
+        }
+
+        const longest = Math.max(6, Math.round(size / 3));
+        const aside = Math.max(4, Math.round(size / 3));
+        let runStart = -1;
+
+        for (let count = 1; count <= steps; count++)
+        {
+            const step = (origin + count) % steps;
+
+            if (near[step] === 1 && runStart < 0)
+            {
+                runStart = count;
+            }
+            else if (near[step] === 0 && runStart >= 0)
+            {
+                const middle = (origin + Math.round((runStart + count - 1) / 2)) % steps;
+                let onward = false;
+
+                for (let offset = -aside; offset <= aside; offset++)
+                {
+                    onward = onward || far[(middle + offset + steps) % steps] === 1;
+                }
+
+                if (count - runStart <= longest && onward)
+                {
+                    const angle = (2 * Math.PI * middle) / steps;
+                    const x = Math.round(centerX + (radius + 3) * Math.cos(angle));
+                    const y = Math.round(centerY + (radius + 3) * Math.sin(angle));
+                    const level = Math.abs(Math.cos(angle)) >= Math.abs(Math.sin(angle));
+
+                    lettered.links.push({ side: level ? (Math.cos(angle) > 0 ? "right" : "left") : (Math.sin(angle) > 0 ? "bottom" : "top"), at: level ? y : x, neighbor: null });
+                    breadths.push(count - runStart);
+                }
+
+                runStart = -1;
+            }
+        }
+    }
+
     for (const lettered of found)
     {
-        addLineLinks(lettered);
-        addEndingLinks(lettered);
+        if (lettered.round === true)
+        {
+            addRimLinks(lettered);
+        }
+        else
+        {
+            addLineLinks(lettered);
+            addEndingLinks(lettered);
+        }
     }
 
     // The boxes that stand against each other, with no line between.
     const near = 4;
+
+    // Two pies that touch are joined where they touch: a line runs from one node to the
+    // other under them, and shows on neither rim.
+    for (let first = 0; first < found.length; first++)
+    {
+        for (let second = 0; second < found.length; second++)
+        {
+            const one = found[first];
+            const other = found[second];
+
+            if (first === second || one.round !== true || other.round !== true)
+            {
+                continue;
+            }
+
+            const oneX = (one.box.x0 + one.box.x1 - 1) / 2;
+            const oneY = (one.box.y0 + one.box.y1 - 1) / 2;
+            const otherX = (other.box.x0 + other.box.x1 - 1) / 2;
+            const otherY = (other.box.y0 + other.box.y1 - 1) / 2;
+            const reach = (one.radius as number) + (other.radius as number) + 4;
+
+            if ((oneX - otherX) * (oneX - otherX) + (oneY - otherY) * (oneY - otherY) > reach * reach)
+            {
+                continue;
+            }
+
+            if (Math.abs(otherY - oneY) >= Math.abs(otherX - oneX))
+            {
+                one.links.push({ side: otherY > oneY ? "bottom" : "top", at: Math.round((oneX + otherX) / 2), neighbor: second });
+            }
+            else
+            {
+                one.links.push({ side: otherX > oneX ? "right" : "left", at: Math.round((oneY + otherY) / 2), neighbor: second });
+            }
+        }
+    }
 
     for (let first = 0; first < found.length; first++)
     {
@@ -446,7 +812,9 @@ function surveyBoxes(image: RgbaImage): BoxSurvey
             const a = found[first].box;
             const b = found[second].box;
 
-            if (first === second)
+            // Discs do not stand against things as boxes do: their squares overlap where
+            // the discs themselves are apart.
+            if (first === second || found[first].round === true || found[second].round === true)
             {
                 continue;
             }
@@ -561,6 +929,32 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
 
     let nodes = 0;
     let bars = 0;
+    let pies = 0;
+    let junctions = 0;
+
+    // Whether the lines that meet a disc are those of a node: an upright through it, met
+    // at one place on its top and its bottom, or a stem at its left and two branches or
+    // more leaving its right. A dot drawn on a branch has the branch through it, level,
+    // and a picture has a fringe of many lines.
+    function isJunction(links: Array<BoxLink>): boolean
+    {
+        let left = 0;
+        let right = 0;
+        let through = false;
+
+        for (const first of links)
+        {
+            left += first.side === "left" ? 1 : 0;
+            right += first.side === "right" ? 1 : 0;
+
+            for (const second of links)
+            {
+                through = through || (first.side === "top" && second.side === "bottom" && Math.abs(first.at - second.at) <= 2 * survey.thickness);
+            }
+        }
+
+        return links.length <= 6 && (through || (left >= 1 && right >= 2));
+    }
 
     // A node's box is met by a line and by something more. A tip's bar is met once: by a
     // line, on any side but its far one, or by the box of its node.
@@ -581,6 +975,26 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
         const { box } = boxes[index];
         const compact = box.x1 - box.x0 <= 3 * (box.y1 - box.y0);
 
+        // A pie on a node is met by two lines or more, on two sides or more: its stem and a
+        // child at the least. A disc in a legend is met by none.
+        if (boxes[index].round === true)
+        {
+            const sides = new Set<string>();
+
+            for (const link of boxes[index].links)
+            {
+                sides.add(link.side);
+            }
+
+            // A line at the least; the pie it touches counts as the other thing met.
+            kinds.push(lines >= 1 && boxes[index].links.length >= 2 && sides.size >= 2 ? "node" : "other");
+            chosen.push(null);
+            pies += kinds[index] === "node" ? 1 : 0;
+            junctions += kinds[index] === "node" && isJunction(boxes[index].links) ? 1 : 0;
+
+            continue;
+        }
+
         kinds.push(!charted && compact && boxes[index].links.length >= 2 && lines >= 1 ? "node" : "other");
         chosen.push(null);
         nodes += kinds[index] === "node" ? 1 : 0;
@@ -590,14 +1004,14 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
     {
         const { links } = boxes[index];
 
-        if (kinds[index] === "node" || (groupSizes.get(findGroup(index)) ?? 0) >= 4)
+        if (kinds[index] === "node" || boxes[index].round === true || (groupSizes.get(findGroup(index)) ?? 0) >= 4)
         {
             continue;
         }
 
         for (const link of links)
         {
-            const usable = link.neighbor === null ? links.length === 1 && link.side !== "right" : kinds[link.neighbor] === "node";
+            const usable = link.neighbor === null ? links.length === 1 && link.side !== "right" : kinds[link.neighbor] === "node" && boxes[link.neighbor].round !== true;
 
             chosen[index] = chosen[index] ?? (usable ? link : null);
         }
@@ -628,7 +1042,7 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
             }
         }
 
-        if (kinds[index] === "node" && sides.size >= 2)
+        if (kinds[index] === "node" && sides.size >= 2 && boxes[index].round !== true)
         {
             heights.push(boxes[index].box.y1 - boxes[index].box.y0);
         }
@@ -644,10 +1058,30 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
         alike += Math.abs(tall - median) <= 0.15 * median ? 1 : 0;
     }
 
-    if (heights.length < 5 || 5 * alike < 4 * heights.length || 2 * bars < nodes)
+    const ranged = heights.length >= 5 && 5 * alike >= 4 * heights.length && 2 * bars >= nodes;
+
+    // Pies are a figure's convention too: five or more discs met as a node is, and those
+    // at least half of the discs that lines meet at all. Measured without this, the step
+    // took dots drawn on branches and round pictures for pies on five gold figures, and
+    // cost 17 names (Rotatori 2026, Wang 2016, Carr 2010, Gomez 2024, Longrich 2024).
+    const pied = junctions >= 5 && 2 * junctions >= pies;
+
+    if (!ranged && !pied)
     {
-        return { image, nodes: 0, bars: 0 };
+        return { image, nodes: 0, bars: 0, pies: 0 };
     }
+
+    for (let index = 0; index < boxes.length; index++)
+    {
+        if (boxes[index].round === true ? !pied : !ranged)
+        {
+            kinds[index] = "other";
+        }
+    }
+
+    nodes = ranged ? nodes : 0;
+    bars = ranged ? bars : 0;
+    pies = pied ? pies : 0;
 
     // Where a bar stands on a node's box and a line leaves the box's other side, the bar is
     // met at the line's place, so the two make one upright and not a step.
@@ -721,6 +1155,11 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
     {
         const offset = 4 * index;
 
+        if (!ranged)
+        {
+            break;
+        }
+
         if (survey.thin[index] === 1 && kept[index] === 0)
         {
             data[offset] = 255;
@@ -747,7 +1186,26 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
 
     for (let index = 0; index < boxes.length; index++)
     {
-        if (kinds[index] !== "other")
+        if (kinds[index] !== "other" && boxes[index].round === true)
+        {
+            // A disc goes as a disc: the corners of its square hold other things.
+            const { box } = boxes[index];
+            const centerX = (box.x0 + box.x1 - 1) / 2;
+            const centerY = (box.y0 + box.y1 - 1) / 2;
+            const radius = (boxes[index].radius ?? Math.max(box.x1 - box.x0, box.y1 - box.y0) / 2) + rim;
+
+            for (let y = Math.max(0, Math.floor(centerY - radius)); y <= Math.min(height - 1, Math.ceil(centerY + radius)); y++)
+            {
+                for (let x = Math.max(0, Math.floor(centerX - radius)); x <= Math.min(width - 1, Math.ceil(centerX + radius)); x++)
+                {
+                    if ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY) <= radius * radius)
+                    {
+                        paint(x, y, x, y, 255);
+                    }
+                }
+            }
+        }
+        else if (kinds[index] !== "other")
         {
             const { box } = boxes[index];
 
@@ -852,5 +1310,5 @@ export function resolveNodeBoxes(image: RgbaImage): NodeBoxResult
         }
     }
 
-    return { image: { width, height, data }, nodes, bars };
+    return { image: { width, height, data }, nodes, bars, pies };
 }

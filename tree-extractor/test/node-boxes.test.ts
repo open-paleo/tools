@@ -153,3 +153,73 @@ test("resolveNodeBoxes: lettered boxes on nodes with no lettered tips are left a
     assert.equal(result.nodes, 0);
     assert.equal(result.image, image);
 });
+
+const tan = [222, 178, 132];
+const blue = [60, 110, 180];
+
+/**
+ * Draws a pie chart: a disc in one color with a dark rim and a sector of a second color.
+ *
+ * @param image - Image set in place.
+ * @param centerX - Center column.
+ * @param centerY - Center row.
+ * @param radius - Radius in pixels.
+ */
+function drawPie(image: RgbaImage, centerX: number, centerY: number, radius: number): void
+{
+    for (let y = centerY - radius; y <= centerY + radius; y++)
+    {
+        for (let x = centerX - radius; x <= centerX + radius; x++)
+        {
+            const distance = Math.sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
+
+            if (distance <= radius)
+            {
+                fill(image, x, y, x + 1, y + 1, distance > radius - 3 ? black : x > centerX && y < centerY ? blue : tan);
+            }
+        }
+    }
+}
+
+test("resolveNodeBoxes: pie charts on nodes become junctions", () =>
+{
+    const image = createImage(1200, 900);
+
+    // A stem through five nodes, each with an upright through it.
+    fill(image, 40, 399, 900, 402, black);
+
+    for (let node = 0; node < 5; node++)
+    {
+        const x = 150 + 150 * node;
+
+        fill(image, x - 1, 300, x + 2, 500, black);
+        drawPie(image, x, 400, 30);
+    }
+
+    const result = resolveNodeBoxes(image);
+
+    assert.equal(result.pies, 5);
+    assert.equal(result.nodes, 0);
+
+    // The first pie: gone off its lines, and the stem and the upright drawn through it.
+    assert.ok(readLuminance(result.image, 162, 412) > 250);
+    assert.ok(readLuminance(result.image, 150, 385) < 10);
+    assert.ok(readLuminance(result.image, 135, 400) < 10);
+});
+
+test("resolveNodeBoxes: colored dots drawn on a branch are no pies, and are left as they are", () =>
+{
+    const image = createImage(1200, 900);
+
+    fill(image, 40, 399, 900, 402, black);
+
+    for (let node = 0; node < 5; node++)
+    {
+        drawPie(image, 150 + 150 * node, 400, 30);
+    }
+
+    const result = resolveNodeBoxes(image);
+
+    assert.equal(result.pies, 0);
+    assert.equal(result.image, image);
+});

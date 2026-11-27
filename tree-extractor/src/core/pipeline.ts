@@ -2379,6 +2379,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         orientationIssues.push({ severity: "info", code: "flat-grounds-lifted", message: `${leveled.grounds} flat ground(s) of color behind the drawing were lifted to white`, subject: null });
     }
 
+    if (boxed.pies > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "node-pies-read", message: `${boxed.pies} pie chart(s) or other disc(s) set on nodes were read as junctions`, subject: null });
+    }
+
     if (boxed.nodes > 0)
     {
         orientationIssues.push({ severity: "info", code: "node-boxes-read", message: `${boxed.nodes} lettered box(es) on nodes were read as junctions and ${boxed.bars} on tips as branches; the bars and bands behind the drawing were left out`, subject: null });
