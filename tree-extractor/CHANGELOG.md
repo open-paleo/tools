@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- A piece right of the tree's tips whose own tips have labels is kept as a tree, not dropped
+  as decoration: of a tree drawn in two columns, the right one went whenever the left was
+  the larger.
+- `reading-doubtful` does not count the tips of a second tree that stands in a part of the
+  image of its own as tips the tree is missing.
+- The benchmark prints, for each figure, the names read over the whole figure and the
+  number of trees, beside the score of the one tree scored.
 - A row of text is parted where a support value, a node's upright, the tip's stub and the
   tip's name stand in one row: the value printed left of a short node, level with its lower
   tip, made the stub lettering and the tip was not made.

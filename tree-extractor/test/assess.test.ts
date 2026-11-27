@@ -68,3 +68,29 @@ test("without a list or without reading labels, names do not count against a rea
     assert.equal(assessReading(buildDocument(0, 20, 0, 0), true, false), null);
     assert.match(assessReading(buildDocument(0, 20, 0, 0), false, true)?.message ?? "", /have a label/);
 });
+
+test("the tips of a second tree in its own part of the image are not tips the tree is missing", () =>
+{
+    // Ten named tips in the tree, and ten more under a second root.
+    const document = buildDocument(10, 0, 10, 0);
+    const second = new Array<string>();
+
+    for (let index = 10; index < 20; index++)
+    {
+        document.tips[index].parent = "n2";
+        document.tips[index].x = 500;
+        document.tips[index].label = "Aus bus";
+        document.tips[index].match = accepted;
+        second.push(document.tips[index].id);
+    }
+
+    document.nodes.push({ id: "n2", x: 400, y0: 100, y1: 190, attachY: null, parent: null, children: second, textLine: null, label: null, source: "traced", age: null });
+
+    // In one panel they may be pieces of one tree, and the reading is doubtful.
+    (document as unknown as { profile: { panels: Array<unknown> } }).profile = { panels: [{ x0: 0, y0: 0, x1: 600, y1: 200 }] };
+    assert.match(assessReading(document, true, true)?.message ?? "", /not joined to the tree/);
+
+    // Each in a panel of its own, they are two trees.
+    (document as unknown as { profile: { panels: Array<unknown> } }).profile = { panels: [{ x0: 0, y0: 0, x1: 300, y1: 200 }, { x0: 300, y0: 0, x1: 600, y1: 200 }] };
+    assert.equal(assessReading(document, true, true), null);
+});

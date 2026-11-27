@@ -132,6 +132,11 @@ function measureMainExtent(document: ExtractionDocument, connected: Set<string>)
 }
 
 /**
+ * Fewest labelled tips for a piece right of the tips to be taken for a second column.
+ */
+const fewestColumnTips = 5;
+
+/**
  * Why a piece counts as decoration, or null when it does not.
  *
  * @param piece - Disconnected subtree.
@@ -141,21 +146,25 @@ function measureMainExtent(document: ExtractionDocument, connected: Set<string>)
  */
 function explainDecoration(piece: Piece, main: Box, glyphHeight: number): string | null
 {
-    if (piece.box.x0 > main.x1 + glyphHeight)
+    let rows = 0;
+
+    for (const tip of piece.tips)
+    {
+        rows += tip.textLine !== null ? 1 : 0;
+    }
+
+    // A piece right of the tips whose own tips have labels is a second tree, or the second
+    // column of this one, and is kept to be written beside it: a legend or a chart there has
+    // branch ends and no labels (Cau 2018, where the right column of 65 tips went as
+    // decoration whenever the left one was the larger).
+    const column = rows >= fewestColumnTips && 2 * rows >= piece.tips.length;
+
+    if (piece.box.x0 > main.x1 + glyphHeight && !column)
     {
         return "lies entirely to the right of the tips";
     }
 
-    let labelled = false;
-
-    for (const tip of piece.tips)
-    {
-        if (tip.textLine !== null)
-        {
-            labelled = true;
-            break;
-        }
-    }
+    const labelled = rows > 0;
 
     if (!labelled && (piece.box.y1 < main.y0 - glyphHeight || piece.box.y0 > main.y1 + glyphHeight))
     {
@@ -164,11 +173,6 @@ function explainDecoration(piece: Piece, main: Box, glyphHeight: number): string
 
     return null;
 }
-
-/**
- * Fewest labelled tips for a piece right of the tips to be taken for a second column.
- */
-const fewestColumnTips = 5;
 
 /**
  * Counts the labelled tips under a node.

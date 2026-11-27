@@ -4,7 +4,7 @@
  */
 
 import type { ExtractionDocument, QcIssue } from "./types.ts";
-import { collectConnected } from "./tree.ts";
+import { areTreesApart, collectConnected, collectOtherTreeTips, findTreeRoots } from "./tree.ts";
 
 /**
  * Fewest tips for a reading to count as a tree at all.
@@ -47,6 +47,12 @@ const unusedShare = 0.45;
 export function assessReading(document: ExtractionDocument, listed: boolean, read: boolean): QcIssue | null
 {
     const connected = collectConnected(document);
+    // The tips of a second tree that stands in a part of the image of its own are no tips
+    // the main tree is missing: the figure has two trees, or one drawn in two columns, and
+    // the reading says so (Cau 2018, 58 named tips of the other column). Pieces within one
+    // panel are still counted: there the tree is likely one, left in pieces.
+    const roots = findTreeRoots(document);
+    const elsewhere = areTreesApart(document, roots) ? collectOtherTreeTips(document, roots) : new Set<string>();
     let inTree = 0;
     let named = 0;
     let labelled = 0;
@@ -62,6 +68,10 @@ export function assessReading(document: ExtractionDocument, listed: boolean, rea
             inTree++;
             named += isNamed ? 1 : 0;
             labelled += isLabelled ? 1 : 0;
+        }
+        else if (elsewhere.has(tip.id))
+        {
+            continue;
         }
         else if (!read || (listed ? isNamed : isLabelled))
         {

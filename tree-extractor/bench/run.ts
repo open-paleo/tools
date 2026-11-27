@@ -464,6 +464,18 @@ for (const caseDir of caseDirs)
         continue;
     }
 
+    // The names read anywhere in the figure, in whichever tree or in none: the score below
+    // is of one tree, and a reading that lost a second tree whole can score the same or
+    // better (Cau 2018, 118 names read and then 63, with its score up by two).
+    let namedAnywhere = 0;
+
+    for (const tip of document.tips)
+    {
+        namedAnywhere += tip.match !== null && tip.match.accepted ? 1 : 0;
+    }
+
+    console.log(`read: ${namedAnywhere} tip(s) with a name over the whole figure, in ${formatDocumentTreesAsNewick(document).length} tree(s)`);
+
     // A reading may hold several trees, and the gold tree is one of them: the tree scored
     // is the one that shares most names with it, the main tree where none shares more.
     let comparison = compareTrees(goldTree, parseNewick(newick));

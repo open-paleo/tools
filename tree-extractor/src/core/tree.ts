@@ -337,6 +337,71 @@ function findPanelOf(document: ExtractionDocument, root: string): number
 }
 
 /**
+ * Whether the trees of a reading each stand in a panel of the figure of their own: separate
+ * trees, or one drawn in parts, and not pieces the reading left of one tree.
+ *
+ * @param document - The document.
+ * @param roots - The trees' roots, from findTreeRoots.
+ * @returns True for two or more trees, each in a panel no other is in.
+ */
+export function areTreesApart(document: ExtractionDocument, roots: Array<string>): boolean
+{
+    if (roots.length < 2)
+    {
+        return false;
+    }
+
+    const panels = new Set<number>();
+    let apart = true;
+
+    for (const root of roots)
+    {
+        const panel = findPanelOf(document, root);
+        apart = apart && panel >= 0 && !panels.has(panel);
+        panels.add(panel);
+    }
+
+    return apart;
+}
+
+/**
+ * Collects the tips of the trees of a reading other than its main tree.
+ *
+ * @param document - The document.
+ * @param roots - The trees' roots, from findTreeRoots, the main tree's first.
+ * @returns Identifiers of those tips.
+ */
+export function collectOtherTreeTips(document: ExtractionDocument, roots: Array<string>): Set<string>
+{
+    const nodeById = new Map<string, TreeNode>();
+
+    for (const node of document.nodes)
+    {
+        nodeById.set(node.id, node);
+    }
+
+    const tips = new Set<string>();
+    const pending = roots.slice(1);
+
+    while (pending.length > 0)
+    {
+        const id = pending.pop() as string;
+        const node = nodeById.get(id);
+
+        if (node === undefined)
+        {
+            tips.add(id);
+        }
+        else
+        {
+            pending.push(...node.children);
+        }
+    }
+
+    return tips;
+}
+
+/**
  * Replaces the quality checks about disconnected pieces with ones that match the document as
  * it stands: the trace records them before later steps dissolve nodes, drop tips and choose
  * the root again, and an issue naming an element that no longer exists leads nowhere.
@@ -363,15 +428,11 @@ export function refreshDisconnectedIssues(document: ExtractionDocument): void
     if (roots.length > 1)
     {
         const sizes = new Array<number>();
-        const panels = new Set<number>();
-        let placed = true;
+        const placed = areTreesApart(document, roots);
 
         for (const root of roots)
         {
-            const panel = findPanelOf(document, root);
             sizes.push(countTipsUnder(document, root));
-            placed = placed && panel >= 0 && !panels.has(panel);
-            panels.add(panel);
         }
 
         const where = placed ? "each in a part of the image of its own, so they may be separate trees or one tree drawn in parts" : "not all in parts of the image of their own, so some may be pieces of one tree that the reading left apart";
