@@ -1705,7 +1705,11 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
             // A disc that carries a number is a glyph and a half across at least; a plain dot on
             // a junction is smaller, down to three line widths, below which it is the line's own
             // rounded corner (Manitkoon 2023's dots are 21 px on 5 px lines, under 1.5 glyphs).
-            const smallest = Math.min(1.5 * glyphHeight, Math.max(3 * thickness, 0.9 * glyphHeight));
+            // Smaller still, to eight tenths of a glyph, only when solid to its edge: nine
+            // tenths of its box inked, which no letter is (Whitlock 2020, dots of 10 pixels on
+            // five named nodes beside letters of 12, each left as a gap in its node's bar).
+            const usual = Math.min(1.5 * glyphHeight, Math.max(3 * thickness, 0.9 * glyphHeight));
+            const smallest = Math.min(usual, Math.max(3 * thickness, 0.8 * glyphHeight));
             // A small solid dot is coarse at its edge once eroded: eleven pixels across, its
             // core holds 70 of the 121 in its box, where a larger disc holds three quarters.
             const leastFill = closing ? 0.6 : 0.57;
@@ -1720,7 +1724,7 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
             // A dot that small must be solid: a round letter of small type is as wide and stands
             // between branches too, but it is hollow or open, where a disc fills about four
             // fifths of its box.
-            const wanted = size < 1.5 * glyphHeight ? Math.max(minShare, 0.72) : minShare;
+            const wanted = size < usual ? 0.9 : size < 1.5 * glyphHeight ? Math.max(minShare, 0.72) : minShare;
 
             // A dot let in by the looser fill must stand at a junction, with lines on three
             // sides: a dot that ends a tip's branch is as coarse, and a cross painted through
@@ -1875,8 +1879,9 @@ function countSidesEntered(lineInk: Mask, box: Box, thickness: number, leaveRigh
  * @param discs - Disc boxes.
  * @param thickness - Line thickness in pixels.
  * @param largeDisc - Size from which a disc's arriving lines are carried on to the cross.
+ * @param smallDisc - Size under which a dot's arms are carried out to lines stopping short of it.
  */
-export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number, largeDisc = Infinity): void
+export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number, largeDisc = Infinity, smallDisc = 0): void
 {
     const half = Math.max(1, Math.round(thickness / 2));
 
@@ -1906,6 +1911,46 @@ export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number
             for (let x = Math.max(0, centerX - half); x < Math.min(lineArt.width, centerX + half); x++)
             {
                 lineArt.data[y * lineArt.width + x] = 1;
+            }
+        }
+
+        // A dot sorted with the lettering takes a margin of the line art with it, and the
+        // lines stop a few pixels short of its box. An arm is carried out to a line that
+        // lies in its own band within that margin (Whitlock 2020, dots of 10 pixels in gaps
+        // of 15, which left the node's bar in two pieces either side of the cross). Only for
+        // a dot smaller than a letter, which is solid: beside a larger disc the ink a few
+        // pixels off is as often its number or a neighbor's line (Moore 2020).
+        const margin = Math.max(disc.x1 - disc.x0, disc.y1 - disc.y0) < smallDisc ? Math.max(3, Math.round(thickness) + 1) : 0;
+
+        for (const [stepX, stepY] of [[-1, 0], [1, 0], [0, -1], [0, 1]])
+        {
+            const startX = stepX < 0 ? disc.x0 - 1 : stepX > 0 ? disc.x1 : centerX;
+            const startY = stepY < 0 ? disc.y0 - 1 : stepY > 0 ? disc.y1 : centerY;
+            let found = 0;
+
+            for (let step = 0; step < margin && found === 0; step++)
+            {
+                for (let offset = -half; offset < half && found === 0; offset++)
+                {
+                    const x = startX + step * stepX + (stepX === 0 ? offset : 0);
+                    const y = startY + step * stepY + (stepY === 0 ? offset : 0);
+
+                    found = x >= 0 && y >= 0 && x < lineArt.width && y < lineArt.height && lineArt.data[y * lineArt.width + x] === 1 ? step : 0;
+                }
+            }
+
+            for (let step = 0; step < found; step++)
+            {
+                for (let offset = -half; offset < half; offset++)
+                {
+                    const x = startX + step * stepX + (stepX === 0 ? offset : 0);
+                    const y = startY + step * stepY + (stepY === 0 ? offset : 0);
+
+                    if (x >= 0 && y >= 0 && x < lineArt.width && y < lineArt.height)
+                    {
+                        lineArt.data[y * lineArt.width + x] = 1;
+                    }
+                }
             }
         }
 

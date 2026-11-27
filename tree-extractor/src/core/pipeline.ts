@@ -2532,10 +2532,10 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     }
 
     const lineArt: Mask = { width: lineInk.width, height: lineInk.height, data: new Uint8Array(lineInk.data) };
-    paintCrosses(lineArt, nodeDiscs, thickness, 1.2 * glyphHeight);
+    paintCrosses(lineArt, nodeDiscs, thickness, 1.2 * glyphHeight, 0.9 * glyphHeight);
     // The extractor judges a run's thickness on the text ink around it, so the disc goes there too.
     const inkForRuns: Mask = { width: runInk.width, height: runInk.height, data: new Uint8Array(runInk.data) };
-    paintCrosses(inkForRuns, nodeDiscs, thickness, 1.2 * glyphHeight);
+    paintCrosses(inkForRuns, nodeDiscs, thickness, 1.2 * glyphHeight, 0.9 * glyphHeight);
 
     // A chain of open marks on a branch is taken out of the lettering and the branch drawn
     // through it; a row that began with the chain begins after it, or is no row at all.

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- A solid dot on a node is taken down to eight tenths of a letter's height, and the lines
+  that stop a few pixels short of such a dot are carried in to it.
 - An upright cut by a clade's name is joined where the name stands in a strip cleared of
   line for up to half the letters' height and a little, when the name lies well across the
   line and both pieces stop clear of its letters.
