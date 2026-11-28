@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.19.0 (2026-11-27)
+
 - `--lift-ground`, and `liftColoredGround` in the options of `extractTree`: the person says
   the tree is drawn on a colored ground, a wash or a gradient behind the whole drawing,
   and it is lifted to white before anything is read. Off unless asked: no measure of the

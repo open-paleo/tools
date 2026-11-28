@@ -40,7 +40,9 @@ census and the last from a third. Three of the two hundred and forty are diagram
 a slant, with no rectangular branches, and are kept as drawn but not worked on. Eight more were picked for a
 feature, four for marks for character changes drawn on the branches and four for pie charts
 set on the nodes, and count in no estimate. Over all 283 figures with gold trees the pipeline
-now names 8,816 of 9,369 tips, and 106 figures come out identical.
+now names 8,856 of 9,369 tips, and 107 figures come out identical. Three of the cases are
+read with a person's help, as the tool is meant to be used on such figures: two with areas
+beside the tree left out, one with its colored ground lifted.
 
 **Census** (`npm run bench:census`): 178 tree figures drawn from the Open Paleo corpus
 (`bench/holdout/census.md` gives the sampling), run with the batch runner and not scored
