@@ -6,5 +6,7 @@
   "names_note": "no matrix held; list = the printed tip names, including the specimen tips 'MNN TIG 6', 'CCG20011' and 'MPM 99'. The six wildcard taxa in the legend are not tips and are not listed",
   "gold": "gold.nex",
   "gold_note": "Ceratosaur time tree, read by eye at 2x. The coloured circles are alternative positions of six wildcard taxa named only in the legend; they are not tips or nodes and are not encoded. Five clade names, each printed under circles on the stem just before its node, are kept as internal labels (Ceratosauria, Abelisauroidea, Abelisauridae, Majungasaurinae, Brachyrostra). Polytomies: Dilophosaurus-Syntarsus-the rest; Ceratosauria (Genyodectes, Ceratosaurus, Berberosaurus, Abelisauroidea); the seven-way noasaurid node; Abelisauridae (five tips and the derived clade); Rajasaurus-Majungasaurus-Indosaurus; and the 14-way brachyrostran node. 40 tips, 6 polytomies (3, 4, 7, 6, 3, 14 children); 5 printed clade names kept as internal node labels. Sample 7 case (census 2, seed 20261241). Topology transcribed from the figure image and checked node by node; topology only.",
-  "gold_method": "image-transcription"
+  "gold_method": "image-transcription",
+  "lift_ground": true,
+  "lift_ground_note": "the tree is drawn on colored stage bands, which are lifted to white as a person would ask for it with --lift-ground (Sarah's decision of 2026-11-27); the colored dots strung on its branches are then seen as marks. Before that it read 35 of 40 names at 0.19.0, without it."
 }

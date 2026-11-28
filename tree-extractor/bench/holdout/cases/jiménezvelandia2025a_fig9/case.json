@@ -6,5 +6,7 @@
   "names_note": "no matrix held; list = the printed tip names (genera and the specimens 'MNN TIG 6', 'CCG20011' and 'MPM 99'); the six taxa named only in the colour legend (Dahalokely, Kryptops, Rahiolisaurus, Elemgasem, Kurupi, Vitosaura) are not tips",
   "gold": "gold.nex",
   "gold_note": "Rectangular time tree over coloured stage bands, with range bars at the tips. Coloured dots on branches mark where six wildcard taxa (named in the legend box at the lower left) can attach; they are not tips or nodes and are not encoded. Polytomies: Noasauridae (nine), Rajasaurus-Majungasaurus-Indosaurus, and Furileusauria (six). Blue clade names at the left point by curved arrows at the stems of their nodes and are kept on those nodes. Note for a person: the coloured dots sit on the branches and may be read as nodes. 40 tips, 3 polytomies (9, 3, 6 children); 8 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
-  "gold_method": "image-transcription"
+  "gold_method": "image-transcription",
+  "lift_ground": true,
+  "lift_ground_note": "the tree is drawn on colored stage bands, which are lifted to white as a person would ask for it with --lift-ground (Sarah's decision of 2026-11-27); the colored dots strung on its branches are then seen as marks. The sample's cold result was taken without it: 14 of 40 names."
 }
