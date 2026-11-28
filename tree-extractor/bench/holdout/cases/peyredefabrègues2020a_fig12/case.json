@@ -13,5 +13,7 @@
     "x1": 2008,
     "y1": 2278
   },
-  "region_note": "the tree, below the stage header (y < 420)"
+  "region_note": "the tree, below the stage header (y < 420)",
+  "lift_ground": true,
+  "lift_ground_note": "the tree is drawn on a ground of purple running to blue, which is lifted to white as a person would ask for it with --lift-ground (Sarah's decision of 2026-11-27). The sample's cold result was taken without it: 14 of 39 names."
 }
