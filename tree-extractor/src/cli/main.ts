@@ -2,7 +2,7 @@
 /**
  * Command-line entry point.
  *
- *   tree-extractor extract <image> [--names <file>] [--crop x,y,w,h] [--exclude x,y,w,h;...] [--no-auto-exclude] [--known-names <file>|--no-known-names] [--known-clades <file>] [--out <dir>] [--no-ocr] [--overlay] [--no-lengths] [--no-rotation] [--profile key=value,...]
+ *   tree-extractor extract <image> [--names <file>] [--crop x,y,w,h] [--exclude x,y,w,h;...] [--no-auto-exclude] [--lift-ground] [--known-names <file>|--no-known-names] [--known-clades <file>] [--out <dir>] [--no-ocr] [--overlay] [--no-lengths] [--no-rotation] [--profile key=value,...]
  */
 
 import * as fs from "node:fs";
@@ -45,7 +45,7 @@ function parseArguments(argv: Array<string>): Arguments
             const name = argument.slice(2);
             const next = argv[index + 1];
 
-            if (next !== undefined && !next.startsWith("--") && name !== "no-ocr" && name !== "no-auto-exclude" && name !== "overlay" && name !== "help" && name !== "no-lengths" && name !== "no-known-names" && name !== "no-rotation")
+            if (next !== undefined && !next.startsWith("--") && name !== "no-ocr" && name !== "no-auto-exclude" && name !== "lift-ground" && name !== "overlay" && name !== "help" && name !== "no-lengths" && name !== "no-known-names" && name !== "no-rotation")
             {
                 flags.set(name, next);
                 index++;
@@ -83,6 +83,7 @@ function printUsage(): void
         "  --exclude x,y,w,h[;x,y,w,h...]  Leave these areas out: a legend, a pie chart, a silhouette",
         "  --no-auto-exclude  Do not look for pictures beside the tree to leave out as well; those",
         "                   found are listed in the notes, to pass to --exclude as wanted",
+        "  --lift-ground    The tree is drawn on a colored ground: lift it to white before reading",
         "  --known-names <file>  Known taxa to fall back on when a label is not in --names",
         "                   (default: names/known-taxa.txt shipped with the tool; --no-known-names skips it)",
         "  --known-clades <file>  Known clades, for mending the spelling of clade names",
@@ -279,6 +280,11 @@ type ExtractJob = {
     findPictures: boolean;
 
     /**
+     * Whether the tree is drawn on a colored ground to be lifted to white.
+     */
+    liftColoredGround: boolean;
+
+    /**
      * OCR engine, or null to skip reading labels.
      */
     ocr: Awaited<ReturnType<typeof createTesseractOcr>> | null;
@@ -320,7 +326,7 @@ type ExtractJob = {
 async function extractOne(imagePath: string, job: ExtractJob): Promise<number>
 {
     const image = await loadImage(imagePath);
-    const document = await extractTree(image, { ocr: job.ocr, names: job.names, knownNames: job.knownNames, knownClades: job.knownClades, source: path.basename(imagePath), region: job.region, exclude: job.exclude, findPictures: job.findPictures, parameters: { profileOverrides: job.profileOverrides, rotation: job.rotation } });
+    const document = await extractTree(image, { ocr: job.ocr, names: job.names, knownNames: job.knownNames, knownClades: job.knownClades, source: path.basename(imagePath), region: job.region, exclude: job.exclude, findPictures: job.findPictures, liftColoredGround: job.liftColoredGround, parameters: { profileOverrides: job.profileOverrides, rotation: job.rotation } });
     const stem = path.join(job.outDir, path.basename(imagePath, path.extname(imagePath)));
     fs.writeFileSync(`${stem}.json`, JSON.stringify(document, null, 2));
     // Every tree of the reading is written, the main one first.
@@ -498,6 +504,7 @@ async function runExtract(parsed: Arguments): Promise<number>
         region,
         exclude,
         findPictures: !parsed.flags.has("no-auto-exclude"),
+        liftColoredGround: parsed.flags.has("lift-ground"),
         ocr,
         profileOverrides,
         rotation: parsed.flags.has("no-rotation") ? "none" : "auto",

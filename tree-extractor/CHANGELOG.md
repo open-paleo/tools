@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `--lift-ground`, and `liftColoredGround` in the options of `extractTree`: the person says
+  the tree is drawn on a colored ground, a wash or a gradient behind the whole drawing,
+  and it is lifted to white before anything is read. Off unless asked: no measure of the
+  image tells such a ground from the colored boxes and bands other figures read well with.
+  A benchmark case may set `lift_ground`.
 - A tip is made for a label beside the end of an upright also where the label's row begins
   with a support value left of the upright: with a stub no longer than a letter, the
   value, the corner, the stub and the name are one row.

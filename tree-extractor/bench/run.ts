@@ -26,6 +26,7 @@ type BenchCase = {
     names: string;
     region?: Box;
     exclude?: Array<Box>;
+    lift_ground?: boolean;
     license?: string;
     attribution?: string;
     profile?: ExpectedProfile;
@@ -407,7 +408,7 @@ for (const caseDir of caseDirs)
 
     try
     {
-        document = await extractTree(await loadImage(imagePath), { ocr, names, knownNames, knownClades, source: benchCase.image, region: benchCase.region ?? null, exclude: benchCase.exclude, parameters: overrides });
+        document = await extractTree(await loadImage(imagePath), { ocr, names, knownNames, knownClades, source: benchCase.image, region: benchCase.region ?? null, exclude: benchCase.exclude, liftColoredGround: benchCase.lift_ground === true, parameters: overrides });
     }
     catch (error)
     {

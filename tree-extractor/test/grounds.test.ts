@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { RgbaImage } from "../src/core/types.ts";
-import { blankPictures, flattenFlatGrounds } from "../src/core/grounds.ts";
+import { blankPictures, flattenFlatGrounds, liftColoredGround } from "../src/core/grounds.ts";
 
 /**
  * A white image.
@@ -206,4 +206,41 @@ test("a ground cut into strips by many branches is lifted whole", () =>
     assert.ok(result.image.data[4 * (150 * 2000 + 620)] >= 250);
     assert.ok(result.image.data[4 * (150 * 2000 + 150)] >= 250);
     assert.ok(result.image.data[4 * (150 * 2000 + 241)] <= 10);
+});
+
+test("a colored ground is lifted when asked, and dark colors on it are kept", () =>
+{
+    const image = createImage(120, 60);
+
+    // A purple wash that lightens to the right, a black line on it, a name's stroke in dark
+    // red, and a gray band beside it.
+    for (let x = 0; x < 80; x++)
+    {
+        paintBlock(image, x, 0, x + 1, 60, [150 + x, 70 + x, 150 + x]);
+    }
+
+    paintBlock(image, 10, 30, 70, 33, [0, 0, 0]);
+    paintBlock(image, 20, 40, 30, 43, [150, 20, 20]);
+    paintBlock(image, 90, 0, 110, 60, [200, 200, 200]);
+
+    const result = liftColoredGround(image);
+    assert.equal(result.grounds, 1);
+
+    function read(x: number, y: number): Array<number>
+    {
+        const offset = 4 * (y * result.image.width + x);
+
+        return [result.image.data[offset], result.image.data[offset + 1], result.image.data[offset + 2]];
+    }
+
+    assert.deepEqual(read(5, 10), [255, 255, 255]);
+    assert.deepEqual(read(75, 10), [255, 255, 255]);
+    assert.deepEqual(read(40, 31), [0, 0, 0]);
+    assert.deepEqual(read(25, 41), [150, 20, 20]);
+    assert.deepEqual(read(100, 10), [200, 200, 200]);
+
+    // A figure with no color is given back as it came.
+    const plain = createImage(40, 40);
+    paintBlock(plain, 5, 5, 30, 8, [0, 0, 0]);
+    assert.equal(liftColoredGround(plain).image, plain);
 });

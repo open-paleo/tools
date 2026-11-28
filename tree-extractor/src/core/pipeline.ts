@@ -30,7 +30,7 @@ import { flattenWedges } from "./wedges.ts";
 import { resolveNodeBoxes } from "./node-boxes.ts";
 import { carryTipsThroughBars } from "./range-bars.ts";
 import { joinInterruptedBranches, joinWrappedBranches, recoverElbowTips } from "./elbows.ts";
-import { blankPictures, clearDarkGrounds, flattenFlatGrounds, flattenGrayBands } from "./grounds.ts";
+import { blankPictures, clearDarkGrounds, flattenFlatGrounds, flattenGrayBands, liftColoredGround } from "./grounds.ts";
 import { straightenForks } from "./forks.ts";
 import { resolveStaircases } from "./staircase.ts";
 import { normalizeName, scoreName } from "./matching.ts";
@@ -330,6 +330,13 @@ export type ExtractOptions = {
      * earlier run, as a person has since moved or removed them.
      */
     findPictures?: boolean;
+
+    /**
+     * Whether the tree is drawn on a colored ground, which is then lifted to white before
+     * anything is read. For the person to say: the extractor cannot tell such a ground from
+     * colored boxes that are part of the figure.
+     */
+    liftColoredGround?: boolean;
 
     /**
      * Receives stage progress, or null.
@@ -2365,7 +2372,10 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     const inverted = isDrawnOnDark(givenImage);
     const excluded = options.exclude ?? [];
     const readable = inverted ? invertImage(givenImage) : givenImage;
-    const blanked = excluded.length === 0 ? readable : blankAreas(readable, excluded);
+    const unmasked = excluded.length === 0 ? readable : blankAreas(readable, excluded);
+    // A colored ground behind the whole tree is lifted where the person said there is one.
+    const uncolored = options.liftColoredGround === true ? liftColoredGround(unmasked) : { image: unmasked, grounds: 0 };
+    const blanked = uncolored.image;
     // Gray bands behind the figure are lifted to white first of all: the rules ruled over
     // them are then thin gray on white.
     const boxed = resolveNodeBoxes(blanked);
@@ -2432,6 +2442,11 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
     if (banded.grounds > 0)
     {
         orientationIssues.push({ severity: "info", code: "gray-bands-flattened", message: "gray bands behind the figure were lifted to white before it was read", subject: null });
+    }
+
+    if (uncolored.grounds > 0)
+    {
+        orientationIssues.push({ severity: "info", code: "colored-ground-lifted", message: "the colored ground behind the drawing was lifted to white, as asked", subject: null });
     }
 
     if (leveled.grounds > 0)

@@ -728,3 +728,48 @@ export function flattenFlatGrounds(image: RgbaImage): GroundResult
 
     return { image: result === null ? image : { width, height, data: result }, grounds };
 }
+
+/**
+ * Least chroma of a pixel taken for colored ground when the person asks for it to be lifted.
+ */
+const liftedChroma = 40;
+
+/**
+ * Luminance from which a colored pixel is ground and not ink: a name printed in red or a
+ * branch drawn in dark blue is darker.
+ */
+const liftedLuminance = 90;
+
+/**
+ * Lifts colored ground to white because the person said the tree is drawn on one: a wash
+ * or a gradient behind the whole drawing, whose darker reaches pass for ink while the
+ * lines over it are lost (Peyre de Fabregues 2020, a tree on purple running to blue). No
+ * measure of the image tells such a ground from the colored boxes and bands that other
+ * figures read well with, so this is done only when asked. Every pixel of some chroma that
+ * is not dark goes white; dark colors, a red name or a navy line, are kept as ink.
+ *
+ * @param image - The figure.
+ * @returns The image, and 1 when any pixel was lifted.
+ */
+export function liftColoredGround(image: RgbaImage): GroundResult
+{
+    const { width, height, data } = image;
+    const lifted = new Uint8ClampedArray(data);
+    let changed = 0;
+
+    for (let offset = 0; offset < 4 * width * height; offset += 4)
+    {
+        const chroma = Math.max(data[offset], data[offset + 1], data[offset + 2]) - Math.min(data[offset], data[offset + 1], data[offset + 2]);
+        const luminance = 0.299 * data[offset] + 0.587 * data[offset + 1] + 0.114 * data[offset + 2];
+
+        if (chroma > liftedChroma && luminance >= liftedLuminance)
+        {
+            lifted[offset] = 255;
+            lifted[offset + 1] = 255;
+            lifted[offset + 2] = 255;
+            changed++;
+        }
+    }
+
+    return changed === 0 ? { image, grounds: 0 } : { image: { width, height, data: lifted }, grounds: 1 };
+}

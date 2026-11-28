@@ -89,6 +89,11 @@ npm install        # from the repository root or from this folder
 
 # Batch: one image in; Newick, Nexus, a redrawn SVG and the JSON document out, with a QC report on stdout
 npm run extract -- extract figure.png --names taxa.txt --out results/ --overlay
+# A tree drawn on a colored ground, a wash or a gradient behind the whole drawing: say so, and
+# the ground is lifted to white before anything is read. The extractor does not do this by
+# itself, since it cannot tell such a ground from colored boxes that belong to the figure.
+npm run extract -- extract figure.png --names taxa.txt --out results/ --lift-ground
+
 # Where the image holds several trees, or one drawn in parts, each is written: one to a line
 # in the Newick file, one TREE statement each in the Nexus file, the main tree first. They are
 # not joined, and the QC report says there are several.
