@@ -841,6 +841,7 @@ function surveyBoxes(image: RgbaImage, smallDiscs = false): BoxSurvey
         const longest = Math.max(6, Math.round(size / 3));
         const aside = Math.max(4, Math.round(size / 3));
         let runStart = -1;
+        const blots = new Array<BoxLink>();
 
         for (let count = 1; count <= steps; count++)
         {
@@ -860,18 +861,93 @@ function surveyBoxes(image: RgbaImage, smallDiscs = false): BoxSurvey
                     onward = onward || far[(middle + offset + steps) % steps] === 1;
                 }
 
-                if (count - runStart <= longest && onward)
+                // A branch may leave a pie along its edge: level from the top of the rim or
+                // the foot of it, a tangent. The rim's circle then lies in the line for a
+                // long run, far longer than a line is broad, and further out the line is
+                // found past one end of the run only (Poole 2022, the first pie of three in
+                // a row, met so by both its branches and taken for a disc met by its stem
+                // alone). Such a run is a line that leaves to that side, at the height of
+                // the run's far end.
+                const first = (origin + runStart) % steps;
+                const last = (origin + count - 1) % steps;
+                const tangentLimit = Math.round(2.6 * Math.sqrt(2 * (radius + 3) * (2 * longest / 3 + 6)));
+                let atFirst = false;
+                let atLast = false;
+
+                for (let offset = 0; offset <= aside; offset++)
+                {
+                    atFirst = atFirst || far[(first - offset + steps) % steps] === 1 || far[(first + Math.min(offset, 2)) % steps] === 1;
+                    atLast = atLast || far[(last + offset) % steps] === 1 || far[(last - Math.min(offset, 2) + steps) % steps] === 1;
+                }
+
+                // Well longer than a line is broad: a run a pixel or two over is a line met a
+                // little aslant, which the figure may read by its other lines already (Fanti
+                // 2015 fig. 23, runs of 8 against 7, two splits lost with them taken so).
+                if (count - runStart > longest && count - runStart <= tangentLimit && atFirst !== atLast)
+                {
+                    const end = atFirst ? first : last;
+                    const angle = (2 * Math.PI * end) / steps;
+                    const x = Math.round(centerX + (radius + 3) * Math.cos(angle));
+                    const y = Math.round(centerY + (radius + 3) * Math.sin(angle));
+                    const middleAngle = (2 * Math.PI * middle) / steps;
+                    const level = Math.abs(Math.sin(middleAngle)) >= Math.abs(Math.cos(middleAngle));
+
+                    // Level along the top or the foot: it leaves to the right or the left.
+                    if (level)
+                    {
+                        lettered.links.push({ side: Math.cos(angle) > Math.cos(middleAngle) ? "right" : "left", at: y, neighbor: null });
+                    }
+                    else
+                    {
+                        lettered.links.push({ side: Math.sin(angle) > Math.sin(middleAngle) ? "bottom" : "top", at: x, neighbor: null });
+                    }
+                }
+
+                // Or the line that leaves is a stub a few pixels long with the tip's own dot
+                // at the end of it, hard against the pie: the run is then as long as the dot
+                // is broad, with ink further out all along it (Fanti 2015 fig. 23,
+                // Brachytrachelopan under the pie of its node). It is met at the run's middle.
+                const blot = count - runStart > longest && count - runStart <= tangentLimit && atFirst && atLast && onward;
+
+                if ((count - runStart <= longest && onward) || blot)
                 {
                     const angle = (2 * Math.PI * middle) / steps;
                     const x = Math.round(centerX + (radius + 3) * Math.cos(angle));
                     const y = Math.round(centerY + (radius + 3) * Math.sin(angle));
                     const level = Math.abs(Math.cos(angle)) >= Math.abs(Math.sin(angle));
 
-                    lettered.links.push({ side: level ? (Math.cos(angle) > 0 ? "right" : "left") : (Math.sin(angle) > 0 ? "bottom" : "top"), at: level ? y : x, neighbor: null });
-                    breadths.push(count - runStart);
+                    const link: BoxLink = { side: level ? (Math.cos(angle) > 0 ? "right" : "left") : (Math.sin(angle) > 0 ? "bottom" : "top"), at: level ? y : x, neighbor: null };
+
+                    lettered.links.push(link);
+
+                    if (blot)
+                    {
+                        blots.push(link);
+                    }
+                    else
+                    {
+                        breadths.push(count - runStart);
+                    }
                 }
 
                 runStart = -1;
+            }
+        }
+
+        // The dot at the end of a stub is the stub's own tip: where the stub was met as a
+        // line on that side too, a little way off, the dot is no second line.
+        for (const blot of blots)
+        {
+            let doubled = false;
+
+            for (const other of lettered.links)
+            {
+                doubled = doubled || (other !== blot && !blots.includes(other) && other.side === blot.side && Math.abs(other.at - blot.at) <= radius);
+            }
+
+            if (doubled)
+            {
+                lettered.links.splice(lettered.links.indexOf(blot), 1);
             }
         }
     }

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A pie on a node is met by a branch that leaves along its edge, level from its top or its
+  foot, and by a stub that ends at once in the tip's own dot. Neither showed as a line at
+  the rim, and a pie met so by its branches was taken for a disc on its stem alone.
+
 ## 0.19.1 (2026-11-27)
 
 - On a tree drawn in thick lines a solid dot on a node is taken from a line and a third
