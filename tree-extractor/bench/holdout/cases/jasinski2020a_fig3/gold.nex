@@ -1,0 +1,51 @@
+#NEXUS
+
+[ jasinski2020a_fig3: Rectangular time tree under a stage bar, with coloured range ovals at the tips, silhouettes joined to some names by dashed lines, a grey 'North American Dromaeosaurid Gap' band and continent outlines below. Polytomies: Dromaeosauridae (five), the unenlagiines below Rahonavis (five), Microraptorinae (six) and Dromaeosaurus-Boreonykus-Baynshire. Clade names printed on stems are kept on their nodes. 38 tips, 4 polytomies (5, 5, 6, 3 children); 9 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=38;
+    TAXLABELS
+        Archaeopteryx_spp.
+        Sinovenator_changii
+        Stenonychosaurus_inequalis
+        Byronosaurus_jaffei
+        Mahakala_omnogovae
+        Halszkaraptor_escuilliei
+        Hulsanpes_perlei
+        Rahonavis_ostromi
+        Unenlagia_comahuensis
+        Unenlagia_paynemili
+        Austroraptor_cabazai
+        Buitreraptor_gonzalezorum
+        Neuquenraptor_argentinus
+        Hesperonychus_elizabethae
+        Changyuraptor_yangi
+        Graciliraptor_lujiatunensis
+        Microraptor_zhoaianus
+        Shanag_ashile
+        Sinornithosaurus_millennii
+        Tianyuraptor_ostromi
+        Zhenyuanlong_suni
+        Bambiraptor_feinbergi
+        Saurornitholestes_langstoni
+        Atrociraptor_marshalli
+        Dakotaraptor_steini
+        Dromaeosaurus_albertensis
+        Boreonykus_certekorum
+        Baynshire_Formation_OTU
+        Deinonychus_antirrhopus
+        Adasaurus_mongoliensis
+        Utahraptor_ostrommaysorum
+        Achillobator_giganticus
+        Acheroraptor_temertyorum
+        Velociraptor_mongoliensis
+        Velociraptor_osmolskae
+        Dineobellator_notohesperus
+        Tsaagan_mangas
+        Linheraptor_exquisitus
+    ;
+END;
+
+BEGIN TREES;
+    TREE jasinski2020a_fig3 = [&R] (Archaeopteryx_spp.,((Sinovenator_changii,(Stenonychosaurus_inequalis,Byronosaurus_jaffei))Troodontidae,(Mahakala_omnogovae,(Halszkaraptor_escuilliei,Hulsanpes_perlei)Halszkaraptorinae,(Rahonavis_ostromi,(Unenlagia_comahuensis,Unenlagia_paynemili,Austroraptor_cabazai,Buitreraptor_gonzalezorum,Neuquenraptor_argentinus))Unenlagiinae,(Hesperonychus_elizabethae,Changyuraptor_yangi,Graciliraptor_lujiatunensis,Microraptor_zhoaianus,Shanag_ashile,Sinornithosaurus_millennii)Microraptorinae,((Tianyuraptor_ostromi,Zhenyuanlong_suni),(Bambiraptor_feinbergi,((Saurornitholestes_langstoni,Atrociraptor_marshalli)Saurornitholestinae,((Dakotaraptor_steini,(Dromaeosaurus_albertensis,Boreonykus_certekorum,Baynshire_Formation_OTU))Dromaeosaurinae,(Deinonychus_antirrhopus,((Adasaurus_mongoliensis,(Utahraptor_ostrommaysorum,Achillobator_giganticus)),(Acheroraptor_temertyorum,(Velociraptor_mongoliensis,(Velociraptor_osmolskae,(Dineobellator_notohesperus,(Tsaagan_mangas,Linheraptor_exquisitus)))))Velociraptorinae))))Eudromaeosauria)))Dromaeosauridae));
+END;

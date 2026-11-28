@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/arbour2014b_fig12.png",
+  "names": "names.txt",
+  "source": "Arbour, Currie and Badamgarav 2014, Zoological Journal of the Linnean Society 172: 631-652 (Zaraapelta nomadis), Fig. 12: '50% Majority Rule Tree' (left) and 'Maximum Agreement Subtree' (right) of ankylosaurs; rectangular, root at the left. Image: census 3 figure, the embedded raster.",
+  "license": "not open: © 2014 The Linnean Society of London",
+  "names_note": "no matrix held; list = the printed tip names of the left tree (binomials; Zaraapelta nomadis in bold)",
+  "gold": "gold.nex",
+  "gold_note": "The image holds two trees side by side; the gold is the left one, the 50% majority-rule tree (20 tips); the right one (maximum agreement subtree, 17 tips: the same names without Dyoplosaurus, Nodocephalosaurus and Tianzhenosaurus) is not encoded. One polytomy of five: Dyoplosaurus, Nodocephalosaurus, Tianzhenosaurus, the Saichania clade and the Talarurus clade. Percentages are not encoded. 20 tips, 1 polytomies (5 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

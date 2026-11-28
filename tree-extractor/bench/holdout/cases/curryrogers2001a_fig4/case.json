@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/curryrogers2001a_fig4.png",
+  "names": "names.txt",
+  "source": "Curry Rogers and Forster 2001, Nature 412: 530-534 (Rapetosaurus krausei), Fig. 4: cladogram of titanosaur relationships; slanted on a spine, root at the upper left, tips at the right. Image: census 3 figure, the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (Rapetosaurus in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Slanted cladogram on a spine (classed slanted): under the out-of-scope ruling for slanted cladograms on a spine (otero2010a_fig15), flagged. Alamosaurus and Titanosaurus both leave the Saltasaurinae node, a polytomy of three. Decimal support values and the node letters A-C (black dots) are not encoded; the clade names printed beside the spine are kept. 17 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

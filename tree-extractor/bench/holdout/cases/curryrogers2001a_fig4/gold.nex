@@ -1,0 +1,30 @@
+#NEXUS
+
+[ curryrogers2001a_fig4: Slanted cladogram on a spine (classed slanted): under the out-of-scope ruling for slanted cladograms on a spine (otero2010a_fig15), flagged. Alamosaurus and Titanosaurus both leave the Saltasaurinae node, a polytomy of three. Decimal support values and the node letters A-C (black dots) are not encoded; the clade names printed beside the spine are kept. 17 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=17;
+    TAXLABELS
+        Omeisaurus
+        Dicraeosaurus
+        Diplodocus
+        Apatosaurus
+        Camarasaurus
+        Brachiosaurus
+        Euhelopus
+        Antarctosaurus
+        Malawisaurus
+        Nemegtosaurus
+        Rapetosaurus
+        Quaesitosaurus
+        Alamosaurus
+        Titanosaurus
+        Neuquensaurus
+        Saltasaurus
+        Opisthocoelicaudia
+    ;
+END;
+
+BEGIN TREES;
+    TREE curryrogers2001a_fig4 = [&R] (Omeisaurus,((Dicraeosaurus,(Diplodocus,Apatosaurus)),(Camarasaurus,(Brachiosaurus,(Euhelopus,((Antarctosaurus,(Malawisaurus,((Nemegtosaurus,Rapetosaurus),Quaesitosaurus))),(Alamosaurus,Titanosaurus,((Neuquensaurus,Saltasaurus),Opisthocoelicaudia))Saltasaurinae)Titanosauria)Somphospondylii)Titanosauriformes)));
+END;

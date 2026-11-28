@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/mcdonald2011a_fig1.png",
+  "names": "names.txt",
+  "source": "McDonald 2011, Zootaxa 2783 (the taxonomy of species assigned to Camptosaurus), Fig. 1: strict consensus of ornithopod relationships with numbered nodes; rectangular, root at the left. Image: census 3 figure, the embedded raster (1004 x 1253).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (binomials and 'Rhabdodon sp.'); three names have coloured highlights",
+  "gold": "gold.nex",
+  "gold_note": "Rectangular strict consensus with many polytomies (as listed below). Where a node's stem meets its vertical at the height of one of its branches (Iguanacolossus, Tethyshadros) the branch is read as leaving that node. Node numbers 1-9 are not clade names and are not encoded; the yellow and blue highlights behind Camptosaurus, Cumnoria and Uteodon are not part of the tree. 46 tips, 9 polytomies (3, 6, 3, 5, 4, 4, 3, 4, 5 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

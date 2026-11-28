@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/isasmendi2024a_fig10.png",
+  "names": "names.txt",
+  "source": "Isasmendi et al. 2024, Zoological Journal of the Linnean Society 202: zlad193 (Riojavenatrix lacustris), Fig. 10: strict consensus trees of two analyses, A and B, with coloured node dots keyed in a legend; rectangular, root at the left. Image: census 3 figure, the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names of tree A (genera; Riojavenatrix in bold)",
+  "gold": "gold.nex",
+  "gold_note": "The image holds two trees; the gold is tree A, the left one (25 tips); tree B on the right (14 tips) is not encoded. Polytomies: Tetanurae (four), Allosauroidea (five), Spinosauridae (seven) and Megalosauridae (five). Clade names come from the legend that keys the coloured node dots (Averostra blue, Tetanurae purple, Allosauroidea red, Megalosauroidea green, Spinosauridae yellow, Megalosauridae orange) and are kept on the dotted nodes; Bremer and bootstrap values are not encoded. 25 tips, 4 polytomies (4, 5, 7, 5 children); 6 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

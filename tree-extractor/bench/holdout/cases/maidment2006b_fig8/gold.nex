@@ -1,0 +1,23 @@
+#NEXUS
+
+[ maidment2006b_fig8: Small rectangular tree, fully resolved. Black bars across branches with labels such as '12(1)' and 'Ot(1)' mark character-state changes; they are not support values or nodes and are not encoded. 10 tips, fully resolved. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=10;
+    TAXLABELS
+        Scutellosaurus
+        Scelidosaurus
+        Huayangosaurus
+        Dacentrurus
+        Kentrosaurus
+        Stegosaurus
+        Hesperosaurus
+        Tuojiangosaurus
+        Euoplocephalus
+        Sauropelta
+    ;
+END;
+
+BEGIN TREES;
+    TREE maidment2006b_fig8 = [&R] (Scutellosaurus,(Scelidosaurus,((Huayangosaurus,(((Dacentrurus,Kentrosaurus),(Stegosaurus,Hesperosaurus)),Tuojiangosaurus)),(Euoplocephalus,Sauropelta))));
+END;

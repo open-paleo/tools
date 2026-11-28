@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/dalman2025a_fig32.png",
+  "names": "names.txt",
+  "source": "Dalman, Jasinski, Malinzak, Lucas, Kundrát and Fiorillo 2025, Fossil Record 11, New Mexico Museum of Natural History and Science Bulletin 101: 73-114 (a new saurolophine hadrosaurid from the Campanian of New Mexico), Fig. 32: strict consensus of hadrosauroid relationships with names coloured by biogeography; rectangular, root at the upper left. Image: census 3 figure, a page render (2185 x 2150).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names as spelled (binomials and 'Basturs Poble lambeosaurine', 'Big Bend hadrosaurid (UTEP P.37.7)' (here without the parentheses), \"'Kritosaurus' PASAC-1\" (printed with quotation marks, here without them), '?Gryposaurus alsatei' (printed with a question mark, here without it), 'Bonapartesausus rionegrensis' as printed); names are coloured by region",
+  "gold": "gold.nex",
+  "gold_note": "Large rectangular tree in a page render; the coloured tip names are printed over the ends of the branches and touch neighbouring names. Polytomies: Tethyshadros-Telmatosaurus-Lophorhothon-Fylax with Hadrosauridae (five), Brachylophosaurini (five), the four-way node in Lambeosaurini, and Kritosaurini (five). Hadrosauridae, Lambeosaurinae and Saurolophinae are printed with leader lines; the tribes are circled letters keyed in the 'Taxonomy' box (T Tsintaosaurini, C Corythosauria, P Parasaurolophini, L Lambeosaurini, B Brachylophosaurini, E Edmontosaurini, S Saurolophini, K Kritosaurini) and are kept on their nodes. Bremer and bootstrap values are not encoded; a silhouette and the 'Biogeography' and 'Taxonomy' boxes sit at the left and right. 84 tips, 4 polytomies (5, 4, 5, 5 children); 11 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

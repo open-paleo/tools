@@ -1,0 +1,33 @@
+#NEXUS
+
+[ lü2004a_fig8: Slanted cladogram with every branch a straight diagonal from its node (classed slanted, no spine): check against the out-of-scope ruling for slanted diagrams. Allosauroidea and Ornithomimidae both leave the root point, so the root is a polytomy of three. Several branches leave from part way along other branches rather than from a fork (Chirostenotes and the large oviraptorid clade from the Khaan line). 20 tips, 1 polytomies (3 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=20;
+    TAXLABELS
+        Allosauroidea
+        Ornithomimidae
+        Dromaeosauridae
+        Troodontidae
+        Archaeopteryx_lithographica
+        Incisivosaurus_gauthieri
+        Caudipteryx_zoui
+        Microvenator_celer
+        Avimimus_portentosus
+        Chirostenotes_pergracilis
+        Khaan_mckennai
+        Nomingia_gobiensis
+        Oviraptor_mongoliensis
+        Ingenia_yanshini
+        Conchoraptor_gracilis
+        Heyuannia_huangi
+        Nemegtia_barsboldi
+        Citipati_osmolskae
+        GIN_100/42
+        Oviraptor_philoceratops
+    ;
+END;
+
+BEGIN TREES;
+    TREE lü2004a_fig8 = [&R] (Allosauroidea,Ornithomimidae,(Dromaeosauridae,((Troodontidae,Archaeopteryx_lithographica),(Incisivosaurus_gauthieri,(Caudipteryx_zoui,(Microvenator_celer,(Avimimus_portentosus,(Chirostenotes_pergracilis,(Khaan_mckennai,(((((Nomingia_gobiensis,Oviraptor_mongoliensis),Ingenia_yanshini),Conchoraptor_gracilis),(Heyuannia_huangi,(Nemegtia_barsboldi,Citipati_osmolskae))),(GIN_100/42,Oviraptor_philoceratops)))))))))));
+END;

@@ -1,0 +1,36 @@
+#NEXUS
+
+[ lindoso2019a_fig11: Vertical rectangular cladogram. Clade names are attached by leader lines to black dots on nodes and are kept where the dots sit: as drawn, the 'Diplodocoidea' dot marks the node joining Macronaria and the diplodocoids, and the 'Neosauropoda' dot the node that adds Jobaria (one level below where those names usually apply). The 'Limaysaurinae' label is printed across the short stem below that node. 23 tips, fully resolved; 8 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=23;
+    TAXLABELS
+        Omeisaurus
+        Jobaria
+        Camarasaurus
+        Australodocus
+        Giraffatitan
+        Haplocanthosaurus
+        Suuwassea
+        Amargasaurus
+        Dicraeosaurus
+        Brachytrachelopan
+        Apatosaurus
+        Supersaurus
+        Tornieria
+        Diplodocus
+        Barosaurus
+        Amazonsaurus
+        Zapalasaurus
+        Comahuesaurus
+        Cathartesaura
+        Limaysaurus
+        Nigersaurus
+        Demandasaurus
+        Itapeuasaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE lindoso2019a_fig11 = [&R] (Omeisaurus,(Jobaria,((Camarasaurus,(Australodocus,Giraffatitan))Macronaria,(Haplocanthosaurus,(((Suuwassea,(Amargasaurus,(Dicraeosaurus,Brachytrachelopan)))Dicraeosauridae,(Apatosaurus,(Supersaurus,(Tornieria,(Diplodocus,Barosaurus))))Diplodocidae),(Amazonsaurus,(Zapalasaurus,(Comahuesaurus,((Cathartesaura,Limaysaurus)Limaysaurinae,(Nigersaurus,(Demandasaurus,Itapeuasaurus))Nigersaurinae))))Rebbachisauridae)))Diplodocoidea)Neosauropoda);
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/canale2009a_fig3.png",
+  "names": "names.txt",
+  "source": "Canale, Scanferla, Agnolín and Novas 2009, Naturwissenschaften 96: 409-414 (Skorpiovenator bustingorryi), Fig. 3a: strict consensus of abelisauroid relationships; slanted cladogram on a spine, root at the bottom, tips upward. Image: census 3 figure, the embedded raster (1030 x 623).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names",
+  "gold": "gold.nex",
+  "gold_note": "Slanted cladogram on a spine (classed slanted): under the out-of-scope ruling for slanted cladograms on a spine (otero2010a_fig15), flagged. Photographs of bones and a skeleton drawing fill the right of the image (panels b-e); the tree is panel a. Branches meet the stems of other branches part way up (Allosaurus+Carcharodontosauridae on the Spinosauroidea line, the Elaphrosaurus clade on the Ligabueino line, Aucasaurus on the Carnotaurus line). Printed clade names are on stems below their nodes. 17 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

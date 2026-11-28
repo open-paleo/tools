@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/godefroit2013b_fig3.png",
+  "names": "names.txt",
+  "source": "Godefroit, Cau, Hu, Escuillié, Wu and Dyke 2013, Nature 498: 359-362 (Aurornis xui), Fig. 3: time-calibrated paravian phylogeny against the geological time scale; rectangular, root at the bottom, tips upward at their ages. Image: census 3 figure, the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genera and four higher taxa: Dromaeosauridae, Enantiornithes, Euornithes; tip ages are black ovals or range bars)",
+  "gold": "gold.nex",
+  "gold_note": "Vertical time tree: tips stand at their ages against a Myr scale and stage column at the left. Saurornithoides, Troodon and Zanabazar meet at one bar with Troodon's range bar rising from its middle: a polytomy of three. The arrow labels Paraves, Eumaniraptora, Troodontidae and Avialae point at the stems of their nodes and are kept on those nodes. 24 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

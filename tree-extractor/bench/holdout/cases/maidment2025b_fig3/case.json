@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/maidment2025b_fig3.png",
+  "names": "names.txt",
+  "source": "Maidment et al. 2025, Nature (Spicomellus afer; 'Extreme armour in the world's oldest ankylosaur'), Fig. 3: time-calibrated thyreophoran phylogeny with armour features marked; rectangular, root at the left, time scale along the bottom. Image: census 3 figure, the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genera and two higher taxa, Stegosauria and Ankylosauridae; names printed in black, grey or teal)",
+  "gold": "gold.nex",
+  "gold_note": "Rectangular time tree over a stage chart, with symbols (stars, triangles, pentagons, hexagons) after some names. Two polytomies: Spicomellus, Chuanqilong, Shamosaurus and Gobisaurus on one vertical, and that group with Ankylosauridae and Nodosauridae. The clade names Ankylosauria, Nodosauridae and Polacanthinae are printed at the left with wavy arrows pointing at their nodes; they are kept on those nodes. 14 tips, 2 polytomies (3, 4 children); 3 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

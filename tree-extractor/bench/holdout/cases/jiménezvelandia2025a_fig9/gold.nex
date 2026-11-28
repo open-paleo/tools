@@ -1,0 +1,53 @@
+#NEXUS
+
+[ jiménezvelandia2025a_fig9: Rectangular time tree over coloured stage bands, with range bars at the tips. Coloured dots on branches mark where six wildcard taxa (named in the legend box at the lower left) can attach; they are not tips or nodes and are not encoded. Polytomies: Noasauridae (nine), Rajasaurus-Majungasaurus-Indosaurus, and Furileusauria (six). Blue clade names at the left point by curved arrows at the stems of their nodes and are kept on those nodes. Note for a person: the coloured dots sit on the branches and may be read as nodes. 40 tips, 3 polytomies (9, 3, 6 children); 8 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=40;
+    TAXLABELS
+        Herrerasaurus
+        Syntarsus
+        Dilophosaurus
+        Allosaurus
+        Berberosaurus
+        Genyodectes
+        Ceratosaurus
+        Huinculsaurus
+        Quilmesaurus
+        Afromimus
+        Vespersaurus
+        Velocisaurus
+        MNN_TIG_6
+        Noasaurus
+        Masiakasaurus
+        Laevisuchus
+        Limusaurus
+        Elaphrosaurus
+        CCG20011
+        Xenotarsosaurus
+        Eoabelisaurus
+        Spectrovenator
+        Rugops
+        Abelisaurus
+        Rajasaurus
+        Majungasaurus
+        Indosaurus
+        MPM_99
+        Arcovenator
+        Ilokelesia
+        Ekrixinatosaurus
+        Skorpiovenator
+        Llukalkan
+        Viavenator
+        Pycnonemosaurus
+        Genusaurus
+        Aucasaurus
+        Carnotaurus
+        Koleken
+        Niebla
+    ;
+END;
+
+BEGIN TREES;
+    TREE jiménezvelandia2025a_fig9 = [&R] (Herrerasaurus,(Syntarsus,(Dilophosaurus,(Allosaurus,(Berberosaurus,((Genyodectes,Ceratosaurus),(Huinculsaurus,((Quilmesaurus,Afromimus,Vespersaurus,Velocisaurus,MNN_TIG_6,Noasaurus,Masiakasaurus,Laevisuchus,(Limusaurus,(Elaphrosaurus,CCG20011)))Noasauridae,((Xenotarsosaurus,Eoabelisaurus),(Spectrovenator,(Rugops,((Abelisaurus,(Rajasaurus,Majungasaurus,Indosaurus))Majungasaurinae,(MPM_99,(Arcovenator,((Ilokelesia,Ekrixinatosaurus),(Skorpiovenator,(Llukalkan,Viavenator,Pycnonemosaurus,Genusaurus,Aucasaurus,(Carnotaurus,(Koleken,Niebla))Carnotaurini)Furileusauria))))Brachyrostra))))Abelisauridae)Abelisauroidea)))Ceratosauria))));
+END;

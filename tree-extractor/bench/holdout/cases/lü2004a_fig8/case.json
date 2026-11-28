@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/lü2004a_fig8.png",
+  "names": "names.txt",
+  "source": "Lü, Tomida, Azuma, Dong and Lee 2004, Bulletin of the National Science Museum, Tokyo, Series C 30: 95-130 (Nemegtia barsboldi), Fig. 8: cladogram of oviraptorosaur relationships; slanted, root at the left, tips at the right. Image: census 3 figure, the embedded raster.",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (binomials; '\"Oviraptor\" mongoliensis' is printed with quotation marks, here without them)",
+  "gold": "gold.nex",
+  "gold_note": "Slanted cladogram with every branch a straight diagonal from its node (classed slanted, no spine): check against the out-of-scope ruling for slanted diagrams. Allosauroidea and Ornithomimidae both leave the root point, so the root is a polytomy of three. Several branches leave from part way along other branches rather than from a fork (Chirostenotes and the large oviraptorid clade from the Khaan line). 20 tips, 1 polytomies (3 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/hill2003a_fig9.png",
+  "names": "names.txt",
+  "source": "Hill, Witmer and Norell 2003, American Museum Novitates 3395: 1-29 (Pinacosaurus grangeri), Fig. 9: strict consensus of ankylosaur relationships; slanted on a spine, root at the bottom, tips along the top. Image: census 3 figure, the embedded raster.",
+  "license": "not open: © American Museum of Natural History 2003",
+  "names_note": "no matrix held; list = the printed tip names (genera)",
+  "gold": "gold.nex",
+  "gold_note": "Slanted cladogram on a spine (classed slanted): under the out-of-scope ruling for slanted cladograms on a spine (otero2010a_fig15), flagged. The Huayangosaurus line and the Scelidosaurus+Emausaurus line converge into one wedge that meets the spine where the root stem leaves it; read as a root polytomy of three. Node N is a polytomy of six (the Tarchia+Saichania pair, four genera and the Euoplocephalus line). Node letters A-P (white dots) are not clade names and are not encoded. 24 tips, 2 polytomies (3, 6 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

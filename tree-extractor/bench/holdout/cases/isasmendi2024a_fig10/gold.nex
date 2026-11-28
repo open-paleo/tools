@@ -1,0 +1,38 @@
+#NEXUS
+
+[ isasmendi2024a_fig10: The image holds two trees; the gold is tree A, the left one (25 tips); tree B on the right (14 tips) is not encoded. Polytomies: Tetanurae (four), Allosauroidea (five), Spinosauridae (seven) and Megalosauridae (five). Clade names come from the legend that keys the coloured node dots (Averostra blue, Tetanurae purple, Allosauroidea red, Megalosauroidea green, Spinosauridae yellow, Megalosauridae orange) and are kept on the dotted nodes; Bremer and bootstrap values are not encoded. 25 tips, 4 polytomies (4, 5, 7, 5 children); 6 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=25;
+    TAXLABELS
+        Herrerasaurus
+        Coelophysis
+        Majungasaurus
+        Ceratosaurus
+        Piatnitzkysaurus
+        Monolophosaurus
+        Sinraptor
+        Allosaurus
+        Eocarcharia
+        Mapusaurus
+        Neovenator
+        Riojavenatrix
+        Iberospinus
+        Vallibonavenatrix
+        Spinosaurus
+        Ichthyovenator
+        Irritator
+        Suchomimus
+        Baryonyx
+        Afrovenator
+        Eustreptospondylus
+        Dubreuillosaurus
+        Duriavenator
+        Torvosaurus
+        Megalosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE isasmendi2024a_fig10 = [&R] (Herrerasaurus,(Coelophysis,((Majungasaurus,Ceratosaurus),(Piatnitzkysaurus,Monolophosaurus,(Sinraptor,Allosaurus,Eocarcharia,Mapusaurus,Neovenator)Allosauroidea,((Riojavenatrix,Iberospinus,Vallibonavenatrix,Spinosaurus,Ichthyovenator,Irritator,(Suchomimus,Baryonyx))Spinosauridae,(Afrovenator,Eustreptospondylus,Dubreuillosaurus,Duriavenator,(Torvosaurus,Megalosaurus))Megalosauridae)Megalosauroidea)Tetanurae)Averostra));
+END;

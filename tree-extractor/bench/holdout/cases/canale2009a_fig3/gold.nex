@@ -1,0 +1,30 @@
+#NEXUS
+
+[ canale2009a_fig3: Slanted cladogram on a spine (classed slanted): under the out-of-scope ruling for slanted cladograms on a spine (otero2010a_fig15), flagged. Photographs of bones and a skeleton drawing fill the right of the image (panels b-e); the tree is panel a. Branches meet the stems of other branches part way up (Allosaurus+Carcharodontosauridae on the Spinosauroidea line, the Elaphrosaurus clade on the Ligabueino line, Aucasaurus on the Carnotaurus line). Printed clade names are on stems below their nodes. 17 tips, fully resolved; 5 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=17;
+    TAXLABELS
+        Coelophysoidea
+        Spinosauroidea
+        Allosaurus
+        Carcharodontosauridae
+        Ceratosaurus
+        Ligabueino
+        Elaphrosaurus
+        Noasaurus
+        Masiakasaurus
+        Rugops
+        Abelisaurus
+        Majungasaurus
+        Carnotaurus
+        Aucasaurus
+        Ilokelesia
+        Skorpiovenator
+        Ekrixinatosaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE canale2009a_fig3 = [&R] (Coelophysoidea,((Spinosauroidea,(Allosaurus,Carcharodontosauridae)),(Ceratosaurus,((Ligabueino,(Elaphrosaurus,(Noasaurus,Masiakasaurus))),(Rugops,(Abelisaurus,(Majungasaurus,((Carnotaurus,Aucasaurus),(Ilokelesia,(Skorpiovenator,Ekrixinatosaurus)))BRACHYROSTRA)CARNOTAURINAE))ABELISAURIDAE)ABELISAUROIDEA)CERATOSAURIA));
+END;

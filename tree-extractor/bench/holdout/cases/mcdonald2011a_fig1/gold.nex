@@ -1,0 +1,59 @@
+#NEXUS
+
+[ mcdonald2011a_fig1: Rectangular strict consensus with many polytomies (as listed below). Where a node's stem meets its vertical at the height of one of its branches (Iguanacolossus, Tethyshadros) the branch is read as leaving that node. Node numbers 1-9 are not clade names and are not encoded; the yellow and blue highlights behind Camptosaurus, Cumnoria and Uteodon are not part of the tree. 46 tips, 9 polytomies (3, 6, 3, 5, 4, 4, 3, 4, 5 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=46;
+    TAXLABELS
+        Lesothosaurus_diagnosticus
+        Hypsilophodon_foxii
+        Muttaburrasaurus_langdoni
+        Rhabdodon_sp.
+        Zalmoxes_robustus
+        Zalmoxes_shqiperorum
+        Tenontosaurus_dossi
+        Tenontosaurus_tilletti
+        Callovosaurus_leedsi
+        Dryosaurus_altus
+        Dysalotosaurus_lettowvorbecki
+        Elrhazosaurus_nigeriensis
+        Kangnasaurus_coetzeei
+        Valdosaurus_canaliculatus
+        Camptosaurus_dispar
+        Cumnoria_prestwichii
+        Uteodon_aphanoecetes
+        Theiophytalia_kerri
+        Hippodraco_scutodens
+        Cedrorestes_crichtoni
+        Dakotadon_lakotaensis
+        Lanzhousaurus_magnidens
+        Iguanacolossus_fortis
+        Iguanodon_bernissartensis
+        Mantellisaurus_atherfieldensis
+        Ouranosaurus_nigeriensis
+        Altirhinus_kurzanovi
+        Equijubus_normani
+        Jinzhousaurus_yangi
+        Penelopognathus_weishampeli
+        Eolambia_caroljonesa
+        Probactrosaurus_gobiensis
+        Jeyawati_rugoculus
+        Protohadros_byrdi
+        Levnesovia_transoxiana
+        Nanyangosaurus_zhugeii
+        Tethyshadros_insularis
+        Bactrosaurus_johnsoni
+        Gilmoreosaurus_mongoliensis
+        Tanius_sinensis
+        Lophorhothon_atopus
+        Telmatosaurus_transsylvanicus
+        Claosaurus_agilis
+        Hadrosaurus_foulkii
+        Edmontosaurus_annectens
+        Corythosaurus_casuarius
+    ;
+END;
+
+BEGIN TREES;
+    TREE mcdonald2011a_fig1 = [&R] (Lesothosaurus_diagnosticus,(Hypsilophodon_foxii,((Muttaburrasaurus_langdoni,Rhabdodon_sp.,(Zalmoxes_robustus,Zalmoxes_shqiperorum)),((Tenontosaurus_dossi,Tenontosaurus_tilletti),((Callovosaurus_leedsi,Dryosaurus_altus,Dysalotosaurus_lettowvorbecki,Elrhazosaurus_nigeriensis,Kangnasaurus_coetzeei,Valdosaurus_canaliculatus),(Camptosaurus_dispar,(Cumnoria_prestwichii,Uteodon_aphanoecetes,((Theiophytalia_kerri,Hippodraco_scutodens),(Cedrorestes_crichtoni,Dakotadon_lakotaensis,Lanzhousaurus_magnidens,Iguanacolossus_fortis,(Iguanodon_bernissartensis,Mantellisaurus_atherfieldensis,Ouranosaurus_nigeriensis,(Altirhinus_kurzanovi,Equijubus_normani,(Jinzhousaurus_yangi,Penelopognathus_weishampeli),(Eolambia_caroljonesa,Probactrosaurus_gobiensis,(Jeyawati_rugoculus,(Protohadros_byrdi,(Levnesovia_transoxiana,Nanyangosaurus_zhugeii,Tethyshadros_insularis,(Bactrosaurus_johnsoni,(Gilmoreosaurus_mongoliensis,(Tanius_sinensis,(Lophorhothon_atopus,(Telmatosaurus_transsylvanicus,Claosaurus_agilis,Hadrosaurus_foulkii,Edmontosaurus_annectens,Corythosaurus_casuarius))))))))))))))))))));
+END;

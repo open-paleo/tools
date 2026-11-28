@@ -869,3 +869,49 @@ Drawn by the corpus session from a third census (corpus f3db12a0, `census3/READM
 - averianov2016a_fig11, flagged by the corpus session as a slanted cladogram of the kind of otero2010a_fig15, names all 15 of its tips, with 10 of 11 splits.
 - royo-torres2020a_fig18, 112 tips with names about 8 pixels tall, names 111.
 - Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%, sample 7 86%, sample 8 74%.
+
+## Sample 10 (20 cases, none replaced)
+
+Drawn by the corpus session from census 3 extended along its kept order (corpus 2518a5b2, `census3/order.json`): draws 61 to 120, located and classified as before, 5 lost, 7 not trees, 48 trees.
+
+- The pool: the 66 trees of census 3 without a gold case, over draws 1 to 120, less butler2007a_fig3 (a tree with no tip names) and xu2010e_fig3 (unreadable, sample 9).
+- The draw: seed 20261274, stratified as samples 7 to 9; pools, picks and flags in `census3/scripts/gold_draw10_result.json`.
+- Two trees on the image, the gold the left one: arbour2014b_fig12, isasmendi2024a_fig10.
+- Flagged by the corpus session as slanted cladograms on a spine, the kind of otero2010a_fig15: canale2009a_fig3, curryrogers2001a_fig4, hill2003a_fig9; and lü2004a_fig8, slanted with every branch a straight diagonal.
+- Noted as likely to need a person's help and left plain: martínez2016a_fig10 (names beside renderings, not at the branch ends), martz2017a_fig6 (skull drawings), canale2009a_fig3 (bone photographs), rauhut2024a_fig25 (colored boxes behind the branches), jiménezvelandia2025a_fig9 (colored dots on the branches).
+- zheng2026a_fig7 has one tip that is an unnamed empty oval, left out of its gold tree.
+- 591 tips.
+
+### Sample 10 baseline (tree extractor 0.19.0, commit 1623b3a, run cold on 2026-11-27)
+
+| Case | Layout | Tips found | Names | Splits | Wrong splits | Identical |
+|---|---|---:|---:|---:|---:|---|
+| boyd2015a_fig5 | rectangular, time axis | 112 | 62 of 65 | 47 of 51 | 3 | no |
+| jasinski2020a_fig3 | rectangular, time axis | 40 | 38 of 38 | 24 of 24 | 0 | yes |
+| jiménezvelandia2025a_fig9 | rectangular, time axis | 38 | 14 of 40 | 8 of 8 | 0 | no |
+| maidment2025b_fig3 | rectangular, time axis | 13 | 13 of 14 | 8 of 8 | 0 | no |
+| zheng2026a_fig7 | rectangular, time axis | 36 | 11 of 11 | 3 of 3 | 0 | no |
+| arbour2014b_fig12 | rectangular | 37 | 20 of 20 | 14 of 14 | 0 | yes |
+| currie2019a_fig22 | rectangular | 37 | 37 of 37 | 25 of 25 | 0 | yes |
+| dalman2025a_fig32 | rectangular | 75 | 74 of 84 | 62 of 63 | 0 | no |
+| isasmendi2024a_fig10 | rectangular | 43 | 25 of 25 | 9 of 9 | 0 | yes |
+| maidment2006b_fig8 | rectangular | 10 | 10 of 10 | 7 of 7 | 0 | yes |
+| martínez2016a_fig10 | rectangular | 0 | 0 of 5 | 0 of 0 | 0 | no |
+| mcdonald2011a_fig1 | rectangular | 46 | 46 of 46 | 24 of 24 | 0 | yes |
+| rauhut2024a_fig25 | rectangular | 47 | 47 of 47 | 36 of 36 | 0 | yes |
+| canale2009a_fig3 | slanted | 3 | 0 of 17 | 0 of 0 | 0 | no |
+| curryrogers2001a_fig4 | slanted | 17 | 15 of 17 | 9 of 11 | 0 | no |
+| hill2003a_fig9 | slanted | 25 | 24 of 24 | 14 of 17 | 1 | no |
+| lü2004a_fig8 | slanted | 20 | 20 of 20 | 17 of 17 | 0 | yes |
+| godefroit2013b_fig3 | vertical, time axis | 24 | 24 of 24 | 20 of 20 | 0 | yes |
+| martz2017a_fig6 | vertical, time axis | 24 | 24 of 24 | 17 of 17 | 0 | yes |
+| lindoso2019a_fig11 | vertical | 23 | 23 of 23 | 15 of 20 | 2 | no |
+
+- 527 of 591 names, 89 percent; 359 of 374 scored splits, 6 wrong; 10 of 20 identical.
+- By figure: 13 of the 20 name every tip, and 15 name nine tenths or more.
+- Three figures hold 48 of the 64 missing names: jiménezvelandia2025a_fig9 (14 of 40, read in three pieces with 35 names over the whole figure), canale2009a_fig3 (0 of 17, bone photographs beside a slanted cladogram) and martínez2016a_fig10 (0 of 5, names beside renderings). dalman2025a_fig32, a page render of 84 tips, misses 10.
+- By layout: rectangular, time axis 138 of 168, rectangular 259 of 274, slanted 59 of 78, vertical, time axis 48 of 48, vertical 23 of 23.
+- The slanted figures the corpus session flagged: lü2004a_fig8 is identical to its gold tree, hill2003a_fig9 names 24 of 24 with 14 of 17 splits, curryrogers2001a_fig4 15 of 17. Only canale2009a_fig3 is not read.
+- The two figures with a second tree are both identical to gold on the tree scored, and each reading holds two trees (20 and 17 tips; 25 and 18).
+- `reading-doubtful` marked two: canale2009a_fig3 and jiménezvelandia2025a_fig9. It did not mark martínez2016a_fig10, where no tree was found to judge.
+- Cold results of the earlier batches, for comparison: batch 3 67%, batch 4 74%, sample 3 89%, sample 4 68%, sample 5 80%, sample 6 88%, sample 7 86%, sample 8 74%, sample 9 81%.

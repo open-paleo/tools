@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/maidment2006b_fig8.png",
+  "names": "names.txt",
+  "source": "Maidment, Wei and Norman 2006, Journal of Vertebrate Paleontology 26: 944-956 (postcranial skeleton of Huayangosaurus taibaii), Fig. 8: thyreophoran cladogram with dermal-armour character changes marked on branches; rectangular, root at the left. Image: census 3 figure, the embedded raster (1008 x 852).",
+  "license": "not open: © by the Society of Vertebrate Paleontology",
+  "names_note": "no matrix held; list = the printed tip names (genera)",
+  "gold": "gold.nex",
+  "gold_note": "Small rectangular tree, fully resolved. Black bars across branches with labels such as '12(1)' and 'Ot(1)' mark character-state changes; they are not support values or nodes and are not encoded. 10 tips, fully resolved. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

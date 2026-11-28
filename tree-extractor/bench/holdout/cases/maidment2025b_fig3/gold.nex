@@ -1,0 +1,27 @@
+#NEXUS
+
+[ maidment2025b_fig3: Rectangular time tree over a stage chart, with symbols (stars, triangles, pentagons, hexagons) after some names. Two polytomies: Spicomellus, Chuanqilong, Shamosaurus and Gobisaurus on one vertical, and that group with Ankylosauridae and Nodosauridae. The clade names Ankylosauria, Nodosauridae and Polacanthinae are printed at the left with wavy arrows pointing at their nodes; they are kept on those nodes. 14 tips, 2 polytomies (3, 4 children); 3 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=14;
+    TAXLABELS
+        Lesothosaurus
+        Yuxisaurus
+        Stegosauria
+        Stegouros
+        Spicomellus
+        Chuanqilong
+        Shamosaurus
+        Gobisaurus
+        Ankylosauridae
+        Kunbarrasaurus
+        Panoplosaurus
+        Polacanthus
+        Antarctopelta
+        Tianchisaurus
+    ;
+END;
+
+BEGIN TREES;
+    TREE maidment2025b_fig3 = [&R] (Lesothosaurus,((Yuxisaurus,Stegosauria),(Stegouros,((Spicomellus,Chuanqilong,Shamosaurus,Gobisaurus),Ankylosauridae,(Kunbarrasaurus,(Panoplosaurus,(Polacanthus,(Antarctopelta,Tianchisaurus))Polacanthinae))Nodosauridae))Ankylosauria));
+END;

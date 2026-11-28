@@ -1,0 +1,37 @@
+#NEXUS
+
+[ godefroit2013b_fig3: Vertical time tree: tips stand at their ages against a Myr scale and stage column at the left. Saurornithoides, Troodon and Zanabazar meet at one bar with Troodon's range bar rising from its middle: a polytomy of three. The arrow labels Paraves, Eumaniraptora, Troodontidae and Avialae point at the stems of their nodes and are kept on those nodes. 24 tips, 1 polytomies (3 children); 4 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Epidendrosaurus
+        Epidexipteryx
+        Eosinopteryx
+        Dromaeosauridae
+        Jinfengopteryx
+        Mei
+        Sinovenator
+        Sinusonasus
+        Byronosaurus
+        Sinornithoides
+        Saurornithoides
+        Troodon
+        Zanabazar
+        Aurornis
+        Anchiornis
+        Archaeopteryx
+        Xiaotingia
+        Rahonavis
+        Shenzouraptor
+        Balaur
+        Sapeornis
+        Confuciusornis
+        Enantiornithes
+        Euornithes
+    ;
+END;
+
+BEGIN TREES;
+    TREE godefroit2013b_fig3 = [&R] ((Epidendrosaurus,Epidexipteryx),(Eosinopteryx,(Dromaeosauridae,((Jinfengopteryx,(Mei,(Sinovenator,(Sinusonasus,(Byronosaurus,(Sinornithoides,(Saurornithoides,Troodon,Zanabazar)))))))Troodontidae,(Aurornis,(Anchiornis,(Archaeopteryx,(Xiaotingia,((Rahonavis,Shenzouraptor),(Balaur,(Sapeornis,(Confuciusornis,(Enantiornithes,Euornithes)))))))))Avialae))Eumaniraptora))Paraves;
+END;

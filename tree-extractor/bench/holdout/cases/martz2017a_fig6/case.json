@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/martz2017a_fig6.png",
+  "names": "names.txt",
+  "source": "Martz and Parker 2017, in Terrestrial Depositional Systems: 39-125 (Late Triassic land-vertebrate faunachrons), Fig. 6E: phytosaur cladogram set against the faunachrons; rectangular, root at the bottom, tips along the top. Image: census 3 figure, the embedded raster.",
+  "license": "not open: © Elsevier (book chapter)",
+  "names_note": "no matrix held; list = the printed tip names (binomials and two specimen numbers; '\"Paleorhinus\" sawini', '\"Machaeroprosopus\" zunii', '\"Phytosaurus\" doughtyi' and the three '\"Redondasaurus\"' are printed with quotation marks, here without them)",
+  "gold": "gold.nex",
+  "gold_note": "Vertical rectangular cladogram over grey faunachron bands (Otischalkian to Apachean) with the band names printed at the right edge: a time axis in bands, not a scale. Skull drawings (panels A-D) fill the right third of the image. Several bars carry three or four verticals (polytomies). Clade names at black dots and under bars are kept; 'Phytosauridae' is printed under the bar of the four-way node. 24 tips, 3 polytomies (4, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

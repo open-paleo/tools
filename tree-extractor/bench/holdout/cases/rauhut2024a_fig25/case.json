@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/rauhut2024a_fig25.png",
+  "names": "names.txt",
+  "source": "Rauhut, Bakirov, Wings, Fernandes and Hübner 2024, Zoological Journal of the Linnean Society 201: zlae090 (Alpkarakush kyrgyzicus), Fig. 25: reduced strict consensus of averostran theropods with clades in coloured boxes; rectangular, root at the left. Image: census 3 figure, the embedded raster (3158 x 3769).",
+  "license": "unverified: no licence statement in the text held",
+  "names_note": "no matrix held; list = the printed tip names (genera, five suprageneric tips in capitals, 'Y. hepingensis' and 'Y. shangyouensis'; '\"Dilophosaurus\" sinensis' and '\"Szechuanosaurus\" zigongensis' are printed with quotation marks, here without them; Alpkarakush in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Rectangular tree with clades on coloured boxes whose names are printed inside the boxes (Ceratosauria, Megaraptora, Tyrannosauroidea, Coelurosauria, Megalosauridae, Spinosauridae, Megalosauroidea, Metriacanthosauridae, Carcharodontosauria, Allosauroidea) and Tetanurae and Carnosauria printed at the left; all are kept on their nodes ('Allosauridae' boxes the single tip Allosaurus and is not encoded). Note for a person: the coloured boxes lie behind the branches. Polytomies: Coelurosauria (three), Australovenator-Megaraptor-Murusraptor, Megalosauridae (three), Eustreptospondylus-Dubreuillosaurus-Streptospondylus, Ichthyovenator-Irritator-Spinosaurus, the four metriacanthosaurids and Lusovenator-Concavenator pair-rest. 47 tips, 7 polytomies (3, 3, 3, 3, 3, 4, 3 children); 12 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

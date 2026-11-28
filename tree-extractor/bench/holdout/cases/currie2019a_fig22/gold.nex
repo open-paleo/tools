@@ -1,0 +1,50 @@
+#NEXUS
+
+[ currie2019a_fig22: Rectangular tree, read by eye. Polytomies: Dromaeosauridae (Unenlaginae, Mahakala and the rest), five unenlagiines, six microraptorines, and Baynshire nov. sp. with Boreonykus and Dromaeosaurus. Support numbers are not encoded; clade names printed above stems are kept. 37 tips, 4 polytomies (3, 5, 6, 3 children); 5 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=37;
+    TAXLABELS
+        Archaeopteryx_lithographica
+        Sinovenator_changii
+        Byronosaurus_jaffei
+        Stenonychosaurus_inequalis
+        Rahonavis_ostromi
+        Austroraptor_cabazai
+        Buitreraptor_gonzalezorum
+        Neuquenraptor_argentinus
+        Unenlagia_comahuensis
+        Unenlagia_paynemili
+        Mahakala_omnogovae
+        Halszkaraptor_escuilliei
+        Hulsanpes_perlei
+        Changyuraptor_yangi
+        Graciliraptor_lujiatensis
+        Hesperonychus_elizabethae
+        Microraptor_zhaoianus
+        Shanag_ashile
+        Sinornithosaurus_millenii
+        Tianyuraptor_ostromi
+        Zhenyuanlong_suni
+        Bambiraptor_feinbergi
+        Atrociraptor_marshalli
+        Saurornitholestes_langstoni
+        Dakotaraptor_steini
+        Baynshire_nov._sp.
+        Boreonykus_certekorum
+        Dromaeosaurus_albertensis
+        Deinonychus_antirrhopus
+        Adasaurus_mongoliensis
+        Achillobator_giganticus
+        Utahraptor_ostrommaysi
+        Acheroraptor_termertyorum
+        Velociraptor_mongoliensis
+        Velociraptor_osmolskae
+        Linheraptor_exquisitus
+        Tsaagan_mangas
+    ;
+END;
+
+BEGIN TREES;
+    TREE currie2019a_fig22 = [&R] (Archaeopteryx_lithographica,((Sinovenator_changii,(Byronosaurus_jaffei,Stenonychosaurus_inequalis)),((Rahonavis_ostromi,(Austroraptor_cabazai,Buitreraptor_gonzalezorum,Neuquenraptor_argentinus,Unenlagia_comahuensis,Unenlagia_paynemili))Unenlaginae,Mahakala_omnogovae,((Halszkaraptor_escuilliei,Hulsanpes_perlei)Halszkaraptorinae,((Changyuraptor_yangi,Graciliraptor_lujiatensis,Hesperonychus_elizabethae,Microraptor_zhaoianus,Shanag_ashile,Sinornithosaurus_millenii)Microraptorinae,((Tianyuraptor_ostromi,Zhenyuanlong_suni),(Bambiraptor_feinbergi,((Atrociraptor_marshalli,Saurornitholestes_langstoni),((Dakotaraptor_steini,(Baynshire_nov._sp.,Boreonykus_certekorum,Dromaeosaurus_albertensis)),(Deinonychus_antirrhopus,((Adasaurus_mongoliensis,(Achillobator_giganticus,Utahraptor_ostrommaysi)),(Acheroraptor_termertyorum,(Velociraptor_mongoliensis,(Velociraptor_osmolskae,(Linheraptor_exquisitus,Tsaagan_mangas))))))))Eudromaeosauria)))))Dromaeosauridae));
+END;

@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/currie2019a_fig22.png",
+  "names": "names.txt",
+  "source": "Currie and Evans 2019, The Anatomical Record 303: 691-715 (Saurornitholestes langstoni), Fig. 22: dromaeosaurid relationships with Bremer or bootstrap values at nodes; rectangular, root at the left. Image: census 3 figure, the embedded raster.",
+  "license": "not open: © 2019 American Association for Anatomy",
+  "names_note": "no matrix held; list = the printed tip names (binomials and 'Baynshire nov. sp.'; Saurornitholestes langstoni in bold)",
+  "gold": "gold.nex",
+  "gold_note": "Rectangular tree, read by eye. Polytomies: Dromaeosauridae (Unenlaginae, Mahakala and the rest), five unenlagiines, six microraptorines, and Baynshire nov. sp. with Boreonykus and Dromaeosaurus. Support numbers are not encoded; clade names printed above stems are kept. 37 tips, 4 polytomies (3, 5, 6, 3 children); 5 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

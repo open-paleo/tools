@@ -1,0 +1,97 @@
+#NEXUS
+
+[ dalman2025a_fig32: Large rectangular tree in a page render; the coloured tip names are printed over the ends of the branches and touch neighbouring names. Polytomies: Tethyshadros-Telmatosaurus-Lophorhothon-Fylax with Hadrosauridae (five), Brachylophosaurini (five), the four-way node in Lambeosaurini, and Kritosaurini (five). Hadrosauridae, Lambeosaurinae and Saurolophinae are printed with leader lines; the tribes are circled letters keyed in the 'Taxonomy' box (T Tsintaosaurini, C Corythosauria, P Parasaurolophini, L Lambeosaurini, B Brachylophosaurini, E Edmontosaurini, S Saurolophini, K Kritosaurini) and are kept on their nodes. Bremer and bootstrap values are not encoded; a silhouette and the 'Biogeography' and 'Taxonomy' boxes sit at the left and right. 84 tips, 4 polytomies (5, 4, 5, 5 children); 11 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=84;
+    TAXLABELS
+        Camptosaurus_dispar
+        Ouranosaurus_nigeriensis
+        Iguanodon_bernissartensis
+        Jinzhousaurus_yangi
+        Bolong_yixianensis
+        Mantellisaurus_atherfieldensis
+        Brightstoneus_simmondsi
+        Equijubus_normani
+        Xuwulong_yueluni
+        Sirindhorna_khoratensis
+        Probactrosaurus_gobiensis
+        Jeyawati_rugoculus
+        Protohadros_byrdi
+        Eolambia_caroljonesa
+        Bactrosaurus_johnsoni
+        Gilmoreosaurus_mongoliensis
+        Huehuecanauhtlus_tiquichensis
+        Tethyshadros_insularis
+        Telmatosaurus_transsylvanicus
+        Lophorhothon_atopus
+        Fylax_thyrakolasus
+        Plesiohadros_diadokhtaensis
+        Gobihadros_mongoliensis
+        Levnesovia_transoxiana
+        Eotrachodon_orientalis
+        Hadrosaurus_foulkii
+        Aralosaurus_tuberiferus
+        Jaxartosaurus_aralensis
+        Canardia_garonnensis
+        Tsintaosaurus_spinorhinus
+        Basturs_Poble_lambeosaurine
+        Pararhabdodon_isonensis
+        Adynomosaurus_arcanus
+        Charonosaurus_jiayinensis
+        Tlatolophus_galorum
+        Parasaurolophus_walkeri
+        Parasaurolophus_tubicen
+        Parasaurolophus_cyrtocristatus
+        Sahaliyania_elunchunorum
+        Amurosaurus_riabinini
+        Velafrons_coahuilensis
+        Magnapaulia_laticaudus
+        Olorotitan_arharensis
+        Hypacrosaurus_stebingeri
+        Hypacrosaurus_altispinus
+        Blasisaurus_canudoi
+        Arenysaurus_ardevoli
+        Lambeosaurus_magnicristatus
+        Lambeosaurus_lambei
+        Corythosaurus_intermedius
+        Corythosaurus_casuarius
+        Aquilarhinus_palimentus
+        Probrachylophosaurus_bergei
+        Ornatops_incantatus
+        Maiasaura_peeblesorum
+        Brachylophosaurus_canadensis
+        Acristavus_gagslarsoni
+        Wulagasaurus_dongi
+        Kerberosaurus_manakini
+        Laiyangosaurus_youngi
+        Kundurosaurus_nagornyi
+        Shantungosaurus_giganteus
+        Edmontosaurus_regalis
+        Edmontosaurus_annectens
+        Prosaurolophus_maximus
+        Augustynolophus_morrisi
+        Saurolophus_osborni
+        Saurolophus_angustirostris
+        Kamuysaurus_japonicus
+        Kritosaurus_PASAC-1
+        Gryposaurus_alsatei
+        Ahshislesaurus_wimani
+        Naashoibitosaurus_ostromi
+        Kelumapusaura_machi
+        Big_Bend_hadrosaurid_UTEP_P.37.7
+        Anasazisaurus_horneri
+        Kritosaurus_navajovius
+        Bonapartesausus_rionegrensis
+        Secernosaurus_koerneri
+        Huallasaurus_australis
+        Gryposaurus_monumentensis
+        Rhinorex_condrupus
+        Gryposaurus_notabilis
+        Gryposaurus_latidens
+    ;
+END;
+
+BEGIN TREES;
+    TREE dalman2025a_fig32 = [&R] (Camptosaurus_dispar,(Ouranosaurus_nigeriensis,(Iguanodon_bernissartensis,((Jinzhousaurus_yangi,Bolong_yixianensis),(Mantellisaurus_atherfieldensis,(Brightstoneus_simmondsi,(Equijubus_normani,((Xuwulong_yueluni,Sirindhorna_khoratensis),(Probactrosaurus_gobiensis,((Jeyawati_rugoculus,(Protohadros_byrdi,Eolambia_caroljonesa)),(Bactrosaurus_johnsoni,(Gilmoreosaurus_mongoliensis,(Huehuecanauhtlus_tiquichensis,(Tethyshadros_insularis,Telmatosaurus_transsylvanicus,Lophorhothon_atopus,Fylax_thyrakolasus,((Plesiohadros_diadokhtaensis,Gobihadros_mongoliensis),((Levnesovia_transoxiana,Eotrachodon_orientalis),(Hadrosaurus_foulkii,((Aralosaurus_tuberiferus,(Jaxartosaurus_aralensis,(Canardia_garonnensis,((Tsintaosaurus_spinorhinus,(Basturs_Poble_lambeosaurine,(Pararhabdodon_isonensis,Adynomosaurus_arcanus)))Tsintaosaurini,((Charonosaurus_jiayinensis,(Tlatolophus_galorum,(Parasaurolophus_walkeri,(Parasaurolophus_tubicen,Parasaurolophus_cyrtocristatus))))Parasaurolophini,((Sahaliyania_elunchunorum,Amurosaurus_riabinini),(Velafrons_coahuilensis,(Magnapaulia_laticaudus,(Olorotitan_arharensis,Hypacrosaurus_stebingeri,(Hypacrosaurus_altispinus,(Blasisaurus_canudoi,Arenysaurus_ardevoli)),((Lambeosaurus_magnicristatus,Lambeosaurus_lambei),(Corythosaurus_intermedius,Corythosaurus_casuarius))))))Lambeosaurini)Corythosauria))))Lambeosaurinae,((Aquilarhinus_palimentus,(Probrachylophosaurus_bergei,Ornatops_incantatus,Maiasaura_peeblesorum,Brachylophosaurus_canadensis,Acristavus_gagslarsoni)Brachylophosaurini),(Wulagasaurus_dongi,((Kerberosaurus_manakini,(Laiyangosaurus_youngi,(Kundurosaurus_nagornyi,(Shantungosaurus_giganteus,(Edmontosaurus_regalis,Edmontosaurus_annectens)))))Edmontosaurini,((Prosaurolophus_maximus,(Augustynolophus_morrisi,(Saurolophus_osborni,Saurolophus_angustirostris)))Saurolophini,(Kamuysaurus_japonicus,((Kritosaurus_PASAC-1,(Gryposaurus_alsatei,(Ahshislesaurus_wimani,Naashoibitosaurus_ostromi))),(Kelumapusaura_machi,Big_Bend_hadrosaurid_UTEP_P.37.7,(Anasazisaurus_horneri,Kritosaurus_navajovius),(Bonapartesausus_rionegrensis,(Secernosaurus_koerneri,Huallasaurus_australis)),(Gryposaurus_monumentensis,(Rhinorex_condrupus,(Gryposaurus_notabilis,Gryposaurus_latidens))))Kritosaurini))))))Saurolophinae))))Hadrosauridae))))))))))))));
+END;

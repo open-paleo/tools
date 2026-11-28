@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/martínez2016a_fig10.png",
+  "names": "names.txt",
+  "source": "Martínez, Lamanna, Novas, Ridgely, Casal, Martínez, Vita and Witmer 2016, PLOS ONE 11: e0151661 (Sarmientosaurus musacchioi), Fig. 10: braincase endocasts mapped on a phylogeny of five sauropods; rectangular, root at the left. Image: census 3 figure, the embedded raster.",
+  "license": "CC BY (PLOS ONE open access)",
+  "names_note": "no matrix held; list = the printed names (genera and 'Uzbekistan lithostrotian')",
+  "gold": "gold.nex",
+  "gold_note": "Five-tip rectangular tree; each branch ends beside a coloured 3D endocast rendering, and the names are printed by the renderings, not at the branch ends (the reader must pair each branch with its rendering: Spinophorosaurus top, Diplodocus, Camarasaurus, Sarmientosaurus, Uzbekistan lithostrotian bottom). A scale bar sits below the tree; it is not a time axis. Region note for a person: the renderings fill most of the image. 5 tips, fully resolved. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

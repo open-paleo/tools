@@ -1,0 +1,37 @@
+#NEXUS
+
+[ hill2003a_fig9: Slanted cladogram on a spine (classed slanted): under the out-of-scope ruling for slanted cladograms on a spine (otero2010a_fig15), flagged. The Huayangosaurus line and the Scelidosaurus+Emausaurus line converge into one wedge that meets the spine where the root stem leaves it; read as a root polytomy of three. Node N is a polytomy of six (the Tarchia+Saichania pair, four genera and the Euoplocephalus line). Node letters A-P (white dots) are not clade names and are not encoded. 24 tips, 2 polytomies (3, 6 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Huayangosaurus
+        Scelidosaurus
+        Emausaurus
+        Pawpawsaurus
+        Silvisaurus
+        Sauropelta
+        Panoplosaurus
+        Edmontonia
+        Animantarx
+        Gargoyleosaurus
+        Gastonia
+        Gobisaurus
+        Minmi
+        Pinacosaurus
+        Talarurus
+        Shamosaurus
+        Tsagantegia
+        Tarchia
+        Saichania
+        Tianzhenosaurus
+        Nodocephalosaurus
+        Shanxia
+        Ankylosaurus
+        Euoplocephalus
+    ;
+END;
+
+BEGIN TREES;
+    TREE hill2003a_fig9 = [&R] (Huayangosaurus,(Scelidosaurus,Emausaurus),((Pawpawsaurus,(Silvisaurus,(Sauropelta,(Panoplosaurus,(Edmontonia,Animantarx))))),(Gargoyleosaurus,(Gastonia,(Gobisaurus,(Minmi,(Pinacosaurus,(Talarurus,((Shamosaurus,Tsagantegia),((Tarchia,Saichania),Tianzhenosaurus,Nodocephalosaurus,Shanxia,Ankylosaurus,Euoplocephalus))))))))));
+END;

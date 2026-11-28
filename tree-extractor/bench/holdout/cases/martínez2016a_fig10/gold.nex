@@ -1,0 +1,18 @@
+#NEXUS
+
+[ martínez2016a_fig10: Five-tip rectangular tree; each branch ends beside a coloured 3D endocast rendering, and the names are printed by the renderings, not at the branch ends (the reader must pair each branch with its rendering: Spinophorosaurus top, Diplodocus, Camarasaurus, Sarmientosaurus, Uzbekistan lithostrotian bottom). A scale bar sits below the tree; it is not a time axis. Region note for a person: the renderings fill most of the image. 5 tips, fully resolved. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=5;
+    TAXLABELS
+        Spinophorosaurus
+        Diplodocus
+        Camarasaurus
+        Sarmientosaurus
+        Uzbekistan_lithostrotian
+    ;
+END;
+
+BEGIN TREES;
+    TREE martínez2016a_fig10 = [&R] (Spinophorosaurus,(Diplodocus,(Camarasaurus,(Sarmientosaurus,Uzbekistan_lithostrotian))));
+END;

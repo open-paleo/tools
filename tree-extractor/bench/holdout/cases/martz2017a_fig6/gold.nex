@@ -1,0 +1,37 @@
+#NEXUS
+
+[ martz2017a_fig6: Vertical rectangular cladogram over grey faunachron bands (Otischalkian to Apachean) with the band names printed at the right edge: a time axis in bands, not a scale. Skull drawings (panels A-D) fill the right third of the image. Several bars carry three or four verticals (polytomies). Clade names at black dots and under bars are kept; 'Phytosauridae' is printed under the bar of the four-way node. 24 tips, 3 polytomies (4, 3, 3 children); 5 printed clade names kept as internal node labels. Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=24;
+    TAXLABELS
+        Wannia_scurriensis
+        Parasuchus_bransoni
+        Angistorhinus
+        Paleorhinus_sawini
+        Brachysuchus_megalodon
+        Protome_batalaria
+        Machaeroprosopus_zunii
+        TMM_31173-120
+        Phytosaurus_doughtyi
+        Leptosuchus_studeri
+        Leptosuchus_imperfecta
+        Leptosuchus_crosbiensis
+        Smilosuchus_lithodendrorum
+        Smilosuchus_gregorii
+        Smilosuchus_adamanensis
+        Pravusuchus_hortus
+        Machaeroprosopus_jablonskiae
+        Redondasaurus_bermani
+        Machaeroprosopus_mccauleyi
+        Machaeroprosopus_pristinus
+        Machaeroprosopus_buceros
+        TTU-P10074
+        Redondasaurus_gregorii
+        Redondasaurus_lottorum
+    ;
+END;
+
+BEGIN TREES;
+    TREE martz2017a_fig6 = [&R] (Wannia_scurriensis,(Parasuchus_bransoni,(Angistorhinus,Paleorhinus_sawini,Brachysuchus_megalodon,(Protome_batalaria,Machaeroprosopus_zunii,(TMM_31173-120,Phytosaurus_doughtyi,((Leptosuchus_studeri,(Leptosuchus_imperfecta,Leptosuchus_crosbiensis)),((Smilosuchus_lithodendrorum,(Smilosuchus_gregorii,Smilosuchus_adamanensis)),(Pravusuchus_hortus,(Machaeroprosopus_jablonskiae,(Redondasaurus_bermani,(Machaeroprosopus_mccauleyi,((Machaeroprosopus_pristinus,Machaeroprosopus_buceros),(TTU-P10074,(Redondasaurus_gregorii,Redondasaurus_lottorum))Redondasaurus))))Pseudopalatinae))))Leptosuchomorpha))Phytosauridae))Phytosauria;
+END;

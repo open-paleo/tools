@@ -1,0 +1,10 @@
+{
+  "image": "../../../../../../corpus/census3/figures/boyd2015a_fig5.png",
+  "names": "names.txt",
+  "source": "Boyd 2015, PeerJ 3: e1523 (the systematic relationships and biogeographic history of ornithischian dinosaurs), Fig. 5: time-calibrated strict consensus of ornithischian relationships against Triassic-Cretaceous period bands, tips as white range bars; rectangular, root at the left. Image: census 3 figure, the embedded raster (1610 x 2081).",
+  "license": "CC BY 4.0 (PeerJ open access)",
+  "names_note": "no matrix held; list = the printed tip names as spelled in the figure (binomials and 'Kaiparowits Hypsilophodontid'; the figure prints 'Archaeoceratops oshimoi' and 'Scelidosaurus harrisonii')",
+  "gold": "gold.nex",
+  "gold_note": "Rectangular time tree over coloured period bands with white range bars at the tips; many branches are long horizontal lines that run behind the bars. Polytomies: four heterodontosaurids, Hexinlusaurus-Yandusaurus-Leaellynasaura with the rest of Neornithischia, three Thescelosaurus species, Macrogryphosaurus-Notohypsilophodon-Talenkauen, Stenopelix-Micropachycephalosaurus-rest, Rhabdodon-Tenontosaurus-Zalmoxes-rest, and Callovosaurus with two dryosaurid pairs. Node numbers 1-18 (some with black dots or ticks) are not clade names and are not encoded. 65 tips, 7 polytomies (4, 4, 3, 3, 3, 4, 3 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only.",
+  "gold_method": "image-transcription"
+}

@@ -1,0 +1,33 @@
+#NEXUS
+
+[ arbour2014b_fig12: The image holds two trees side by side; the gold is the left one, the 50% majority-rule tree (20 tips); the right one (maximum agreement subtree, 17 tips: the same names without Dyoplosaurus, Nodocephalosaurus and Tianzhenosaurus) is not encoded. One polytomy of five: Dyoplosaurus, Nodocephalosaurus, Tianzhenosaurus, the Saichania clade and the Talarurus clade. Percentages are not encoded. 20 tips, 1 polytomies (5 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=20;
+    TAXLABELS
+        Lesothosaurus_diagnosticus
+        Scelidosaurus_harrissoni
+        Stegosaurus
+        Panoplosaurus_mirus
+        Pawpawsaurus_campbelli
+        Gastonia_burgei
+        Tsagantegia_longicranialis
+        Scolosaurus_cutleri
+        Pinacosaurus_grangeri
+        Pinacosaurus_mephistocephalus
+        Dyoplosaurus_acutosquameus
+        Nodocephalosaurus_kirtlandensis
+        Tianzhenosaurus_youngi
+        Saichania_chulsanensis
+        Tarchia_kielanae
+        Zaraapelta_nomadis
+        Talarurus_plicatospineus
+        Euoplocephalus_tutus
+        Ankylosaurus_magniventris
+        Anodontosaurus_lambei
+    ;
+END;
+
+BEGIN TREES;
+    TREE arbour2014b_fig12 = [&R] (Lesothosaurus_diagnosticus,(Scelidosaurus_harrissoni,(Stegosaurus,((Panoplosaurus_mirus,Pawpawsaurus_campbelli),(Gastonia_burgei,(Tsagantegia_longicranialis,(Scolosaurus_cutleri,((Pinacosaurus_grangeri,Pinacosaurus_mephistocephalus),(Dyoplosaurus_acutosquameus,Nodocephalosaurus_kirtlandensis,Tianzhenosaurus_youngi,(Saichania_chulsanensis,(Tarchia_kielanae,Zaraapelta_nomadis)),(Talarurus_plicatospineus,(Euoplocephalus_tutus,(Ankylosaurus_magniventris,Anodontosaurus_lambei))))))))))));
+END;

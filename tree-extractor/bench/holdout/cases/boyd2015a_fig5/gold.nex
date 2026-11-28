@@ -1,0 +1,78 @@
+#NEXUS
+
+[ boyd2015a_fig5: Rectangular time tree over coloured period bands with white range bars at the tips; many branches are long horizontal lines that run behind the bars. Polytomies: four heterodontosaurids, Hexinlusaurus-Yandusaurus-Leaellynasaura with the rest of Neornithischia, three Thescelosaurus species, Macrogryphosaurus-Notohypsilophodon-Talenkauen, Stenopelix-Micropachycephalosaurus-rest, Rhabdodon-Tenontosaurus-Zalmoxes-rest, and Callovosaurus with two dryosaurid pairs. Node numbers 1-18 (some with black dots or ticks) are not clade names and are not encoded. 65 tips, 7 polytomies (4, 4, 3, 3, 3, 4, 3 children). Sample 10 case (census 3, seed 20261274). Topology transcribed from the figure image and checked node by node; topology only. ]
+
+BEGIN TAXA;
+    DIMENSIONS NTAX=65;
+    TAXLABELS
+        Marasuchus_lilloensis
+        Asilisaurus_kongwe
+        Silesaurus_opolensis
+        Tawa_hallae
+        Sanjuansaurus_gordilloi
+        Herrerasaurus_ischigualastensis
+        Pisanosaurus_mertii
+        Eocursor_parvus
+        Echinodon_becklesii
+        Abrictosaurus_consors
+        Heterodontosaurus_tucki
+        Lycorhinus_angustidens
+        Fruitadens_haagarorum
+        Tianyulong_confuciusi
+        Lesothosaurus_diagnosticus
+        Scutellosaurus_lawleri
+        Scelidosaurus_harrisonii
+        Emausaurus_ernsti
+        Stormbergia_dangershoeki
+        Agilisaurus_louderbacki
+        Hexinlusaurus_multidens
+        Yandusaurus_hongheensis
+        Leaellynasaura_amicagraphica
+        Yueosaurus_tiantaiensis
+        Jeholosaurus_shangyuanensis
+        Othnielosaurus_consors
+        Oryctodromeus_cubicularis
+        Koreanosaurus_boseongensis
+        Zephyrosaurus_schaffi
+        Kaiparowits_Hypsilophodontid
+        Orodromeus_makelai
+        Changchunsaurus_parvus
+        Haya_griva
+        Parksosaurus_warreni
+        Thescelosaurus_neglectus
+        Thescelosaurus_assiniboiensis
+        Thescelosaurus_garbanii
+        Macrogryphosaurus_gondwanicus
+        Notohypsilophodon_comodorensis
+        Talenkauen_santacrucensis
+        Stenopelix_valdensis
+        Micropachycephalosaurus_hongtuyanensis
+        Wannanosaurus_yansiensis
+        Archaeoceratops_oshimoi
+        Yinlong_downsi
+        Liaoceratops_yanzigouensis
+        Hypsilophodon_foxii
+        Atlascopcosaurus_loadsi
+        Anabisetia_saldivai
+        Gasparinisaura_cincosaltensis
+        Qantassaurus_intrepidus
+        Rhabdodon_priscus
+        Tenontosaurus_tilletti
+        Tenontosaurus_dossi
+        Zalmoxes_robustus
+        Zalmoxes_shqiperorum
+        Muttaburrasaurus_langdoni
+        Camptosaurus_dispar
+        Ouranosaurus_nigeriensis
+        Iguanodon_bernissartensis
+        Callovosaurus_leedsi
+        Valdosaurus_canaliculatus
+        Elrhazosaurus_nigeriensis
+        Dryosaurus_altus
+        Dysalotosaurus_lettowvorbecki
+    ;
+END;
+
+BEGIN TREES;
+    TREE boyd2015a_fig5 = [&R] (Marasuchus_lilloensis,((Asilisaurus_kongwe,Silesaurus_opolensis),((Tawa_hallae,(Sanjuansaurus_gordilloi,Herrerasaurus_ischigualastensis)),(Pisanosaurus_mertii,((Eocursor_parvus,(Echinodon_becklesii,(Abrictosaurus_consors,(Heterodontosaurus_tucki,Lycorhinus_angustidens,Fruitadens_haagarorum,Tianyulong_confuciusi)))),((Lesothosaurus_diagnosticus,(Scutellosaurus_lawleri,(Scelidosaurus_harrisonii,Emausaurus_ernsti))),(Stormbergia_dangershoeki,(Agilisaurus_louderbacki,(Hexinlusaurus_multidens,Yandusaurus_hongheensis,Leaellynasaura_amicagraphica,((Yueosaurus_tiantaiensis,Jeholosaurus_shangyuanensis),(Othnielosaurus_consors,((((Oryctodromeus_cubicularis,Koreanosaurus_boseongensis),(Zephyrosaurus_schaffi,(Kaiparowits_Hypsilophodontid,Orodromeus_makelai))),((Changchunsaurus_parvus,Haya_griva),(Parksosaurus_warreni,((Thescelosaurus_neglectus,Thescelosaurus_assiniboiensis,Thescelosaurus_garbanii),(Macrogryphosaurus_gondwanicus,Notohypsilophodon_comodorensis,Talenkauen_santacrucensis))))),((Stenopelix_valdensis,Micropachycephalosaurus_hongtuyanensis,((Wannanosaurus_yansiensis,Archaeoceratops_oshimoi),(Yinlong_downsi,Liaoceratops_yanzigouensis))),(Hypsilophodon_foxii,((Atlascopcosaurus_loadsi,(Anabisetia_saldivai,(Gasparinisaura_cincosaltensis,Qantassaurus_intrepidus))),(Rhabdodon_priscus,(Tenontosaurus_tilletti,Tenontosaurus_dossi),(Zalmoxes_robustus,Zalmoxes_shqiperorum),(Muttaburrasaurus_langdoni,((Camptosaurus_dispar,(Ouranosaurus_nigeriensis,Iguanodon_bernissartensis)),(Callovosaurus_leedsi,(Valdosaurus_canaliculatus,Elrhazosaurus_nigeriensis),(Dryosaurus_altus,Dysalotosaurus_lettowvorbecki))))))))))))))))))));
+END;
