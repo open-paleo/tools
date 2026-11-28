@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A range drawn as a hollow box at the tip, on the end of its branch or straight on its
+  node's line, is read as one branch. Boxes one under another have their ends in a column,
+  which read as a node, and neighbouring tips came out as sisters.
 - A row of round marks strung on a branch, open or solid, touching or overlapping and drawn
   larger than the lettering, is taken as marks and the branch drawn through it: such a
   row was a row of lettering, and the branch had a hole as long as the row.

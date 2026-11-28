@@ -2648,9 +2648,12 @@ export function drawHollowBars(mask: Mask, thickness: number, tallest: number, s
  * @param verticals - Vertical segments; changed in place.
  * @param tolerance - How far two ends may lie apart and still be together.
  * @param tallest - Greatest breadth of a bar, between its two lines.
+ * @param broadest - Greatest breadth of a bar drawn at the tip, straight from its node.
+ * @param outlines - Receives the box of each bar drawn at a tip: the ink of its outline is
+ *   line art still, though one segment stands for it, and must not pass for lettering.
  * @returns How many bars were replaced.
  */
-export function mergeHollowBars(horizontals: Array<Segment>, verticals: Array<Segment>, tolerance: number, tallest: number): number
+export function mergeHollowBars(horizontals: Array<Segment>, verticals: Array<Segment>, tolerance: number, tallest: number, broadest = tallest, outlines: Array<Box> = []): number
 {
     const gone = new Set<Segment>();
     let merged = 0;
@@ -2745,6 +2748,123 @@ export function mergeHollowBars(horizontals: Array<Segment>, verticals: Array<Se
 
             merged++;
             break;
+        }
+    }
+
+    // A hollow bar drawn at the tip, straight from its node: its near end is the node's own
+    // vertical, which runs on past it, and where several such bars stand one under another
+    // their far ends lie in one column and come out as one vertical. Each then reads as two
+    // tips from the node, and the far ends as a node of their own with the names on it
+    // (Boyd 2015, three pairs of tips made sisters by the ends of their bars). Such a bar
+    // may be broader than one along a branch, up to a letter and a half: its two lines
+    // begin together on a vertical that goes on above or below them, and end together on a
+    // vertical that covers them. It becomes one branch through its middle; a far vertical
+    // that is nothing but the ends of such bars is taken away.
+    const ends = new Map<Segment, number>();
+
+    for (const upper of horizontals)
+    {
+        if (gone.has(upper))
+        {
+            continue;
+        }
+
+        for (const lower of horizontals)
+        {
+            const between = lower.box.y0 - upper.box.y1;
+            const long = Math.min(upper.box.x1 - upper.box.x0, lower.box.x1 - lower.box.x0);
+
+            // A range's box is half a letter broad at the least, a third of the most allowed:
+            // two steps of a staircase a few pixels apart begin and end on verticals too
+            // (Cau 2018, steps 5 pixels apart beside letters of 21).
+            if (lower === upper || gone.has(lower) || 3 * between < broadest || between > broadest || long < 3 * between)
+            {
+                continue;
+            }
+
+            if (Math.max(upper.box.y1 - upper.box.y0, lower.box.y1 - lower.box.y0) > Math.min(between, tolerance))
+            {
+                continue;
+            }
+
+            if (Math.abs(lower.box.x0 - upper.box.x0) > tolerance || Math.abs(lower.box.x1 - upper.box.x1) > tolerance)
+            {
+                continue;
+            }
+
+            const top = upper.box.y0;
+            const bottom = lower.box.y1;
+            let near: Segment | null = null;
+            let far: Segment | null = null;
+
+            for (const vertical of verticals)
+            {
+                const { box } = vertical;
+                const center = (box.x0 + box.x1) / 2;
+                const covers = box.y0 <= top + tolerance && box.y1 >= bottom - tolerance;
+
+                if (gone.has(vertical) || !covers)
+                {
+                    continue;
+                }
+
+                // The node's vertical goes on past the bar by more than the bar is broad.
+                if (Math.abs(center - Math.min(upper.box.x0, lower.box.x0)) <= tolerance + 1 && Math.max(top - box.y0, box.y1 - bottom) > bottom - top)
+                {
+                    near = vertical;
+                }
+                else if (Math.abs(center - Math.max(upper.box.x1, lower.box.x1)) <= tolerance + 1 + between)
+                {
+                    far = vertical;
+                }
+            }
+
+            if (near === null || far === null)
+            {
+                continue;
+            }
+
+            const thick = Math.max(1, upper.box.y1 - upper.box.y0);
+            const middle = Math.round((top + bottom) / 2);
+
+            upper.box = { x0: Math.min(upper.box.x0, lower.box.x0), y0: middle - Math.floor(thick / 2), x1: Math.max(upper.box.x1, lower.box.x1, far.box.x1), y1: middle - Math.floor(thick / 2) + thick };
+            outlines.push({ x0: Math.min(near.box.x0, upper.box.x0), y0: top, x1: far.box.x1, y1: bottom });
+            gone.add(lower);
+            ends.set(far, (ends.get(far) ?? 0) + bottom - top);
+
+            // Where a branch arrives at the bar's near end from the other side, between its
+            // two lines, the near vertical is no node's but the bar's own end, or the ends of
+            // several bars one under another in a column (Boyd 2015, Agilisaurus and
+            // Hexinlusaurus): the branch and the bar are one line, and the end is counted
+            // with the far ones.
+            for (const other of horizontals)
+            {
+                const level = (other.box.y0 + other.box.y1) / 2;
+
+                if (other !== upper && !gone.has(other) && level >= top && level <= bottom && Math.abs(other.box.x1 - near.box.x1) <= 2 * tolerance && other.box.x0 < near.box.x0 - tolerance)
+                {
+                    upper.box.x0 = other.box.x0;
+                    upper.box.y0 = other.box.y0;
+                    upper.box.y1 = other.box.y1;
+                    gone.add(other);
+                    ends.set(near, (ends.get(near) ?? 0) + bottom - top);
+                    break;
+                }
+            }
+
+            merged++;
+            break;
+        }
+    }
+
+    for (const [far, covered] of ends)
+    {
+        const count = Math.max(1, Math.round(covered / Math.max(1, broadest)));
+
+        // Nothing but bar ends: its length is theirs and the gaps between them.
+        if (far.box.y1 - far.box.y0 <= covered + (count + 1) * broadest)
+        {
+            gone.add(far);
         }
     }
 

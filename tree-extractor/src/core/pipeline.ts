@@ -2820,7 +2820,8 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
 
     // A range drawn as a hollow bar is one branch: what the ink did not show as a bar, two
     // thin segments side by side with a cap at each end still may.
-    const hollowBars = hollowDrawn + mergeHollowBars(horizontals, verticals, Math.max(3, Math.round(thickness) + 1), Math.round(0.8 * glyphHeight));
+    const hollowOutlines = new Array<Box>();
+    const hollowBars = hollowDrawn + mergeHollowBars(horizontals, verticals, Math.max(3, Math.round(thickness) + 1), Math.round(0.8 * glyphHeight), Math.round(1.5 * glyphHeight), hollowOutlines);
 
     if (hollowBars > 0)
     {
@@ -3029,7 +3030,8 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         }
     }
 
-    const lineArtBoxes = [...usedBoxes, ...findStubExtensions(lineInk, usedBoxes, glyphHeight)];
+    // The outline of a hollow bar read as one branch is line art over its whole box.
+    const lineArtBoxes = [...usedBoxes, ...findStubExtensions(lineInk, usedBoxes, glyphHeight), ...hollowOutlines];
     const lineArtMask = slantedTrace === null
         ? dilate(keepInkInBoxes(lineArtBoxes, textInk, glyphMask, thickness), 1)
         : dilate(slantedTrace.skeleton, Math.max(1, Math.round(thickness / 2) + 1));
