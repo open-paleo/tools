@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A row of round marks strung on a branch, open or solid, touching or overlapping and drawn
+  larger than the lettering, is taken as marks and the branch drawn through it: such a
+  row was a row of lettering, and the branch had a hole as long as the row.
 - A plain open circle on a node is taken as a ring down to nine tenths of a letter's
   height, when it is as broad as it is tall to a pixel and as full as a circle is.
 

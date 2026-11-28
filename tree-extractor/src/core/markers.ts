@@ -1532,7 +1532,55 @@ export function findMarkChains(textInk: Mask, lineInk: Mask, glyphHeight: number
             continue;
         }
 
-        if (tall > 1.3 * glyphHeight || tall < 0.4 * glyphHeight)
+        if (tall > 1.6 * glyphHeight || tall < 0.4 * glyphHeight)
+        {
+            continue;
+        }
+
+        // Round marks strung on a branch may touch or overlap, and be open or solid, and
+        // stand a little taller than a letter: a dot for each of several taxa that could
+        // attach there, in a row of up to four (Jimenez Velandia 2025, where such a row was
+        // a row of lettering and its branch had a hole the length of it). The piece is then
+        // up to six of its heights long; with the white its rings close in it is filled as
+        // circles fill their box; nearly every column of it stands above and below its
+        // middle alike; and the branch arrives at its middle on both sides.
+        // Such marks are drawn to be seen: sixteen pixels tall at least, and taller than the
+        // letters. Words of tiny type whose letters run together are as full and as even
+        // (a synthetic case, letters of 9 pixels in pieces 11 tall).
+        const strung = tall >= 16 && tall >= 1.25 * glyphHeight && wide >= 0.75 * tall && wide <= 6.5 * tall;
+
+        if (strung && (wide >= 1.5 * tall || tall > 1.3 * glyphHeight || 10 * component.area < 7 * wide * tall))
+        {
+            const center = Math.round((box.y0 + box.y1) / 2);
+            const slack = Math.max(2, Math.round(tall / 6));
+            let even = 0;
+
+            for (let x = box.x0; x < box.x1; x++)
+            {
+                let top = -1;
+                let bottom = -1;
+
+                for (let y = box.y0; y < box.y1; y++)
+                {
+                    if (letters.data[y * width + x] === 1)
+                    {
+                        top = top < 0 ? y : top;
+                        bottom = y;
+                    }
+                }
+
+                even += top >= 0 && top < center && bottom > center && Math.abs((center - top) - (bottom - center)) <= slack ? 1 : 0;
+            }
+
+            if (10 * even >= 8 * wide && 10 * (component.area + countEnclosed(box)) >= 6 * wide * tall && standsClear(box) && hasLineBeside(box.x0 - reach - 1, box.x0, center) && hasLineBeside(box.x1, box.x1 + reach + 1, center))
+            {
+                chains.push(box);
+
+                continue;
+            }
+        }
+
+        if (tall > 1.3 * glyphHeight)
         {
             continue;
         }
