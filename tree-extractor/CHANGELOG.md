@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- A plain open circle on a node is taken as a ring down to nine tenths of a letter's
+  height, when it is as broad as it is tall to a pixel and as full as a circle is.
+
 ## 0.19.0 (2026-11-27)
 
 - `--lift-ground`, and `liftColoredGround` in the options of `extractTree`: the person says

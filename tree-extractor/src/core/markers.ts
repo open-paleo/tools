@@ -1767,7 +1767,15 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
         const round = Math.abs(width - height) <= 0.1 * size + 1;
         const oval = !round && Math.max(width, height) <= 2.2 * Math.min(width, height) && Math.min(width, height) >= 0.4 * glyphHeight;
 
-        if (touchesEdge || size < glyphHeight || size > 3 * glyphHeight || !(round || oval) || share < 0.575 || share > 0.88)
+        // A plain open circle on a node, with nothing inside, may be a little smaller than a
+        // letter is tall: down to nine tenths, when it is round and as full as a circle is
+        // (Diez Diaz 2025, rings with holes of 15 pixels beside letters of 16 on eight named
+        // nodes, none of them found). The hole of a letter is smaller or is no circle: as
+        // broad as it is tall to a pixel is asked here, where a larger ring may be two out
+        // (Magyar 2026, the hole of a letter 11 by 13 beside a branch, taken for a ring).
+        const smallest = Math.abs(width - height) <= 1 && share >= 0.7 ? 0.9 * glyphHeight : glyphHeight;
+
+        if (touchesEdge || size < smallest || size > 3 * glyphHeight || !(round || oval) || share < 0.575 || share > 0.88)
         {
             continue;
         }
