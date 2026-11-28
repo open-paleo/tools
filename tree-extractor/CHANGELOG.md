@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- On a tree drawn in thick lines a solid dot on a node is taken from a line and a third
+  broad, and the stubs of the node's line either side of it, shorter than a letter and
+  set off by the dot's white rim, are followed from the dot and read as line.
 - A range drawn as a hollow box at the tip, on the end of its branch or straight on its
   node's line, is read as one branch. Boxes one under another have their ends in a column,
   which read as a node, and neighbouring tips came out as sisters.

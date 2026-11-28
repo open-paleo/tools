@@ -1762,7 +1762,18 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
             // core holds 70 of the 121 in its box, where a larger disc holds three quarters.
             const leastFill = closing ? 0.6 : 0.57;
 
-            if (size < smallest || size > 3.5 * glyphHeight || Math.abs(width - height) > 0.1 * size + 1 || component.area < leastFill * coreWidth * coreHeight)
+            // On a tree drawn in thick lines a dot may be little broader than a line: what is
+            // left of it once the lines are worn away is a few pixels, too few to judge its
+            // fill by, and it is far under three line widths (Lindoso 2019, dots about a
+            // line and a half broad on lines of 15 pixels, eight named nodes). Nothing of a
+            // line's own survives the wearing, so a round core is a dot; it is taken from
+            // a line and a third when it is solid and lines enter it on three sides.
+            // Thick is twelve pixels and up, and the dot well under a letter's height: on
+            // lines of nine, a blot where a clade's name is printed across the stem is as
+            // broad as a letter and as solid (Pei 2020, three of them, and the tree in two).
+            const onThickLines = thickness >= 12 && size < smallest && size >= Math.max(1.3 * thickness, 0.5 * glyphHeight) && size <= 0.75 * glyphHeight;
+
+            if ((size < smallest && !onThickLines) || size > 3.5 * glyphHeight || Math.abs(width - height) > 0.1 * size + 1 || (component.area < leastFill * coreWidth * coreHeight && !onThickLines))
             {
                 continue;
             }
@@ -1777,7 +1788,7 @@ export function findNodeDiscs(textInk: Mask, lineInk: Mask, glyphHeight: number,
             // A dot let in by the looser fill must stand at a junction, with lines on three
             // sides: a dot that ends a tip's branch is as coarse, and a cross painted through
             // it would run the branch on (Ramirez-Velasco 2021).
-            const sidesWanted = component.area < 0.6 * coreWidth * coreHeight ? 3 : 2;
+            const sidesWanted = onThickLines || component.area < 0.6 * coreWidth * coreHeight ? 3 : 2;
 
             // A dot beside a label is sorted with the lettering, and the ends of its lines with
             // it, so the line ink shows nothing entering. In all the ink the lines are there:
@@ -1936,8 +1947,10 @@ function countSidesEntered(lineInk: Mask, box: Box, thickness: number, leaveRigh
  * @param thickness - Line thickness in pixels.
  * @param largeDisc - Size from which a disc's arriving lines are carried on to the cross.
  * @param smallDisc - Size under which a dot's arms are carried out to lines stopping short of it.
+ * @param ink - All dark ink, lettering included: a small dot's arms are carried along a stub
+ *   of it that the line art does not hold, or null to leave such stubs.
  */
-export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number, largeDisc = Infinity, smallDisc = 0): void
+export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number, largeDisc = Infinity, smallDisc = 0, ink: Mask | null = null): void
 {
     const half = Math.max(1, Math.round(thickness / 2));
 
@@ -1995,7 +2008,52 @@ export function paintCrosses(lineArt: Mask, discs: Array<Box>, thickness: number
                 }
             }
 
-            for (let step = 0; step < found; step++)
+            // Or the line that leaves the dot is a stub shorter than a letter, as thick as a
+            // letter's stroke, and went with the lettering: the two halves of a node's
+            // vertical either side of its dot, on a tree drawn in thick lines (Lindoso 2019,
+            // stubs of 35 pixels on lines of 15, five nodes left in pieces). The arm is then
+            // carried along the ink for as long as the ink fills its band, up to three
+            // letters, and the stub is line art.
+            let along = 0;
+            let white = 0;
+            let rimmed = false;
+
+            for (let step = 0; ink !== null && margin > 0 && found === 0 && step < 3.3 * smallDisc; step++)
+            {
+                let inked = 0;
+
+                for (let offset = -half; offset < half; offset++)
+                {
+                    const x = startX + step * stepX + (stepX === 0 ? offset : 0);
+                    const y = startY + step * stepY + (stepY === 0 ? offset : 0);
+
+                    inked += x >= 0 && y >= 0 && x < ink.width && y < ink.height ? ink.data[y * ink.width + x] : 0;
+                }
+
+                // A dot may be drawn with a white rim, a few pixels between it and its lines:
+                // past the dot's own edge the band is white for less than the margin, once,
+                // and then the stub begins.
+                if (10 * inked < 7 * 2 * half)
+                {
+                    white++;
+
+                    if (rimmed || white > margin)
+                    {
+                        break;
+                    }
+
+                    continue;
+                }
+
+                rimmed = rimmed || white > 0;
+                along = step + 1;
+            }
+
+            // A stub is longer than the margin it was looked for in: less is the dot's own
+            // edge, or a speck.
+            along = along > margin + 2 * half ? along : 0;
+
+            for (let step = 0; step < Math.max(found, along); step++)
             {
                 for (let offset = -half; offset < half; offset++)
                 {

@@ -2581,11 +2581,14 @@ async function extractTreeOnce(givenImage: RgbaImage, options: Partial<ExtractOp
         }
     }
 
+    // All dark ink, fat shapes and lettering with it: the stubs either side of a dot on thick
+    // lines are in neither the line ink nor the text ink.
+    const everyInk = createDarkMask(image, parameters.lineThreshold, true, parameters.maxChroma);
     const lineArt: Mask = { width: lineInk.width, height: lineInk.height, data: new Uint8Array(lineInk.data) };
-    paintCrosses(lineArt, nodeDiscs, thickness, 1.2 * glyphHeight, 0.9 * glyphHeight);
+    paintCrosses(lineArt, nodeDiscs, thickness, 1.2 * glyphHeight, 0.9 * glyphHeight, everyInk);
     // The extractor judges a run's thickness on the text ink around it, so the disc goes there too.
     const inkForRuns: Mask = { width: runInk.width, height: runInk.height, data: new Uint8Array(runInk.data) };
-    paintCrosses(inkForRuns, nodeDiscs, thickness, 1.2 * glyphHeight, 0.9 * glyphHeight);
+    paintCrosses(inkForRuns, nodeDiscs, thickness, 1.2 * glyphHeight, 0.9 * glyphHeight, everyInk);
 
     // A chain of open marks on a branch is taken out of the lettering and the branch drawn
     // through it; a row that began with the chain begins after it, or is no row at all.
